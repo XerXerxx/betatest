@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Annette — Votre projection</title>
+<style>
+
+  /* ─── RESET ─────────────────────────────────────────────── */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; background: #e8e8e4; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+
+  /* ─── PHONE SHELL ────────────────────────────────────────── */
+  .shell {
+    width: 390px;
+    min-height: 100vh;
+    margin: 0 auto;
+    background: #ffffff;
+    position: relative;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ─── TOP NAV ─────────────────────────────────────────────── */
+  .nav {
+    display: flex;
+    align-items: center;
+    padding: 14px 20px 10px;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 10;
+  }
+  .nav-back {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: #f2f2f0;
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .nav-back svg { width: 16px; height: 16px; }
+  .nav-progress-wrap { flex: 1; }
+  .nav-progress-label {
+    font-size: 10px; font-weight: 600;
+    color: #aaa; letter-spacing: 0.06em;
+    text-transform: uppercase; margin-bottom: 5px;
+    display: flex; justify-content: space-between;
+  }
+  .nav-progress-bar {
+    height: 3px; background: #f0f0ee; border-radius: 2px; overflow: hidden;
+  }
+  .nav-progress-fill {
+    height: 100%; width: 0%;
+    background: #1a1a1a; border-radius: 2px;
+    transition: width 0.8s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* ─── HERO IMAGE BLOC ────────────────────────────────────── */
+  .hero-block {
+    position: relative;
+    background: #F5C842;
+    margin: 0 20px 0;
+    border-radius: 22px;
+    overflow: hidden;
+    height: 220px;
+  }
+  .hero-block img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    display: block;
+  }
+  .hero-label {
+    position: absolute;
+    top: 14px; left: 14px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(6px);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 11px; font-weight: 700;
+    color: #1a1a1a;
+    letter-spacing: 0.04em;
+  }
+
+  /* ─── MAIN CONTENT ───────────────────────────────────────── */
+  .content { padding: 24px 20px 0; flex: 1; }
+
+  .headline {
+    font-size: 26px; font-weight: 800;
+    line-height: 1.2; color: #1a1a1a;
+    margin-bottom: 8px;
+  }
+  .headline em {
+    font-style: normal;
+    background: #F5C842;
+    border-radius: 6px;
+    padding: 1px 5px;
+  }
+  .subline {
+    font-size: 14px; color: #888; line-height: 1.55;
+    margin-bottom: 22px;
+  }
+
+  /* ─── INPUTS ─────────────────────────────────────────────── */
+  .inputs-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px; margin-bottom: 20px;
+  }
+  .input-group label {
+    display: block;
+    font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: #bbb; margin-bottom: 5px;
+  }
+  .input-wrap { position: relative; }
+  .input-wrap input {
+    width: 100%;
+    padding: 11px 36px 11px 14px;
+    border: 1.5px solid #ebebeb;
+    border-radius: 14px;
+    font-size: 18px; font-weight: 800; color: #1a1a1a;
+    background: #fafafa;
+    outline: none;
+    -moz-appearance: textfield;
+    transition: border-color 0.2s;
+  }
+  .input-wrap input::-webkit-inner-spin-button,
+  .input-wrap input::-webkit-outer-spin-button { -webkit-appearance: none; }
+  .input-wrap input:focus { border-color: #1a1a1a; background: #fff; }
+  .input-unit {
+    position: absolute; right: 12px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px; font-weight: 600; color: #ccc;
+    pointer-events: none;
+  }
+
+  /* ─── GRAPH CARD ──────────────────────────────────────────── */
+  .graph-card {
+    background: #fafafa;
+    border: 1.5px solid #f0f0ee;
+    border-radius: 22px;
+    padding: 18px 18px 12px;
+    margin-bottom: 14px;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .graph-card.visible { opacity: 1; transform: translateY(0); }
+
+  .graph-top-row {
+    display: flex; justify-content: space-between;
+    align-items: flex-start; margin-bottom: 16px;
+  }
+  .graph-main { }
+  .graph-kg-big {
+    font-size: 42px; font-weight: 900; line-height: 1;
+    color: #1a1a1a; letter-spacing: -1px;
+  }
+  .graph-kg-big sub { font-size: 18px; font-weight: 600; vertical-align: baseline; }
+  .graph-kg-sub {
+    font-size: 12px; color: #aaa; margin-top: 3px;
+    font-weight: 500;
+  }
+  .imc-pill {
+    background: #fff;
+    border: 1.5px solid #ebebeb;
+    border-radius: 14px;
+    padding: 10px 14px; text-align: center;
+  }
+  .imc-number {
+    font-size: 24px; font-weight: 900; color: #1a1a1a; line-height: 1;
+  }
+  .imc-tag {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: #bbb; margin-top: 2px;
+  }
+  .imc-cat {
+    font-size: 10px; font-weight: 600; margin-top: 3px;
+    border-radius: 6px; padding: 1px 6px;
+  }
+  .imc-cat.obese { background: #fde8e8; color: #c0392b; }
+  .imc-cat.surpoids { background: #fef3d0; color: #b7770d; }
+  .imc-cat.normal { background: #e6f5ec; color: #1a7a3a; }
+
+  /* Canvas */
+  .canvas-wrap { position: relative; width: 100%; margin-bottom: 4px; }
+  canvas#chart { display: block; width: 100%; height: 148px; }
+
+  .time-row {
+    display: flex; justify-content: space-between;
+    padding: 0 2px;
+  }
+  .time-row span {
+    font-size: 10px; color: #bbb; font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  /* ─── COMPARE CARDS ──────────────────────────────────────── */
+  .compare-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px; margin-bottom: 14px;
+  }
+  .compare-card {
+    border-radius: 16px; padding: 14px;
+    opacity: 0; transform: translateY(8px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  .compare-card.visible { opacity: 1; transform: translateY(0); }
+  .compare-card.plain { background: #f5f5f3; }
+  .compare-card.dark { background: #1a1a1a; }
+  .cc-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.07em; margin-bottom: 6px;
+  }
+  .compare-card.plain .cc-label { color: #bbb; }
+  .compare-card.dark .cc-label { color: rgba(255,255,255,0.4); }
+  .cc-val {
+    font-size: 24px; font-weight: 900; line-height: 1;
+  }
+  .compare-card.plain .cc-val { color: #1a1a1a; }
+  .compare-card.dark .cc-val { color: #F5C842; }
+  .cc-sub { font-size: 11px; margin-top: 3px; font-weight: 500; }
+  .compare-card.plain .cc-sub { color: #bbb; }
+  .compare-card.dark .cc-sub { color: rgba(255,255,255,0.4); }
+
+  /* ─── REASSURANCE ────────────────────────────────────────── */
+  .reassurance {
+    display: flex; align-items: flex-start; gap: 10px;
+    background: #F5C842;
+    border-radius: 16px; padding: 14px;
+    margin-bottom: 14px;
+    opacity: 0; transform: translateY(8px);
+    transition: opacity 0.4s ease 0.15s, transform 0.4s ease 0.15s;
+  }
+  .reassurance.visible { opacity: 1; transform: translateY(0); }
+  .reassurance-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+  .reassurance-text {
+    font-size: 13px; font-weight: 600; color: #1a1a1a; line-height: 1.5;
+  }
+
+  /* ─── SOURCE ─────────────────────────────────────────────── */
+  .source-line {
+    font-size: 10px; color: #ccc; text-align: center;
+    margin-bottom: 16px; line-height: 1.5;
+  }
+
+  /* ─── BENEFITS STRIP (bottom photos) ─────────────────────── */
+  .benefits-strip {
+    padding: 0 20px; margin-bottom: 20px;
+  }
+  .benefits-title {
+    font-size: 14px; font-weight: 700; color: #1a1a1a;
+    margin-bottom: 12px;
+  }
+  .benefits-scroll {
+    display: flex; gap: 10px; overflow-x: auto;
+    scrollbar-width: none; padding-bottom: 4px;
+  }
+  .benefits-scroll::-webkit-scrollbar { display: none; }
+  .benefit-card {
+    flex-shrink: 0; width: 120px;
+    border-radius: 16px; overflow: hidden;
+    background: #f5f5f3; position: relative;
+  }
+  .benefit-card img {
+    width: 100%; height: 90px;
+    object-fit: cover; display: block;
+  }
+  .benefit-label {
+    font-size: 10px; font-weight: 700; color: #1a1a1a;
+    padding: 8px 10px; line-height: 1.3;
+  }
+
+  /* ─── CTA ─────────────────────────────────────────────────── */
+  .cta-wrap {
+    padding: 0 20px 36px;
+    position: sticky; bottom: 0;
+    background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, #fff 30%);
+  }
+  .cta-btn {
+    width: 100%; padding: 17px 20px;
+    background: #1a1a1a; color: #fff;
+    border: none; border-radius: 100px;
+    font-size: 16px; font-weight: 700;
+    cursor: pointer; letter-spacing: 0.01em;
+    transition: opacity 0.2s, transform 0.15s;
+  }
+  .cta-btn:active { opacity: 0.85; transform: scale(0.98); }
+  .cta-note {
+    text-align: center; font-size: 11px; color: #bbb;
+    margin-top: 9px; font-weight: 500;
+  }
+
+  /* ─── ANIMATION COUNTER ──────────────────────────────────── */
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .animate-in {
+    animation: fadeSlideUp 0.5s cubic-bezier(.4,0,.2,1) forwards;
+  }
+
+  /* ─── RESPONSIVE ─────────────────────────────────────────── */
+  @media (max-width: 400px) {
+    .shell { width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- NAV -->
+  <nav class="nav">
+    <button class="nav-back" onclick="history.back()">
+      <svg viewBox="0 0 16 16" fill="none">
+        <path d="M10 3L5 8l5 5" stroke="#1a1a1a" stroke-width="1.8"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <div class="nav-progress-wrap">
+      <div class="nav-progress-label">
+        <span>Profil santé</span>
+        <span id="step-counter">Étape 3 / 5</span>
+      </div>
+      <div class="nav-progress-bar">
+        <div class="nav-progress-fill" id="progress-fill"></div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero-block" style="margin-bottom: 22px;">
+    <img src="./images/eligible-bmi.be16.webp"
+         onerror="this.style.display='none'; this.parentElement.style.background='#F5C842';"
+         alt="Photo résultat éligibilité">
+    <span class="hero-label">✦ Votre résultat</span>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="content">
+
+    <p class="headline">
+      Avec Annette, vous pourriez perdre
+      <em id="headline-kg">14 kg</em>
+    </p>
+    <p class="subline">
+      Calculé d'après votre IMC et les résultats moyens
+      de nos patients sous accompagnement GLP-1.
+    </p>
+
+    <!-- INPUTS -->
+    <div class="inputs-row">
+      <div class="input-group">
+        <label>Poids actuel</label>
+        <div class="input-wrap">
+          <input type="number" id="poids" value="90"
+                 min="40" max="250" inputmode="numeric"
+                 oninput="onInputChange()">
+          <span class="input-unit">kg</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Taille</label>
+        <div class="input-wrap">
+          <input type="number" id="taille" value="168"
+                 min="140" max="210" inputmode="numeric"
+                 oninput="onInputChange()">
+          <span class="input-unit">cm</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRAPH CARD -->
+    <div class="graph-card" id="graph-card">
+      <div class="graph-top-row">
+        <div class="graph-main">
+          <div class="graph-kg-big">
+            <span id="kg-big">−14</span><sub> kg</sub>
+          </div>
+          <div class="graph-kg-sub">en 6 mois avec Annette</div>
+        </div>
+        <div class="imc-pill">
+          <div class="imc-number" id="imc-num">31.9</div>
+          <div class="imc-tag">IMC</div>
+          <div class="imc-cat obese" id="imc-cat">Obésité</div>
+        </div>
+      </div>
+      <div class="canvas-wrap">
+        <canvas id="chart"></canvas>
+      </div>
+      <div class="time-row">
+        <span>Aujourd'hui</span>
+        <span>3 mois</span>
+        <span>6 mois</span>
+      </div>
+    </div>
+
+    <!-- COMPARE -->
+    <div class="compare-row">
+      <div class="compare-card plain" id="card-sans">
+        <div class="cc-label">GLP-1 seul</div>
+        <div class="cc-val" id="val-sans">−7 kg</div>
+        <div class="cc-sub">Sans accompagnement</div>
+      </div>
+      <div class="compare-card dark" id="card-avec">
+        <div class="cc-label">Avec Annette</div>
+        <div class="cc-val" id="val-avec">−14 kg</div>
+        <div class="cc-sub">×2 plus efficace</div>
+      </div>
+    </div>
+
+    <!-- REASSURANCE -->
+    <div class="reassurance" id="reassurance">
+      <span class="reassurance-icon">✦</span>
+      <span class="reassurance-text" id="reassurance-text">
+        Votre profil montre un vrai potentiel.
+        L'accompagnement Annette double les résultats du traitement seul.
+      </span>
+    </div>
+
+    <!-- SOURCE -->
+    <p class="source-line">
+      Source : données patients Annette · STEP 3, Wadden et al., JAMA 2021
+    </p>
+
+    <!-- BENEFITS STRIP -->
+    <div class="benefits-strip">
+      <p class="benefits-title">Ce qui est inclus dans votre programme</p>
+      <div class="benefits-scroll">
+        <div class="benefit-card">
+          <img src="./images/final-step-benefits.webp"
+               onerror="this.style.background='#ebebeb'; this.style.height='90px';"
+               alt="Chat diét">
+          <div class="benefit-label">Chat avec votre diététicienne</div>
+        </div>
+        <div class="benefit-card">
+          <img src="./images/final-step-benefits-2.3.webp"
+               onerror="this.style.background='#ebebeb'; this.style.height='90px';"
+               alt="Suivi">
+          <div class="benefit-label">Suivi personnalisé</div>
+        </div>
+        <div class="benefit-card">
+          <img src="./images/final-step-benefits-3.webp"
+               onerror="this.style.background='#ebebeb'; this.style.height='90px';"
+               alt="Planning">
+          <div class="benefit-label">Planning & rendez-vous</div>
+        </div>
+        <div class="benefit-card">
+          <img src="./images/final-step-benefits-4.webp"
+               onerror="this.style.background='#ebebeb'; this.style.height='90px';"
+               alt="Communauté">
+          <div class="benefit-label">Communauté & ateliers</div>
+        </div>
+        <div class="benefit-card">
+          <img src="./images/final-step-benefi.29f.webp"
+               onerror="this.style.background='#ebebeb'; this.style.height='90px';"
+               alt="Effets secondaires">
+          <div class="benefit-label">Gérer les effets secondaires</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- CTA -->
+  <div class="cta-wrap">
+    <button class="cta-btn" onclick="nextStep()">
+      Continuer avec Annette
+    </button>
+    <p class="cta-note">Vérification d'éligibilité · 100% gratuit</p>
+  </div>
+
+</div><!-- /shell -->
+
+<script>
+/* ── HELPERS ──────────────────────────────────────────── */
+
+function calcIMC(poids, taille) {
+  return poids / Math.pow(taille / 100, 2);
+}
+
+function calcPerte(imc, poids) {
+  /* Taux basés sur données STEP 3 + accompagnement  */
+  let taux;
+  if      (imc < 27) taux = 0.07;
+  else if (imc < 30) taux = 0.10;
+  else if (imc < 35) taux = 0.14;
+  else if (imc < 40) taux = 0.18;
+  else               taux = 0.20;
+  return Math.round(poids * taux);
+}
+
+function imcCat(imc) {
+  if (imc < 18.5) return { label: 'Sous-poids',  cls: 'normal'   };
+  if (imc < 25)   return { label: 'Normal',       cls: 'normal'   };
+  if (imc < 30)   return { label: 'Surpoids',     cls: 'surpoids' };
+  if (imc < 35)   return { label: 'Obésité',      cls: 'obese'    };
+  if (imc < 40)   return { label: 'Obésité sév.', cls: 'obese'    };
+  return              { label: 'Obésité mor.',  cls: 'obese'    };
+}
+
+function reassuranceText(imc) {
+  if (imc < 30) return "Votre profil montre un vrai potentiel. L'accompagnement Annette maximise les résultats du traitement GLP-1.";
+  if (imc < 35) return "Votre IMC indique une obésité traitée efficacement par le GLP-1. Avec Annette, vous avancez avec un plan sur-mesure.";
+  return "Votre corps résiste naturellement à la perte de poids. C'est biologique, pas une question de volonté. Annette est là pour ça.";
+}
+
+/* ── CANVAS CHART ─────────────────────────────────────── */
+
+function drawChart(poids, perteKg) {
+  const canvas = document.getElementById('chart');
+  const W = canvas.offsetWidth || 310;
+  const H = 148;
+  canvas.width  = W * window.devicePixelRatio;
+  canvas.height = H * window.devicePixelRatio;
+  canvas.style.width  = W + 'px';
+  canvas.style.height = H + 'px';
+
+  const ctx = canvas.getContext('2d');
+  ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+  ctx.clearRect(0, 0, W, H);
+
+  const padL = 8, padR = 14, padT = 18, padB = 10;
+  const cW = W - padL - padR;
+  const cH = H - padT - padB;
+
+  const perteSans = Math.round(perteKg * 0.5);
+  const minY = poids - perteKg - 4;
+  const maxY = poids + 3;
+  const rangeY = maxY - minY;
+
+  /* 3 control points : t=0, t=0.5, t=1 */
+  const ptsAnnette = [poids, poids - perteKg * 0.58, poids - perteKg];
+  const ptsSans    = [poids, poids - perteSans * 0.58, poids - perteSans];
+
+  function toXY(t, py) {
+    return {
+      x: padL + t * cW,
+      y: padT + ((maxY - py) / rangeY) * cH
+    };
+  }
+  function bezY(ys, t) {
+    const [y0,y1,y2] = ys;
+    return (1-t)**2*y0 + 2*(1-t)*t*y1 + t**2*y2;
+  }
+
+  /* Fill zone Annette */
+  ctx.beginPath();
+  const p0 = toXY(0, ptsAnnette[0]);
+  ctx.moveTo(p0.x, p0.y);
+  for (let t = 0.01; t <= 1; t += 0.01) {
+    const pt = toXY(t, bezY(ptsAnnette, t));
+    ctx.lineTo(pt.x, pt.y);
+  }
+  const pEnd = toXY(1, ptsAnnette[2]);
+  ctx.lineTo(pEnd.x, padT + cH);
+  ctx.lineTo(padL, padT + cH);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(245,200,66,0.15)';
+  ctx.fill();
+
+  /* Courbe "sans" — pointillée grise */
+  ctx.beginPath();
+  ctx.setLineDash([4, 4]);
+  ctx.strokeStyle = 'rgba(0,0,0,0.18)';
+  ctx.lineWidth = 1.5;
+  for (let t = 0; t <= 1; t += 0.01) {
+    const pt = toXY(t, bezY(ptsSans, t));
+    t === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y);
+  }
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  /* Courbe Annette — pleine noire */
+  ctx.beginPath();
+  ctx.strokeStyle = '#1a1a1a';
+  ctx.lineWidth = 2.5;
+  ctx.lineJoin = 'round';
+  ctx.lineCap  = 'round';
+  for (let t = 0; t <= 1; t += 0.01) {
+    const pt = toXY(t, bezY(ptsAnnette, t));
+    t === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y);
+  }
+  ctx.stroke();
+
+  /* Bulle 3 mois */
+  const m3 = toXY(0.5, bezY(ptsAnnette, 0.5));
+  drawBubble(ctx, m3.x, m3.y, '−' + Math.round(perteKg * 0.58) + ' kg', '#F5C842', '#1a1a1a', true);
+
+  /* Dot + bulle 6 mois */
+  const m6 = toXY(1, ptsAnnette[2]);
+  ctx.beginPath();
+  ctx.arc(m6.x, m6.y, 5.5, 0, Math.PI * 2);
+  ctx.fillStyle = '#1a1a1a';
+  ctx.fill();
+  drawBubble(ctx, m6.x, m6.y, '−' + perteKg + ' kg', '#1a1a1a', '#fff', false);
+}
+
+function drawBubble(ctx, x, y, text, bg, fg, above) {
+  const pad = 8;
+  ctx.font = '700 11px -apple-system, Helvetica, sans-serif';
+  const tw = ctx.measureText(text).width;
+  const bw = tw + pad * 2;
+  const bh = 22;
+  const bx = Math.min(Math.max(x - bw / 2, 2), (ctx.canvas.width / window.devicePixelRatio) - bw - 2);
+  const by = above ? y - bh - 8 : y - bh - 8;
+
+  /* Bulle */
+  roundRect(ctx, bx, by, bw, bh, 7);
+  ctx.fillStyle = bg;
+  ctx.fill();
+
+  /* Texte */
+  ctx.fillStyle = fg;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, bx + bw / 2, by + bh / 2);
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+/* ── COUNTER ANIMATION ───────────────────────────────── */
+function animateCounter(el, from, to, suffix, duration) {
+  const start = performance.now();
+  function step(now) {
+    const p = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    const val = Math.round(from + (to - from) * eased);
+    el.textContent = (val < 0 ? '' : '−') + Math.abs(val) + suffix;
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+/* ── UPDATE ALL ──────────────────────────────────────── */
+let prevPerte = 14;
+
+function update() {
+  const poids  = parseFloat(document.getElementById('poids').value)  || 80;
+  const taille = parseFloat(document.getElementById('taille').value) || 168;
+  if (poids < 40 || taille < 140) return;
+
+  const imc    = calcIMC(poids, taille);
+  const perteKg = calcPerte(imc, poids);
+  const perteSans = Math.round(perteKg * 0.5);
+  const cat    = imcCat(imc);
+
+  /* IMC */
+  document.getElementById('imc-num').textContent = imc.toFixed(1);
+  const catEl = document.getElementById('imc-cat');
+  catEl.textContent = cat.label;
+  catEl.className = 'imc-cat ' + cat.cls;
+
+  /* Compteurs animés */
+  animateCounter(document.getElementById('kg-big'),   -prevPerte, -perteKg, '', 600);
+  animateCounter(document.getElementById('val-avec'), -prevPerte, -perteKg, ' kg', 600);
+  animateCounter(document.getElementById('val-sans'), -Math.round(prevPerte * 0.5), -perteSans, ' kg', 600);
+
+  /* Headline */
+  document.getElementById('headline-kg').textContent = perteKg + ' kg';
+
+  /* Reassurance */
+  document.getElementById('reassurance-text').textContent = reassuranceText(imc);
+
+  /* Graph */
+  drawChart(poids, perteKg);
+
+  prevPerte = perteKg;
+
+  /* Progress bar */
+  document.getElementById('progress-fill').style.width = '55%';
+
+  /* Reveal cards */
+  setTimeout(() => {
+    document.getElementById('graph-card').classList.add('visible');
+    document.getElementById('card-sans').classList.add('visible');
+    document.getElementById('card-avec').style.transitionDelay = '0.1s';
+    document.getElementById('card-avec').classList.add('visible');
+    document.getElementById('reassurance').classList.add('visible');
+  }, 120);
+}
+
+let debounceTimer;
+function onInputChange() {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(update, 200);
+}
+
+function nextStep() {
+  alert('Prochaine étape : capture email 📧');
+}
+
+/* ── INIT ──────────────────────────────────────────────── */
+window.addEventListener('load', () => {
+  /* Progress fill anim on load */
+  setTimeout(() => {
+    document.getElementById('progress-fill').style.width = '55%';
+  }, 300);
+  update();
+
+  /* Redraw on resize */
+  window.addEventListener('resize', () => {
+    const poids  = parseFloat(document.getElementById('poids').value)  || 80;
+    const taille = parseFloat(document.getElementById('taille').value) || 168;
+    drawChart(poids, calcPerte(calcIMC(poids, taille), poids));
+  });
+});
+</script>
+</body>
+</html>
