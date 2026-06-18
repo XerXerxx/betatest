@@ -405,6 +405,9 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 /* Mobile: show it */
 .mobile-version .topbar-progress{display:flex!important;gap:8px;min-width:0;max-width:178px}
 .mobile-version .tp-label{font-size:10px;max-width:82px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#9d9a95}
+/* Mobile: keep only the explanatory sticky progress, not the mini topbar progress */
+.mobile-version .topbar-progress{display:none!important}
+.mobile-version .topbar-right{flex:0 1 auto}
 .mobile-version .tp-bar{width:92px;height:4px;background:#e8e3dc}
 .mobile-version .av-chip{padding:4px 9px 4px 4px;max-width:118px;overflow:hidden}
 .mobile-version .av-circle{width:24px;height:24px;font-size:9px}
@@ -672,6 +675,56 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 .mobile-version .edu-screen .edu-screen-inner{
   padding:28px 20px 40px;
 }
+
+/* Compact phones: reduce vertical pressure on iPhone-sized screens */
+@media(max-width:430px){
+  .mobile-version .topbar{height:52px;padding:0 14px}
+  .mobile-version .topbar-logo{font-size:19px}
+  .mobile-version .av-chip{max-width:126px;padding:4px 8px 4px 4px}
+  .mobile-version .av-email{max-width:80px;font-size:10.5px}
+  .mobile-progress{top:52px;padding:8px 14px 9px}
+  .mobile-progress-row{margin-bottom:6px}
+  .mobile-progress-meta{font-size:11.5px}
+  .mobile-progress-btn{padding:6px 10px;font-size:10.5px}
+  .mobile-progress-track{height:4px}
+  .mobile-version .main{padding:16px 14px 34px;min-height:calc(100vh - 52px)}
+  .mobile-version .eyebrow{font-size:9.5px;margin-bottom:7px}
+  .mobile-version .hl{font-size:23px;line-height:1.13;margin-bottom:9px}
+  .mobile-version .sub{font-size:14px;line-height:1.48;margin-bottom:16px}
+  .mobile-version .hero{margin-bottom:18px;border-radius:18px}
+  .mobile-version .hero img{height:150px}
+  .mobile-version .cbtn{padding:13px 14px;border-radius:14px;font-size:14px}
+  .mobile-version .choices{gap:8px;margin-bottom:16px}
+  .mobile-version .back-link{margin-bottom:14px;font-size:13px}
+  .mobile-version .quiz-prog{margin-bottom:14px}
+  .mobile-version .quiz-q{font-size:24px;line-height:1.12;margin-bottom:7px}
+  .mobile-version .quiz-cite{font-size:13px;line-height:1.45;margin-bottom:16px}
+  .mobile-version .qopt{min-height:74px;padding:13px 12px;border-radius:16px;gap:6px}
+  .mobile-version .qopt-icon{width:32px;height:32px}
+  .mobile-version .qopt-label{font-size:14px}
+  .mobile-version .qopt-sub{font-size:11.5px}
+  .mobile-version .three-opts{gap:8px;margin-bottom:14px}
+  .mobile-version .three-opts.answered .qopt.picked{min-height:90px;padding:18px 14px}
+  .mobile-version .quiz-counter{font-size:11.5px;margin-top:7px}
+  .mobile-version .chip{padding:11px 12px;font-size:12.5px;line-height:1.45}
+  .mobile-version .mbtn{padding:12px 13px;border-radius:14px;font-size:12.8px}
+  .mobile-version .multi{gap:7px}
+  .mobile-version .actions{margin-top:18px}
+  .mobile-version .btn{min-height:48px;padding:14px 16px;font-size:15px}
+  .mobile-version .drow{gap:7px}
+  .mobile-version .iw input,.mobile-version .ifl{padding:13px 14px;border-radius:13px;font-size:15px}
+  .mobile-version .gbig{font-size:32px}
+  .mobile-version .imcn{font-size:21px}
+  .mobile-version canvas#chart{height:125px}
+}
+@media(max-width:360px){
+  .mobile-version .hl{font-size:22px}
+  .mobile-version .quiz-q{font-size:22px}
+  .mobile-version .qopt{min-height:68px;padding:11px 10px}
+  .mobile-version .qopt-icon{width:30px;height:30px}
+  .mobile-version .land-hl{font-size:29px}
+}
+
 </style>
 </head>
 <body>
@@ -1143,6 +1196,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <button class="back-link" onclick="go('q4')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="eyebrow">Antécédents médicaux</div>
   <div class="hl">Quel est votre sexe biologique ?</div>
+  <div class="conf-badge">Réponse médicale confidentielle</div>
   <div class="sub">Connaître votre sexe biologique nous aidera à personnaliser au mieux votre programme.</div>
   <div class="choices">
     <button class="cbtn" onclick="sel(this,'s9');w(()=>go('s10'))">Homme</button>
@@ -1156,6 +1210,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <button class="back-link" onclick="go('s9')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="eyebrow">Antécédents médicaux</div>
   <div class="hl">Avez-vous déjà suivi des régimes et/ou des programmes de rééquilibrage alimentaire ? Si oui, étiez-vous accompagné par un professionnel de santé ?</div>
+  <div class="conf-badge">Réponse médicale confidentielle</div>
   <div class="sub">Connaître ce que vous avez déjà essayé aidera votre coach à mieux comprendre comment vous accompagner.</div>
   <div class="choices">
     <button class="cbtn" onclick="sel(this,'s10');w(()=>go('q5'))">Oui, et j’étais accompagné par un professionnel de santé</button>
@@ -1355,6 +1410,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <button class="back-link" onclick="go('s13')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="eyebrow">Antécédents médicaux</div>
   <div class="hl">Avez-vous des antécédents de traitement de l’obésité ?</div>
+  <div class="conf-badge">Réponse médicale confidentielle</div>
   <div class="sub">Connaître votre historique nous permettra d’adapter nos recommandations.</div>
   <div class="multi" id="ml-trt">
     <button class="mbtn" onclick="ms(this,'ml-trt','anc-t',null)"><span class="txt">Anneau gastrique</span><span class="mck"></span></button>
