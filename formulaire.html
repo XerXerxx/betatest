@@ -1,0 +1,2219 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Annette - Vérification d'éligibilité</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;scroll-behavior:smooth}
+body{background:#f0ede8;font-family:'Helvetica Neue',-apple-system,Arial,sans-serif;min-height:100vh;display:flex;flex-direction:column}
+
+/* ── TOP BAR ── */
+.topbar{background:#fff;border-bottom:1px solid #ebebeb;padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;flex-shrink:0}
+.topbar-logo{font-size:22px;font-weight:900;color:#1a1a1a;letter-spacing:-.5px}
+.topbar-right{display:flex;align-items:center;gap:16px}
+.topbar-progress{display:flex;align-items:center;gap:10px}
+.tp-label{font-size:12px;font-weight:600;color:#bbb;white-space:nowrap}
+.tp-bar{width:160px;height:3px;background:#f0f0ee;border-radius:2px;overflow:hidden}
+.tp-fill{height:100%;background:#1a1a1a;border-radius:2px;transition:width .55s cubic-bezier(.4,0,.2,1)}
+.av-chip{display:none;align-items:center;gap:8px;background:#f5f5f3;border-radius:20px;padding:5px 12px 5px 5px}
+.av-chip.show{display:flex}
+.av-circle{width:26px;height:26px;border-radius:50%;background:#1a1a1a;color:#F5C842;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.av-email{font-size:12px;font-weight:600;color:#1a1a1a}
+
+/* ── MAIN LAYOUT ── */
+.main{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:48px 24px 64px;gap:40px}
+.form-col{width:100%;max-width:540px;flex-shrink:0}
+.side-col{width:280px;flex-shrink:0;position:sticky;top:84px}
+
+/* ── SCREEN ── */
+.screen{display:none}
+.screen.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.screen.active{animation:fadeUp .3s cubic-bezier(.4,0,.2,1)}
+
+/* ── TYPOGRAPHY ── */
+.eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#bbb;margin-bottom:10px}
+.hl{font-size:28px;font-weight:800;line-height:1.2;color:#1a1a1a;margin-bottom:12px}
+.hl b{font-style:normal;background:#F5C842;border-radius:5px;padding:1px 5px;font-weight:800}
+.sub{font-size:15px;color:#888;line-height:1.65;margin-bottom:24px}
+
+/* ── HERO IMAGE ── */
+.hero{width:100%;border-radius:18px;overflow:hidden;margin-bottom:28px}
+.hero img{width:100%;height:240px;object-fit:cover;object-position:center 20%;display:block}
+.hero.yellow{background:#F5C842;min-height:200px}
+.hero.pink{background:#fadadf;min-height:200px}
+.hero.cream{background:#f5efe6;min-height:200px}
+
+/* ── CHOICES ── */
+.choices{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
+.choices.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cbtn{width:100%;padding:15px 20px;border:1.5px solid #e8e8e6;border-radius:12px;background:#fafafa;text-align:left;font-size:15px;font-weight:600;color:#1a1a1a;cursor:pointer;transition:border-color .15s,background .15s}
+.cbtn:hover{border-color:#aaa;background:#fff}
+.cbtn.sel{border-color:#1a1a1a;background:#1a1a1a;color:#fff}
+.cbtn-sub{font-size:12px;font-weight:400;opacity:.6;margin-top:3px;display:block}
+
+
+/* ── MOTIVATION EXPERIENCE ── */
+.motivation-wrap{position:relative}
+.motivation-choices{transition:gap .28s cubic-bezier(.4,0,.2,1),margin .28s cubic-bezier(.4,0,.2,1)}
+.motivation-choices .cbtn{position:relative;transition:opacity .22s ease,transform .28s cubic-bezier(.4,0,.2,1),max-height .28s cubic-bezier(.4,0,.2,1),padding .28s cubic-bezier(.4,0,.2,1),margin .28s cubic-bezier(.4,0,.2,1),border-color .18s,background .18s,box-shadow .18s}
+.motivation-choices.answered .cbtn:not(.sel){opacity:0;transform:translateY(8px) scale(.98);max-height:0;padding-top:0;padding-bottom:0;margin:0;border-width:0;pointer-events:none;overflow:hidden}
+.motivation-choices.answered .cbtn.sel{background:#fff;border-color:#1a1a1a;color:#1a1a1a;box-shadow:0 12px 32px rgba(26,26,26,.08);padding:18px 20px 18px 52px;animation:motivationLift .32s cubic-bezier(.4,0,.2,1)}
+.motivation-choices.answered .cbtn.sel::before{content:'✓';position:absolute;left:18px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;background:#1a1a1a;color:#F5C842;font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center}
+.motivation-choices.answered .cbtn.sel::after{content:'Votre priorité';position:absolute;right:16px;top:-11px;background:#F5C842;border-radius:999px;padding:4px 10px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#1a1a1a;box-shadow:0 6px 14px rgba(26,26,26,.08)}
+@keyframes motivationLift{from{opacity:.8;transform:translateY(10px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+.motivation-panel{display:none;background:#fff;border:1.5px solid #ebebeb;border-radius:18px;overflow:hidden;margin:6px 0 18px;box-shadow:0 18px 42px rgba(26,26,26,.06);animation:motivationPanelIn .34s cubic-bezier(.4,0,.2,1)}
+.motivation-panel.show{display:block}
+@keyframes motivationPanelIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.motivation-panel-head{background:#f5efe6;padding:18px 20px;border-bottom:1px solid #eee6d9}
+.motivation-panel-kicker{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#b49a35;margin-bottom:6px}
+.motivation-panel-title{font-size:20px;font-weight:900;color:#1a1a1a;line-height:1.22;letter-spacing:-.2px}
+.motivation-panel-body{padding:20px}
+.motivation-lead{font-size:15px;font-weight:700;color:#1a1a1a;line-height:1.55;margin-bottom:12px}
+.motivation-copy{font-size:14px;color:#666;line-height:1.7;margin-bottom:16px}
+.motivation-solution{background:#1a1a1a;border-radius:14px;padding:18px;margin-bottom:16px;color:#fff}
+.motivation-solution-label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#F5C842;margin-bottom:8px}
+.motivation-solution-title{font-size:16px;font-weight:800;line-height:1.35;margin-bottom:10px;color:#fff}
+.motivation-solution-list{display:flex;flex-direction:column;gap:8px}
+.motivation-solution-item{display:flex;gap:9px;align-items:flex-start;font-size:13px;line-height:1.5;color:rgba(255,255,255,.78)}
+.motivation-solution-item::before{content:'';width:6px;height:6px;border-radius:50%;background:#F5C842;flex-shrink:0;margin-top:7px}
+.motivation-mini-proof{display:flex;align-items:flex-start;gap:10px;background:#fffaf0;border:1px solid #f0e3bf;border-radius:12px;padding:13px 15px;font-size:13px;color:#6c5a28;line-height:1.55;margin-bottom:2px}
+.motivation-mini-proof strong{color:#1a1a1a}
+.motivation-change{display:none;background:none;border:none;color:#8f835e;font-size:12px;font-weight:800;cursor:pointer;text-decoration:underline;text-underline-offset:3px;margin:-10px auto 16px;padding:0}
+.motivation-change.show{display:block}
+
+/* ── MULTI-SELECT ── */
+.multi{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.mbtn{width:100%;padding:13px 18px;border:1.5px solid #e8e8e6;border-radius:11px;background:#fafafa;text-align:left;font-size:14px;font-weight:500;color:#1a1a1a;cursor:pointer;transition:border-color .15s,background .15s;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.mbtn:hover{border-color:#aaa}
+.mbtn span.txt{flex:1;text-align:left}
+.mck{width:20px;height:20px;border-radius:5px;border:1.5px solid #ddd;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.mbtn.sel{border-color:#1a1a1a;background:#f7f7f5}
+.mbtn.sel .mck{background:#1a1a1a;border-color:#1a1a1a}
+.mbtn.sel .mck::after{content:'';display:block;width:5px;height:9px;border:2px solid #fff;border-top:none;border-left:none;transform:rotate(45deg) translate(-1px,-1px)}
+
+/* ── INPUTS ── */
+.irow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.i1{margin-bottom:16px}
+.drow{display:grid;grid-template-columns:1fr 1fr 1.5fr;gap:10px;margin-bottom:16px}
+.ig label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#bbb;margin-bottom:6px}
+.iw{position:relative}
+.iw input{width:100%;padding:13px 40px 13px 16px;border:1.5px solid #e8e8e6;border-radius:11px;font-size:18px;font-weight:800;color:#1a1a1a;background:#fafafa;outline:none;-moz-appearance:textfield;transition:border-color .18s}
+.iw input::-webkit-inner-spin-button{-webkit-appearance:none}
+.iw input:focus{border-color:#1a1a1a;background:#fff}
+.iu{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:13px;font-weight:600;color:#ccc;pointer-events:none}
+.ifl{width:100%;padding:14px 18px;border:1.5px solid #e8e8e6;border-radius:11px;font-size:16px;font-weight:500;color:#1a1a1a;background:#fafafa;outline:none;transition:border-color .18s;margin-bottom:10px}
+.ifl:focus{border-color:#1a1a1a;background:#fff}
+.ifl::placeholder{color:#ccc;font-weight:400}
+
+/* ── REASON CHIP ── */
+.chip{display:flex;align-items:flex-start;gap:10px;background:#f5f5f3;border-radius:10px;padding:12px 15px;margin-bottom:16px;font-size:13px;color:#777;line-height:1.55;border-left:3px solid #e8e8e6}
+.chip-dot{width:6px;height:6px;border-radius:50%;background:#bbb;flex-shrink:0;margin-top:5px}
+
+/* ── REASSURANCE ── */
+.rebox{display:flex;align-items:flex-start;gap:12px;background:#F5C842;border-radius:12px;padding:16px;margin-bottom:16px}
+.rbox-mark{width:20px;height:20px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center}
+.rbox-mark svg{width:16px;height:16px}
+.rbox-text{font-size:14px;font-weight:600;color:#1a1a1a;line-height:1.55}
+
+/* ── SECURE LINE ── */
+.secure{display:flex;align-items:center;gap:7px;font-size:12px;color:#bbb;margin-top:6px}
+.secure svg{width:12px;height:12px;flex-shrink:0}
+
+/* ── GRAPH CARD ── */
+.gcard{background:#fafafa;border:1.5px solid #ebebeb;border-radius:18px;padding:20px 20px 14px;margin-bottom:16px}
+.gtop{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
+.gbig{font-size:42px;font-weight:900;line-height:1;color:#1a1a1a;letter-spacing:-1.5px}
+.gbig sub{font-size:18px;font-weight:600;vertical-align:baseline}
+.gsub{font-size:13px;color:#aaa;margin-top:4px}
+.imcpill{background:#fff;border:1.5px solid #ebebeb;border-radius:12px;padding:12px 16px;text-align:center}
+.imcn{font-size:26px;font-weight:900;color:#1a1a1a;line-height:1}
+.imct{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#bbb;margin-top:3px}
+.imccat{font-size:11px;font-weight:600;border-radius:5px;padding:2px 8px;margin-top:5px;display:inline-block}
+.obese{background:#fde8e8;color:#c0392b}
+.surpoids{background:#fef3d0;color:#b7770d}
+.normal{background:#e6f5ec;color:#1a7a3a}
+canvas#chart{display:block;width:100%;height:160px}
+.trow{display:flex;justify-content:space-between;padding:6px 2px 0}
+.trow span{font-size:11px;color:#bbb;font-weight:600}
+
+/* ── COMPARE ── */
+.cmprow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.ccard{border-radius:14px;padding:16px}
+.ccard.plain{background:#f5f5f3}
+.ccard.dark{background:#1a1a1a}
+.clbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+.plain .clbl{color:#bbb}.dark .clbl{color:rgba(255,255,255,.4)}
+.cval{font-size:26px;font-weight:900}
+.plain .cval{color:#1a1a1a}.dark .cval{color:#F5C842}
+.csub{font-size:12px;margin-top:4px;font-weight:500}
+.plain .csub{color:#bbb}.dark .csub{color:rgba(255,255,255,.4)}
+
+/* ── TEMOIGNAGE ── */
+.temo{background:#f5f5f3;border-radius:14px;padding:18px;margin-bottom:16px}
+.tstars{font-size:14px;color:#F5C842;letter-spacing:3px;margin-bottom:8px}
+.ttxt{font-size:14px;color:#1a1a1a;line-height:1.65;font-style:italic;margin-bottom:8px}
+.tauth{font-size:12px;font-weight:700;color:#bbb}
+
+/* ── SOURCE ── */
+.src{font-size:11px;color:#ccc;text-align:center;margin-bottom:16px;line-height:1.5}
+
+/* ── PROCESSING ── */
+.proc-wrap{min-height:420px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;position:relative}
+.proc-logo{font-size:28px;font-weight:900;color:#1a1a1a;margin-bottom:40px;letter-spacing:-.5px}
+.proc-list{width:100%;max-width:380px;display:flex;flex-direction:column;gap:16px;margin-bottom:36px}
+.pitem{display:flex;align-items:center;gap:14px;opacity:0;transition:opacity .35s ease}
+.pitem.done{opacity:1}
+.pchk{width:28px;height:28px;border-radius:50%;background:#f5f5f3;border:2px solid #e8e8e6;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .28s}
+.pitem.done .pchk{background:#1a1a1a;border-color:#1a1a1a}
+.pitem.done .pchk::after{content:'';display:block;width:6px;height:10px;border:2px solid #fff;border-top:none;border-left:none;transform:rotate(45deg) translate(-1px,-1px)}
+.ptxt{font-size:15px;font-weight:600;color:#1a1a1a}
+.psub{font-size:12px;color:#bbb;margin-top:1px}
+.pbar-wrap{width:100%;max-width:380px;background:#f0f0ee;border-radius:4px;height:5px;overflow:hidden}
+.pbar{height:100%;background:#1a1a1a;border-radius:4px;width:0%;transition:width .55s cubic-bezier(.4,0,.2,1)}
+.pbar.paused{background:#F5C842}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.pbar.paused{animation:pulse 1.4s ease-in-out infinite}
+.plbl{font-size:12px;color:#bbb;text-align:center;margin-bottom:8px;width:100%;max-width:380px;transition:color .2s}
+.plbl.waiting{color:#1a1a1a;font-weight:700}
+.proc-waiting{display:none;align-items:center;gap:10px;background:#fef3d0;border:1px solid #f5d78e;border-radius:10px;padding:12px 16px;width:100%;max-width:380px;margin-top:14px;font-size:13px;font-weight:600;color:#7a5000}
+.proc-waiting.show{display:flex}
+.proc-waiting svg{width:16px;height:16px;flex-shrink:0;color:#b78000}
+
+/* ── TCA OVERLAY ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:center;justify-content:center;padding:24px}
+.overlay.open{display:flex}
+.modal{background:#fff;border-radius:20px;padding:36px;max-width:480px;width:100%;transform:scale(.94);opacity:0;transition:transform .3s cubic-bezier(.4,0,.2,1),opacity .3s ease}
+.overlay.open .modal{transform:scale(1);opacity:1}
+.modal-close{float:right;background:none;border:none;font-size:14px;color:#aaa;cursor:pointer;font-weight:600;padding:0;line-height:1}
+
+
+/* ── TCA DETAILS MODAL ── */
+.tca-modal-body{position:relative;overflow:hidden}
+.tca-step{display:none;animation:tcaIn .28s cubic-bezier(.4,0,.2,1)}
+.tca-step.active{display:block}
+@keyframes tcaIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.tca-detail-intro{font-size:14px;color:#777;line-height:1.6;margin-bottom:18px}
+.tca-type-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.tca-type-btn{width:100%;border:1.5px solid #ece7d8;background:#fffdf7;border-radius:14px;padding:15px 16px;text-align:left;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:background .18s,border-color .18s,transform .18s,box-shadow .18s}
+.tca-type-btn:hover{border-color:#c9b66c;transform:translateY(-1px)}
+.tca-type-btn.sel{background:#f5efe6;border-color:#1a1a1a;box-shadow:0 12px 28px rgba(26,26,26,.06)}
+.tca-type-main{font-size:14px;font-weight:800;color:#1a1a1a;display:block}
+.tca-type-dot{width:22px;height:22px;border-radius:50%;border:1.5px solid #ddd;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tca-type-btn.sel .tca-type-dot{background:#1a1a1a;border-color:#1a1a1a}
+.tca-type-btn.sel .tca-type-dot::after{content:'';display:block;width:5px;height:9px;border:2px solid #fff;border-top:none;border-left:none;transform:rotate(45deg) translate(-1px,-1px)}
+.tca-soft-note{background:#f5efe6;border-radius:12px;padding:13px 15px;font-size:13px;color:#6f6251;line-height:1.55;margin-bottom:16px;border-left:3px solid #F5C842}
+
+/* ── RESULT ── */
+.res-hero{width:100%;border-radius:18px;overflow:hidden;background:#F5C842;margin-bottom:24px}
+.res-hero img{width:100%;height:240px;object-fit:cover;display:block}
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.sbox{background:#fafafa;border:1.5px solid #ebebeb;border-radius:14px;padding:16px}
+.sbox.yel{background:#F5C842;border-color:#F5C842}
+.sval{font-size:30px;font-weight:900;color:#1a1a1a;line-height:1}
+.slbl{font-size:12px;color:#888;margin-top:4px;font-weight:500}
+.bscroll{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;margin-bottom:16px}
+.bscroll::-webkit-scrollbar{display:none}
+.bcard{flex-shrink:0;width:120px;border-radius:12px;overflow:hidden;background:#f5f5f3}
+.bcard img{width:100%;height:88px;object-fit:cover;display:block}
+.bclbl{font-size:11px;font-weight:700;color:#1a1a1a;padding:8px 10px;line-height:1.35}
+
+/* ── CONSENT ── */
+.crow{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;cursor:pointer}
+.cchk{width:20px;height:20px;border-radius:5px;border:1.5px solid #ddd;background:#fff;flex-shrink:0;margin-top:2px;transition:all .15s;display:flex;align-items:center;justify-content:center}
+.cchk.on{background:#1a1a1a;border-color:#1a1a1a}
+.cchk.on::after{content:'';display:block;width:5px;height:9px;border:2px solid #fff;border-top:none;border-left:none;transform:rotate(45deg) translate(-1px,-1px)}
+.ctxt{font-size:13px;color:#888;line-height:1.55}
+.ctxt a{color:#1a1a1a;font-weight:600}
+
+/* ── PHONE ROW ── */
+.phrow{display:flex;gap:10px;margin-bottom:12px}
+.phpfx{padding:14px 16px;border:1.5px solid #e8e8e6;border-radius:11px;font-size:15px;font-weight:700;color:#1a1a1a;background:#fafafa;white-space:nowrap;flex-shrink:0}
+
+/* ── CTA ── */
+.actions{margin-top:28px;display:flex;flex-direction:column;gap:8px}
+.btn{width:100%;padding:16px 24px;background:#1a1a1a;color:#fff;border:none;border-radius:100px;font-size:16px;font-weight:700;cursor:pointer;transition:opacity .15s,transform .12s}
+.btn:hover{opacity:.88}
+.btn:active{transform:scale(.98)}
+.btn:disabled{background:#e0e0de;color:#bbb;cursor:not-allowed}
+.btn.yel{background:#F5C842;color:#1a1a1a}
+.btn-note{font-size:12px;color:#bbb;text-align:center;font-weight:500}
+
+/* ── BACK LINK ── */
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:#888;background:none;border:none;cursor:pointer;margin-bottom:24px;padding:0}
+.back-link svg{width:14px;height:14px}
+.back-link:hover{color:#1a1a1a}
+
+/* ── SIDE PANEL ── */
+.side-panel{background:#fff;border-radius:18px;padding:22px;border:1.5px solid #ebebeb}
+.side-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#bbb;margin-bottom:14px}
+.side-step{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f5f5f3}
+.side-step:last-child{border-bottom:none}
+.sdot{width:8px;height:8px;border-radius:50%;background:#e8e8e6;flex-shrink:0}
+.sdot.done{background:#1a1a1a}
+.sdot.cur{background:#F5C842;box-shadow:0 0 0 3px rgba(245,200,66,.25)}
+.slabel{font-size:13px;font-weight:500;color:#bbb}
+.slabel.done{color:#1a1a1a}
+.slabel.cur{color:#1a1a1a;font-weight:700}
+
+/* ── TRUST ROW ── */
+.trust{display:flex;align-items:center;gap:8px;font-size:12px;color:#bbb;margin-bottom:16px}
+.tdot{width:3px;height:3px;border-radius:50%;background:#ddd}
+
+/* ── CONFIRM ── */
+.confirm-mark{width:64px;height:64px;border-radius:50%;background:#F5C842;display:flex;align-items:center;justify-content:center;margin:0 0 20px}
+.confirm-mark svg{width:30px;height:30px}
+.store-card{background:#f5f5f3;border-radius:12px;padding:16px;display:flex;align-items:center;gap:14px;margin-bottom:10px}
+.store-badge{font-size:12px;font-weight:700;color:#1a1a1a;background:#F5C842;padding:5px 12px;border-radius:18px;margin-left:auto;white-space:nowrap}
+
+/* ── PILLARS ── */
+.pillars{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+.pillar{display:flex;align-items:flex-start;gap:14px;background:#fff;border-radius:12px;padding:14px;border:1px solid #ebebeb}
+.ptitle{font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:3px}
+.pdesc{font-size:13px;color:#777;line-height:1.5}
+.pill-num{width:24px;height:24px;border-radius:50%;background:#1a1a1a;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+
+/* ── LANDING PAGE ── */
+.landing{display:none;min-height:100vh;background:#fff;flex-direction:column}
+.landing.active{display:flex}
+.land-nav{padding:20px 48px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ebebeb}
+.land-logo{font-size:22px;font-weight:900;color:#1a1a1a;letter-spacing:-.5px}
+.land-trust{font-size:12px;color:#bbb;font-weight:500}
+.land-hero{flex:1;display:flex;align-items:stretch;min-height:calc(100vh - 61px)}
+.land-left{flex:1;padding:64px 56px;display:flex;flex-direction:column;justify-content:center;max-width:580px}
+.land-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#bbb;margin-bottom:16px}
+.land-hl{font-size:44px;font-weight:900;line-height:1.08;color:#1a1a1a;margin-bottom:20px;letter-spacing:-.5px}
+.land-hl mark{background:#F5C842;border-radius:6px;padding:2px 8px;font-style:normal}
+.land-sub{font-size:17px;color:#666;line-height:1.7;margin-bottom:36px;max-width:440px}
+.land-props{display:flex;flex-direction:column;gap:12px;margin-bottom:40px}
+.land-prop{display:flex;align-items:flex-start;gap:12px}
+.land-prop-icon{width:32px;height:32px;border-radius:8px;background:#f5f5f3;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.land-prop-text{font-size:14px;color:#444;line-height:1.5;padding-top:6px}
+.land-prop-text strong{color:#1a1a1a;font-weight:700}
+.land-cta-wrap{display:flex;flex-direction:column;gap:10px;max-width:400px}
+.land-cta{padding:18px 36px;background:#1a1a1a;color:#fff;border:none;border-radius:100px;font-size:17px;font-weight:700;cursor:pointer;text-align:center;transition:opacity .15s}
+.land-cta:hover{opacity:.88}
+.land-cta-note{font-size:12px;color:#bbb;text-align:center}
+.land-trust-row{display:flex;align-items:center;gap:10px;margin-top:8px}
+.land-trust-row span{font-size:12px;color:#bbb}
+.land-trust-row .sep{color:#ddd}
+.land-right{flex:1;background:#F5C842;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;min-height:520px;padding:40px}
+.land-right img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
+.land-right-overlay{position:absolute;bottom:32px;left:32px;right:32px}
+.land-stat-card{background:#fff;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px}
+.lsc-num{font-size:28px;font-weight:900;color:#1a1a1a}
+.lsc-txt{font-size:13px;color:#888;line-height:1.4}
+
+/* ── QUIZ FORMAT ── */
+.quiz-screen{}
+.quiz-prog{display:flex;gap:5px;margin-bottom:20px}
+.qpd{height:4px;flex:1;border-radius:2px;background:#ebebeb;transition:background .3s}
+.qpd.done{background:#1a1a1a}
+.qpd.cur{background:#F5C842}
+.quiz-eyebrow{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#bbb;margin-bottom:8px}
+.quiz-q{font-size:22px;font-weight:800;color:#1a1a1a;line-height:1.25;margin-bottom:6px}
+.quiz-cite{font-size:14px;color:#888;font-style:italic;margin-bottom:28px;line-height:1.5;padding-left:12px;border-left:3px solid #F5C842}
+.three-opts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;transition:all .28s cubic-bezier(.4,0,.2,1);position:relative}
+.three-opts.answered{grid-template-columns:minmax(230px,330px);justify-content:center;margin-bottom:12px}
+.qopt{position:relative;border-radius:14px;border:1.5px solid #e8e8e6;background:#fafafa;padding:20px 12px;text-align:center;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:opacity .22s ease,transform .22s ease,border-color .18s,background .18s,box-shadow .18s;min-height:110px;justify-content:center}
+.qopt:hover{border-color:#aaa;transform:translateY(-1px)}
+.three-opts.answered .qopt:not(.picked){opacity:0;transform:scale(.92);pointer-events:none;position:absolute}
+.three-opts.answered .qopt.picked{min-height:124px;padding:26px 20px;box-shadow:0 16px 36px rgba(26,26,26,.08);cursor:default;animation:chosenPop .28s cubic-bezier(.4,0,.2,1)}
+.three-opts.answered .qopt.picked:hover{transform:none}
+.three-opts.answered .qopt.picked::after{content:'Votre réponse';position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#fff;border:1px solid #ebebeb;border-radius:999px;padding:4px 11px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#9b8b55;white-space:nowrap;box-shadow:0 6px 16px rgba(26,26,26,.05)}
+@keyframes chosenPop{from{opacity:.7;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+.qopt.q-no.picked{background:#f5efe6;border-color:#e1d4c2;border-width:2px}
+.qopt.q-mid.picked{background:#fff4c7;border-color:#F5C842;border-width:2px}
+.qopt.q-yes.picked{background:#eef2ec;border-color:#c9d4c9;border-width:2px}
+.qopt-icon{width:36px;height:36px;border-radius:50%;background:#ebebeb;display:flex;align-items:center;justify-content:center;transition:background .18s}
+.three-opts.answered .qopt-icon{width:42px;height:42px}
+.q-no.picked .qopt-icon{background:rgba(225,212,194,.45)}
+.q-mid.picked .qopt-icon{background:rgba(245,200,66,.30)}
+.q-yes.picked .qopt-icon{background:rgba(120,138,120,.14)}
+.qopt-label{font-size:13px;font-weight:600;color:#1a1a1a;line-height:1.3}
+.three-opts.answered .qopt-label{font-size:15px;font-weight:800}
+.q-yes.picked .qopt-label,.q-mid.picked .qopt-label,.q-no.picked .qopt-label{color:#1a1a1a}
+.qopt-sub{font-size:11px;color:#aaa;line-height:1.3}
+.three-opts.answered .qopt-sub{font-size:12px}
+.q-no.picked .qopt-sub{color:#8a7d69}
+.q-mid.picked .qopt-sub{color:#7a5000}
+.q-yes.picked .qopt-sub{color:#687568}
+.quiz-change{display:block;margin:-4px auto 14px;background:none;border:none;color:#8f835e;font-size:12px;font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.quiz-change:hover{color:#1a1a1a}
+.quiz-feedback{border-radius:16px;padding:0;font-size:13px;line-height:1.6;display:none;margin-bottom:16px;font-weight:500;animation:fadeUp .24s cubic-bezier(.4,0,.2,1);overflow:hidden;border:1.5px solid #ece7d8;background:#fffdf7;color:#1a1a1a}
+.quiz-feedback.show{display:block}
+.qfb-no,.qfb-mid,.qfb-yes{background:#fffdf7;color:#1a1a1a}
+.quiz-diagnostic{padding:18px;background:linear-gradient(180deg,#fffdf7 0%,#fffaf0 100%)}
+.quiz-diag-row{display:flex;gap:12px;align-items:flex-start;padding:0}
+.quiz-diag-row:last-child{padding-bottom:0}
+.quiz-diag-ico{width:26px;height:26px;border-radius:50%;background:#F5C842;color:#1a1a1a;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.quiz-diag-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#b49a35;margin-bottom:3px}
+.quiz-diag-text{font-size:13px;color:#555;line-height:1.58;font-weight:500}
+.quiz-annette-tag{font-size:12px;font-weight:700;margin-bottom:4px;opacity:.7}
+.quiz-next{width:100%;padding:15px;background:#1a1a1a;color:#fff;border:none;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;display:none;margin-top:4px}
+.quiz-next.show{display:block}
+.quiz-counter{text-align:center;font-size:12px;color:#bbb;margin-top:8px}
+
+@media(max-width:900px){.land-right{display:none}.land-left{max-width:100%;padding:48px 32px}}
+@media(max-width:860px){.side-col{display:none}.main{padding:32px 20px 52px}}
+@media(max-width:600px){.choices.grid{grid-template-columns:1fr}.irow{grid-template-columns:1fr}.three-opts{grid-template-columns:1fr}.land-hl{font-size:32px}}
+
+
+/* ── CONFIDENTIALITY BADGE ── */
+.conf-badge{display:inline-flex;align-items:center;gap:7px;background:#fffaf0;border:1px solid #efe0b8;color:#6f5a1d;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:800;margin:0 0 16px;line-height:1}
+.conf-badge::before{content:'';width:8px;height:8px;border-radius:50%;background:#F5C842;box-shadow:0 0 0 3px rgba(245,200,66,.22)}
+.mobile-version .conf-badge{font-size:11.5px;padding:8px 11px;margin-bottom:14px}
+
+/* ── EARLY VALUE PROPOSITION ── */
+.value-screen{}
+.value-card{background:#fff;border:1.5px solid #ebebeb;border-radius:22px;padding:22px;margin:18px 0 18px;box-shadow:0 18px 42px rgba(26,26,26,.06);overflow:hidden}
+.value-kicker{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:#b49a35;margin-bottom:8px}
+.value-title{font-size:24px;font-weight:950;color:#1a1a1a;line-height:1.1;letter-spacing:-.025em;margin-bottom:12px}
+.value-copy{font-size:15px;color:#625b54;line-height:1.65;margin-bottom:18px}
+.value-proof{background:#f8d8f2;border-radius:20px;padding:20px 18px;margin-bottom:18px;position:relative;overflow:hidden}
+.value-proof::before{content:'';position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.26);left:-80px;top:-70px}
+.value-proof-inner{position:relative;display:grid;grid-template-columns:130px 1fr;gap:18px;align-items:center}
+.value-x2{font-size:54px;font-weight:950;line-height:1;color:#1a1a1a;letter-spacing:-.04em;text-align:center}
+.value-x2-sub{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:rgba(26,26,26,.45);text-align:center;margin-top:5px}
+.value-proof-text{font-size:15px;font-weight:800;color:#1a1a1a;line-height:1.45}
+.value-source{font-size:11px;color:rgba(26,26,26,.5);line-height:1.4;margin-top:8px}
+.value-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+.value-step{display:flex;gap:12px;align-items:flex-start;background:#f8f3ed;border-radius:14px;padding:13px 14px}
+.value-step-num{width:24px;height:24px;border-radius:50%;background:#1a1a1a;color:#F5C842;font-size:11px;font-weight:950;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.value-step-title{font-size:14px;font-weight:850;color:#1a1a1a;margin-bottom:2px}
+.value-step-copy{font-size:13px;color:#77716b;line-height:1.45}
+.value-note{font-size:13px;color:#8a7d69;line-height:1.55;background:#fffaf0;border:1px solid #f0e3bf;border-radius:14px;padding:13px 15px}
+.mobile-version .value-card{border-radius:22px;padding:18px;margin:14px 0 18px}
+.mobile-version .value-title{font-size:23px}
+.mobile-version .value-copy{font-size:14.5px;line-height:1.58}
+.mobile-version .value-proof{border-radius:20px;padding:18px 15px}
+.mobile-version .value-proof-inner{grid-template-columns:1fr;gap:10px;text-align:center}
+.mobile-version .value-x2{font-size:50px}
+.mobile-version .value-proof-text{font-size:14.5px}
+.mobile-version .value-step{border-radius:15px;padding:13px}
+
+/* MOBILE VERSION DEDICATED OVERRIDES */
+body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas Grotesk Display Pro','Neue Haas Grotesk Text Pro','Helvetica Neue',Arial,sans-serif;overflow-x:hidden}
+.mobile-version .topbar{height:56px;padding:0 16px;border-bottom:1px solid rgba(26,26,26,.08);background:rgba(255,255,255,.96);backdrop-filter:blur(10px)}
+.mobile-version .topbar-logo{font-size:20px;letter-spacing:-.04em}
+.mobile-version .topbar-right{gap:8px;min-width:0;flex:1;justify-content:flex-end}
+
+/* Desktop: hide progress from topbar (uses side panel instead) */
+.topbar-progress{display:none}
+/* Mobile: show it */
+.mobile-version .topbar-progress{display:flex!important;gap:8px;min-width:0;max-width:178px}
+.mobile-version .tp-label{font-size:10px;max-width:82px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#9d9a95}
+.mobile-version .tp-bar{width:92px;height:4px;background:#e8e3dc}
+.mobile-version .av-chip{padding:4px 9px 4px 4px;max-width:118px;overflow:hidden}
+.mobile-version .av-circle{width:24px;height:24px;font-size:9px}
+.mobile-version .av-email{font-size:11px;max-width:74px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mobile-version .main{display:block;padding:20px 16px 44px;min-height:calc(100vh - 56px);gap:0}
+.mobile-version .form-col{width:100%;max-width:none}
+.mobile-version .side-col{display:none!important}
+.mobile-version .screen.active{animation:fadeUp .24s cubic-bezier(.4,0,.2,1)}
+.mobile-version .eyebrow{font-size:10px;margin-bottom:8px;color:#a6a19a;letter-spacing:.09em}
+.mobile-version .hl{font-size:26px;line-height:1.12;letter-spacing:-.025em;margin-bottom:10px}
+.mobile-version .sub{font-size:15px;line-height:1.55;margin-bottom:20px;color:#77716b}
+.mobile-version .hero{border-radius:20px;margin-bottom:22px}
+.mobile-version .hero img{height:180px;object-position:center center}
+.mobile-version .choices{gap:9px;margin-bottom:20px}
+.mobile-version .choices.grid{display:flex;flex-direction:column;gap:9px}
+.mobile-version .cbtn{padding:15px 16px;border-radius:15px;font-size:15px;line-height:1.35;background:#fff;border-color:#e5ded5}
+.mobile-version .cbtn:hover{background:#fff;border-color:#c9c1b8}
+.mobile-version .cbtn.sel{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.mobile-version .chip{border-radius:14px;padding:12px 14px;font-size:13px;margin-bottom:14px;background:#f8f3ed;border-left-color:#d8cec2;color:#746b61}
+.mobile-version .rebox{border-radius:16px;padding:14px;margin-bottom:14px}
+.mobile-version .rbox-text{font-size:13.5px;line-height:1.5}
+.mobile-version .secure{font-size:11.5px;margin-top:8px}
+.mobile-version .actions{margin-top:22px;gap:8px}
+.mobile-version .btn{padding:16px 18px;border-radius:999px;font-size:15.5px;min-height:52px}
+.mobile-version .back-link{margin-bottom:18px;font-size:13.5px;color:#7c756d}
+.mobile-version .irow{grid-template-columns:1fr;gap:10px;margin-bottom:12px}
+.mobile-version .drow{grid-template-columns:.8fr .8fr 1.2fr;gap:8px;margin-bottom:14px}
+.mobile-version .ig label{font-size:10px;color:#a6a19a}
+.mobile-version .iw input,.mobile-version .ifl{font-size:16px;border-radius:14px;padding:14px 16px;background:#fff;border-color:#e5ded5}
+.mobile-version .iw input{padding-right:42px;font-weight:800}
+.mobile-version .iu{right:14px;font-size:12px;color:#a6a19a}
+.mobile-version .phrow{gap:8px}
+.mobile-version .phpfx{padding:14px;border-radius:14px;background:#fff;border-color:#e5ded5}
+.mobile-version .crow{gap:10px;margin-bottom:12px}
+.mobile-version .ctxt{font-size:12.5px;line-height:1.45}
+
+/* Mobile landing */
+.mobile-version .landing.active{min-height:100vh;background:#fff}
+.mobile-version .land-nav{padding:17px 20px}
+.mobile-version .land-logo{font-size:21px}
+.mobile-version .land-trust{font-size:11px;text-align:right;max-width:155px;line-height:1.25}
+.mobile-version .land-hero{display:block;min-height:auto}
+.mobile-version .land-left{max-width:none;padding:42px 22px 38px}
+.mobile-version .land-eyebrow{font-size:10px;margin-bottom:14px}
+.mobile-version .land-hl{font-size:34px;line-height:1.05;letter-spacing:-.04em;margin-bottom:18px}
+.mobile-version .land-sub{font-size:16px;line-height:1.58;margin-bottom:28px}
+.mobile-version .land-props{gap:10px;margin-bottom:30px}
+.mobile-version .land-prop-icon{width:30px;height:30px;border-radius:10px}
+.mobile-version .land-prop-text{font-size:13.5px;padding-top:4px}
+.mobile-version .land-cta{padding:17px 24px;font-size:16px}
+.mobile-version .land-trust-row{flex-wrap:wrap;gap:6px 8px;line-height:1.35}
+.mobile-version .land-right{display:none!important}
+
+/* Informative screens stay fully branded on mobile */
+.mobile-version .main.info-cream,.mobile-version .main.info-pink{padding:0;min-height:calc(100vh - 56px)}
+.mobile-version .main.info-cream .form-col,.mobile-version .main.info-pink .form-col{min-height:calc(100vh - 56px)}
+.mobile-version .main.info-cream .brand-info-screen,.mobile-version .main.info-pink .brand-info-screen{min-height:calc(100vh - 56px);padding:24px 20px 40px;border-radius:0;overflow:hidden}
+.mobile-version .brand-info-screen::before{width:280px;height:280px;right:-132px;top:-92px;opacity:.16}
+.mobile-version .brand-info-screen::after{width:190px;height:190px;left:-102px;bottom:-68px;opacity:.11}
+.mobile-version .brand-info-screen .hl{font-size:31px;line-height:1.03;margin-bottom:12px}
+.mobile-version .brand-info-screen .sub{font-size:15.5px;margin-bottom:20px;color:rgba(15,15,14,.72)}
+.mobile-version .brand-info-screen .pillars{gap:9px;margin-bottom:20px}
+.mobile-version .brand-info-screen .pillar{border-radius:18px;padding:14px;background:rgba(254,251,249,.76)}
+.mobile-version .brand-info-screen .ptitle{font-size:14px}
+.mobile-version .brand-info-screen .pdesc{font-size:12.5px}
+.mobile-version .brand-info-note{font-size:12.5px;margin-bottom:20px}
+
+/* Motivation mobile experience */
+.mobile-version .motivation-rich{border-radius:20px;margin-top:14px}
+.mobile-version .motivation-rich-card{padding:16px}
+.mobile-version .motivation-rich-title{font-size:16px}
+.mobile-version .motivation-rich-text{font-size:13.5px;line-height:1.55}
+
+/* Projection and result */
+.mobile-version .gcard{border-radius:20px;padding:17px 15px 12px;background:#fff}
+.mobile-version .gtop{gap:12px;margin-bottom:12px}
+.mobile-version .gbig{font-size:36px}
+.mobile-version .imcpill{padding:10px 12px;border-radius:14px}
+.mobile-version .imcn{font-size:23px}
+.mobile-version canvas#chart{height:145px}
+.mobile-version .cmprow,.mobile-version .stat-row{grid-template-columns:1fr 1fr;gap:9px}
+.mobile-version .ccard,.mobile-version .sbox{border-radius:16px;padding:14px}
+.mobile-version .cval{font-size:22px}
+.mobile-version .sval{font-size:26px}
+.mobile-version .temo{border-radius:16px;padding:15px}
+.mobile-version .bcard{width:112px;border-radius:14px}
+.mobile-version .bcard img{height:82px}
+
+/* Quiz mobile */
+.mobile-version .quiz-prog{margin-bottom:18px}
+.mobile-version .quiz-q{font-size:23px;line-height:1.16;letter-spacing:-.02em}
+.mobile-version .quiz-cite{font-size:13.5px;margin-bottom:20px}
+.mobile-version .three-opts,.mobile-version .three-opts.answered{grid-template-columns:1fr;gap:9px;justify-content:initial}
+.mobile-version .qopt{min-height:92px;padding:16px 14px;border-radius:18px;background:#fff}
+.mobile-version .three-opts.answered .qopt.picked{min-height:104px;padding:22px 16px}
+.mobile-version .quiz-feedback{border-radius:18px;margin-bottom:14px}
+.mobile-version .quiz-diagnostic{padding:15px}
+.mobile-version .quiz-diag-row{padding:10px 0}
+.mobile-version .quiz-diag-text{font-size:12.8px}
+.mobile-version .quiz-next{padding:15px;font-size:15px}
+
+/* Multiselect lists */
+.mobile-version .multi{gap:8px;margin-bottom:18px}
+.mobile-version .mbtn{padding:14px 15px;border-radius:15px;font-size:13.5px;background:#fff;border-color:#e5ded5;align-items:flex-start}
+.mobile-version .mck{width:19px;height:19px;border-radius:6px;margin-top:1px}
+
+/* TCA modal as mobile bottom sheet */
+.mobile-version .overlay{align-items:flex-end;padding:0;background:rgba(15,15,14,.48)}
+.mobile-version .modal{width:100%;max-width:none;border-radius:26px 26px 0 0;padding:24px 20px 22px;max-height:90vh;overflow:auto}
+.mobile-version .modal .hl{font-size:22px!important;line-height:1.15}
+.mobile-version .tca-detail-intro{font-size:13.5px;margin-bottom:14px}
+.mobile-version .tca-type-grid{gap:8px}
+.mobile-version .tca-type-btn{border-radius:16px;padding:14px 15px;background:#fff}
+.mobile-version .tca-soft-note{font-size:13px;border-radius:15px}
+
+/* Final screen mobile */
+.mobile-version #s20>div[style*="display:grid"]{grid-template-columns:1fr!important;gap:14px!important}
+.mobile-version #s20 a[style*="display:block"]{padding:16px 18px!important;border-radius:999px!important}
+.mobile-version #s20 [style*="width:140px"]{width:128px!important;height:128px!important}
+
+@media(max-width:380px){
+  .mobile-version .hl{font-size:24px}
+  .mobile-version .land-hl{font-size:31px}
+  .mobile-version .brand-info-screen .hl{font-size:29px}
+  .mobile-version .drow{grid-template-columns:1fr 1fr 1.15fr;gap:7px}
+}
+
+
+/* Mobile sticky phase progress */
+.mobile-progress{position:sticky;top:56px;z-index:96;background:rgba(254,251,249,.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(15,15,14,.08);padding:10px 16px 11px;display:none}
+.mobile-progress-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+.mobile-progress-meta{font-size:12px;font-weight:900;color:#0F0F0E;letter-spacing:-.01em}
+.mobile-progress-btn{border:0;background:#F9F2EC;color:#6f6251;border-radius:999px;padding:7px 11px;font-size:11px;font-weight:900;cursor:pointer;white-space:nowrap}
+.mobile-progress-track{height:5px;background:#e9dfd4;border-radius:999px;overflow:hidden}
+.mobile-progress-fill{height:100%;width:0;background:#0F0F0E;border-radius:999px;transition:width .35s cubic-bezier(.4,0,.2,1)}
+.mobile-steps-overlay{position:fixed;inset:0;background:rgba(15,15,14,.48);z-index:260;display:none;align-items:flex-end}
+.mobile-steps-overlay.open{display:flex}
+.mobile-steps-sheet{width:100%;background:#FEFBF9;border-radius:26px 26px 0 0;padding:22px 20px 24px;box-shadow:0 -18px 44px rgba(15,15,14,.18);animation:mobileSheetIn .24s cubic-bezier(.4,0,.2,1)}
+@keyframes mobileSheetIn{from{transform:translateY(18px);opacity:.65}to{transform:translateY(0);opacity:1}}
+.mobile-steps-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}
+.mobile-steps-title{font-size:18px;font-weight:950;color:#0F0F0E;letter-spacing:-.02em}
+.mobile-steps-close{border:0;background:#F9F2EC;color:#6f6251;border-radius:999px;width:34px;height:34px;font-size:18px;line-height:1;cursor:pointer}
+.mobile-step-list{display:flex;flex-direction:column;gap:10px}
+.mobile-step-item{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:15px;background:#fff;border:1px solid #efe8df}
+.mobile-step-dot{width:22px;height:22px;border-radius:50%;background:#e9dfd4;color:#8a7d69;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0}
+.mobile-step-item.done .mobile-step-dot{background:#0F0F0E;color:#FEFBF9}
+.mobile-step-item.cur{background:#FFF4FE;border-color:#FFD5FB}
+.mobile-step-item.cur .mobile-step-dot{background:#FFD5FB;color:#50023E}
+.mobile-step-label{font-size:14px;font-weight:800;color:#8a7d69}
+.mobile-step-item.done .mobile-step-label,.mobile-step-item.cur .mobile-step-label{color:#0F0F0E}
+.mobile-version .main{padding-top:18px}
+.mobile-version .main.info-cream,.mobile-version .main.info-pink{padding-top:0}
+
+
+  @media(max-width:600px){
+    .mobile-version .topbar-progress{max-width:150px}
+    .mobile-version .tp-bar{width:78px}
+    .mobile-version .tp-label{max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  }
+
+/* ── GLP-1 SOUS-PARCOURS ─────────────────────────── */
+@keyframes bulletDrop{
+  0%{opacity:0;transform:translateY(-32px) rotate(var(--r,0deg))}
+  60%{transform:translateY(4px) rotate(var(--r,0deg))}
+  100%{opacity:1;transform:translateY(0) rotate(var(--r,0deg))}
+}
+@keyframes bulletDropIn{
+  0%{opacity:0;transform:translateY(-20px)}
+  70%{transform:translateY(3px)}
+  100%{opacity:1;transform:translateY(0)}
+}
+.glp-bg-pink{background:#fce8e8}
+.glp-bg-blue{background:#e8f0fe}
+/* Full bleed — edu screens break out of the form-col box */
+.glp-bg-pink.active,.glp-bg-blue.active{
+  position:fixed;
+  inset:110px 0 0 0;
+  z-index:40;
+  overflow-y:auto;
+  padding:36px 48px 40px;
+  max-width:none;
+  width:100%;
+  box-sizing:border-box;
+}
+.mobile-version .glp-bg-pink.active,.mobile-version .glp-bg-blue.active{
+  position:fixed;
+  inset:106px 0 0 0;
+  padding:24px 20px 40px;
+  z-index:40;
+  overflow-y:auto;
+}
+.glp-bullets-wrap{display:flex;flex-direction:column;gap:14px;margin-bottom:28px}
+/* BAD bullets — red, angled */
+.glp-bad-list{display:flex;flex-direction:column;gap:12px;margin-bottom:28px;position:relative;min-height:180px}
+.glp-bad-pill{
+  display:inline-flex;align-items:center;gap:10px;
+  background:#e05252;color:#fff;
+  border-radius:100px;padding:12px 20px;
+  font-size:15px;font-weight:600;
+  opacity:0;width:fit-content;
+  position:relative;
+}
+.glp-bad-pill:nth-child(1){--r:-6deg;margin-left:0}
+.glp-bad-pill:nth-child(2){--r:4deg;margin-left:24px}
+.glp-bad-pill:nth-child(3){--r:-3deg;margin-left:8px}
+.glp-bad-pill.animate{animation:bulletDrop .55s cubic-bezier(.4,0,.2,1) forwards}
+.glp-bad-pill .bp-icon{width:24px;height:24px;border-radius:50%;border:2px solid rgba(255,255,255,.6);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.glp-bad-pill .bp-icon svg{width:12px;height:12px}
+/* GOOD bullets — blue gradient */
+.glp-good-list{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.glp-good-pill{
+  display:flex;align-items:center;gap:12px;
+  border-radius:100px;padding:14px 22px;
+  font-size:15px;font-weight:600;color:#fff;
+  opacity:0;
+}
+.glp-good-pill:nth-child(1){background:#6ea8fe;animation-delay:.05s}
+.glp-good-pill:nth-child(2){background:#4d8ef8;animation-delay:.2s}
+.glp-good-pill:nth-child(3){background:#2f72f0;animation-delay:.35s}
+.glp-good-pill:nth-child(4){background:#1a56d6;animation-delay:.5s}
+.glp-good-pill.animate{animation:bulletDropIn .5s cubic-bezier(.4,0,.2,1) forwards}
+.glp-good-pill .gp-icon{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.glp-good-pill .gp-icon svg{width:13px;height:13px}
+/* Big number input */
+.big-input-wrap{display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:28px}
+.big-input{
+  width:180px;padding:20px;
+  border:2px solid #e8e8e6;border-radius:20px;
+  font-size:48px;font-weight:900;color:#1a1a1a;
+  text-align:center;background:#fafafa;outline:none;
+  -moz-appearance:textfield;
+  transition:border-color .2s;
+}
+.big-input::-webkit-inner-spin-button{-webkit-appearance:none}
+.big-input:focus{border-color:#1a1a1a;background:#fff}
+.big-input-label{font-size:14px;color:#888;font-weight:500}
+/* Date de prescription */
+.slide-dots{display:flex;gap:6px;justify-content:center;margin-bottom:20px}
+.slide-dot{width:28px;height:6px;border-radius:3px;background:#e8e8e6}
+.slide-dot.active{background:#1a1a1a;width:36px}
+
+
+/* ── EDU SCREENS full bleed (s2, s3) ── */
+.edu-screen.active{
+  position:fixed;
+  inset:110px 0 0 0;
+  z-index:40;
+  overflow-y:auto;
+  padding:0;
+  max-width:none;
+  width:100%;
+  box-sizing:border-box;
+}
+.mobile-version .edu-screen.active{
+  position:fixed;
+  inset:106px 0 0 0;
+  z-index:40;
+  overflow-y:auto;
+}
+.edu-screen-inner{
+  max-width:580px;
+  margin:0 auto;
+  padding:36px 48px 40px;
+}
+.mobile-version .edu-screen .edu-screen-inner{
+  padding:28px 20px 40px;
+}
+</style>
+</head>
+<body>
+<script>
+(function(){
+  function applyLayout(){
+    if(window.innerWidth <= 860){
+      document.body.classList.add('mobile-version');
+    } else {
+      document.body.classList.remove('mobile-version');
+    }
+  }
+  applyLayout();
+  window.addEventListener('resize', applyLayout);
+})();
+</script>
+
+<!-- LANDING PAGE -->
+<div class="landing active" id="landing">
+  <nav class="land-nav">
+    <div class="land-logo">annette</div>
+    <div class="land-trust">Données sécurisées · Vérification personnalisée</div>
+  </nav>
+  <div class="land-hero">
+    <div class="land-left">
+      <div class="land-eyebrow">Programme d'accompagnement GLP-1</div>
+      <div class="land-hl">L'obésité est une maladie.<br><mark>L'accompagnement</mark> change tout.</div>
+      <div class="land-sub">Chaque parcours est différent. Annette combine suivi médical, diététicienne dédiée et programme personnalisé pour construire un accompagnement adapté à votre profil.</div>
+      <div class="land-props">
+        <div class="land-prop">
+          <div class="land-prop-icon"><svg viewBox="0 0 20 20" fill="none" style="width:16px;height:16px"><path d="M10 2a8 8 0 100 16A8 8 0 0010 2zm0 4v5l3 2.5" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          <div class="land-prop-text"><strong>Diététicienne dédiée</strong>, disponible par chat, personnalisée à votre traitement et votre profil.</div>
+        </div>
+        <div class="land-prop">
+          <div class="land-prop-icon"><svg viewBox="0 0 20 20" fill="none" style="width:16px;height:16px"><path d="M4 10h12M10 4v12" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          <div class="land-prop-text"><strong>Suivi médical intégré</strong> - rendez-vous avec des médecins partenaires, prescriptions suivies.</div>
+        </div>
+        <div class="land-prop">
+          <div class="land-prop-icon"><svg viewBox="0 0 20 20" fill="none" style="width:16px;height:16px"><path d="M3 10l4 4 10-8" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="land-prop-text"><strong>Programme personnalisé</strong> - recettes, ateliers, suivi des injections et gestion des effets secondaires.</div>
+        </div>
+      </div>
+      <div class="land-cta-wrap">
+        <button class="land-cta" onclick="startForm()">Vérifier mon éligibilité</button>
+        <div class="land-cta-note">Vérification gratuite · Sans engagement · Données sécurisées</div>
+        <div class="land-trust-row">
+          <span>★★★★★ 4.9/5</span><span class="sep">·</span>
+          <span>Des milliers de patients accompagnés</span><span class="sep">·</span>
+          <span>Données cryptées</span>
+        </div>
+      </div>
+    </div>
+    <div class="land-right">
+      <div style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:340px">
+        <div style="background:#fff;border-radius:20px;padding:24px">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#bbb;margin-bottom:8px">Résultat moyen observé</div>
+          <div style="font-size:48px;font-weight:900;color:#1a1a1a;line-height:1;letter-spacing:-1px">×2</div>
+          <div style="font-size:14px;color:#666;margin-top:6px;line-height:1.5">plus de perte de poids avec accompagnement intensif qu’avec le traitement seul, selon l’étude STEP 3.</div>
+          <div style="font-size:11px;color:#bbb;margin-top:8px">Source : STEP 3, Wadden et al., JAMA 2021</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.7);border-radius:16px;padding:18px">
+          <div style="font-size:13px;font-weight:700;color:#1a1a1a;margin-bottom:12px">Ce que vous obtenez</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#444"><span style="width:20px;height:20px;border-radius:50%;background:#1a1a1a;color:#F5C842;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</span>Diététicienne dédiée par chat</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#444"><span style="width:20px;height:20px;border-radius:50%;background:#1a1a1a;color:#F5C842;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</span>Suivi médical &amp; rendez-vous</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#444"><span style="width:20px;height:20px;border-radius:50%;background:#1a1a1a;color:#F5C842;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</span>Programme nutritionnel personnalisé</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#444"><span style="width:20px;height:20px;border-radius:50%;background:#1a1a1a;color:#F5C842;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">4</span>Gestion des effets secondaires</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOP BAR -->
+<header class="topbar" id="topbar" style="display:none">
+  <div class="topbar-logo">annette</div>
+  <div class="topbar-right">
+    <div class="topbar-progress" id="topbar-progress-wrap">
+      <span class="tp-label" id="tp-lbl"></span>
+      <div class="tp-bar"><div class="tp-fill" id="tp-fill"></div></div>
+    </div>
+    <div class="av-chip" id="av-chip">
+      <div class="av-circle" id="av-circle"></div>
+      <span class="av-email" id="av-email"></span>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-progress" id="mobile-progress">
+  <div class="mobile-progress-row">
+    <div class="mobile-progress-meta" id="mobile-progress-meta">Étape 1 sur 7 · Motivation</div>
+    <button type="button" class="mobile-progress-btn" onclick="openMobileSteps()">Voir les étapes</button>
+  </div>
+  <div class="mobile-progress-track"><div class="mobile-progress-fill" id="mobile-progress-fill"></div></div>
+</div>
+
+<div class="main" id="main-wrap" style="display:none">
+<div class="form-col">
+
+<!-- S0 - MOTIVATION -->
+<div class="screen" id="s0">
+  <div class="hero yellow"><img src="./images/content-1.85e59d6dd.webp" onerror="this.style.display='none'" alt=""></div>
+  <div class="eyebrow">Informations personnelles</div>
+  <div class="hl">Qu’est-ce qui motive votre perte de poids ?</div>
+  <div class="sub">Pour que votre parcours Annette soit vraiment adapté à vous, dites-nous ce qui compte le plus en ce moment.</div>
+
+  <div class="motivation-wrap">
+    <div class="choices motivation-choices" id="motivation-choices">
+      <button class="cbtn motivation-choice" data-key="health" onclick="motiveChoice(this)">Améliorer ma santé globale</button>
+      <button class="cbtn motivation-choice" data-key="energy" onclick="motiveChoice(this)">Augmenter mon niveau d’énergie et accomplir plus de choses</button>
+      <button class="cbtn motivation-choice" data-key="confidence" onclick="motiveChoice(this)">Retrouver confiance en moi</button>
+      <button class="cbtn motivation-choice" data-key="mental" onclick="motiveChoice(this)">Réduire le stress et améliorer ma santé mentale</button>
+    </div>
+    <button type="button" class="motivation-change" id="motivation-change" onclick="resetMotivation()">Modifier ma réponse</button>
+    <div class="motivation-panel" id="motivation-panel">
+      <div class="motivation-panel-head"><div class="motivation-panel-kicker">Ce que ça nous indique</div><div class="motivation-panel-title" id="motivation-title"></div></div>
+      <div class="motivation-panel-body">
+        <div class="motivation-lead" id="motivation-lead"></div>
+        <div class="motivation-copy" id="motivation-copy"></div>
+        <div class="motivation-solution"><div class="motivation-solution-label">Avec Annette</div><div class="motivation-solution-title" id="motivation-solution-title"></div><div class="motivation-solution-list" id="motivation-solution-list"></div></div>
+        <div class="motivation-mini-proof" id="motivation-proof"></div>
+      </div>
+    </div>
+  </div>
+  <div class="actions" id="motivation-actions" style="display:none;margin-top:18px"><button class="btn" onclick="go('value_glp')">Continuer</button></div>
+  <div class="trust"><span>Données sécurisées</span><span class="tdot"></span><span>Parcours personnalisé</span></div>
+</div>
+
+<!-- S1 - SOURCE -->
+<div class="screen" id="s1">
+  <button class="back-link" onclick="go('s3')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="eyebrow">Informations personnelles</div>
+  <div class="hl">Comment avez-vous entendu parler d’Annette ?</div>
+  <div class="sub">Aidez-nous à faire découvrir Annette à d’autres personnes !</div>
+  <div class="choices grid">
+    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">Instagram</button>
+    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">TikTok</button>
+    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">Facebook</button>
+    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">Google</button>
+    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">YouTube</button>
+    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">Influenceurs</button>
+    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">Votre médecin</button>
+    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">Entourage proche</button>
+    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">Autre</button>
+  </div>
+</div>
+
+
+<!-- VALUE_GLP - PROPOSITION DE VALEUR / EXPLICATION SIMPLE -->
+<div class="screen value-screen" id="value_glp">
+  <button class="back-link" onclick="go('s0')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="eyebrow">Pourquoi Annette</div>
+  <div class="hl">Un traitement peut aider. <br>L’accompagnement le rend plus durable.</div>
+  <div class="sub">Si vous découvrez les GLP-1, l’idée est simple : ce sont des traitements médicaux qui peuvent aider à réguler la faim et la satiété lorsqu’ils sont indiqués. Annette ajoute le suivi nécessaire pour avancer sans être seul(e).</div>
+
+  <div class="value-card">
+    <div class="value-kicker">Ce que vous devez comprendre</div>
+    <div class="value-title">Le poids n’est pas seulement une question d’effort.</div>
+    <div class="value-copy">L’obésité implique souvent des mécanismes biologiques : faim, satiété, métabolisme, fatigue, environnement. Le traitement agit sur une partie du problème ; le suivi aide à transformer le parcours au quotidien.</div>
+
+    <div class="value-proof">
+      <div class="value-proof-inner">
+        <div>
+          <div class="value-x2">×2</div>
+          <div class="value-x2-sub">résultat observé</div>
+        </div>
+        <div>
+          <div class="value-proof-text">Plus de perte de poids avec accompagnement intensif qu’avec le traitement seul, selon l’étude STEP 3.</div>
+          <div class="value-source">Source : STEP 3, Wadden et al., JAMA, 2021</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="value-steps">
+      <div class="value-step"><div class="value-step-num">1</div><div><div class="value-step-title">Traitement médical</div><div class="value-step-copy">Quand votre profil le permet, un médecin peut évaluer l’intérêt d’un GLP-1.</div></div></div>
+      <div class="value-step"><div class="value-step-num">2</div><div><div class="value-step-title">Diététicienne dédiée</div><div class="value-step-copy">Elle adapte l’alimentation, les habitudes et la gestion des effets secondaires à votre situation.</div></div></div>
+      <div class="value-step"><div class="value-step-num">3</div><div><div class="value-step-title">Programme durable</div><div class="value-step-copy">Le but n’est pas seulement de perdre du poids, mais de tenir dans la durée.</div></div></div>
+    </div>
+
+    <div class="value-note">La suite du formulaire nous aide à vérifier si ce type de parcours peut correspondre à votre profil, avant validation médicale.</div>
+  </div>
+
+  <div class="actions"><button class="btn" onclick="go('s2')">Comprendre pourquoi ce n’est pas une question de volonté</button></div>
+</div>
+
+<!-- S2 - EDU VOLONTÉ -->
+<div class="screen edu-screen" id="s2" style="background:#f5efe6">
+  <div class="edu-screen-inner">
+  <button class="back-link" onclick="go('value_glp')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="hero cream" style="margin-top:0"><img src="./images/content-2-1.127b20a2a.webp" onerror="this.style.display='none'" alt=""></div>
+  <div class="hl">Perdre du poids n'est pas une question de volonté.</div>
+  <div class="sub">Régimes. Efforts. Rechutes. Toujours le même cycle qui se répète.</div>
+  <div class="pillars">
+    <div class="pillar"><div class="pill-num">1</div><div><div class="ptitle">Génétique</div><div class="pdesc">Prédispositions héréditaires qui influencent directement votre métabolisme.</div></div></div>
+    <div class="pillar"><div class="pill-num">2</div><div><div class="ptitle">Environnement</div><div class="pdesc">Habitudes et mode de vie qui agissent sur vos hormones au quotidien.</div></div></div>
+    <div class="pillar"><div class="pill-num">3</div><div><div class="ptitle">Métabolisme</div><div class="pdesc">Dérèglements hormonaux qui bloquent les résultats même avec des efforts soutenus.</div></div></div>
+    <div class="pillar"><div class="pill-num">4</div><div><div class="ptitle">Psychologie</div><div class="pdesc">La résistance à la perte de poids est souvent biologique, pas un manque de volonté.</div></div></div>
+  </div>
+  <div style="font-size:15px;font-weight:700;color:#1a1a1a;margin-bottom:24px">Le corps résiste. Même quand on fait "tout bien".</div>
+  <div class="actions"><button class="btn" onclick="go('s3')">Suivant</button></div>
+</div>
+  </div>
+
+<!-- S3 - EDU GLP-1 -->
+<div class="screen edu-screen" id="s3" style="background:#fadadf">
+  <div class="edu-screen-inner">
+  <button class="back-link" onclick="go('s2')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="hero pink" style="margin-top:0"><img src="./images/content-glp1.6165.webp" onerror="this.style.display='none'" alt=""></div>
+  <div class="hl">Bonne nouvelle : une solution est <b>validée scientifiquement</b>.</div>
+  <div class="sub">Les traitements GLP-1, lorsqu'ils sont indiqués et suivis médicalement, peuvent s'intégrer dans une stratégie de perte de poids accompagnée.</div>
+  <div class="pillars">
+    <div class="pillar"><div class="pill-num">1</div><div><div class="ptitle">Une hormone déjà là</div><div class="pdesc">Le GLP-1 est produit naturellement par votre corps après chaque repas.</div></div></div>
+    <div class="pillar"><div class="pill-num">2</div><div><div class="ptitle">Signal de satiété</div><div class="pdesc">Il dit au cerveau "j'ai assez mangé". La faim se régule progressivement.</div></div></div>
+    <div class="pillar"><div class="pill-num">3</div><div><div class="ptitle">Action dans la durée</div><div class="pdesc">Le traitement prolonge ce signal naturel, sans frustration ni restriction brutale.</div></div></div>
+  </div>
+  <div style="font-size:13px;color:#888;margin-bottom:24px">Traitement étudié, prescrit et suivi par des professionnels de santé lorsque le profil médical le permet.</div>
+  <div class="actions"><button class="btn" onclick="go('s1')">Continuer</button></div>
+</div>
+  </div>
+
+<!-- S4 - PRESCRIPTION -->
+<div class="screen" id="s4">
+  <button class="back-link" onclick="go('s3')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="eyebrow">Profil santé</div>
+  <div class="hl">Avez-vous déjà une prescription pour un traitement perte de poids GLP-1 ?</div>
+  <div class="sub">(Wegovy, Mounjaro, Saxenda)</div>
+  <div class="chip"><span class="chip-dot"></span>Cela nous permet de vous orienter vers le bon parcours dès le début - avec ou sans ordonnance.</div>
+  <div class="choices">
+    <button class="cbtn" onclick="sel(this,'s4');w(()=>go('glp1_date'))">Oui</button>
+    <button class="cbtn" onclick="sel(this,'s4');w(()=>go('s5'))">Non</button>
+  </div>
+  <div class="secure"><svg viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3v4c0 2.8 2.1 5.4 5 6 2.9-.6 5-3.2 5-6V3L7 1Z" stroke="#bbb" stroke-width="1.2"/></svg>Vos données sont cryptées et sécurisées</div>
+</div>
+
+<!-- GLP1_DATE — DATE DE PRESCRIPTION -->
+<div class="screen" id="glp1_date">
+  <button class="back-link" onclick="go('s4')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="eyebrow">Profil santé</div>
+  <div class="hl">Quand avez-vous reçu votre prescription ?</div>
+  <div class="sub">Indiquez la date approximative de votre première prescription.</div>
+  <div class="drow" style="max-width:380px">
+    <div class="ig"><label>Jour</label><div class="iw"><input type="number" id="glp1-j" placeholder="JJ" min="1" max="31" inputmode="numeric" oninput="valGlp1Date()"></div></div>
+    <div class="ig"><label>Mois</label><div class="iw"><input type="number" id="glp1-m" placeholder="MM" min="1" max="12" inputmode="numeric" oninput="valGlp1Date()"></div></div>
+    <div class="ig"><label>Année</label><div class="iw"><input type="number" id="glp1-a" placeholder="AAAA" min="2018" max="2026" inputmode="numeric" oninput="valGlp1Date()"></div></div>
+  </div>
+  <div class="actions"><button class="btn" id="btn-glp1-date" onclick="go('glp1_poids')" disabled>Continuer</button></div>
+  <div class="secure" style="margin-top:10px"><svg viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3v4c0 2.8 2.1 5.4 5 6 2.9-.6 5-3.2 5-6V3L7 1Z" stroke="#bbb" stroke-width="1.2"/></svg>Vos données sont cryptées et sécurisées</div>
+</div>
+
+<!-- GLP1_POIDS — POIDS AU MOMENT DE LA PRESCRIPTION -->
+<div class="screen" id="glp1_poids">
+  <button class="back-link" onclick="go('glp1_date')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="eyebrow">Profil santé</div>
+  <div class="hl">Quel est votre poids au moment de la prescription ?</div>
+  <div class="chip"><span class="chip-dot"></span>Pour comparer avec votre poids actuel et mesurer les résultats du traitement.</div>
+  <div class="i1" style="max-width:220px">
+    <div class="ig"><label>Poids à la prescription</label><div class="iw"><input type="number" id="glp1-poids-prescr" placeholder="—" min="40" max="300" inputmode="numeric" oninput="valGlp1Poids()"><span class="iu">kg</span></div></div>
+  </div>
+  <div class="actions"><button class="btn" id="btn-glp1-poids" onclick="go('glp1_duree')" disabled>Continuer</button></div>
+</div>
+
+<!-- GLP1_DUREE — TRAITEMENT DEPUIS PLUS DE 6 MOIS -->
+<div class="screen" id="glp1_duree">
+  <button class="back-link" onclick="go('glp1_poids')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="eyebrow">Profil santé</div>
+  <div class="hl">Êtes-vous sous traitement depuis plus de 6 mois ?</div>
+  <div class="chip"><span class="chip-dot"></span>La durée du traitement influence les recommandations nutritionnelles de votre diététicienne.</div>
+  <div class="choices">
+    <button class="cbtn" onclick="sel(this,'glp1_duree');w(()=>go('glp1_seul'))">Oui</button>
+    <button class="cbtn" onclick="sel(this,'glp1_duree');w(()=>go('glp1_seul'))">Non</button>
+  </div>
+  <div class="secure"><svg viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3v4c0 2.8 2.1 5.4 5 6 2.9-.6 5-3.2 5-6V3L7 1Z" stroke="#bbb" stroke-width="1.2"/></svg>Vos données sont cryptées et sécurisées</div>
+</div>
+
+<!-- GLP1_SEUL — LE GLP-1 SEUL NE SUFFIT PAS -->
+<div class="screen glp-bg-pink" id="glp1_seul">
+  <div style="max-width:580px;margin:0 auto">
+    <div class="glp-bad-list" id="glp1-bad-list">
+      <div class="glp-bad-pill" id="bp0">
+        <div class="bp-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M2 2l8 8M10 2l-8 8" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        Arrêt prématuré du traitement
+      </div>
+      <div class="glp-bad-pill" id="bp1">
+        <div class="bp-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M2 2l8 8M10 2l-8 8" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        Effets secondaires mal gérés
+      </div>
+      <div class="glp-bad-pill" id="bp2">
+        <div class="bp-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M2 2l8 8M10 2l-8 8" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        Reprise du poids
+      </div>
+    </div>
+    <div class="hl" style="text-align:center">Le GLP-1 seul ne suffit pas...<br>L'accompagnement fait la différence.</div>
+    <div class="sub" style="text-align:center;margin-top:10px">La Haute Autorité de Santé est claire.<br>Le GLP-1 nécessite un accompagnement spécialisé.<br>Sans suivi adapté, les risques augmentent.</div>
+    <div class="slide-dots" style="margin-top:24px">
+      <div class="slide-dot active"></div>
+      <div class="slide-dot"></div>
+    </div>
+    <div class="actions" style="padding:0 0 40px"><button class="btn" onclick="go('glp1_annette')">Continuer</button></div>
+  </div>
+</div>
+
+<!-- GLP1_ANNETTE — AVEC ANNETTE VOUS MAXIMISEZ -->
+<div class="screen glp-bg-blue" id="glp1_annette">
+  <div style="max-width:580px;margin:0 auto">
+  <button class="back-link" onclick="go('glp1_seul')" style="margin-bottom:20px"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+    <div class="glp-good-list" id="glp1-good-list">
+      <div class="glp-good-pill" id="gp0">
+        <div class="gp-icon"><svg viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3.5 3.5L11 3" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        Meilleure tolérance du traitement
+      </div>
+      <div class="glp-good-pill" id="gp1">
+        <div class="gp-icon"><svg viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3.5 3.5L11 3" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        Ajustement précis des doses
+      </div>
+      <div class="glp-good-pill" id="gp2">
+        <div class="gp-icon"><svg viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3.5 3.5L11 3" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        Arrêt progressif, sans rebond
+      </div>
+      <div class="glp-good-pill" id="gp3">
+        <div class="gp-icon"><svg viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3.5 3.5L11 3" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        Pas d'effet yoyo : des habitudes qui tiennent
+      </div>
+    </div>
+    <div class="hl" style="text-align:center;margin-top:8px">Avec Annette, vous maximisez vos résultats.</div>
+    <div class="slide-dots" style="margin-top:24px">
+      <div class="slide-dot"></div>
+      <div class="slide-dot active"></div>
+    </div>
+    <div class="actions" style="padding:0 0 40px"><button class="btn" onclick="go('s5')">Continuer</button></div>
+  </div>
+</div>
+
+
+<!-- S5 - DATE DE NAISSANCE -->
+<div class="screen" id="s5">
+  <button class="back-link" onclick="go('s4')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="eyebrow">Profil santé</div>
+  <div class="hl">Quelle est votre date de naissance ?</div>
+  <div class="chip"><span class="chip-dot"></span>L'âge influe sur les critères d'éligibilité médicale au traitement GLP-1.</div>
+  <div class="drow">
+    <div class="ig"><label>Jour</label><div class="iw"><input type="number" id="ddn-j" placeholder="JJ" min="1" max="31" inputmode="numeric" oninput="valDDN()"></div></div>
+    <div class="ig"><label>Mois</label><div class="iw"><input type="number" id="ddn-m" placeholder="MM" min="1" max="12" inputmode="numeric" oninput="valDDN()"></div></div>
+    <div class="ig"><label>Année</label><div class="iw"><input type="number" id="ddn-a" placeholder="AAAA" min="1930" max="2010" inputmode="numeric" oninput="valDDN()"></div></div>
+  </div>
+  <div class="actions"><button class="btn" id="btn-s5" onclick="go('s6')" disabled>Continuer</button></div>
+  <div class="secure" style="margin-top:10px"><svg viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3v4c0 2.8 2.1 5.4 5 6 2.9-.6 5-3.2 5-6V3L7 1Z" stroke="#bbb" stroke-width="1.2"/></svg>Vos données sont cryptées et sécurisées</div>
+</div>
+
+<!-- S6 - POIDS + TAILLE -->
+<div class="screen" id="s6">
+  <button class="back-link" onclick="go('s5')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="eyebrow">Profil santé</div>
+  <div class="hl">Quel est votre poids actuel ?</div>
+  <div class="chip"><span class="chip-dot"></span>Requis pour calculer votre IMC - le critère principal d'éligibilité au traitement GLP-1.</div>
+  <div class="irow">
+    <div class="ig"><label>Poids actuel</label><div class="iw"><input type="number" id="poids" placeholder="-" min="40" max="250" inputmode="numeric" oninput="valPoids()"><span class="iu">kg</span></div></div>
+    <div class="ig"><label>Taille</label><div class="iw"><input type="number" id="taille" placeholder="-" min="140" max="210" inputmode="numeric" oninput="valPoids()"><span class="iu">cm</span></div></div>
+  </div>
+  <div class="ig" style="margin-bottom:16px"><label>Poids objectif</label><div class="iw"><input type="number" id="poids-obj" placeholder="-" min="40" max="200" inputmode="numeric" oninput="valPoids()"><span class="iu">kg</span></div></div>
+  <div class="rebox"><div class="rbox-mark"><svg viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 3v5l3 2.5" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round"/></svg></div><span class="rbox-text">Ces informations restent confidentielles et ne servent qu'à calculer votre éligibilité.</span></div>
+  <div class="actions"><button class="btn" id="btn-s6" onclick="go('s7')" disabled>Continuer</button></div>
+</div>
+
+<!-- S7 - CAPTURE EMAIL -->
+<div class="screen" id="s7">
+  <button class="back-link" onclick="go('s6')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="eyebrow">Profil santé</div>
+  <div class="hl">Sauvegardez votre progression</div>
+  <div class="sub">Renseignez votre email pour sauvegarder vos réponses et accéder à vos résultats à l'étape suivante.</div>
+  <input type="email" class="ifl" id="email-inp" placeholder="votre@email.com" oninput="onEmail(this.value)">
+  <div class="crow" onclick="tc('c1')"><div class="cchk" id="c1"></div><span class="ctxt">J'accepte que mes informations soient utilisées pour accéder au programme Annette. <a href="#">Politique de confidentialité</a></span></div>
+  <div class="actions" style="margin-top:18px">
+    <button class="btn" id="btn-s7" onclick="go('s8')" disabled>Voir ma projection</button>
+  </div>
+</div>
+
+<!-- S8 - PROJECTION IMC + GRAPHIQUE -->
+<div class="screen" id="s8">
+  <button class="back-link" onclick="go('s7')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="hero yellow"><img src="./images/eligible-bmi.be16.webp" onerror="this.style.display='none'" alt=""></div>
+  <div class="hl">Selon les informations partagées, une évolution autour de <b id="hl-kg">14 kg</b> peut être estimée</div>
+  <div class="sub">Cette projection est indicative et sert à préparer votre dossier. Elle ne remplace pas un avis médical ; les résultats varient selon chaque personne et seront réévalués avec un professionnel de santé.</div>
+  <div class="gcard">
+    <div class="gtop">
+      <div><div class="gbig"><span id="proj-kg">−14</span><sub> kg</sub></div><div class="gsub">projection indicative à 6 mois</div></div>
+      <div class="imcpill"><div class="imcn" id="imc-n">31.9</div><div class="imct">IMC</div><div class="imccat obese" id="imc-cat">Obésité</div></div>
+    </div>
+    <canvas id="chart" style="width:100%;height:160px;display:block"></canvas>
+    <div class="trow"><span>Aujourd'hui</span><span>3 mois</span><span>6 mois</span></div>
+  </div>
+  <div class="cmprow">
+    <div class="ccard plain"><div class="clbl">Traitement seul</div><div class="cval" id="cv-sans">−7 kg</div><div class="csub">Estimation indicative</div></div>
+    <div class="ccard dark"><div class="clbl">Avec suivi Annette</div><div class="cval" id="cv-avec">−14 kg</div><div class="csub">Accompagnement renforcé</div></div>
+  </div>
+  <div class="temo">
+    <div class="tstars">★★★★★</div>
+    <div class="ttxt">"En rejoignant Annette, j'ai trouvé une approche humaine et un vrai suivi. Six mois plus tard, 21 kg en moins et une énergie retrouvée."</div>
+    <div class="tauth">Valérie L. - 6 mois avec Annette · résultat individuel</div>
+  </div>
+  <div class="src">Projection indicative · données patients Annette et littérature clinique · résultats variables</div>
+  <div class="actions"><button class="btn" onclick="go('q3')">Continuer avec Annette</button></div>
+</div>
+
+<!-- Q3 - QUIZ : EXPÉRIENCES PASSÉES (après projection) -->
+<div class="screen quiz-screen" id="q3">
+  <button class="back-link" onclick="go('s8')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="quiz-prog" id="qprog3"></div>
+  <div class="quiz-eyebrow">Votre parcours</div>
+  <div class="quiz-q">Mes tentatives précédentes de perte de poids m'ont laissé un sentiment d'inachevé.</div>
+  <div class="quiz-cite">"Régimes, efforts, rechutes - un cycle que beaucoup connaissent."</div>
+  <div class="three-opts">
+    <div class="qopt q-no" onclick="qpick(this,'q3','next-q3')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8h10" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="qopt-label">Pas vraiment</div>
+      <div class="qopt-sub">Je pars de zéro</div>
+    </div>
+    <div class="qopt q-mid" onclick="qpick(this,'q3','next-q3')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8h4m2 0h4" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="qopt-label">Parfois</div>
+      <div class="qopt-sub">Quelques essais mitigés</div>
+    </div>
+    <div class="qopt q-yes" onclick="qpick(this,'q3','next-q3')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8l3.5 3.5L13 4" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="qopt-label">Oui, c'est moi</div>
+      <div class="qopt-sub">Plusieurs fois</div>
+    </div>
+  </div>
+  <div class="quiz-feedback qfb-no" id="q3-fb-no"><span class="quiz-annette-tag">Avec Annette</span><br>Partir sans bagages, c'est une force. Votre diététicienne construira votre programme sur une base solide et sans préjugés.</div>
+  <div class="quiz-feedback qfb-mid" id="q3-fb-mid"><span class="quiz-annette-tag">Avec Annette</span><br>Chaque tentative enseigne quelque chose. Annette s'appuie sur ce que vous avez déjà essayé pour ne pas répéter les mêmes schémas.</div>
+  <div class="quiz-feedback qfb-yes" id="q3-fb-yes"><span class="quiz-annette-tag">Avec Annette</span><br>Ce n'est pas un échec personnel - c'est la biologie. Sans accompagnement adapté au traitement GLP-1, les résultats ne durent pas. C'est exactement ce qu'Annette change.</div>
+  <button class="quiz-next" id="next-q3" onclick="go('q4')">Question suivante</button>
+  <div class="quiz-counter" id="qcount3"></div>
+</div>
+
+<!-- Q4 - QUIZ : IMPACT VIE SOCIALE -->
+<div class="screen quiz-screen" id="q4">
+  <button class="back-link" onclick="go('q3')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="quiz-prog" id="qprog4"></div>
+  <div class="quiz-eyebrow">Votre quotidien</div>
+  <div class="quiz-q">Il m'arrive d'éviter certaines situations à cause de mon poids.</div>
+  <div class="quiz-cite">"Sorties, activités, occasions professionnelles - parfois on renonce sans vraiment se l'avouer."</div>
+  <div class="three-opts">
+    <div class="qopt q-no" onclick="qpick(this,'q4','next-q4')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8h10" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="qopt-label">Pas vraiment</div>
+      <div class="qopt-sub">Ça ne me freine pas</div>
+    </div>
+    <div class="qopt q-mid" onclick="qpick(this,'q4','next-q4')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8h4m2 0h4" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="qopt-label">Parfois</div>
+      <div class="qopt-sub">Dans certains contextes</div>
+    </div>
+    <div class="qopt q-yes" onclick="qpick(this,'q4','next-q4')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8l3.5 3.5L13 4" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="qopt-label">Oui, c'est moi</div>
+      <div class="qopt-sub">Régulièrement</div>
+    </div>
+  </div>
+  <div class="quiz-feedback qfb-no" id="q4-fb-no"><span class="quiz-annette-tag">Avec Annette</span><br>Votre vie sociale est préservée - c'est une vraie force. Annette peut s'appuyer dessus pour maintenir votre motivation sur la durée.</div>
+  <div class="quiz-feedback qfb-mid" id="q4-fb-mid"><span class="quiz-annette-tag">Avec Annette</span><br>Ces situations sont plus fréquentes qu'on ne l'exprime. Votre diététicienne en tient compte dans votre suivi.</div>
+  <div class="quiz-feedback qfb-yes" id="q4-fb-yes"><span class="quiz-annette-tag">Avec Annette</span><br>Annette le sait - l'obésité touche bien plus que le corps. Retrouver de la liberté dans ces situations fait partie des objectifs du programme.</div>
+  <button class="quiz-next" id="next-q4" onclick="go('s9')">Continuer</button>
+  <div class="quiz-counter" id="qcount4"></div>
+</div>
+
+<!-- S9 - SEXE BIO -->
+<div class="screen" id="s9">
+  <button class="back-link" onclick="go('q4')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="eyebrow">Antécédents médicaux</div>
+  <div class="hl">Quel est votre sexe biologique ?</div>
+  <div class="sub">Connaître votre sexe biologique nous aidera à personnaliser au mieux votre programme.</div>
+  <div class="choices">
+    <button class="cbtn" onclick="sel(this,'s9');w(()=>go('s10'))">Homme</button>
+    <button class="cbtn" onclick="sel(this,'s9');w(()=>go('s10'))">Femme</button>
+  </div>
+  <div class="secure"><svg viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3v4c0 2.8 2.1 5.4 5 6 2.9-.6 5-3.2 5-6V3L7 1Z" stroke="#bbb" stroke-width="1.2"/></svg>Vos données sont cryptées et sécurisées</div>
+</div>
+
+<!-- S10 - RÉGIMES PASSÉS -->
+<div class="screen" id="s10">
+  <button class="back-link" onclick="go('s9')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="eyebrow">Antécédents médicaux</div>
+  <div class="hl">Avez-vous déjà suivi des régimes et/ou des programmes de rééquilibrage alimentaire ? Si oui, étiez-vous accompagné par un professionnel de santé ?</div>
+  <div class="sub">Connaître ce que vous avez déjà essayé aidera votre coach à mieux comprendre comment vous accompagner.</div>
+  <div class="choices">
+    <button class="cbtn" onclick="sel(this,'s10');w(()=>go('q5'))">Oui, et j’étais accompagné par un professionnel de santé</button>
+    <button class="cbtn" onclick="sel(this,'s10');w(()=>go('q5'))">Oui, sans accompagnement</button>
+    <button class="cbtn" onclick="sel(this,'s10');w(()=>go('q5'))">Non</button>
+  </div>
+  <div class="secure"><svg viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3v4c0 2.8 2.1 5.4 5 6 2.9-.6 5-3.2 5-6V3L7 1Z" stroke="#bbb" stroke-width="1.2"/></svg>Vos données sont cryptées et sécurisées</div>
+</div>
+
+<!-- Q5 - QUIZ : ÉNERGIE LE MATIN -->
+<div class="screen quiz-screen" id="q5">
+  <button class="back-link" onclick="go('s10')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="quiz-prog" id="qprog5"></div>
+  <div class="quiz-eyebrow">Votre quotidien</div>
+  <div class="quiz-q">Je me réveille avec suffisamment d'énergie pour bien commencer ma journée.</div>
+  <div class="quiz-cite">"La fatigue chronique est l'une des conséquences les moins visibles de l'obésité."</div>
+  <div class="three-opts">
+    <div class="qopt q-no" onclick="qpick(this,'q5','next-q5')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8h10" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="qopt-label">Rarement</div>
+      <div class="qopt-sub">Je suis souvent épuisé(e)</div>
+    </div>
+    <div class="qopt q-mid" onclick="qpick(this,'q5','next-q5')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8h4m2 0h4" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="qopt-label">Ça dépend</div>
+      <div class="qopt-sub">Certains jours mieux que d'autres</div>
+    </div>
+    <div class="qopt q-yes" onclick="qpick(this,'q5','next-q5')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8l3.5 3.5L13 4" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="qopt-label">Oui, globalement</div>
+      <div class="qopt-sub">Je gère bien</div>
+    </div>
+  </div>
+  <div class="quiz-feedback qfb-no" id="q5-fb-no"><span class="quiz-annette-tag">Avec Annette</span><br>La fatigue chronique est directement liée aux dérèglements métaboliques. Votre diététicienne intègre cet aspect dans votre programme nutritionnel.</div>
+  <div class="quiz-feedback qfb-mid" id="q5-fb-mid"><span class="quiz-annette-tag">Avec Annette</span><br>Ces variations sont souvent liées à l'alimentation et au sommeil. Annette travaille sur les deux pour stabiliser votre énergie.</div>
+  <div class="quiz-feedback qfb-yes" id="q5-fb-yes"><span class="quiz-annette-tag">Avec Annette</span><br>C'est un bon point de départ. L'accompagnement va vous aider à maintenir et renforcer cette énergie au fil du programme.</div>
+  <button class="quiz-next" id="next-q5" onclick="go('q6')">Question suivante</button>
+  <div class="quiz-counter" id="qcount5"></div>
+</div>
+
+<!-- Q6 - QUIZ : RAPPORT AU CORPS -->
+<div class="screen quiz-screen" id="q6">
+  <button class="back-link" onclick="go('q5')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="quiz-prog" id="qprog6"></div>
+  <div class="quiz-eyebrow">Votre quotidien</div>
+  <div class="quiz-q">Je me sens à l'aise dans mon corps dans les situations du quotidien.</div>
+  <div class="quiz-cite">"Se sentir bien dans son corps - c'est l'un des premiers objectifs concrets du programme."</div>
+  <div class="three-opts">
+    <div class="qopt q-no" onclick="qpick(this,'q6','next-q6')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8h10" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="qopt-label">Rarement</div>
+      <div class="qopt-sub">C'est difficile au quotidien</div>
+    </div>
+    <div class="qopt q-mid" onclick="qpick(this,'q6','next-q6')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8h4m2 0h4" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="qopt-label">Parfois</div>
+      <div class="qopt-sub">Selon les situations</div>
+    </div>
+    <div class="qopt q-yes" onclick="qpick(this,'q6','next-q6')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8l3.5 3.5L13 4" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="qopt-label">Globalement oui</div>
+      <div class="qopt-sub">Je vis avec</div>
+    </div>
+  </div>
+  <div class="quiz-feedback qfb-no" id="q6-fb-no"><span class="quiz-annette-tag">Avec Annette</span><br>Annette prend en compte cette dimension. Votre diététicienne est formée pour vous accompagner de façon bienveillante, sans jugement sur votre corps.</div>
+  <div class="quiz-feedback qfb-mid" id="q6-fb-mid"><span class="quiz-annette-tag">Avec Annette</span><br>Ces moments difficiles font partie du parcours que l'accompagnement Annette cherche à transformer progressivement.</div>
+  <div class="quiz-feedback qfb-yes" id="q6-fb-yes"><span class="quiz-annette-tag">Avec Annette</span><br>Partir avec cette base, c'est une vraie force. Le programme va renforcer cette relation positive avec votre corps.</div>
+  <button class="quiz-next" id="next-q6" onclick="go('q7')">Question suivante</button>
+  <div class="quiz-counter" id="qcount6"></div>
+</div>
+
+<!-- Q7 - QUIZ : RAPPORT À LA NOURRITURE -->
+<div class="screen quiz-screen" id="q7">
+  <button class="back-link" onclick="go('q6')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="quiz-prog" id="qprog7"></div>
+  <div class="quiz-eyebrow">Votre alimentation</div>
+  <div class="quiz-q">Il m'arrive de manger sans avoir vraiment faim, par habitude ou dans certaines situations.</div>
+  <div class="quiz-cite">"Les signaux de faim et de satiété peuvent se dérégler - c'est biologique, pas comportemental."</div>
+  <div class="three-opts">
+    <div class="qopt q-no" onclick="qpick(this,'q7','next-q7')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8h10" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="qopt-label">Pas vraiment</div>
+      <div class="qopt-sub">Je mange selon ma faim</div>
+    </div>
+    <div class="qopt q-mid" onclick="qpick(this,'q7','next-q7')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8h4m2 0h4" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="qopt-label">Parfois</div>
+      <div class="qopt-sub">Dans certains moments</div>
+    </div>
+    <div class="qopt q-yes" onclick="qpick(this,'q7','next-q7')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8l3.5 3.5L13 4" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="qopt-label">Oui, c'est moi</div>
+      <div class="qopt-sub">Assez souvent</div>
+    </div>
+  </div>
+  <div class="quiz-feedback qfb-no" id="q7-fb-no"><span class="quiz-annette-tag">Avec Annette</span><br>Un rapport équilibré à la faim, c'est une vraie base. Votre diététicienne travaillera à le renforcer avec le traitement GLP-1.</div>
+  <div class="quiz-feedback qfb-mid" id="q7-fb-mid"><span class="quiz-annette-tag">Avec Annette</span><br>Le GLP-1 agit directement sur ces signaux de satiété. Avec un accompagnement, vous apprenez aussi à les reconnaître et les interpréter.</div>
+  <div class="quiz-feedback qfb-yes" id="q7-fb-yes"><span class="quiz-annette-tag">Avec Annette</span><br>C'est l'un des effets les plus transformateurs du GLP-1 combiné à un suivi - réguler ces signaux naturellement, sans restriction brutale.</div>
+  <button class="quiz-next" id="next-q7" onclick="go('q8')">Question suivante</button>
+  <div class="quiz-counter" id="qcount7"></div>
+</div>
+
+<!-- Q8 - QUIZ : CONFIANCE DANS CE PARCOURS -->
+<div class="screen quiz-screen" id="q8">
+  <button class="back-link" onclick="go('q7')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="quiz-prog" id="qprog8"></div>
+  <div class="quiz-eyebrow">Votre état d'esprit</div>
+  <div class="quiz-q">J'ai confiance que cette fois, les choses peuvent vraiment changer.</div>
+  <div class="quiz-cite">"L'espoir n'est pas naïf - c'est le point de départ de tout changement durable."</div>
+  <div class="three-opts">
+    <div class="qopt q-no" onclick="qpick(this,'q8','next-q8')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8h10" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="qopt-label">Pas encore</div>
+      <div class="qopt-sub">J'ai des doutes</div>
+    </div>
+    <div class="qopt q-mid" onclick="qpick(this,'q8','next-q8')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8h4m2 0h4" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="qopt-label">Je commence à y croire</div>
+      <div class="qopt-sub">Avec le bon cadre</div>
+    </div>
+    <div class="qopt q-yes" onclick="qpick(this,'q8','next-q8')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8l3.5 3.5L13 4" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="qopt-label">Oui, je suis prêt(e)</div>
+      <div class="qopt-sub">C'est le bon moment</div>
+    </div>
+  </div>
+  <div class="quiz-feedback qfb-no" id="q8-fb-no"><span class="quiz-annette-tag">Avec Annette</span><br>Ces doutes sont légitimes après plusieurs tentatives. Ce qui change avec Annette, c'est la combinaison GLP-1 + accompagnement médical - une approche que votre corps peut suivre.</div>
+  <div class="quiz-feedback qfb-mid" id="q8-fb-mid"><span class="quiz-annette-tag">Avec Annette</span><br>C'est exactement le bon état d'esprit pour commencer. Votre diététicienne sera là à chaque étape pour renforcer cette confiance.</div>
+  <div class="quiz-feedback qfb-yes" id="q8-fb-yes"><span class="quiz-annette-tag">Avec Annette</span><br>Cette motivation est votre meilleur atout. Annette est là pour la transformer en résultats concrets et durables.</div>
+  <button class="quiz-next" id="next-q8" onclick="go('s11')">Continuer le bilan</button>
+  <div class="quiz-counter" id="qcount8"></div>
+</div>
+
+<!-- S11 - PATHOLOGIES PRINCIPALES -->
+<div class="screen" id="s11">
+  <button class="back-link" onclick="go('q8')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="eyebrow">Antécédents médicaux</div>
+  <div class="hl">Avez-vous ces pathologies existantes ?</div>
+  <div class="conf-badge">Réponse médicale confidentielle</div>
+  <div class="multi" id="ml-patho">
+    <button class="mbtn" onclick="ms(this,'ml-patho','anc-p','rbox-p')"><span class="txt">Diabète de type 1</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-patho','anc-p','rbox-p')"><span class="txt">Diabète de type 2</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-patho','anc-p','rbox-p')"><span class="txt">Insuffisance rénale (vous êtes suivi par un néphrologue)</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-patho','anc-p','rbox-p')"><span class="txt">Insuffisance hépatique (vous êtes suivi par un gastro-entérologue)</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-patho','anc-p','rbox-p')"><span class="txt">Antécédents de pancréatite</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-patho','anc-p','rbox-p')"><span class="txt">Antécédents de cancer de la thyroïde</span><span class="mck"></span></button>
+    <button class="mbtn" id="anc-p" onclick="ma(this,'ml-patho','rbox-p')"><span class="txt">Aucune de ces pathologies</span><span class="mck"></span></button>
+  </div>
+  <div class="rebox" id="rbox-p" style="display:none"><div class="rbox-mark"><svg viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 3v5l3 2.5" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round"/></svg></div><span class="rbox-text">Ces informations permettent à votre diététicienne de vous proposer un accompagnement adapté à votre profil médical.</span></div>
+  <div class="actions"><button class="btn" id="btn-s11" onclick="go('s12')" disabled>Continuer</button></div>
+  <div class="secure" style="margin-top:10px"><svg viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3v4c0 2.8 2.1 5.4 5 6 2.9-.6 5-3.2 5-6V3L7 1Z" stroke="#bbb" stroke-width="1.2"/></svg>Vos données sont cryptées et sécurisées</div>
+</div>
+
+<!-- S12 - PATHOLOGIES DIGESTIVES -->
+<div class="screen" id="s12">
+  <button class="back-link" onclick="go('s11')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="eyebrow">Antécédents médicaux</div>
+  <div class="hl">Souffrez-vous ou avez-vous souffert d’une pathologie liée à votre système digestif ?</div>
+  <div class="conf-badge">Réponse médicale confidentielle</div>
+  <div class="multi" id="ml-dig">
+    <button class="mbtn" onclick="ms(this,'ml-dig','anc-d',null)"><span class="txt">Reflux gastro-oesophagien (remontée acide)</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-dig','anc-d',null)"><span class="txt">Hernie hiatale</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-dig','anc-d',null)"><span class="txt">Calculs biliaires</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-dig','anc-d',null)"><span class="txt">Gastroparésie</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-dig','anc-d',null)"><span class="txt">Constipation</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-dig','anc-d',null)"><span class="txt">Occlusion intestinale</span><span class="mck"></span></button>
+    <button class="mbtn" id="anc-d" onclick="ma(this,'ml-dig',null)"><span class="txt">Aucune de ces pathologies</span><span class="mck"></span></button>
+  </div>
+  <div class="actions"><button class="btn" id="btn-s12" onclick="go('s13')" disabled>Continuer</button></div>
+  <div class="secure" style="margin-top:10px"><svg viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3v4c0 2.8 2.1 5.4 5 6 2.9-.6 5-3.2 5-6V3L7 1Z" stroke="#bbb" stroke-width="1.2"/></svg>Vos données sont cryptées et sécurisées</div>
+</div>
+
+<!-- S13 - AUTRES PATHOLOGIES -->
+<div class="screen" id="s13">
+  <button class="back-link" onclick="go('s12')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="eyebrow">Antécédents médicaux</div>
+  <div class="hl">Avez-vous une autre pathologie ?</div>
+  <div class="conf-badge">Réponse médicale confidentielle</div>
+  <div class="multi" id="ml-autre">
+    <button class="mbtn" onclick="ms(this,'ml-autre','anc-a',null)"><span class="txt">Prédiabète</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-autre','anc-a',null)"><span class="txt">Hypertension artérielle</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-autre','anc-a',null)"><span class="txt">Problèmes cardiovasculaires</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-autre','anc-a',null)"><span class="txt">Apnée du sommeil</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-autre','anc-a',null)"><span class="txt">Cholestérol élevé</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-autre','anc-a',null)"><span class="txt">Triglycérides élevés</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-autre','anc-a',null)"><span class="txt">Goutte</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-autre','anc-a',null)"><span class="txt">Acide urique élevé</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-autre','anc-a',null)"><span class="txt">Maladie de Crohn</span><span class="mck"></span></button>
+    <button class="mbtn" id="anc-a" onclick="ma(this,'ml-autre',null)"><span class="txt">Aucune de ces pathologies</span><span class="mck"></span></button>
+  </div>
+  <div class="actions"><button class="btn" id="btn-s13" onclick="go('s14')" disabled>Continuer</button></div>
+  <div class="secure" style="margin-top:10px"><svg viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3v4c0 2.8 2.1 5.4 5 6 2.9-.6 5-3.2 5-6V3L7 1Z" stroke="#bbb" stroke-width="1.2"/></svg>Vos données sont cryptées et sécurisées</div>
+</div>
+
+<!-- S14 - ANTÉCÉDENTS TRAITEMENT -->
+<div class="screen" id="s14">
+  <button class="back-link" onclick="go('s13')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="eyebrow">Antécédents médicaux</div>
+  <div class="hl">Avez-vous des antécédents de traitement de l’obésité ?</div>
+  <div class="sub">Connaître votre historique nous permettra d’adapter nos recommandations.</div>
+  <div class="multi" id="ml-trt">
+    <button class="mbtn" onclick="ms(this,'ml-trt','anc-t',null)"><span class="txt">Anneau gastrique</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-trt','anc-t',null)"><span class="txt">Ballon gastrique</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-trt','anc-t',null)"><span class="txt">Sleeve</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-trt','anc-t',null)"><span class="txt">By-pass</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-trt','anc-t',null)"><span class="txt">Traitements médicamenteux (Ozempic, Wegovy, Mounjaro, Saxenda, etc.)</span><span class="mck"></span></button>
+    <button class="mbtn" id="anc-t" onclick="ma(this,'ml-trt',null)"><span class="txt">Aucun traitement</span><span class="mck"></span></button>
+  </div>
+  <div class="actions"><button class="btn" id="btn-s14" onclick="go('s15')" disabled>Continuer</button></div>
+  <div class="secure" style="margin-top:10px"><svg viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3v4c0 2.8 2.1 5.4 5 6 2.9-.6 5-3.2 5-6V3L7 1Z" stroke="#bbb" stroke-width="1.2"/></svg>Vos données sont cryptées et sécurisées</div>
+</div>
+
+<!-- S15 - ANTÉCÉDENTS FAMILIAUX -->
+<div class="screen" id="s15">
+  <button class="back-link" onclick="go('s14')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="eyebrow">Antécédents médicaux</div>
+  <div class="hl">Avez-vous un parent ou un membre de votre famille qui a l’une des pathologies suivantes ?</div>
+  <div class="conf-badge">Réponse médicale confidentielle</div>
+  <div class="multi" id="ml-fam">
+    <button class="mbtn" onclick="ms(this,'ml-fam','anc-f',null)"><span class="txt">Diabète</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-fam','anc-f',null)"><span class="txt">Hypertension artérielle</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-fam','anc-f',null)"><span class="txt">Maladies cardiovasculaires</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-fam','anc-f',null)"><span class="txt">Obésité</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-fam','anc-f',null)"><span class="txt">Cancer de la thyroïde</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-fam','anc-f',null)"><span class="txt">Maladie neuroendocrinienne rare (NEM 1 ou NEM 2)</span><span class="mck"></span></button>
+    <button class="mbtn" id="anc-f" onclick="ma(this,'ml-fam',null)"><span class="txt">Aucune de ces pathologies</span><span class="mck"></span></button>
+  </div>
+  <div class="actions"><button class="btn" id="btn-s15" onclick="go('s16')" disabled>Continuer</button></div>
+  <div class="secure" style="margin-top:10px"><svg viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3v4c0 2.8 2.1 5.4 5 6 2.9-.6 5-3.2 5-6V3L7 1Z" stroke="#bbb" stroke-width="1.2"/></svg>Vos données sont cryptées et sécurisées</div>
+</div>
+
+<!-- S16 - PROCESSING + TCA OVERLAY -->
+<div class="screen" id="s16">
+  <div class="proc-wrap">
+    <div class="proc-logo">annette</div>
+    <div class="proc-list">
+      <div class="pitem" id="pi0"><div class="pchk"></div><div><div class="ptxt">Analyse de votre IMC</div><div class="psub">Calcul de votre profil morphologique</div></div></div>
+      <div class="pitem" id="pi1"><div class="pchk"></div><div><div class="ptxt">Vérification du traitement GLP-1</div><div class="psub">Compatibilité et contre-indications</div></div></div>
+      <div class="pitem" id="pi2"><div class="pchk"></div><div><div class="ptxt">Profil médical analysé</div><div class="psub">Antécédents et pathologies</div></div></div>
+      <div class="pitem" id="pi3"><div class="pchk"></div><div><div class="ptxt">Programme personnalisé</div><div class="psub">Création de votre plan sur-mesure</div></div></div>
+    </div>
+    <div class="plbl" id="plbl">Analyse en cours…</div>
+    <div class="pbar-wrap"><div class="pbar" id="pbar"></div></div>
+    <div class="proc-waiting" id="proc-waiting">
+      <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.4"/><path d="M8 5v3.5l2.5 1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      En attente de votre réponse pour finaliser le dossier
+    </div>
+  </div>
+  <!-- TCA MODAL -->
+  <div class="overlay" id="tca-ov">
+    <div class="modal" id="tca-modal">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+        <div style="width:36px;height:36px;border-radius:50%;background:#fef3d0;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><circle cx="8" cy="8" r="6.5" stroke="#b78000" stroke-width="1.4"/><path d="M8 5v3.5l2.5 1.5" stroke="#b78000" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#bbb" id="tca-kicker">Votre dossier est à 88%</div>
+          <div style="font-size:13px;font-weight:700;color:#1a1a1a;margin-top:1px" id="tca-subtitle">Il nous manque un dernier élément pour le finaliser.</div>
+        </div>
+      </div>
+      <div style="height:1px;background:#f0f0ee;margin-bottom:20px"></div>
+      <div class="tca-modal-body">
+        <div class="tca-step active" id="tca-step-main">
+          <div class="hl" style="font-size:21px;margin-bottom:10px">Avez-vous déjà été diagnostiqué d’un trouble des conduites alimentaires ?</div>
+          <div class="chip" style="margin-bottom:18px"><span class="chip-dot"></span>Nous voulons nous assurer de vous soutenir au mieux dans votre parcours. Votre réponse reste confidentielle et permet d’adapter l’accompagnement.</div>
+          <div class="choices" style="margin-bottom:16px">
+            <button class="cbtn" onclick="tcaChoix(this,'current')">Oui, j’en souffre toujours</button>
+            <button class="cbtn" onclick="tcaChoix(this,'past')">Oui, mais je n’en souffre plus</button>
+            <button class="cbtn" onclick="tcaChoix(this,'never')">Non, jamais</button>
+            <button class="cbtn" onclick="tcaChoix(this,'later')">Je préfère ne pas répondre maintenant</button>
+          </div>
+          <div class="rebox" id="tca-rebox" style="display:none"><div class="rbox-mark"><svg viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 3v5l3 2.5" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round"/></svg></div><span class="rbox-text"></span></div>
+          <button class="btn" id="tca-btn" onclick="tcaOk()" disabled style="margin-top:4px">Finaliser mon dossier</button>
+        </div>
+        <div class="tca-step" id="tca-step-detail">
+          <div class="hl" style="font-size:21px;margin-bottom:10px">Quel trouble du comportement alimentaire a été diagnostiqué ?</div>
+          <div class="tca-detail-intro">Cette précision reste confidentielle. Elle sert uniquement à adapter votre accompagnement avec plus de justesse.</div>
+          <div class="tca-type-grid">
+            <button type="button" class="tca-type-btn" onclick="tcaTypeChoix(this)"><span class="tca-type-main">Boulimie</span><span class="tca-type-dot"></span></button>
+            <button type="button" class="tca-type-btn" onclick="tcaTypeChoix(this)"><span class="tca-type-main">Hyperphagie</span><span class="tca-type-dot"></span></button>
+            <button type="button" class="tca-type-btn" onclick="tcaTypeChoix(this)"><span class="tca-type-main">Anorexie mentale</span><span class="tca-type-dot"></span></button>
+            <button type="button" class="tca-type-btn" onclick="tcaTypeChoix(this)"><span class="tca-type-main">Orthorexie</span><span class="tca-type-dot"></span></button>
+            <button type="button" class="tca-type-btn" onclick="tcaTypeChoix(this)"><span class="tca-type-main">Autre</span><span class="tca-type-dot"></span></button>
+            <button type="button" class="tca-type-btn" onclick="tcaTypeChoix(this)"><span class="tca-type-main">Je ne sais pas / je préfère préciser plus tard</span><span class="tca-type-dot"></span></button>
+          </div>
+          <div class="tca-soft-note" id="tca-type-note" style="display:none"></div>
+          <button class="btn" id="tca-type-btn" onclick="tcaTypeOk()" disabled>Continuer</button>
+          <button type="button" class="quiz-change" onclick="backToTCA()" style="margin-top:12px;margin-bottom:0">Retour à la question précédente</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S17 - RÉSULTAT -->
+<div class="screen" id="s17">
+  <div class="res-hero"><img src="./images/final-step.fd.webp" onerror="this.parentElement.style.minHeight='180px'" alt=""></div>
+  <div class="hl" style="margin-bottom:8px">Ce que vos réponses nous indiquent.</div>
+  <div class="sub">D'après les informations partagées, votre profil semble compatible avec une première analyse Annette. La validation finale reste médicale.</div>
+  <div class="stat-row">
+    <div class="sbox yel"><div class="sval" id="final-kg">−14 kg</div><div class="slbl">estimation indicative</div></div>
+    <div class="sbox"><div class="sval" id="final-imc">31.9</div><div class="slbl">Votre IMC</div></div>
+  </div>
+  <div class="rebox"><div class="rbox-mark"><svg viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 3v5l3 2.5" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round"/></svg></div><span class="rbox-text">Votre profil semble compatible avec le programme Annette. L'éligibilité médicale finale sera confirmée par un professionnel de santé.</span></div>
+  <div style="font-size:15px;font-weight:700;color:#1a1a1a;margin-bottom:12px">Ce qui est inclus dans votre programme</div>
+  <div class="bscroll">
+    <div class="bcard"><img src="./images/final-step-benefits.webp" onerror="this.style.display='none'" alt=""><div class="bclbl">Chat diététicienne</div></div>
+    <div class="bcard"><img src="./images/final-step-benefits-2.3.webp" onerror="this.style.display='none'" alt=""><div class="bclbl">Suivi personnalisé</div></div>
+    <div class="bcard"><img src="./images/final-step-benefits-3.webp" onerror="this.style.display='none'" alt=""><div class="bclbl">Rendez-vous médecin</div></div>
+    <div class="bcard"><img src="./images/final-step-benefits-4.webp" onerror="this.style.display='none'" alt=""><div class="bclbl">Communauté</div></div>
+    <div class="bcard"><img src="./images/final-step-benefi.29f.webp" onerror="this.style.display='none'" alt=""><div class="bclbl">Effets secondaires</div></div>
+  </div>
+  <div class="temo"><div class="tstars">★★★★★</div><div class="ttxt">"Un accompagnement humain, structuré et pensé pour les patients suivis dans un parcours de perte de poids."</div><div class="tauth">Annette · Note moyenne 4.9/5</div></div>
+  <div class="actions"><button class="btn" onclick="go('s18')">Créer mon accès Annette</button></div>
+</div>
+
+<!-- S18 - PRÉNOM + NOM -->
+<div class="screen" id="s18">
+  <button class="back-link" onclick="go('s17')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="eyebrow">Création du compte</div>
+  <div class="hl">Comment vous appelez-vous ?</div>
+  <div class="sub">Pour que votre diététicienne puisse s'adresser à vous personnellement.</div>
+  <div class="irow">
+    <div class="ig"><label>Prénom</label><input type="text" class="ifl" id="prenom-inp" placeholder="Votre prénom" oninput="valIdentite()" style="margin-bottom:0"></div>
+    <div class="ig"><label>Nom</label><input type="text" class="ifl" id="nom-inp" placeholder="Votre nom de famille" oninput="valIdentite()" style="margin-bottom:0"></div>
+  </div>
+  <div class="chip" style="margin-top:8px"><span class="chip-dot"></span>Renseignez vos prénom et nom tels qu'ils figurent sur votre carte Vitale. Indispensable pour que votre ordonnance soit valide.</div>
+  <div class="actions"><button class="btn" id="btn-s18" onclick="go('s19')" disabled>Continuer</button></div>
+</div>
+
+<!-- S19 - NUMÉRO DE TÉLÉPHONE -->
+<div class="screen" id="s19">
+  <button class="back-link" onclick="go('s18')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="eyebrow">Création du compte</div>
+  <div class="hl">Votre numéro de téléphone</div>
+  <div class="sub">Il servira d'identifiant pour accéder à votre compte sur l'application.</div>
+  <div class="phrow">
+    <div class="phpfx">+33</div>
+    <input type="tel" class="ifl" id="phone-inp" placeholder="6 XX XX XX XX" inputmode="tel" oninput="valPhone()" style="flex:1;margin-bottom:0">
+  </div>
+  <div class="chip" style="margin-top:8px"><span class="chip-dot"></span>Votre numéro est votre identifiant unique de connexion à l'application Annette.</div>
+  <div class="crow" onclick="tc('c2')" style="margin-top:14px"><div class="cchk" id="c2"></div><span class="ctxt">Je consens à ce que mes données personnelles de santé soient traitées pour accéder aux fonctionnalités Annette. <a href="#">Politique de confidentialité</a></span></div>
+  <div class="crow" onclick="tc('c3')"><div class="cchk" id="c3"></div><span class="ctxt">Je réside en France</span></div>
+  <div class="actions"><button class="btn" id="btn-s19" onclick="go('s20')" disabled>Finaliser mon inscription</button></div>
+  <div class="secure" style="margin-top:10px"><svg viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3v4c0 2.8 2.1 5.4 5 6 2.9-.6 5-3.2 5-6V3L7 1Z" stroke="#bbb" stroke-width="1.2"/></svg>Vos données sont cryptées et sécurisées</div>
+</div>
+
+<!-- S20 - ÉCRAN FINAL : QR CODE + RÉCAPITULATIF -->
+<div class="screen" id="s20">
+  <button class="back-link" onclick="go('s19')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+
+  <!-- HEADER SUCCÈS -->
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:28px">
+    <div style="width:48px;height:48px;border-radius:50%;background:#F5C842;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+      <svg viewBox="0 0 24 24" fill="none" style="width:22px;height:22px"><path d="M5 12l5 5L19 7" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div>
+      <div style="font-size:20px;font-weight:800;color:#1a1a1a;line-height:1.2">Votre dossier est validé<span id="wname"> !</span></div>
+      <div style="font-size:13px;color:#888;margin-top:2px">Téléchargez l'application pour commencer.</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px">
+
+    <!-- QR CODE + SMART LINK -->
+    <div style="background:#1a1a1a;border-radius:18px;padding:22px;display:flex;flex-direction:column;align-items:center;gap:14px">
+      <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.4)">Télécharger l'application</div>
+      <!-- QR CODE SVG généré -->
+      <div style="background:#fff;border-radius:12px;padding:12px;width:140px;height:140px;display:flex;align-items:center;justify-content:center">
+        <svg viewBox="0 0 90 90" width="116" height="116" xmlns="http://www.w3.org/2000/svg">
+          <!-- QR code pattern - représentation visuelle de placeholder -->
+          <rect width="90" height="90" fill="white"/>
+          <!-- Top-left finder -->
+          <rect x="4" y="4" width="26" height="26" rx="2" fill="#1a1a1a"/>
+          <rect x="8" y="8" width="18" height="18" rx="1" fill="white"/>
+          <rect x="12" y="12" width="10" height="10" rx="1" fill="#1a1a1a"/>
+          <!-- Top-right finder -->
+          <rect x="60" y="4" width="26" height="26" rx="2" fill="#1a1a1a"/>
+          <rect x="64" y="8" width="18" height="18" rx="1" fill="white"/>
+          <rect x="68" y="12" width="10" height="10" rx="1" fill="#1a1a1a"/>
+          <!-- Bottom-left finder -->
+          <rect x="4" y="60" width="26" height="26" rx="2" fill="#1a1a1a"/>
+          <rect x="8" y="64" width="18" height="18" rx="1" fill="white"/>
+          <rect x="12" y="68" width="10" height="10" rx="1" fill="#1a1a1a"/>
+          <!-- Data dots -->
+          <rect x="36" y="4" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="44" y="4" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="52" y="4" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="36" y="10" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="44" y="10" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="36" y="16" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="52" y="16" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="36" y="22" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="44" y="22" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="4" y="36" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="10" y="36" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="20" y="36" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="36" y="36" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="44" y="36" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="52" y="36" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="60" y="36" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="70" y="36" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="80" y="36" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="4" y="44" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="16" y="44" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="28" y="44" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="36" y="44" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="52" y="44" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="64" y="44" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="76" y="44" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="4" y="52" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="12" y="52" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="24" y="52" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="36" y="52" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="48" y="52" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="60" y="52" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="72" y="52" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="80" y="52" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="36" y="60" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="44" y="60" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="56" y="60" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="68" y="60" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="80" y="60" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="36" y="68" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="52" y="68" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="64" y="68" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="76" y="68" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="36" y="76" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="48" y="76" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="60" y="76" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="72" y="76" width="4" height="4" fill="#1a1a1a"/>
+          <rect x="80" y="76" width="4" height="4" fill="#1a1a1a"/>
+        </svg>
+      </div>
+      <div style="font-size:12px;color:rgba(255,255,255,.5);text-align:center;line-height:1.4">Scannez pour être redirigé vers le bon store</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.3);text-align:center">iOS · Android</div>
+    </div>
+
+    <!-- RÉCAPITULATIF -->
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#bbb;margin-bottom:2px">Votre profil</div>
+      <div style="background:#fafafa;border:1.5px solid #ebebeb;border-radius:14px;padding:14px">
+        <div style="font-size:11px;color:#bbb;font-weight:600;margin-bottom:4px">Perte de poids estimée</div>
+        <div style="font-size:22px;font-weight:900;color:#1a1a1a" id="recap-kg">-</div>
+      </div>
+      <div style="background:#F5C842;border-radius:14px;padding:14px">
+        <div style="font-size:11px;color:rgba(0,0,0,.4);font-weight:600;margin-bottom:4px">Votre IMC</div>
+        <div style="font-size:22px;font-weight:900;color:#1a1a1a" id="recap-imc">-</div>
+      </div>
+      <div style="background:#fafafa;border:1.5px solid #ebebeb;border-radius:14px;padding:14px">
+        <div style="font-size:11px;color:#bbb;font-weight:600;margin-bottom:4px">Email enregistré</div>
+        <div style="font-size:13px;font-weight:700;color:#1a1a1a;word-break:break-all" id="recap-email">-</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMMENT CA SE PASSE -->
+  <div style="background:#f5f5f3;border-radius:16px;padding:20px;margin-bottom:20px">
+    <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:14px">Comment ça se passe ensuite ?</div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <div style="width:24px;height:24px;border-radius:50%;background:#1a1a1a;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">1</div>
+        <div><div style="font-size:14px;font-weight:600;color:#1a1a1a">Téléchargez l'application</div><div style="font-size:12px;color:#888;margin-top:2px">Scannez le QR code ou cliquez sur le lien ci-dessous.</div></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <div style="width:24px;height:24px;border-radius:50%;background:#1a1a1a;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">2</div>
+        <div><div style="font-size:14px;font-weight:600;color:#1a1a1a">Entrez votre numéro dans l'app</div><div style="font-size:12px;color:#888;margin-top:2px">Vous recevrez un code SMS pour accéder à votre compte.</div></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <div style="width:24px;height:24px;border-radius:50%;background:#F5C842;color:#1a1a1a;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">3</div>
+        <div><div style="font-size:14px;font-weight:600;color:#1a1a1a">Démarrez votre programme</div><div style="font-size:12px;color:#888;margin-top:2px">Votre diététicienne Annette prend contact sous 24h.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREENS APP -->
+  <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:12px">Ce qui vous attend dans l'application</div>
+  <div class="bscroll" style="margin-bottom:20px">
+    <div class="bcard"><img src="./images/final-step-benefits.webp" onerror="this.style.display='none'" alt=""><div class="bclbl">Chat diététicienne</div></div>
+    <div class="bcard"><img src="./images/final-step-benefits-2.3.webp" onerror="this.style.display='none'" alt=""><div class="bclbl">Suivi personnalisé</div></div>
+    <div class="bcard"><img src="./images/final-step-benefits-3.webp" onerror="this.style.display='none'" alt=""><div class="bclbl">Rendez-vous médecin</div></div>
+    <div class="bcard"><img src="./images/final-step-benefits-4.webp" onerror="this.style.display='none'" alt=""><div class="bclbl">Communauté</div></div>
+    <div class="bcard"><img src="./images/final-step-benefi.29f.webp" onerror="this.style.display='none'" alt=""><div class="bclbl">Effets secondaires</div></div>
+  </div>
+
+  <!-- CTA TÉLÉCHARGEMENT -->
+  <a href="https://annette.care/download" style="display:block;width:100%;padding:16px 24px;background:#1a1a1a;color:#fff;border-radius:100px;font-size:16px;font-weight:700;text-align:center;text-decoration:none;margin-bottom:8px">Télécharger l'application</a>
+  <div style="font-size:12px;color:#bbb;text-align:center">Redirige automatiquement vers App Store ou Google Play</div>
+</div>
+
+</div><!-- /form-col -->
+
+<!-- SIDE PANEL -->
+<div class="side-col">
+  <div class="side-panel">
+    <div class="side-title">Votre progression</div>
+    <div class="side-step"><div class="sdot cur" id="dot-0"></div><span class="slabel cur" id="lbl-0">Objectif</span></div>
+    <div class="side-step"><div class="sdot" id="dot-1"></div><span class="slabel" id="lbl-1">Source</span></div>
+    <div class="side-step"><div class="sdot" id="dot-2"></div><span class="slabel" id="lbl-2">Profil santé</span></div>
+    <div class="side-step"><div class="sdot" id="dot-3"></div><span class="slabel" id="lbl-3">Projection IMC</span></div>
+    <div class="side-step"><div class="sdot" id="dot-4"></div><span class="slabel" id="lbl-4">Antécédents médicaux</span></div>
+    <div class="side-step"><div class="sdot" id="dot-5"></div><span class="slabel" id="lbl-5">Résultat</span></div>
+    <div class="side-step"><div class="sdot" id="dot-6"></div><span class="slabel" id="lbl-6">Création du compte</span></div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<script>
+/* STATE */
+let cur='landing',email='',tcaNeedsDetail=false,tcaDetail='';
+const FORM_START='s0';
+const HIDE_TOP=['s16','s20','landing'];
+let procTimerIds=[];
+const PCT={
+  landing:0,s0:4,value_glp:7,s2:10,s3:14,s1:18,s4:22,glp1_date:23,glp1_poids:24,glp1_duree:25,glp1_seul:26,glp1_annette:27,s5:28,s6:30,s7:34,s8:40,
+  q3:43,q4:46,s9:50,s10:54,q5:57,q6:60,q7:63,q8:66,
+  s11:68,s12:71,s13:74,s14:77,s15:80,s16:84,s17:90,s18:94,s19:97,s20:100
+};
+const STEP_LABELS={
+  s0:'Étape 1',value_glp:'Pourquoi Annette',s2:'Étape 2',s3:'Étape 3',s1:'Étape 4',
+  s4:'Étape 5',glp1_date:'Votre prescription',glp1_poids:'Votre prescription',glp1_duree:'Votre prescription',glp1_seul:'',glp1_annette:'',s5:'Étape 6',s6:'Étape 7',s7:'Étape 8',s8:'Étape 9',
+  q3:'Question 1 / 6',q4:'Question 2 / 6',s9:'Étape 10',s10:'Étape 11',q5:'Question 3 / 6',q6:'Question 4 / 6',q7:'Question 5 / 6',q8:'Question 6 / 6',
+  s11:'Étape 12',s12:'Étape 12',s13:'Étape 12',s14:'Étape 13',s15:'Étape 13',
+  s16:'Analyse',s17:'Résultat',s18:'Étape 14',s19:'Étape 15',s20:'Terminé'
+};
+const SIDE_MAP={
+  landing:0,s0:0,value_glp:0,s2:0,s3:0,s1:1,s4:2,glp1_date:2,glp1_poids:2,glp1_duree:2,glp1_seul:2,glp1_annette:2,s5:2,s6:2,s7:2,s8:3,
+  q3:3,q4:3,s9:4,s10:4,q5:4,q6:4,q7:4,q8:4,
+  s11:4,s12:4,s13:4,s14:4,s15:4,s16:4,s17:5,s18:6,s19:6,s20:6
+};
+const MOBILE_STEP_NAMES=['Motivation','Source','Profil santé','Projection IMC','Santé','Résultat','Compte'];
+function getMobilePhaseIndex(){
+  const v=SIDE_MAP[cur];
+  return typeof v==='number'?v:0;
+}
+function updateMobileProgress(){
+  const box=document.getElementById('mobile-progress');
+  if(!box)return;
+  const hide=HIDE_TOP.includes(cur)||(typeof cur==='string'&&cur==='landing');
+  box.style.display=hide?'none':'block';
+  if(hide)return;
+  const idx=getMobilePhaseIndex();
+  const meta=document.getElementById('mobile-progress-meta');
+  const fill=document.getElementById('mobile-progress-fill');
+  if(meta)meta.textContent='Étape '+(idx+1)+' sur 7 · '+MOBILE_STEP_NAMES[idx];
+  if(fill)fill.style.width=((idx+1)/7*100)+'%';
+  renderMobileSteps(idx);
+}
+function renderMobileSteps(curIdx){
+  const list=document.getElementById('mobile-step-list');
+  if(!list)return;
+  list.innerHTML='';
+  MOBILE_STEP_NAMES.forEach((name,i)=>{
+    const item=document.createElement('div');
+    item.className='mobile-step-item'+(i<curIdx?' done':i===curIdx?' cur':'');
+    const dot=document.createElement('div');
+    dot.className='mobile-step-dot';
+    dot.textContent=i<curIdx?'✓':(i+1);
+    const label=document.createElement('div');
+    label.className='mobile-step-label';
+    label.textContent=name;
+    item.appendChild(dot);
+    item.appendChild(label);
+    list.appendChild(item);
+  });
+}
+function openMobileSteps(){
+  updateMobileProgress();
+  const ov=document.getElementById('mobile-steps-overlay');
+  if(ov)ov.classList.add('open');
+}
+function closeMobileSteps(evt){
+  if(evt&&evt.target&&evt.target.id!=='mobile-steps-overlay')return;
+  const ov=document.getElementById('mobile-steps-overlay');
+  if(ov)ov.classList.remove('open');
+}
+
+/* Quiz progress - which quiz number each Q screen is (out of 6) */
+const QUIZ_POS={q3:1,q4:2,q5:3,q6:4,q7:5,q8:6};
+
+function startForm(){
+  document.getElementById('landing').classList.remove('active');
+  document.getElementById('landing').style.display='none';
+  document.getElementById('topbar').style.display='';
+  document.getElementById('main-wrap').style.display='';
+  go(FORM_START);
+}
+
+function go(idx){
+  const nextEl=document.getElementById(typeof idx==='string'?idx:'s'+idx);
+  if(!nextEl)return;
+  /* Defensive: hide ALL screens so no fixed edu screen stays stuck on top */
+  document.querySelectorAll('.screen.active').forEach(s=>s.classList.remove('active'));
+  nextEl.classList.add('active');
+  cur=idx; upUI();
+  /* Scroll window to top (scrollIntoView fails on position:fixed screens) */
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(idx==='s8')renderChart();
+  if(idx==='glp1_seul')setTimeout(triggerBadBullets,200);
+  if(idx==='glp1_annette')setTimeout(triggerGoodBullets,200);
+  if(idx==='s16')runProc();
+  if(idx==='s17')upFinal();
+  if(idx==='s20')upRecap();
+  /* Init quiz progress bars */
+  if(QUIZ_POS[idx])initQProg(idx);
+}
+
+function initQProg(qid){
+  const pos=QUIZ_POS[qid];
+  const screen=document.getElementById(qid);
+  if(!pos||!screen)return;
+  const el=screen.querySelector('.quiz-prog');
+  if(!el)return;
+  el.innerHTML='';
+  for(let i=1;i<=6;i++){
+    const d=document.createElement('div');
+    d.className='qpd'+(i<pos?' done':i===pos?' cur':'');
+    el.appendChild(d);
+  }
+  const cnt=screen.querySelector('.quiz-counter');
+  if(cnt)cnt.textContent='Question '+pos+' sur 6';
+}
+
+function upRecap(){
+  const{imc,kg}=getStats();
+  document.getElementById('recap-kg').textContent='−'+kg+' kg en 6 mois';
+  document.getElementById('recap-imc').textContent=imc.toFixed(1);
+  document.getElementById('recap-email').textContent=email||'-';
+  const p=document.getElementById('prenom-inp');
+  if(p&&p.value)document.getElementById('wname').textContent=', '+p.value+' !';
+}
+/* ── VALIDATION ── */
+function valDDN(){
+  const j=parseInt(document.getElementById('ddn-j').value,10);
+  const m=parseInt(document.getElementById('ddn-m').value,10);
+  const a=parseInt(document.getElementById('ddn-a').value,10);
+  const d=new Date(a,m-1,j);
+  const validDate=d.getFullYear()===a&&d.getMonth()===m-1&&d.getDate()===j;
+  const ok=validDate&&a>=1930&&a<=2010;
+  document.getElementById('btn-s5').disabled=!ok;
+}
+function valPoids(){
+  const p=parseFloat(document.getElementById('poids').value);
+  const t=parseFloat(document.getElementById('taille').value);
+  const obj=parseFloat(document.getElementById('poids-obj').value);
+  const ok=p>=40&&p<=250&&t>=140&&t<=210&&obj>=40&&obj<=200;
+  document.getElementById('btn-s6').disabled=!ok;
+}
+function valIdentite(){
+  const pr=document.getElementById('prenom-inp').value.trim();
+  const nm=document.getElementById('nom-inp').value.trim();
+  document.getElementById('btn-s18').disabled=!(pr.length>=2&&nm.length>=2);
+}
+function valPhone(){
+  const v=document.getElementById('phone-inp').value.replace(/\D/g,'');
+  const c2=document.getElementById('c2').classList.contains('on');
+  const c3=document.getElementById('c3').classList.contains('on');
+  document.getElementById('btn-s19').disabled=!(v.length>=9&&c2&&c3);
+}
+function upUI(){
+  const topbar=document.getElementById('topbar');
+  const mainWrap=document.getElementById('main-wrap');
+  const landing=document.getElementById('landing');
+  const hide=HIDE_TOP.includes(cur)||(typeof cur==='string'&&cur==='landing');
+  if(topbar)topbar.style.display=hide?'none':'';
+  if(mainWrap){
+    mainWrap.style.display=cur==='landing'?'none':'';
+    mainWrap.classList.remove('info-cream','info-pink');
+    if(cur==='s2')mainWrap.classList.add('info-cream');
+    if(cur==='s3')mainWrap.classList.add('info-pink');
+  }
+  if(landing)landing.style.display=cur==='landing'?'flex':'none';
+  updateMobileProgress();
+  const lblEl=document.getElementById('tp-lbl');
+  const fillEl=document.getElementById('tp-fill');
+  if(lblEl)lblEl.textContent=STEP_LABELS[cur]||'';
+  if(fillEl)fillEl.style.width=(PCT[cur]||0)+'%';
+  const si=SIDE_MAP[cur]||0;
+  for(let i=0;i<7;i++){
+    const d=document.getElementById('dot-'+i);
+    const l=document.getElementById('lbl-'+i);
+    if(!d||!l)continue;
+    d.className='sdot'+(i<si?' done':i===si?' cur':'');
+    l.className='slabel'+(i<si?' done':i===si?' cur':'');
+  }
+}
+function sel(btn,sid){document.getElementById(sid).querySelectorAll('.cbtn').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');}
+function w(fn){setTimeout(fn,240);}
+
+const MOTIVATION_CONTENT={
+  health:{
+    title:'Vous voulez reprendre la main sur votre santé.',
+    lead:'Quand le poids commence à peser sur la santé, on peut se sentir inquiet, fatigué ou bloqué malgré ses efforts.',
+    copy:'Annette part de votre profil pour construire un cadre plus sûr : suivi médical, diététicienne dédiée et programme adapté à votre situation.',
+    solutionTitle:'Pour votre profil, l’objectif est simple : avancer avec un accompagnement sérieux, sans jugement.',
+    items:['Comprendre vos besoins de santé.','Adapter le suivi à votre IMC et votre histoire.','Vous aider à perdre du poids de façon plus durable.'],
+    proof:'Votre parcours commence par mieux comprendre ce qui compte pour vous.'
+  },
+  energy:{
+    title:'Vous voulez retrouver plus d’énergie au quotidien.',
+    lead:'Quand chaque journée demande plus d’effort, la perte de poids devient aussi une question de confort et de liberté.',
+    copy:'Annette vous aide à construire une routine réaliste, avec un programme nutritionnel adapté au traitement et à votre rythme.',
+    solutionTitle:'Pour votre profil, l’objectif est de réduire la fatigue et retrouver de l’élan.',
+    items:['Un plan adapté à vos journées.','Un suivi pour mieux gérer faim et satiété.','Des objectifs concrets, pas seulement un chiffre.'],
+    proof:'On va utiliser vos réponses pour personnaliser la suite.'
+  },
+  confidence:{
+    title:'Vous voulez vous sentir mieux dans votre corps.',
+    lead:'Le poids peut impacter les vêtements, les photos, les sorties et la façon dont on se regarde.',
+    copy:'Annette propose un accompagnement bienveillant, pensé pour votre vécu, pas seulement pour votre IMC.',
+    solutionTitle:'Pour votre profil, l’objectif est de retrouver confiance progressivement.',
+    items:['Une diététicienne dédiée, sans jugement.','Un programme adapté à votre histoire.','Un cadre pour avancer étape par étape.'],
+    proof:'Vous n’êtes pas seul(e) à ressentir ça.'
+  },
+  mental:{
+    title:'Vous voulez sortir du cycle frustration et culpabilité.',
+    lead:'Régimes, efforts, reprise de poids : ce cycle peut peser mentalement et donner l’impression que tout repose sur vous.',
+    copy:'Annette vous aide à avancer avec une approche plus douce, qui tient compte du corps, du mental et du traitement.',
+    solutionTitle:'Pour votre profil, l’objectif est de créer un cadre rassurant et durable.',
+    items:['Pas de régime brutal.','Un suivi pour comprendre ce qui bloque.','Un accompagnement GLP-1 et nutritionnel coordonné.'],
+    proof:'La suite se fait étape par étape, sans jugement.'
+  }
+};
+
+function motiveChoice(btn){
+  const choices=document.getElementById('motivation-choices');
+  const panel=document.getElementById('motivation-panel');
+  const actions=document.getElementById('motivation-actions');
+  const change=document.getElementById('motivation-change');
+  const key=btn.dataset.key;
+  const data=MOTIVATION_CONTENT[key]||MOTIVATION_CONTENT.health;
+  if(!choices)return;
+  choices.querySelectorAll('.cbtn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  choices.prepend(btn);
+  choices.classList.add('answered');
+  document.getElementById('motivation-title').textContent=data.title;
+  document.getElementById('motivation-lead').textContent=data.lead;
+  document.getElementById('motivation-copy').textContent=data.copy;
+  document.getElementById('motivation-solution-title').textContent=data.solutionTitle;
+  document.getElementById('motivation-solution-list').innerHTML=data.items.map(item=>'<div class="motivation-solution-item">'+escapeHtml(item)+'</div>').join('');
+  document.getElementById('motivation-proof').innerHTML=data.proof;
+  if(panel)panel.classList.add('show');
+  if(actions)actions.style.display='flex';
+  if(change)change.classList.add('show');
+  setTimeout(()=>{ if(panel) panel.scrollIntoView({behavior:'smooth',block:'nearest'}); },120);
+}
+function resetMotivation(){
+  const choices=document.getElementById('motivation-choices');
+  const panel=document.getElementById('motivation-panel');
+  const actions=document.getElementById('motivation-actions');
+  const change=document.getElementById('motivation-change');
+  if(!choices)return;
+  ['health','energy','confidence','mental'].forEach(key=>{const b=choices.querySelector('[data-key="'+key+'"]');if(b)choices.appendChild(b);});
+  choices.classList.remove('answered');choices.querySelectorAll('.cbtn').forEach(b=>b.classList.remove('sel'));
+  if(panel)panel.classList.remove('show');if(actions)actions.style.display='none';if(change)change.classList.remove('show');
+}
+
+/* Quiz pick */
+function qpick(btn,qid,nextBtnId){
+  const parent=btn.parentElement;
+
+  parent.querySelectorAll('.qopt').forEach(o=>{o.classList.remove('picked');});
+  btn.classList.add('picked');
+  parent.classList.add('answered');
+
+  ['no','mid','yes'].forEach(v=>{
+    const fb=document.getElementById(qid+'-fb-'+v);
+    if(fb)fb.classList.remove('show');
+  });
+
+  const cls=btn.classList.contains('q-no')?'no':btn.classList.contains('q-mid')?'mid':'yes';
+  const fb=document.getElementById(qid+'-fb-'+cls);
+  if(fb){
+    enrichQuizFeedback(fb,btn);
+    fb.classList.add('show');
+  }
+
+  const nb=document.getElementById(nextBtnId);
+  if(nb)nb.classList.add('show');
+
+  let change=document.getElementById(qid+'-change');
+  if(!change){
+    change=document.createElement('button');
+    change.type='button';
+    change.id=qid+'-change';
+    change.className='quiz-change';
+    change.textContent='Modifier ma réponse';
+    change.onclick=()=>qreset(qid,nextBtnId);
+    parent.insertAdjacentElement('afterend',change);
+  }
+  change.style.display='block';
+}
+
+function qreset(qid,nextBtnId){
+  const screen=document.getElementById(qid);
+  if(!screen)return;
+  const opts=screen.querySelector('.three-opts');
+  if(opts){
+    opts.classList.remove('answered');
+    opts.querySelectorAll('.qopt').forEach(o=>o.classList.remove('picked'));
+  }
+  ['no','mid','yes'].forEach(v=>{
+    const fb=document.getElementById(qid+'-fb-'+v);
+    if(fb)fb.classList.remove('show');
+  });
+  const nb=document.getElementById(nextBtnId);
+  if(nb)nb.classList.remove('show');
+  const change=document.getElementById(qid+'-change');
+  if(change)change.style.display='none';
+}
+
+
+function enrichQuizFeedback(fb,btn){
+  if(!fb.dataset.original){
+    fb.dataset.original=fb.textContent.replace(/^\s*Avec Annette\s*/,'').trim();
+  }
+  const annette=fb.dataset.original;
+  fb.innerHTML='<div class="quiz-diagnostic"><div class="quiz-diag-row">'
+    +'<div class="quiz-diag-ico"><svg viewBox="0 0 16 16" fill="none" style="width:12px;height:12px"><path d="M3 8l3.5 3.5L13 4" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>'
+    +'<div><div class="quiz-diag-title">Avec Annette</div><div class="quiz-diag-text">'+escapeHtml(annette)+'</div></div>'
+    +'</div></div>';
+}
+function escapeHtml(str){
+  return String(str).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});
+}
+
+function ms(btn,lid,ancId,rboxId){
+  if(ancId){const a=document.getElementById(ancId);if(a)a.classList.remove('sel');}
+  btn.classList.toggle('sel');
+  if(rboxId){const any=document.querySelectorAll('#'+lid+' .mbtn.sel:not(#'+ancId+')').length>0;const r=document.getElementById(rboxId);if(r)r.style.display=any?'flex':'none';}
+  enableBtn(lid);
+}
+function ma(btn,lid,rboxId){
+  document.getElementById(lid).querySelectorAll('.mbtn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  if(rboxId){const r=document.getElementById(rboxId);if(r)r.style.display='none';}
+  enableBtn(lid);
+}
+function enableBtn(lid){
+  const map={'ml-patho':'btn-s11','ml-dig':'btn-s12','ml-autre':'btn-s13','ml-trt':'btn-s14','ml-fam':'btn-s15'};
+  const btnId=map[lid];
+  if(btnId){
+    const any=document.querySelectorAll('#'+lid+' .mbtn.sel').length>0;
+    const b=document.getElementById(btnId);
+    if(b)b.disabled=!any;
+  }
+}
+function tc(id){document.getElementById(id).classList.toggle('on');if(id==='c1')onEmail(email);if(id==='c2'||id==='c3')valPhone();}
+function onEmail(v){
+  email=v;
+  const c1=document.getElementById('c1').classList.contains('on');
+  const ok=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)&&c1;
+  document.getElementById('btn-s7').disabled=!ok;
+  if(ok){
+    const ini=v.split('@')[0].slice(0,2).toUpperCase();
+    document.getElementById('av-circle').textContent=ini;
+    document.getElementById('av-email').textContent=v;
+    document.getElementById('av-chip').classList.add('show');
+  }
+}
+/* IMC */
+function getStats(){const p=parseFloat(document.getElementById('poids').value)||0,t=parseFloat(document.getElementById('taille').value)||0;if(!p||!t)return{p:90,imc:31.9,kg:14};const imc=p/Math.pow(t/100,2);let r=imc<27?.07:imc<30?.10:imc<35?.14:imc<40?.18:.20;return{p,imc,kg:Math.round(p*r)};}
+function imcCat(v){if(v<18.5)return{l:'Sous-poids',c:'normal'};if(v<25)return{l:'Normal',c:'normal'};if(v<30)return{l:'Surpoids',c:'surpoids'};if(v<35)return{l:'Obésité',c:'obese'};return{l:'Obésité sév.',c:'obese'};}
+function renderChart(){
+  // Defer one frame to ensure canvas is visible and has width
+  requestAnimationFrame(()=>{
+  const{p,imc,kg}=getStats(),kgS=Math.round(kg*.5),cat=imcCat(imc);document.getElementById('hl-kg').textContent=kg+' kg';document.getElementById('proj-kg').textContent='−'+kg;document.getElementById('imc-n').textContent=imc.toFixed(1);const el=document.getElementById('imc-cat');el.textContent=cat.l;el.className='imccat '+cat.c;document.getElementById('cv-sans').textContent='−'+kgS+' kg';document.getElementById('cv-avec').textContent='−'+kg+' kg';drawChart(p,kg);});}
+function upFinal(){const{imc,kg}=getStats();document.getElementById('final-kg').textContent='−'+kg+' kg';document.getElementById('final-imc').textContent=imc.toFixed(1);}
+/* CANVAS */
+function drawChart(poids,pK){const cv=document.getElementById('chart'),W=cv.offsetWidth||480,H=160,dpr=window.devicePixelRatio||1;cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);ctx.clearRect(0,0,W,H);const pL=6,pR=12,pT=18,pB=8,cW=W-pL-pR,cH=H-pT-pB,pS=Math.round(pK*.5),minY=poids-pK-4,maxY=poids+3,rY=maxY-minY;const ptA=[poids,poids-pK*.58,poids-pK],ptS=[poids,poids-pS*.58,poids-pS];const xy=(t,py)=>({x:pL+t*cW,y:pT+((maxY-py)/rY)*cH});const bz=(ys,t)=>(1-t)**2*ys[0]+2*(1-t)*t*ys[1]+t**2*ys[2];ctx.beginPath();const p0=xy(0,ptA[0]);ctx.moveTo(p0.x,p0.y);for(let t=.01;t<=1;t+=.01){const pt=xy(t,bz(ptA,t));ctx.lineTo(pt.x,pt.y);}const pe=xy(1,ptA[2]);ctx.lineTo(pe.x,pT+cH);ctx.lineTo(pL,pT+cH);ctx.closePath();ctx.fillStyle='rgba(245,200,66,.18)';ctx.fill();ctx.beginPath();ctx.setLineDash([4,4]);ctx.strokeStyle='rgba(0,0,0,.18)';ctx.lineWidth=1.5;for(let t=0;t<=1;t+=.01){const pt=xy(t,bz(ptS,t));t===0?ctx.moveTo(pt.x,pt.y):ctx.lineTo(pt.x,pt.y);}ctx.stroke();ctx.setLineDash([]);ctx.beginPath();ctx.strokeStyle='#1a1a1a';ctx.lineWidth=2.5;ctx.lineJoin='round';ctx.lineCap='round';for(let t=0;t<=1;t+=.01){const pt=xy(t,bz(ptA,t));t===0?ctx.moveTo(pt.x,pt.y):ctx.lineTo(pt.x,pt.y);}ctx.stroke();const m3=xy(.5,bz(ptA,.5));bub(ctx,m3.x,m3.y,'−'+Math.round(pK*.58)+' kg','#F5C842','#1a1a1a',W);const m6=xy(1,ptA[2]);ctx.beginPath();ctx.arc(m6.x,m6.y,5,0,Math.PI*2);ctx.fillStyle='#1a1a1a';ctx.fill();bub(ctx,m6.x,m6.y,'−'+pK+' kg','#1a1a1a','#fff',W);}
+function bub(ctx,x,y,txt,bg,fg,W){ctx.font='700 11px Helvetica,sans-serif';const tw=ctx.measureText(txt).width,bw=tw+16,bh=21,bx=Math.min(Math.max(x-bw/2,2),W-bw-2),by=y-bh-7;ctx.beginPath();ctx.moveTo(bx+6,by);ctx.lineTo(bx+bw-6,by);ctx.quadraticCurveTo(bx+bw,by,bx+bw,by+6);ctx.lineTo(bx+bw,by+bh-6);ctx.quadraticCurveTo(bx+bw,by+bh,bx+bw-6,by+bh);ctx.lineTo(bx+6,by+bh);ctx.quadraticCurveTo(bx,by+bh,bx,by+bh-6);ctx.lineTo(bx,by+6);ctx.quadraticCurveTo(bx,by,bx+6,by);ctx.closePath();ctx.fillStyle=bg;ctx.fill();ctx.fillStyle=fg;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(txt,bx+bw/2,by+bh/2);}
+/* PROCESSING */
+function clearProcTimers(){procTimerIds.forEach(id=>clearTimeout(id));procTimerIds=[];}
+function delayProc(fn,ms){const id=setTimeout(fn,ms);procTimerIds.push(id);return id;}
+function runProc(){
+  clearProcTimers();
+  const bar=document.getElementById('pbar');
+  const lbl=document.getElementById('plbl');
+  const banner=document.getElementById('proc-waiting');
+  const ov=document.getElementById('tca-ov');
+  const tcaBtn=document.getElementById('tca-btn');
+  for(let n=0;n<4;n++){const it=document.getElementById('pi'+n);if(it)it.classList.remove('done');}
+  if(bar){bar.classList.remove('paused');bar.style.width='0%';}
+  if(lbl){lbl.classList.remove('waiting');lbl.textContent='Analyse en cours…';}
+  if(banner)banner.classList.remove('show');
+  if(ov){ov.classList.remove('open');ov.style.display='';}
+  tcaNeedsDetail=false;tcaDetail='';
+  const main=document.getElementById('tca-step-main'),detail=document.getElementById('tca-step-detail');
+  if(main)main.classList.add('active');if(detail)detail.classList.remove('active');
+  const kicker=document.getElementById('tca-kicker'),subtitle=document.getElementById('tca-subtitle');
+  if(kicker)kicker.textContent='Votre dossier est à 88%';if(subtitle)subtitle.textContent='Il nous manque un dernier élément pour le finaliser.';
+  document.querySelectorAll('#tca-modal .cbtn').forEach(b=>b.classList.remove('sel'));
+  const rb=document.getElementById('tca-rebox');if(rb){rb.style.display='none';const rbt=rb.querySelector('.rbox-text');if(rbt)rbt.textContent='';}
+  if(tcaBtn)tcaBtn.disabled=true;
+  const typeOv=document.getElementById('tca-type-ov');if(typeOv){typeOv.classList.remove('open');typeOv.style.display='none';}
+  document.querySelectorAll('#tca-step-detail .tca-type-btn').forEach(b=>b.classList.remove('sel'));
+  const typeBtn=document.getElementById('tca-type-btn');if(typeBtn)typeBtn.disabled=true;
+  const typeNote=document.getElementById('tca-type-note');if(typeNote){typeNote.style.display='none';typeNote.textContent='';}
+  const pcts=[22,44,68,88];
+  const lbls=['Analyse de votre IMC…','Vérification du traitement…','Analyse des antécédents…','Votre dossier est presque prêt…'];
+  let i=0;
+  function tick(){
+    if(cur!=='s16')return;
+    if(i>=4){openTCA();return;}
+    const item=document.getElementById('pi'+i);
+    if(item)item.classList.add('done');
+    if(bar)bar.style.width=pcts[i]+'%';
+    if(lbl)lbl.textContent=lbls[i];
+    i++;
+    delayProc(tick,850);
+  }
+  delayProc(tick,350);
+}
+function openTCA(){
+  if(cur!=='s16')return;
+  const bar=document.getElementById('pbar');
+  const lbl=document.getElementById('plbl');
+  const banner=document.getElementById('proc-waiting');
+  const ov=document.getElementById('tca-ov');
+  if(bar)bar.classList.add('paused');
+  if(lbl){lbl.textContent='En attente de votre réponse…';lbl.classList.add('waiting');}
+  if(banner)banner.classList.add('show');
+  delayProc(()=>{if(ov){ov.style.display='';ov.classList.add('open');}},700);
+}
+function tcaChoix(btn,choice){
+  document.querySelectorAll('#tca-step-main .cbtn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+
+  tcaNeedsDetail=(choice==='current'||choice==='past');
+
+  const rb=document.getElementById('tca-rebox');
+  const rbText=rb?rb.querySelector('.rbox-text'):null;
+  if(rb&&rbText){
+    if(choice==='later'){
+      rbText.textContent="On comprend. Vous n'avez pas besoin de répondre maintenant. Votre diététicienne pourra revenir sur ce point avec vous plus tard, dans un cadre confidentiel et bienveillant.";
+    }else if(choice==='never'){
+      rbText.textContent="Merci. Votre dossier peut être finalisé avec ces informations. Votre accompagnement restera adapté à votre profil.";
+    }else{
+      rbText.textContent="Merci pour votre confiance. On vous pose une seule précision pour adapter le suivi, pas pour vous juger.";
+    }
+    rb.style.display='flex';
+  }
+
+  const cta=document.getElementById('tca-btn');
+  if(cta){
+    cta.textContent=tcaNeedsDetail?'Préciser en 1 clic':'Finaliser mon dossier';
+    cta.disabled=false;
+  }
+}
+function tcaOk(){
+  if(tcaNeedsDetail){openTCAType();return;}
+  finishTCA();
+}
+function openTCAType(){
+  const main=document.getElementById('tca-step-main');
+  const detail=document.getElementById('tca-step-detail');
+  const kicker=document.getElementById('tca-kicker');
+  const subtitle=document.getElementById('tca-subtitle');
+  if(kicker)kicker.textContent='Dernière précision';
+  if(subtitle)subtitle.textContent="On adapte l'accompagnement, sans jugement.";
+  if(main)main.classList.remove('active');
+  delayProc(()=>{if(detail)detail.classList.add('active');},80);
+}
+function tcaTypeChoix(btn){
+  document.querySelectorAll('#tca-step-detail .tca-type-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  tcaDetail=btn.querySelector('.tca-type-main')?.textContent.trim()||btn.textContent.trim();
+  const note=document.getElementById('tca-type-note');
+  if(note){
+    const txt=tcaDetail.toLowerCase();
+    const isLater=txt.includes('je ne sais pas')||txt.includes('préciser plus tard')||txt.includes('preciser plus tard');
+    if(isLater){
+      note.innerHTML='<div style="display:flex;align-items:flex-start;gap:10px"><div style="width:32px;height:32px;border-radius:50%;background:#F5C842;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px"><svg viewBox=\"0 0 16 16\" fill=\"none\" style=\"width:14px;height:14px\"><path d=\"M8 4v4l3 3\" stroke=\"#1a1a1a\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><circle cx=\"8\" cy=\"8\" r=\"6\" stroke=\"#1a1a1a\" stroke-width=\"1.5\"/></svg></div><div><div style=\"font-size:13px;font-weight:700;color:#1a1a1a;margin-bottom:4px\">Aucun problème, on comprend.</div><div style=\"font-size:13px;color:#555;line-height:1.6\">Pas besoin du terme exact maintenant. Votre diététicienne reviendra sur ce point avec vous, dans un cadre confidentiel et sans jugement.</div></div></div>';
+      note.style.cssText='display:block;background:#fef9e6;border-radius:14px;padding:14px;margin-bottom:14px;border-left:3px solid #F5C842';
+    } else {
+      note.innerHTML='<div style=\"font-size:13px;color:#6f6251;line-height:1.6\">Merci pour cette précision. Elle ne sert pas à exclure — elle permet à votre diététicienne de vous accompagner avec plus de justesse et de bienveillance.</div>';
+      note.style.cssText='display:block;background:#f5efe6;border-radius:14px;padding:14px;margin-bottom:14px;border-left:3px solid #F5C842';
+    }
+  }
+  const b=document.getElementById('tca-type-btn');if(b)b.disabled=false;
+}
+function backToTCA(){
+  const main=document.getElementById('tca-step-main');
+  const detail=document.getElementById('tca-step-detail');
+  const kicker=document.getElementById('tca-kicker');
+  const subtitle=document.getElementById('tca-subtitle');
+  if(kicker)kicker.textContent='Votre dossier est à 88%';
+  if(subtitle)subtitle.textContent='Il nous manque un dernier élément pour le finaliser.';
+  if(detail)detail.classList.remove('active');
+  const typeNote=document.getElementById('tca-type-note');if(typeNote){typeNote.style.display='none';typeNote.textContent='';}
+  delayProc(()=>{if(main)main.classList.add('active');},80);
+}
+function tcaTypeOk(){finishTCA();}
+function finishTCA(){
+  clearProcTimers();
+  const ov=document.getElementById('tca-ov');
+  const bar=document.getElementById('pbar');
+  const lbl=document.getElementById('plbl');
+  const banner=document.getElementById('proc-waiting');
+  if(ov)ov.classList.remove('open');
+  delayProc(()=>{
+    if(ov)ov.style.display='none';
+    if(bar){bar.classList.remove('paused');bar.style.width='100%';}
+    if(banner)banner.classList.remove('show');
+    if(lbl){lbl.classList.remove('waiting');lbl.textContent='Dossier finalisé';}
+    const last=document.getElementById('pi3');if(last)last.classList.add('done');
+    delayProc(()=>go('s17'),800);
+  },300);
+}
+/* Update source screen to go to q1 */
+
+/* ── GLP-1 SUB-PATHWAY ── */
+function valGlp1Date(){
+  const j=document.getElementById('glp1-j').value;
+  const m=document.getElementById('glp1-m').value;
+  const a=document.getElementById('glp1-a').value;
+  const ok=j>=1&&j<=31&&m>=1&&m<=12&&a>=2018&&a<=2026;
+  document.getElementById('btn-glp1-date').disabled=!ok;
+}
+function valGlp1Poids(){
+  const v=parseFloat(document.getElementById('glp1-poids-prescr').value);
+  document.getElementById('btn-glp1-poids').disabled=!(v>=40&&v<=300);
+}
+function triggerBadBullets(){
+  const pills=document.querySelectorAll('.glp-bad-pill');
+  pills.forEach((p,i)=>{
+    p.classList.remove('animate');
+    p.style.opacity='0';
+  });
+  pills.forEach((p,i)=>{
+    setTimeout(()=>p.classList.add('animate'), i*220);
+  });
+}
+function triggerGoodBullets(){
+  const pills=document.querySelectorAll('.glp-good-pill');
+  pills.forEach((p,i)=>{
+    p.classList.remove('animate');
+    p.style.opacity='0';
+  });
+  pills.forEach((p,i)=>{
+    setTimeout(()=>p.classList.add('animate'), i*180);
+  });
+}
+
+/* INIT */
+upUI();
+</script>
+
+<div class="mobile-steps-overlay" id="mobile-steps-overlay" onclick="closeMobileSteps(event)">
+  <div class="mobile-steps-sheet" role="dialog" aria-modal="true" aria-label="Votre progression">
+    <div class="mobile-steps-head">
+      <div class="mobile-steps-title">Votre progression</div>
+      <button type="button" class="mobile-steps-close" onclick="closeMobileSteps()">×</button>
+    </div>
+    <div class="mobile-step-list" id="mobile-step-list"></div>
+  </div>
+</div>
+
+</body>
+</html>
