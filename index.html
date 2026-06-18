@@ -362,9 +362,6 @@ canvas#chart{display:block;width:100%;height:160px}
 
 
 /* ── CONFIDENTIALITY BADGE ── */
-.conf-badge{display:inline-flex;align-items:center;gap:7px;background:#fffaf0;border:1px solid #efe0b8;color:#6f5a1d;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:800;margin:0 0 16px;line-height:1}
-.conf-badge::before{content:'';width:8px;height:8px;border-radius:50%;background:#F5C842;box-shadow:0 0 0 3px rgba(245,200,66,.22)}
-.mobile-version .conf-badge{font-size:11.5px;padding:8px 11px;margin-bottom:14px}
 
 /* ── EARLY VALUE PROPOSITION ── */
 .value-screen{}
@@ -1196,7 +1193,6 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <button class="back-link" onclick="go('q4')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="eyebrow">Antécédents médicaux</div>
   <div class="hl">Quel est votre sexe biologique ?</div>
-  <div class="conf-badge">Réponse médicale confidentielle</div>
   <div class="sub">Connaître votre sexe biologique nous aidera à personnaliser au mieux votre programme.</div>
   <div class="choices">
     <button class="cbtn" onclick="sel(this,'s9');w(()=>go('s10'))">Homme</button>
@@ -1210,7 +1206,6 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <button class="back-link" onclick="go('s9')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="eyebrow">Antécédents médicaux</div>
   <div class="hl">Avez-vous déjà suivi des régimes et/ou des programmes de rééquilibrage alimentaire ? Si oui, étiez-vous accompagné par un professionnel de santé ?</div>
-  <div class="conf-badge">Réponse médicale confidentielle</div>
   <div class="sub">Connaître ce que vous avez déjà essayé aidera votre coach à mieux comprendre comment vous accompagner.</div>
   <div class="choices">
     <button class="cbtn" onclick="sel(this,'s10');w(()=>go('q5'))">Oui, et j’étais accompagné par un professionnel de santé</button>
@@ -1349,7 +1344,6 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <button class="back-link" onclick="go('q8')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="eyebrow">Antécédents médicaux</div>
   <div class="hl">Avez-vous ces pathologies existantes ?</div>
-  <div class="conf-badge">Réponse médicale confidentielle</div>
   <div class="multi" id="ml-patho">
     <button class="mbtn" onclick="ms(this,'ml-patho','anc-p','rbox-p')"><span class="txt">Diabète de type 1</span><span class="mck"></span></button>
     <button class="mbtn" onclick="ms(this,'ml-patho','anc-p','rbox-p')"><span class="txt">Diabète de type 2</span><span class="mck"></span></button>
@@ -1369,7 +1363,6 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <button class="back-link" onclick="go('s11')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="eyebrow">Antécédents médicaux</div>
   <div class="hl">Souffrez-vous ou avez-vous souffert d’une pathologie liée à votre système digestif ?</div>
-  <div class="conf-badge">Réponse médicale confidentielle</div>
   <div class="multi" id="ml-dig">
     <button class="mbtn" onclick="ms(this,'ml-dig','anc-d',null)"><span class="txt">Reflux gastro-oesophagien (remontée acide)</span><span class="mck"></span></button>
     <button class="mbtn" onclick="ms(this,'ml-dig','anc-d',null)"><span class="txt">Hernie hiatale</span><span class="mck"></span></button>
@@ -1388,7 +1381,6 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <button class="back-link" onclick="go('s12')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="eyebrow">Antécédents médicaux</div>
   <div class="hl">Avez-vous une autre pathologie ?</div>
-  <div class="conf-badge">Réponse médicale confidentielle</div>
   <div class="multi" id="ml-autre">
     <button class="mbtn" onclick="ms(this,'ml-autre','anc-a',null)"><span class="txt">Prédiabète</span><span class="mck"></span></button>
     <button class="mbtn" onclick="ms(this,'ml-autre','anc-a',null)"><span class="txt">Hypertension artérielle</span><span class="mck"></span></button>
@@ -1410,7 +1402,6 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <button class="back-link" onclick="go('s13')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="eyebrow">Antécédents médicaux</div>
   <div class="hl">Avez-vous des antécédents de traitement de l’obésité ?</div>
-  <div class="conf-badge">Réponse médicale confidentielle</div>
   <div class="sub">Connaître votre historique nous permettra d’adapter nos recommandations.</div>
   <div class="multi" id="ml-trt">
     <button class="mbtn" onclick="ms(this,'ml-trt','anc-t',null)"><span class="txt">Anneau gastrique</span><span class="mck"></span></button>
@@ -1429,7 +1420,6 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <button class="back-link" onclick="go('s14')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="eyebrow">Antécédents médicaux</div>
   <div class="hl">Avez-vous un parent ou un membre de votre famille qui a l’une des pathologies suivantes ?</div>
-  <div class="conf-badge">Réponse médicale confidentielle</div>
   <div class="multi" id="ml-fam">
     <button class="mbtn" onclick="ms(this,'ml-fam','anc-f',null)"><span class="txt">Diabète</span><span class="mck"></span></button>
     <button class="mbtn" onclick="ms(this,'ml-fam','anc-f',null)"><span class="txt">Hypertension artérielle</span><span class="mck"></span></button>
