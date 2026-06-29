@@ -703,6 +703,22 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 .mobile-version .qcard-main{font-size:14.5px}
 .mobile-version .qcard-sub{font-size:12.5px}
 
+
+/* ── SLIDES TÉMOIGNAGE ── */
+.testi-screen{display:none}
+.testi-screen.active{display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 180px)}
+.testi-wrap{background:#fffaf0;border:1.5px solid #f0e3bf;border-radius:20px;padding:28px 24px;margin-bottom:8px}
+.testi-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#b49a35;margin-bottom:18px}
+.testi-quote{font-size:18px;font-weight:700;color:#1a1a1a;line-height:1.5;font-style:italic;margin-bottom:22px;letter-spacing:-.01em}
+.testi-quote::before{content:'\201C'}
+.testi-quote::after{content:'\201D'}
+.testi-author{display:flex;align-items:center;gap:12px}
+.testi-avatar{width:36px;height:36px;border-radius:50%;background:#F5C842;color:#1a1a1a;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.testi-name{font-size:13px;font-weight:700;color:#1a1a1a}
+.testi-stars{font-size:11px;color:#888;margin-top:2px}
+.mobile-version .testi-wrap{border-radius:18px;padding:22px 18px}
+.mobile-version .testi-quote{font-size:16px}
+
 /* ── SLIDE DE RÉASSURANCE UNIQUE ── */
 .reassure-card{background:#F5C842;border-radius:18px;padding:22px;margin:18px 0 4px}
 .reassure-line{font-size:15px;font-weight:700;color:#1a1a1a;line-height:1.5;margin-bottom:16px}
@@ -1097,13 +1113,32 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">J'ai déjà essayé plusieurs fois</span><span class="qcard-sub">Régimes, efforts, reprises de poids... je veux sortir de ce cycle</span></button>
   </div>
   <div class="quiz-inline-feedback" id="q1-feedback"></div>
-  <button class="quiz-next" id="next-q1" onclick="go('q2')">Continuer</button>
+  <button class="quiz-next" id="next-q1" onclick="go('testi_q1')">Continuer</button>
   <div class="quiz-counter" id="qcount1"></div>
+
+</div>
+
+<div class="screen testi-screen" id="testi_q1">
+  <button class="back-link" onclick="go('q1')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="testi-wrap">
+    <div class="testi-label">Elles l'ont fait</div>
+    <div class="testi-quote">Le suivi dans la durée, c'est 50 % de la réussite. Annette aide à rester investi grâce à l'application — des données, des conseils qui font garder le lien. Les diététiciennes sont vraiment empathiques, avec régulièrement des relances pour ne pas être perdu dans la nature.</div>
+    <div class="testi-author">
+      <div class="testi-avatar">AN</div>
+      <div class="testi-info">
+        <div class="testi-name">Aurore N.</div>
+        <div class="testi-stars">★★★★★ Google</div>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <button class="btn" onclick="go('q2')">Continuer</button>
+  </div>
 </div>
 
 <!-- Q2 - QUIZ : SITUATIONS ÉVITÉES -->
 <div class="screen quiz-screen" id="q2">
-  <button class="back-link" onclick="go('q1')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <button class="back-link" onclick="go('testi_q1')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="quiz-prog" id="qprog2"></div>
   <div class="quiz-eyebrow">Votre quotidien</div>
   <div class="quiz-q">Est-ce que votre poids vous pousse parfois à éviter certaines situations ?</div>
@@ -1115,13 +1150,32 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">J'évite certaines occasions professionnelles</span><span class="qcard-sub">Réunions, prises de parole, déplacements... je peux manquer de confiance</span></button>
   </div>
   <div class="quiz-inline-feedback" id="q2-feedback"></div>
-  <button class="quiz-next" id="next-q2" onclick="go('q3')">Continuer</button>
+  <button class="quiz-next" id="next-q2" onclick="go('testi_q2')">Continuer</button>
   <div class="quiz-counter" id="qcount2"></div>
+
+</div>
+
+<div class="screen testi-screen" id="testi_q2">
+  <button class="back-link" onclick="go('q2')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="testi-wrap">
+    <div class="testi-label">Elles l'ont fait</div>
+    <div class="testi-quote">Pour la première fois depuis de très longues années, j'ai l'impression de pouvoir vraiment changer ma relation avec la nourriture et mon corps. Au-delà d'une perte de poids, Annette aide à repenser ce rapport. Je vois déjà les changements dans mon comportement.</div>
+    <div class="testi-author">
+      <div class="testi-avatar">YA</div>
+      <div class="testi-info">
+        <div class="testi-name">Yousra A.</div>
+        <div class="testi-stars">★★★★★ Google</div>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <button class="btn" onclick="go('q3')">Continuer</button>
+  </div>
 </div>
 
 <!-- Q3 - QUIZ : ÉNERGIE -->
 <div class="screen quiz-screen" id="q3">
-  <button class="back-link" onclick="go('q2')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <button class="back-link" onclick="go('testi_q2')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="quiz-prog" id="qprog3"></div>
   <div class="quiz-eyebrow">Votre énergie</div>
   <div class="quiz-q">Est-ce que votre poids impacte votre énergie au quotidien ?</div>
@@ -1133,13 +1187,32 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">J'ai envie de retrouver plus de confort</span><span class="qcard-sub">Bouger, sortir, faire mes activités... j'aimerais que ce soit plus simple</span></button>
   </div>
   <div class="quiz-inline-feedback" id="q3-feedback"></div>
-  <button class="quiz-next" id="next-q3" onclick="go('q4')">Continuer</button>
+  <button class="quiz-next" id="next-q3" onclick="go('testi_q3')">Continuer</button>
   <div class="quiz-counter" id="qcount3"></div>
+
+</div>
+
+<div class="screen testi-screen" id="testi_q3">
+  <button class="back-link" onclick="go('q3')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="testi-wrap">
+    <div class="testi-label">Elles l'ont fait</div>
+    <div class="testi-quote">Je suis suivie depuis un an par Annette. J'ai perdu tous mes kilos et même un peu plus — 33 kg perdus. Je suis en très bonne forme pour mes 50 ans, avec la reprise du sport en plus comme conseillé. Je continue pour la stabilisation.</div>
+    <div class="testi-author">
+      <div class="testi-avatar">AB</div>
+      <div class="testi-info">
+        <div class="testi-name">Arielle B.</div>
+        <div class="testi-stars">★★★★★ Google</div>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <button class="btn" onclick="go('q4')">Continuer</button>
+  </div>
 </div>
 
 <!-- Q4 - QUIZ : DÉCOURAGEMENT -->
 <div class="screen quiz-screen" id="q4">
-  <button class="back-link" onclick="go('q3')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <button class="back-link" onclick="go('testi_q3')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="quiz-prog" id="qprog4"></div>
   <div class="quiz-eyebrow">Votre état d'esprit</div>
   <div class="quiz-q">Qu'est-ce qui vous décourage le plus dans votre parcours ?</div>
@@ -1151,8 +1224,27 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je manque de soutien dans les moments difficiles</span><span class="qcard-sub">Quand je doute ou que je décroche, je ne sais pas toujours vers qui me tourner</span></button>
   </div>
   <div class="quiz-inline-feedback" id="q4-feedback"></div>
-  <button class="quiz-next" id="next-q4" onclick="go('quiz_reassure')">Continuer</button>
+  <button class="quiz-next" id="next-q4" onclick="go('testi_q4')">Continuer</button>
   <div class="quiz-counter" id="qcount4"></div>
+
+</div>
+
+<div class="screen testi-screen" id="testi_q4">
+  <button class="back-link" onclick="go('q4')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="testi-wrap">
+    <div class="testi-label">Elles l'ont fait</div>
+    <div class="testi-quote">Carla a su trouver les mots justes quand je me décourageais. Elle m'a rappelé que la perte de poids n'est pas linéaire, et ça m'a évité d'abandonner au premier plateau. Ce soutien psychologique compte autant que le reste.</div>
+    <div class="testi-author">
+      <div class="testi-avatar">VP</div>
+      <div class="testi-info">
+        <div class="testi-name">Victor P.</div>
+        <div class="testi-stars">★★★★★ Google</div>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <button class="btn" onclick="go('quiz_reassure')">Continuer</button>
+  </div>
 </div>
 
 <!-- QUIZ_REASSURE - SLIDE DE RÉASSURANCE UNIQUE (varie selon réponses) -->
@@ -1571,19 +1663,19 @@ const HIDE_TOP=['s20'];
 let procTimerIds=[];
 const PCT={
   s0:4,s2:8,s3:12,value_glp:16,s1:19,s4:22,glp1_date:23,glp1_prescripteur:24,glp1_poids:25,glp1_duree:26,glp1_seul:27,glp1_annette:28,s5:29,s6:30,s7:34,s8:40,
-  q1:42,q2:45,q3:48,q4:51,quiz_reassure:54,s9:57,s10:60,
+  q1:42,testi_q1:44,q2:45,testi_q2:48,q3:49,testi_q3:51,q4:52,testi_q4:54,quiz_reassure:55,s9:57,s10:60,
   s11:68,s12:71,s13:74,s14:77,s15:80,s16:84,s17:90,s18:94,s19:97,s20:100
 };
 const STEP_LABELS={
   s0:'Étape 1',s2:'Étape 2',s3:'Étape 3',value_glp:'Pourquoi Annette',s1:'Étape 4',
   s4:'Étape 5',glp1_date:'Votre prescription',glp1_prescripteur:'Votre prescription',glp1_poids:'Votre prescription',glp1_duree:'Votre prescription',glp1_seul:'',glp1_annette:'',s5:'Étape 6',s6:'Étape 7',s7:'Étape 8',s8:'Étape 9',
-  q1:'Question 1 / 4',q2:'Question 2 / 4',q3:'Question 3 / 4',q4:'Question 4 / 4',quiz_reassure:'Avec Annette',s9:'Étape 10',s10:'Étape 11',
+  q1:'Question 1 / 4',testi_q1:'',q2:'Question 2 / 4',testi_q2:'',q3:'Question 3 / 4',testi_q3:'',q4:'Question 4 / 4',testi_q4:'',quiz_reassure:'Avec Annette',s9:'Étape 10',s10:'Étape 11',
   s11:'Étape 12',s12:'Étape 12',s13:'Étape 12',s14:'Étape 13',s15:'Étape 13',
   s16:'Analyse',s17:'Résultat',s18:'Étape 14',s19:'Étape 15',s20:'Terminé'
 };
 const SIDE_MAP={
   s0:0,s2:0,s3:0,value_glp:0,s1:1,s4:2,glp1_date:2,glp1_prescripteur:2,glp1_poids:2,glp1_duree:2,glp1_seul:2,glp1_annette:2,s5:2,s6:2,s7:2,s8:3,
-  q1:3,q2:3,q3:3,q4:3,quiz_reassure:3,s9:4,s10:4,
+  q1:3,testi_q1:3,q2:3,testi_q2:3,q3:3,testi_q3:3,q4:3,testi_q4:3,quiz_reassure:3,s9:4,s10:4,
   s11:4,s12:4,s13:4,s14:4,s15:4,s16:4,s17:5,s18:6,s19:6,s20:6
 };
 const MOBILE_STEP_NAMES=['Motivation','Source','Profil santé','Votre potentiel','Santé','Résultat','Compte'];
