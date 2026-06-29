@@ -900,13 +900,24 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
     <div class="ig"><label>Mois</label><div class="iw"><input type="number" id="glp1-m" placeholder="MM" min="1" max="12" inputmode="numeric" oninput="valGlp1Date()"></div></div>
     <div class="ig"><label>Année</label><div class="iw"><input type="number" id="glp1-a" placeholder="AAAA" min="2018" max="2026" inputmode="numeric" oninput="valGlp1Date()"></div></div>
   </div>
-  <div class="actions"><button class="btn" id="btn-glp1-date" onclick="go('glp1_poids')" disabled>Continuer</button></div>
+  <div class="actions"><button class="btn" id="btn-glp1-date" onclick="go('glp1_prescripteur')" disabled>Continuer</button></div>
+  <div class="secure" style="margin-top:10px"><svg viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3v4c0 2.8 2.1 5.4 5 6 2.9-.6 5-3.2 5-6V3L7 1Z" stroke="#bbb" stroke-width="1.2"/></svg>Vos données sont cryptées et sécurisées</div>
+</div>
+
+<!-- GLP1_PRESCRIPTEUR — MÉDECIN PRESCRIPTEUR -->
+<div class="screen" id="glp1_prescripteur">
+  <button class="back-link" onclick="go('glp1_date')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="eyebrow">Profil santé</div>
+  <div class="hl">Qui est votre médecin prescripteur ?</div>
+  <div class="chip"><span class="chip-dot"></span>Cette information permet de préparer votre dossier et de coordonner correctement votre suivi.</div>
+  <input type="text" class="ifl" id="glp1-prescripteur" placeholder="Nom du médecin" oninput="valGlp1Prescripteur()">
+  <div class="actions"><button class="btn" id="btn-glp1-prescripteur" onclick="go('glp1_poids')" disabled>Continuer</button></div>
   <div class="secure" style="margin-top:10px"><svg viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3v4c0 2.8 2.1 5.4 5 6 2.9-.6 5-3.2 5-6V3L7 1Z" stroke="#bbb" stroke-width="1.2"/></svg>Vos données sont cryptées et sécurisées</div>
 </div>
 
 <!-- GLP1_POIDS — POIDS AU MOMENT DE LA PRESCRIPTION -->
 <div class="screen" id="glp1_poids">
-  <button class="back-link" onclick="go('glp1_date')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <button class="back-link" onclick="go('glp1_prescripteur')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="eyebrow">Profil santé</div>
   <div class="hl">Quel est votre poids au moment de la prescription ?</div>
   <div class="chip"><span class="chip-dot"></span>Pour comparer avec votre poids actuel et mesurer les résultats du traitement.</div>
@@ -1559,19 +1570,19 @@ const FORM_START='s0';
 const HIDE_TOP=['s20'];
 let procTimerIds=[];
 const PCT={
-  s0:4,s2:8,s3:12,value_glp:16,s1:19,s4:22,glp1_date:23,glp1_poids:24,glp1_duree:25,glp1_seul:26,glp1_annette:27,s5:28,s6:30,s7:34,s8:40,
+  s0:4,s2:8,s3:12,value_glp:16,s1:19,s4:22,glp1_date:23,glp1_prescripteur:24,glp1_poids:25,glp1_duree:26,glp1_seul:27,glp1_annette:28,s5:29,s6:30,s7:34,s8:40,
   q1:42,q2:45,q3:48,q4:51,quiz_reassure:54,s9:57,s10:60,
   s11:68,s12:71,s13:74,s14:77,s15:80,s16:84,s17:90,s18:94,s19:97,s20:100
 };
 const STEP_LABELS={
   s0:'Étape 1',s2:'Étape 2',s3:'Étape 3',value_glp:'Pourquoi Annette',s1:'Étape 4',
-  s4:'Étape 5',glp1_date:'Votre prescription',glp1_poids:'Votre prescription',glp1_duree:'Votre prescription',glp1_seul:'',glp1_annette:'',s5:'Étape 6',s6:'Étape 7',s7:'Étape 8',s8:'Étape 9',
+  s4:'Étape 5',glp1_date:'Votre prescription',glp1_prescripteur:'Votre prescription',glp1_poids:'Votre prescription',glp1_duree:'Votre prescription',glp1_seul:'',glp1_annette:'',s5:'Étape 6',s6:'Étape 7',s7:'Étape 8',s8:'Étape 9',
   q1:'Question 1 / 4',q2:'Question 2 / 4',q3:'Question 3 / 4',q4:'Question 4 / 4',quiz_reassure:'Avec Annette',s9:'Étape 10',s10:'Étape 11',
   s11:'Étape 12',s12:'Étape 12',s13:'Étape 12',s14:'Étape 13',s15:'Étape 13',
   s16:'Analyse',s17:'Résultat',s18:'Étape 14',s19:'Étape 15',s20:'Terminé'
 };
 const SIDE_MAP={
-  s0:0,s2:0,s3:0,value_glp:0,s1:1,s4:2,glp1_date:2,glp1_poids:2,glp1_duree:2,glp1_seul:2,glp1_annette:2,s5:2,s6:2,s7:2,s8:3,
+  s0:0,s2:0,s3:0,value_glp:0,s1:1,s4:2,glp1_date:2,glp1_prescripteur:2,glp1_poids:2,glp1_duree:2,glp1_seul:2,glp1_annette:2,s5:2,s6:2,s7:2,s8:3,
   q1:3,q2:3,q3:3,q4:3,quiz_reassure:3,s9:4,s10:4,
   s11:4,s12:4,s13:4,s14:4,s15:4,s16:4,s17:5,s18:6,s19:6,s20:6
 };
@@ -2183,6 +2194,10 @@ function valGlp1Date(){
   const a=document.getElementById('glp1-a').value;
   const ok=j>=1&&j<=31&&m>=1&&m<=12&&a>=2018&&a<=2026;
   document.getElementById('btn-glp1-date').disabled=!ok;
+}
+function valGlp1Prescripteur(){
+  const v=document.getElementById('glp1-prescripteur').value.trim();
+  document.getElementById('btn-glp1-prescripteur').disabled=v.length<2;
 }
 function valGlp1Poids(){
   const v=parseFloat(document.getElementById('glp1-poids-prescr').value);
