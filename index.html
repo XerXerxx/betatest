@@ -136,7 +136,7 @@ body{background:#f0ede8;font-family:'Helvetica Neue',-apple-system,Arial,sans-se
 .obese{background:#fde8e8;color:#c0392b}
 .surpoids{background:#fef3d0;color:#b7770d}
 .normal{background:#e6f5ec;color:#1a7a3a}
-canvas#chart{display:block;width:100%;height:220px}
+canvas#chart{display:block;width:100%;height:240px}
 .trow{display:flex;justify-content:space-between;padding:6px 2px 0}
 .trow span{font-size:11px;color:#bbb;font-weight:600}
 
@@ -452,7 +452,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 .mobile-version .gbig{font-size:36px}
 .mobile-version .imcpill{padding:10px 12px;border-radius:14px}
 .mobile-version .imcn{font-size:23px}
-.mobile-version canvas#chart{height:200px}
+.mobile-version canvas#chart{height:220px}
 .mobile-version .cmprow,.mobile-version .stat-row{grid-template-columns:1fr 1fr;gap:9px}
 .mobile-version .ccard,.mobile-version .sbox{border-radius:16px;padding:14px}
 .mobile-version .cval{font-size:22px}
@@ -1886,13 +1886,13 @@ function upFinal(){const{kg}=getStats();document.getElementById('final-kg').text
 function drawChart(poids,pK){
   const cv=document.getElementById('chart');
   if(!cv)return;
-  const W=cv.offsetWidth||480,H=220,dpr=window.devicePixelRatio||1;
+  const W=cv.offsetWidth||480,H=240,dpr=window.devicePixelRatio||1;
   cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';
   const ctx=cv.getContext('2d');
   ctx.setTransform(dpr,0,0,dpr,0,0);
   ctx.clearRect(0,0,W,H);
 
-  const pL=52,pR=18,pT=34,pB=30,cW=W-pL-pR,cH=H-pT-pB;
+  const pL=52,pR=18,pT=36,pB=34,cW=W-pL-pR,cH=H-pT-pB;
   const pS=Math.round(pK*.5),minY=poids-pK-8,maxY=poids+5,rY=maxY-minY;
   const ptA=[poids,poids-pK*.58,poids-pK],ptS=[poids,poids-pS*.58,poids-pS];
   const xy=(t,py)=>({x:pL+t*cW,y:pT+((maxY-py)/rY)*cH});
@@ -1906,34 +1906,75 @@ function drawChart(poids,pK){
   ctx.fillText(Math.round(poids-pK)+' kg',pL-10,pT+cH);
 
   ctx.beginPath();drawCurve(ptA);
-  const startA=xy(0,ptA[0]),endA=xy(1,ptA[2]);
+  const startA=xy(0,ptA[0]),endA=xy(1,ptA[2]),endS=xy(1,ptS[2]);
   ctx.lineTo(endA.x,pT+cH);ctx.lineTo(startA.x,pT+cH);ctx.closePath();
   ctx.fillStyle='rgba(245,200,66,.22)';ctx.fill();
 
   ctx.beginPath();ctx.setLineDash([7,6]);ctx.strokeStyle='#b8b8b8';ctx.lineWidth=2.2;ctx.lineCap='round';drawCurve(ptS);ctx.stroke();
   ctx.setLineDash([]);ctx.beginPath();ctx.strokeStyle='#1a1a1a';ctx.lineWidth=3.2;ctx.lineJoin='round';ctx.lineCap='round';drawCurve(ptA);ctx.stroke();
 
-  const endS=xy(1,ptS[2]);
   [{pt:startA,c:'#1a1a1a',r:5.5},{pt:endA,c:'#1a1a1a',r:6.5},{pt:endS,c:'#b8b8b8',r:5.5}].forEach(({pt,c,r})=>{
     ctx.beginPath();ctx.arc(pt.x,pt.y,r,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();ctx.lineWidth=2.2;ctx.strokeStyle=c;ctx.stroke();
   });
 
-  const midA=xy(.58,bz(ptA,.58)),midS=xy(.58,bz(ptS,.58));
-  chartTag(ctx,midA.x,midA.y-16,'Avec Annette','#1a1a1a','#fff',W);
-  chartTag(ctx,midS.x,midS.y+18,'Sans Annette','#f5f5f3','#666',W);
-  chartTag(ctx,endA.x-46,endA.y-4,'−'+pK+' kg','#F5C842','#1a1a1a',W);
-  chartTag(ctx,endS.x-46,endS.y-26,'−'+pS+' kg','#ececec','#666',W);
+  const placed=[];
+  const bounds={top:pT-4,bottom:pT+cH+2,left:pL,right:W-pR};
+  const ptMidA=xy(.32,bz(ptA,.32)),ptMidS=xy(.68,bz(ptS,.68));
+  chartTagPlace(ctx,ptMidA.x,ptMidA.y,['above','above-left'],placed,'Avec Annette','#1a1a1a','#fff',W,bounds);
+  chartTagPlace(ctx,ptMidS.x,ptMidS.y,['above','above-right'],placed,'Sans Annette','#f5f5f3','#666',W,bounds);
+  chartTagPlace(ctx,endS.x,endS.y,['above','above-left','left'],placed,'−'+pS+' kg','#ececec','#666',W,bounds);
+  chartTagPlace(ctx,endA.x,endA.y,['below','below-left','below-right'],placed,'−'+pK+' kg','#F5C842','#1a1a1a',W,bounds);
 
   ctx.fillStyle='#9d9890';ctx.font='600 10px Helvetica,sans-serif';ctx.textAlign='center';ctx.textBaseline='top';
-  ctx.fillText('Plus bas = plus de perte de poids',pL+cW/2,pT+cH+8);
+  ctx.fillText('Plus bas = plus de perte de poids',pL+cW/2,pT+cH+10);
 }
-function chartTag(ctx,x,y,txt,bg,fg,W){
+function chartTagSize(ctx,txt){
   ctx.font='800 10px Helvetica,sans-serif';
-  const tw=ctx.measureText(txt).width,bw=tw+16,bh=22,bx=Math.min(Math.max(x-bw/2,4),W-bw-4),by=y-bh/2;
+  return{w:ctx.measureText(txt).width+16,h:22};
+}
+function chartTagRect(cx,cy,w,h,mode){
+  const gap=10;
+  switch(mode){
+    case 'above':return{x:cx-w/2,y:cy-h-gap};
+    case 'below':return{x:cx-w/2,y:cy+gap};
+    case 'left':return{x:cx-w-gap,y:cy-h/2};
+    case 'right':return{x:cx+gap,y:cy-h/2};
+    case 'above-left':return{x:cx-w-gap,y:cy-h-gap};
+    case 'above-right':return{x:cx+gap,y:cy-h-gap};
+    case 'below-left':return{x:cx-w-gap,y:cy+gap};
+    case 'below-right':return{x:cx+gap,y:cy+gap};
+    default:return{x:cx-w/2,y:cy-h/2};
+  }
+}
+function chartTagHits(a,b){
+  return!(a.x+a.w<=b.x||b.x+b.w<=a.x||a.y+a.h<=b.y||b.y+b.h<=a.y);
+}
+function chartTagDraw(ctx,rect,txt,bg,fg){
+  const bx=rect.x,by=rect.y,bw=rect.w,bh=rect.h;
   ctx.beginPath();ctx.moveTo(bx+8,by);ctx.lineTo(bx+bw-8,by);ctx.quadraticCurveTo(bx+bw,by,bx+bw,by+8);
   ctx.lineTo(bx+bw,by+bh-8);ctx.quadraticCurveTo(bx+bw,by+bh,bx+bw-8,by+bh);ctx.lineTo(bx+8,by+bh);
   ctx.quadraticCurveTo(bx,by+bh,bx,by+bh-8);ctx.lineTo(bx,by+8);ctx.quadraticCurveTo(bx,by,bx+8,by);ctx.closePath();
-  ctx.fillStyle=bg;ctx.fill();ctx.fillStyle=fg;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(txt,bx+bw/2,by+bh/2);
+  ctx.fillStyle=bg;ctx.fill();ctx.fillStyle=fg;ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(txt,bx+bw/2,by+bh/2);
+}
+function chartTagPlace(ctx,cx,cy,modes,placed,txt,bg,fg,W,bounds){
+  const size=chartTagSize(ctx,txt);
+  const pad=4;
+  for(const mode of modes){
+    let rect=chartTagRect(cx,cy,size.w,size.h,mode);
+    rect.x=Math.min(Math.max(rect.x,pad),W-size.w-pad);
+    rect.y=Math.min(Math.max(rect.y,bounds.top),bounds.bottom-size.h);
+    const hit=placed.some(p=>chartTagHits(rect,p));
+    if(!hit){
+      chartTagDraw(ctx,rect,txt,bg,fg);
+      placed.push(rect);
+      return;
+    }
+  }
+  let rect=chartTagRect(cx,cy,size.w,size.h,modes[0]);
+  rect.x=Math.min(Math.max(rect.x,pad),W-size.w-pad);
+  chartTagDraw(ctx,rect,txt,bg,fg);
+  placed.push(rect);
 }
 /* PROCESSING */
 function clearProcTimers(){procTimerIds.forEach(id=>clearTimeout(id));procTimerIds=[];}
