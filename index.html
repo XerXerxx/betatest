@@ -191,6 +191,10 @@ canvas#chart{display:block;width:100%;height:240px}
 #s16 #tca-ov{position:static;inset:auto;background:transparent;z-index:auto;display:none;align-items:stretch;justify-content:initial;padding:0;margin-top:24px;pointer-events:auto}
 #s16 #tca-ov.open{display:block}
 #s16 #tca-modal{max-width:540px;margin:0 auto;background:#fff;border:1.5px solid #ebebeb;box-shadow:0 18px 42px rgba(26,26,26,.08);transform:none;opacity:1;padding:24px;border-radius:22px}
+#s16 .proc-wrap{transition:opacity .28s ease,transform .28s ease}
+#s16 .proc-wrap.is-hidden{display:none;opacity:0;transform:translateY(10px)}
+#s16 .proc-wrap.is-visible{display:flex;animation:fadeUp .28s cubic-bezier(.4,0,.2,1)}
+.tca-flow-intro{font-size:13px;color:#8a7d69;line-height:1.55;background:#fffaf0;border:1px solid #f0e3bf;border-radius:12px;padding:12px 14px;margin-bottom:16px}
 .mobile-version #s16 #tca-ov{align-items:stretch;padding:0;background:transparent;margin-top:20px}
 .mobile-version #s16 #tca-modal{width:100%;max-width:none;border-radius:22px;padding:20px;max-height:none;overflow:visible}
 .modal-close{float:right;background:none;border:none;font-size:14px;color:#aaa;cursor:pointer;font-weight:600;padding:0;line-height:1}
@@ -660,15 +664,16 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 .mobile-version .proj-benefits{border-radius:16px;padding:16px 17px;margin-bottom:18px}
 .mobile-version .proj-ben-item{font-size:13.5px;padding:9px 11px}
 .chart-wrap{position:relative;margin-top:4px}
+.chart-simple-title{font-size:13px;font-weight:800;color:#1a1a1a;background:#fffaf0;border:1px solid #f0e3bf;border-radius:12px;padding:10px 12px;margin-bottom:10px;text-align:center}
 .chart-labels{position:absolute;inset:0;pointer-events:none;z-index:2}
 .chart-sticker{position:absolute;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:7px 11px;font-size:10px;font-weight:900;line-height:1;white-space:nowrap;box-shadow:0 8px 18px rgba(26,26,26,.12)}
-.chart-sticker.dark{background:#1a1a1a;color:#fff;left:23%;top:28%}
-.chart-sticker.light{background:#f5f5f3;color:#666;border:1px solid #e8e8e6;left:58%;top:39%}
-.chart-sticker.loss-solo{background:#ececec;color:#666;right:4%;top:43%}
-.chart-sticker.loss-annette{background:#F5C842;color:#1a1a1a;right:4%;top:70%}
+.chart-sticker.dark{background:#1a1a1a;color:#fff;right:4%;top:69%}
+.chart-sticker.light{background:#f5f5f3;color:#666;border:1px solid #e8e8e6;right:4%;top:34%}
+.chart-sticker.loss-solo{background:#ececec;color:#666;right:4%;top:46%}
+.chart-sticker.loss-annette{background:#F5C842;color:#1a1a1a;right:4%;top:81%}
 .mobile-version .chart-sticker{font-size:9.5px;padding:6px 9px}
-.mobile-version .chart-sticker.dark{left:18%;top:27%}
-.mobile-version .chart-sticker.light{left:50%;top:40%}
+.mobile-version .chart-sticker.dark{right:3%;top:68%}
+.mobile-version .chart-sticker.light{right:3%;top:32%}
 .doctolib-box{display:flex;align-items:flex-start;gap:12px;background:#fffaf0;border:1.5px solid #f0e3bf;border-radius:14px;padding:14px 16px;margin-bottom:16px}
 .doctolib-box-text{font-size:13px;color:#6c5a28;line-height:1.55}
 .doctolib-box-text strong{color:#1a1a1a}
@@ -1045,12 +1050,13 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
     <div class="gtop">
       <div><div class="gbig"><span id="proj-kg">−14</span><sub> kg</sub></div><div class="gsub">objectif indicatif à 12 mois avec Annette</div></div>
     </div>
+    <div class="chart-simple-title">Deux chemins possibles : plus la ligne descend, plus la perte de poids est importante.</div>
     <div class="chart-wrap">
       <canvas id="chart"></canvas>
       <div class="chart-labels" aria-hidden="true">
-        <span class="chart-sticker dark">Avec Annette</span>
         <span class="chart-sticker light">Sans Annette</span>
         <span class="chart-sticker loss-solo" id="chart-loss-solo">−7 kg</span>
+        <span class="chart-sticker dark">Avec Annette</span>
         <span class="chart-sticker loss-annette" id="chart-loss-annette">−14 kg</span>
       </div>
     </div>
@@ -1275,7 +1281,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 
 <!-- S16 - PROCESSING + TCA OVERLAY -->
 <div class="screen" id="s16">
-  <div class="proc-wrap">
+  <div class="proc-wrap is-hidden">
     <div class="proc-logo">annette</div>
     <div class="proc-list">
       <div class="pitem" id="pi0"><div class="pchk"></div><div><div class="ptxt">Analyse de votre IMC</div><div class="psub">Calcul de votre profil morphologique</div></div></div>
@@ -1293,20 +1299,21 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <!-- TCA MODAL -->
   <div class="overlay" id="tca-ov">
     <div class="modal" id="tca-modal">
+      <button class="back-link" onclick="go('s15')" style="margin-bottom:18px"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
         <div style="width:36px;height:36px;border-radius:50%;background:#fef3d0;display:flex;align-items:center;justify-content:center;flex-shrink:0">
           <svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><circle cx="8" cy="8" r="6.5" stroke="#b78000" stroke-width="1.4"/><path d="M8 5v3.5l2.5 1.5" stroke="#b78000" stroke-width="1.4" stroke-linecap="round"/></svg>
         </div>
         <div>
-          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#bbb" id="tca-kicker">Votre dossier est à 88%</div>
-          <div style="font-size:13px;font-weight:700;color:#1a1a1a;margin-top:1px" id="tca-subtitle">Il nous manque un dernier élément pour le finaliser.</div>
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#bbb" id="tca-kicker">Dernière question médicale</div>
+          <div style="font-size:13px;font-weight:700;color:#1a1a1a;margin-top:1px" id="tca-subtitle">Elle nous aide à adapter votre accompagnement.</div>
         </div>
       </div>
       <div style="height:1px;background:#f0f0ee;margin-bottom:20px"></div>
       <div class="tca-modal-body">
         <div class="tca-step active" id="tca-step-main">
           <div class="hl" style="font-size:21px;margin-bottom:10px">Avez-vous déjà été diagnostiqué d’un trouble des conduites alimentaires ?</div>
-          <div class="chip" style="margin-bottom:18px"><span class="chip-dot"></span>Nous voulons nous assurer de vous soutenir au mieux dans votre parcours. Votre réponse reste confidentielle et permet d’adapter l’accompagnement.</div>
+          <div class="tca-flow-intro">Comme les autres questions médicales, cette réponse reste confidentielle. Elle permet à votre diététicienne d'adapter le suivi avec plus de justesse.</div>
           <div class="choices" style="margin-bottom:16px">
             <button class="cbtn" onclick="tcaChoix(this,'current')">Oui, j’en souffre toujours</button>
             <button class="cbtn" onclick="tcaChoix(this,'past')">Oui, mais je n’en souffre plus</button>
@@ -1314,7 +1321,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
             <button class="cbtn" onclick="tcaChoix(this,'later')">Je préfère ne pas répondre maintenant</button>
           </div>
           <div class="rebox" id="tca-rebox" style="display:none"><div class="rbox-mark"><svg viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 3v5l3 2.5" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round"/></svg></div><span class="rbox-text"></span></div>
-          <button class="btn" id="tca-btn" onclick="tcaOk()" disabled style="margin-top:4px">Finaliser mon dossier</button>
+          <button class="btn" id="tca-btn" onclick="tcaOk()" disabled style="margin-top:4px">Continuer vers l'analyse</button>
         </div>
         <div class="tca-step" id="tca-step-detail">
           <div class="hl" style="font-size:21px;margin-bottom:10px">Quel trouble du comportement alimentaire a été diagnostiqué ?</div>
@@ -1552,7 +1559,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 /* STATE */
 let cur='s0',email='',tcaNeedsDetail=false,tcaDetail='';
 const FORM_START='s0';
-const HIDE_TOP=['s16','s20'];
+const HIDE_TOP=['s20'];
 let procTimerIds=[];
 const PCT={
   s0:4,s2:8,s3:12,value_glp:16,s1:19,s4:22,glp1_date:23,glp1_poids:24,glp1_duree:25,glp1_seul:26,glp1_annette:27,s5:28,s6:30,s7:34,s8:40,
@@ -1951,41 +1958,55 @@ function drawChart(poids,pK){
   ctx.setTransform(dpr,0,0,dpr,0,0);
   ctx.clearRect(0,0,W,H);
 
-  const pL=52,pR=18,pT=36,pB=34,cW=W-pL-pR,cH=H-pT-pB;
-  const pS=Math.round(pK*.5),minY=poids-pK-8,maxY=poids+5,rY=maxY-minY;
-  const ptA=[poids,poids-pK*.58,poids-pK],ptS=[poids,poids-pS*.58,poids-pS];
-  const xy=(t,py)=>({x:pL+t*cW,y:pT+((maxY-py)/rY)*cH});
-  const bz=(ys,t)=>(1-t)**2*ys[0]+2*(1-t)*t*ys[1]+t**2*ys[2];
-  const drawCurve=(pts)=>{for(let t=0;t<=1;t+=.02){const pt=xy(t,bz(pts,t));t===0?ctx.moveTo(pt.x,pt.y):ctx.lineTo(pt.x,pt.y);}};
+  const pS=Math.round(pK*.5);
+  const left=42,right=W-118,top=34,bottom=190;
+  const start={x:left,y:82};
+  const solo={x:right,y:104};
+  const annette={x:right,y:176};
 
-  ctx.strokeStyle='#efefec';ctx.lineWidth=1;
-  for(let i=0;i<=3;i++){const y=pT+(cH/3)*i;ctx.beginPath();ctx.moveTo(pL,y);ctx.lineTo(pL+cW,y);ctx.stroke();}
-  ctx.fillStyle='#b5b0a8';ctx.font='600 10px Helvetica,sans-serif';ctx.textAlign='right';ctx.textBaseline='middle';
-  ctx.fillText(Math.round(poids)+' kg',pL-10,pT+6);
-  ctx.fillText(Math.round(poids-pK)+' kg',pL-10,pT+cH);
+  ctx.fillStyle='#fafafa';
+  roundRect(ctx,12,18,W-24,H-42,18);ctx.fill();
 
-  ctx.beginPath();drawCurve(ptA);
-  const startA=xy(0,ptA[0]),endA=xy(1,ptA[2]),endS=xy(1,ptS[2]);
-  ctx.lineTo(endA.x,pT+cH);ctx.lineTo(startA.x,pT+cH);ctx.closePath();
-  ctx.fillStyle='rgba(245,200,66,.22)';ctx.fill();
+  ctx.fillStyle='#1a1a1a';ctx.font='900 13px Helvetica,sans-serif';ctx.textAlign='left';ctx.textBaseline='middle';
+  ctx.fillText('Aujourd\'hui',left-10,top);
+  ctx.fillStyle='#888';ctx.font='700 11px Helvetica,sans-serif';
+  ctx.fillText(Math.round(poids)+' kg',left-10,top+18);
 
-  ctx.beginPath();ctx.setLineDash([7,6]);ctx.strokeStyle='#b8b8b8';ctx.lineWidth=2.2;ctx.lineCap='round';drawCurve(ptS);ctx.stroke();
-  ctx.setLineDash([]);ctx.beginPath();ctx.strokeStyle='#1a1a1a';ctx.lineWidth=3.2;ctx.lineJoin='round';ctx.lineCap='round';drawCurve(ptA);ctx.stroke();
+  drawPath(ctx,start,solo,'#b8b8b8',true);
+  drawPath(ctx,start,annette,'#1a1a1a',false);
 
-  [{pt:startA,c:'#1a1a1a',r:5.5},{pt:endA,c:'#1a1a1a',r:6.5},{pt:endS,c:'#b8b8b8',r:5.5}].forEach(({pt,c,r})=>{
-    ctx.beginPath();ctx.arc(pt.x,pt.y,r,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();ctx.lineWidth=2.2;ctx.strokeStyle=c;ctx.stroke();
-  });
+  ctx.beginPath();ctx.arc(start.x,start.y,7,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();ctx.lineWidth=3;ctx.strokeStyle='#1a1a1a';ctx.stroke();
+  ctx.fillStyle='#1a1a1a';ctx.font='800 11px Helvetica,sans-serif';ctx.textAlign='center';ctx.fillText('Départ',start.x,start.y+24);
 
-  const placed=[];
-  const bounds={top:pT-4,bottom:pT+cH+2,left:pL,right:W-pR};
-  const ptMidA=xy(.32,bz(ptA,.32)),ptMidS=xy(.68,bz(ptS,.68));
+  drawEndDot(ctx,solo,'#b8b8b8');
+  drawEndDot(ctx,annette,'#1a1a1a');
+
+  ctx.fillStyle='#777';ctx.font='700 11px Helvetica,sans-serif';ctx.textAlign='center';ctx.textBaseline='top';
+  ctx.fillText('12 mois',right,205);
+  ctx.fillStyle='#9d9890';ctx.font='600 10px Helvetica,sans-serif';
+  ctx.fillText('La ligne la plus basse montre le plus grand potentiel.',W/2,220);
+
   const soloEl=document.getElementById('chart-loss-solo');
   const annetteEl=document.getElementById('chart-loss-annette');
   if(soloEl)soloEl.textContent='−'+pS+' kg';
   if(annetteEl)annetteEl.textContent='−'+pK+' kg';
-
-  ctx.fillStyle='#9d9890';ctx.font='600 10px Helvetica,sans-serif';ctx.textAlign='center';ctx.textBaseline='top';
-  ctx.fillText('Plus bas = plus de perte de poids',pL+cW/2,pT+cH+10);
+}
+function drawPath(ctx,a,b,color,dashed){
+  ctx.beginPath();ctx.moveTo(a.x,a.y);
+  const c1={x:a.x+(b.x-a.x)*.35,y:a.y};
+  const c2={x:a.x+(b.x-a.x)*.68,y:b.y};
+  ctx.bezierCurveTo(c1.x,c1.y,c2.x,c2.y,b.x,b.y);
+  if(dashed)ctx.setLineDash([8,7]);
+  ctx.strokeStyle=color;ctx.lineWidth=dashed?3:5;ctx.lineCap='round';ctx.stroke();ctx.setLineDash([]);
+  if(!dashed){
+    ctx.beginPath();ctx.moveTo(a.x,a.y+10);ctx.bezierCurveTo(c1.x,c1.y+18,c2.x,c2.y+18,b.x,b.y+10);ctx.lineTo(b.x,b.y+26);ctx.bezierCurveTo(c2.x,c2.y+36,c1.x,c1.y+36,a.x,a.y+26);ctx.closePath();ctx.fillStyle='rgba(245,200,66,.22)';ctx.fill();
+  }
+}
+function drawEndDot(ctx,pt,color){
+  ctx.beginPath();ctx.arc(pt.x,pt.y,7,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();ctx.lineWidth=3;ctx.strokeStyle=color;ctx.stroke();
+}
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();
 }
 function chartTagSize(ctx,txt){
   ctx.font='800 10px Helvetica,sans-serif';
@@ -2040,53 +2061,60 @@ function clearProcTimers(){procTimerIds.forEach(id=>clearTimeout(id));procTimerI
 function delayProc(fn,ms){const id=setTimeout(fn,ms);procTimerIds.push(id);return id;}
 function runProc(){
   clearProcTimers();
+  tcaNeedsDetail=false;tcaDetail='';
+  const proc=document.querySelector('#s16 .proc-wrap');
+  const ov=document.getElementById('tca-ov');
+  const main=document.getElementById('tca-step-main'),detail=document.getElementById('tca-step-detail');
+  const kicker=document.getElementById('tca-kicker'),subtitle=document.getElementById('tca-subtitle');
+  const tcaBtn=document.getElementById('tca-btn');
+  if(proc){proc.classList.add('is-hidden');proc.classList.remove('is-visible');}
+  if(ov){ov.style.display='';ov.classList.add('open');}
+  if(main)main.classList.add('active');
+  if(detail)detail.classList.remove('active');
+  if(kicker)kicker.textContent='Dernière question médicale';
+  if(subtitle)subtitle.textContent='Elle nous aide à adapter votre accompagnement.';
+  document.querySelectorAll('#tca-modal .cbtn').forEach(b=>b.classList.remove('sel'));
+  document.querySelectorAll('#tca-step-detail .tca-type-btn').forEach(b=>b.classList.remove('sel'));
+  const rb=document.getElementById('tca-rebox');if(rb){rb.style.display='none';const rbt=rb.querySelector('.rbox-text');if(rbt)rbt.textContent='';}
+  const typeBtn=document.getElementById('tca-type-btn');if(typeBtn)typeBtn.disabled=true;
+  const typeNote=document.getElementById('tca-type-note');if(typeNote){typeNote.style.display='none';typeNote.textContent='';}
+  if(tcaBtn){tcaBtn.textContent='Continuer vers l\'analyse';tcaBtn.disabled=true;}
+}
+function startLoading(){
+  clearProcTimers();
+  const topbar=document.getElementById('topbar');
+  const mobileProgress=document.getElementById('mobile-progress');
+  if(topbar)topbar.style.display='none';
+  if(mobileProgress)mobileProgress.style.display='none';
+  const proc=document.querySelector('#s16 .proc-wrap');
+  const ov=document.getElementById('tca-ov');
   const bar=document.getElementById('pbar');
   const lbl=document.getElementById('plbl');
   const banner=document.getElementById('proc-waiting');
-  const ov=document.getElementById('tca-ov');
-  const tcaBtn=document.getElementById('tca-btn');
+  if(ov)ov.classList.remove('open');
+  if(proc){proc.classList.remove('is-hidden');proc.classList.add('is-visible');proc.scrollIntoView({behavior:'smooth',block:'center'});}
   for(let n=0;n<4;n++){const it=document.getElementById('pi'+n);if(it)it.classList.remove('done');}
   if(bar){bar.classList.remove('paused');bar.style.width='0%';}
   if(lbl){lbl.classList.remove('waiting');lbl.textContent='Analyse en cours…';}
   if(banner)banner.classList.remove('show');
-  if(ov){ov.classList.remove('open');ov.style.display='';}
-  tcaNeedsDetail=false;tcaDetail='';
-  const main=document.getElementById('tca-step-main'),detail=document.getElementById('tca-step-detail');
-  if(main)main.classList.add('active');if(detail)detail.classList.remove('active');
-  const kicker=document.getElementById('tca-kicker'),subtitle=document.getElementById('tca-subtitle');
-  if(kicker)kicker.textContent='Votre dossier est à 88%';if(subtitle)subtitle.textContent='Il nous manque un dernier élément pour le finaliser.';
-  document.querySelectorAll('#tca-modal .cbtn').forEach(b=>b.classList.remove('sel'));
-  const rb=document.getElementById('tca-rebox');if(rb){rb.style.display='none';const rbt=rb.querySelector('.rbox-text');if(rbt)rbt.textContent='';}
-  if(tcaBtn)tcaBtn.disabled=true;
-  const typeOv=document.getElementById('tca-type-ov');if(typeOv){typeOv.classList.remove('open');typeOv.style.display='none';}
-  document.querySelectorAll('#tca-step-detail .tca-type-btn').forEach(b=>b.classList.remove('sel'));
-  const typeBtn=document.getElementById('tca-type-btn');if(typeBtn)typeBtn.disabled=true;
-  const typeNote=document.getElementById('tca-type-note');if(typeNote){typeNote.style.display='none';typeNote.textContent='';}
-  const pcts=[22,44,68,88];
-  const lbls=['Analyse de votre IMC…','Vérification du traitement…','Analyse des antécédents…','Votre dossier est presque prêt…'];
+  const pcts=[22,44,68,100];
+  const lbls=['Analyse de votre IMC…','Vérification du traitement…','Analyse des antécédents…','Programme personnalisé prêt…'];
   let i=0;
   function tick(){
     if(cur!=='s16')return;
-    if(i>=4){openTCA();return;}
     const item=document.getElementById('pi'+i);
     if(item)item.classList.add('done');
     if(bar)bar.style.width=pcts[i]+'%';
     if(lbl)lbl.textContent=lbls[i];
     i++;
-    delayProc(tick,850);
+    if(i>=4){
+      if(lbl)lbl.textContent='Dossier finalisé';
+      delayProc(()=>go('s17'),700);
+      return;
+    }
+    delayProc(tick,760);
   }
-  delayProc(tick,350);
-}
-function openTCA(){
-  if(cur!=='s16')return;
-  const bar=document.getElementById('pbar');
-  const lbl=document.getElementById('plbl');
-  const banner=document.getElementById('proc-waiting');
-  const ov=document.getElementById('tca-ov');
-  if(bar)bar.classList.add('paused');
-  if(lbl){lbl.textContent='En attente de votre réponse…';lbl.classList.add('waiting');}
-  if(banner)banner.classList.add('show');
-  delayProc(()=>{if(ov){ov.style.display='';ov.classList.add('open');ov.scrollIntoView({behavior:'smooth',block:'center'});}},700);
+  delayProc(tick,300);
 }
 function tcaChoix(btn,choice){
   document.querySelectorAll('#tca-step-main .cbtn').forEach(b=>b.classList.remove('sel'));
@@ -2109,7 +2137,7 @@ function tcaChoix(btn,choice){
 
   const cta=document.getElementById('tca-btn');
   if(cta){
-    cta.textContent=tcaNeedsDetail?'Préciser en 1 clic':'Finaliser mon dossier';
+    cta.textContent=tcaNeedsDetail?'Préciser en 1 clic':'Continuer vers l\'analyse';
     cta.disabled=false;
   }
 }
@@ -2150,28 +2178,15 @@ function backToTCA(){
   const detail=document.getElementById('tca-step-detail');
   const kicker=document.getElementById('tca-kicker');
   const subtitle=document.getElementById('tca-subtitle');
-  if(kicker)kicker.textContent='Votre dossier est à 88%';
-  if(subtitle)subtitle.textContent='Il nous manque un dernier élément pour le finaliser.';
+  if(kicker)kicker.textContent='Dernière question médicale';
+  if(subtitle)subtitle.textContent='Elle nous aide à adapter votre accompagnement.';
   if(detail)detail.classList.remove('active');
   const typeNote=document.getElementById('tca-type-note');if(typeNote){typeNote.style.display='none';typeNote.textContent='';}
   delayProc(()=>{if(main)main.classList.add('active');},80);
 }
 function tcaTypeOk(){finishTCA();}
 function finishTCA(){
-  clearProcTimers();
-  const ov=document.getElementById('tca-ov');
-  const bar=document.getElementById('pbar');
-  const lbl=document.getElementById('plbl');
-  const banner=document.getElementById('proc-waiting');
-  if(ov)ov.classList.remove('open');
-  delayProc(()=>{
-    if(ov)ov.style.display='none';
-    if(bar){bar.classList.remove('paused');bar.style.width='100%';}
-    if(banner)banner.classList.remove('show');
-    if(lbl){lbl.classList.remove('waiting');lbl.textContent='Dossier finalisé';}
-    const last=document.getElementById('pi3');if(last)last.classList.add('done');
-    delayProc(()=>go('s17'),800);
-  },300);
+  startLoading();
 }
 /* Update source screen to go to q1 */
 
