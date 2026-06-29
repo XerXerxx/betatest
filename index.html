@@ -136,7 +136,7 @@ body{background:#f0ede8;font-family:'Helvetica Neue',-apple-system,Arial,sans-se
 .obese{background:#fde8e8;color:#c0392b}
 .surpoids{background:#fef3d0;color:#b7770d}
 .normal{background:#e6f5ec;color:#1a7a3a}
-canvas#chart{display:block;width:100%;height:160px}
+canvas#chart{display:block;width:100%;height:220px}
 .trow{display:flex;justify-content:space-between;padding:6px 2px 0}
 .trow span{font-size:11px;color:#bbb;font-weight:600}
 
@@ -452,7 +452,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 .mobile-version .gbig{font-size:36px}
 .mobile-version .imcpill{padding:10px 12px;border-radius:14px}
 .mobile-version .imcn{font-size:23px}
-.mobile-version canvas#chart{height:145px}
+.mobile-version canvas#chart{height:200px}
 .mobile-version .cmprow,.mobile-version .stat-row{grid-template-columns:1fr 1fr;gap:9px}
 .mobile-version .ccard,.mobile-version .sbox{border-radius:16px;padding:14px}
 .mobile-version .cval{font-size:22px}
@@ -647,10 +647,14 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 .va-img{width:100%;height:88px;border-radius:12px;object-fit:cover;display:block}
 .va-title{font-size:15px;font-weight:800;color:#1a1a1a;line-height:1.25}
 .va-copy{font-size:13px;color:#777;line-height:1.5}
-.proj-benefits{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
-.proj-ben-lead{font-size:15px;font-weight:700;color:#1a1a1a;margin-bottom:4px}
-.proj-ben-item{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:#666;line-height:1.5}
-.proj-ben-item::before{content:'→';color:#1a1a1a;font-weight:800;flex-shrink:0}
+.proj-benefits{background:linear-gradient(145deg,#fffaf0 0%,#fff 55%);border:1.5px solid #f0e3bf;border-radius:18px;padding:18px 20px;margin-bottom:22px;box-shadow:0 14px 36px rgba(26,26,26,.05)}
+.proj-ben-lead{font-size:15px;font-weight:800;color:#1a1a1a;margin-bottom:12px;letter-spacing:-.01em}
+.proj-ben-list{display:flex;flex-direction:column;gap:8px}
+.proj-ben-item{display:flex;align-items:center;gap:11px;font-size:14px;font-weight:600;color:#444;line-height:1.4;background:rgba(255,255,255,.82);border:1px solid rgba(240,227,191,.65);border-radius:12px;padding:10px 12px}
+.proj-ben-item::before{content:'';width:8px;height:8px;border-radius:50%;background:#F5C842;flex-shrink:0;box-shadow:0 0 0 3px rgba(245,200,66,.25)}
+.mobile-version .proj-benefits{border-radius:16px;padding:16px 17px;margin-bottom:18px}
+.mobile-version .proj-ben-item{font-size:13.5px;padding:9px 11px}
+.chart-wrap{position:relative;margin-top:4px}
 .doctolib-box{display:flex;align-items:flex-start;gap:12px;background:#fffaf0;border:1.5px solid #f0e3bf;border-radius:14px;padding:14px 16px;margin-bottom:16px}
 .doctolib-box-text{font-size:13px;color:#6c5a28;line-height:1.55}
 .doctolib-box-text strong{color:#1a1a1a}
@@ -1008,21 +1012,25 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <div class="hl"><span id="reassure-prenom">Vous</span> pourriez perdre jusqu'à <b id="hl-kg">14 kg</b> en 12 mois avec le suivi Annette</div>
   <div class="proj-benefits">
     <div class="proj-ben-lead">Une perte de poids, c'est aussi :</div>
-    <div class="proj-ben-item">retrouver plus d'énergie</div>
-    <div class="proj-ben-item">réduire l'essoufflement</div>
-    <div class="proj-ben-item">mieux dormir</div>
-    <div class="proj-ben-item">bouger plus facilement</div>
-    <div class="proj-ben-item">gagner en confiance</div>
+    <div class="proj-ben-list">
+      <div class="proj-ben-item">Retrouver plus d'énergie</div>
+      <div class="proj-ben-item">Réduire l'essoufflement</div>
+      <div class="proj-ben-item">Mieux dormir</div>
+      <div class="proj-ben-item">Bouger plus facilement</div>
+      <div class="proj-ben-item">Gagner en confiance</div>
+    </div>
   </div>
   <div class="gcard">
     <div class="gtop">
-      <div><div class="gbig"><span id="proj-kg">−14</span><sub> kg</sub></div><div class="gsub">projection indicative à 12 mois</div></div>
+      <div><div class="gbig"><span id="proj-kg">−14</span><sub> kg</sub></div><div class="gsub">objectif indicatif à 12 mois avec Annette</div></div>
     </div>
-    <canvas id="chart" style="width:100%;height:160px;display:block"></canvas>
+    <div class="chart-wrap">
+      <canvas id="chart"></canvas>
+    </div>
     <div class="trow"><span>Aujourd'hui</span><span>6 mois</span><span>12 mois</span></div>
     <div class="glegend">
-      <div class="glegend-item"><span class="glegend-dot solid"></span>Avec le suivi Annette</div>
-      <div class="glegend-item"><span class="glegend-dot dashed"></span>Sans accompagnement Annette</div>
+      <div class="glegend-item"><span class="glegend-dot solid"></span>Courbe <strong>Annette</strong></div>
+      <div class="glegend-item"><span class="glegend-dot dashed"></span>Courbe <strong>sans Annette</strong></div>
     </div>
   </div>
   <div class="src">Cette projection est indicative, basée sur vos réponses, et sera réévaluée avec un professionnel de santé.</div>
@@ -1500,7 +1508,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
     <div class="side-step"><div class="sdot cur" id="dot-0"></div><span class="slabel cur" id="lbl-0">Objectif</span></div>
     <div class="side-step"><div class="sdot" id="dot-1"></div><span class="slabel" id="lbl-1">Source</span></div>
     <div class="side-step"><div class="sdot" id="dot-2"></div><span class="slabel" id="lbl-2">Profil santé</span></div>
-    <div class="side-step"><div class="sdot" id="dot-3"></div><span class="slabel" id="lbl-3">Projection</span></div>
+    <div class="side-step"><div class="sdot" id="dot-3"></div><span class="slabel" id="lbl-3">Votre potentiel</span></div>
     <div class="side-step"><div class="sdot" id="dot-4"></div><span class="slabel" id="lbl-4">Antécédents médicaux</span></div>
     <div class="side-step"><div class="sdot" id="dot-5"></div><span class="slabel" id="lbl-5">Résultat</span></div>
     <div class="side-step"><div class="sdot" id="dot-6"></div><span class="slabel" id="lbl-6">Création du compte</span></div>
@@ -1532,7 +1540,7 @@ const SIDE_MAP={
   q1:3,q2:3,q3:3,q4:3,quiz_reassure:3,s9:4,s10:4,
   s11:4,s12:4,s13:4,s14:4,s15:4,s16:4,s17:5,s18:6,s19:6,s20:6
 };
-const MOBILE_STEP_NAMES=['Motivation','Source','Profil santé','Projection','Santé','Résultat','Compte'];
+const MOBILE_STEP_NAMES=['Motivation','Source','Profil santé','Votre potentiel','Santé','Résultat','Compte'];
 function getMobilePhaseIndex(){
   const v=SIDE_MAP[cur];
   return typeof v==='number'?v:0;
@@ -1875,8 +1883,58 @@ function renderChart(){
   const{p,imc,kg}=getStats(),kgS=Math.round(kg*.5);document.getElementById('hl-kg').textContent=kg+' kg';var pn=document.getElementById('reassure-prenom');if(pn){var pe=document.getElementById('prenom-inp');pn.textContent=(pe&&pe.value.trim())?pe.value.trim():'Vous';}document.getElementById('proj-kg').textContent='−'+kg;drawChart(p,kg);});}
 function upFinal(){const{kg}=getStats();document.getElementById('final-kg').textContent='−'+kg+' kg';}
 /* CANVAS */
-function drawChart(poids,pK){const cv=document.getElementById('chart'),W=cv.offsetWidth||480,H=160,dpr=window.devicePixelRatio||1;cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);ctx.clearRect(0,0,W,H);const pL=6,pR=12,pT=18,pB=8,cW=W-pL-pR,cH=H-pT-pB,pS=Math.round(pK*.5),minY=poids-pK-4,maxY=poids+3,rY=maxY-minY;const ptA=[poids,poids-pK*.58,poids-pK],ptS=[poids,poids-pS*.58,poids-pS];const xy=(t,py)=>({x:pL+t*cW,y:pT+((maxY-py)/rY)*cH});const bz=(ys,t)=>(1-t)**2*ys[0]+2*(1-t)*t*ys[1]+t**2*ys[2];ctx.beginPath();const p0=xy(0,ptA[0]);ctx.moveTo(p0.x,p0.y);for(let t=.01;t<=1;t+=.01){const pt=xy(t,bz(ptA,t));ctx.lineTo(pt.x,pt.y);}const pe=xy(1,ptA[2]);ctx.lineTo(pe.x,pT+cH);ctx.lineTo(pL,pT+cH);ctx.closePath();ctx.fillStyle='rgba(245,200,66,.18)';ctx.fill();ctx.beginPath();ctx.setLineDash([4,4]);ctx.strokeStyle='rgba(0,0,0,.18)';ctx.lineWidth=1.5;for(let t=0;t<=1;t+=.01){const pt=xy(t,bz(ptS,t));t===0?ctx.moveTo(pt.x,pt.y):ctx.lineTo(pt.x,pt.y);}ctx.stroke();ctx.setLineDash([]);ctx.beginPath();ctx.strokeStyle='#1a1a1a';ctx.lineWidth=2.5;ctx.lineJoin='round';ctx.lineCap='round';for(let t=0;t<=1;t+=.01){const pt=xy(t,bz(ptA,t));t===0?ctx.moveTo(pt.x,pt.y):ctx.lineTo(pt.x,pt.y);}ctx.stroke();const m3=xy(.5,bz(ptA,.5));bub(ctx,m3.x,m3.y,'−'+Math.round(pK*.58)+' kg','#F5C842','#1a1a1a',W);const m6=xy(1,ptA[2]);ctx.beginPath();ctx.arc(m6.x,m6.y,5,0,Math.PI*2);ctx.fillStyle='#1a1a1a';ctx.fill();bub(ctx,m6.x,m6.y,'−'+pK+' kg','#1a1a1a','#fff',W);}
-function bub(ctx,x,y,txt,bg,fg,W){ctx.font='700 11px Helvetica,sans-serif';const tw=ctx.measureText(txt).width,bw=tw+16,bh=21,bx=Math.min(Math.max(x-bw/2,2),W-bw-2),by=y-bh-7;ctx.beginPath();ctx.moveTo(bx+6,by);ctx.lineTo(bx+bw-6,by);ctx.quadraticCurveTo(bx+bw,by,bx+bw,by+6);ctx.lineTo(bx+bw,by+bh-6);ctx.quadraticCurveTo(bx+bw,by+bh,bx+bw-6,by+bh);ctx.lineTo(bx+6,by+bh);ctx.quadraticCurveTo(bx,by+bh,bx,by+bh-6);ctx.lineTo(bx,by+6);ctx.quadraticCurveTo(bx,by,bx+6,by);ctx.closePath();ctx.fillStyle=bg;ctx.fill();ctx.fillStyle=fg;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(txt,bx+bw/2,by+bh/2);}
+function drawChart(poids,pK){
+  const cv=document.getElementById('chart');
+  if(!cv)return;
+  const W=cv.offsetWidth||480,H=220,dpr=window.devicePixelRatio||1;
+  cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';
+  const ctx=cv.getContext('2d');
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,W,H);
+
+  const pL=52,pR=18,pT=34,pB=30,cW=W-pL-pR,cH=H-pT-pB;
+  const pS=Math.round(pK*.5),minY=poids-pK-8,maxY=poids+5,rY=maxY-minY;
+  const ptA=[poids,poids-pK*.58,poids-pK],ptS=[poids,poids-pS*.58,poids-pS];
+  const xy=(t,py)=>({x:pL+t*cW,y:pT+((maxY-py)/rY)*cH});
+  const bz=(ys,t)=>(1-t)**2*ys[0]+2*(1-t)*t*ys[1]+t**2*ys[2];
+  const drawCurve=(pts)=>{for(let t=0;t<=1;t+=.02){const pt=xy(t,bz(pts,t));t===0?ctx.moveTo(pt.x,pt.y):ctx.lineTo(pt.x,pt.y);}};
+
+  ctx.strokeStyle='#efefec';ctx.lineWidth=1;
+  for(let i=0;i<=3;i++){const y=pT+(cH/3)*i;ctx.beginPath();ctx.moveTo(pL,y);ctx.lineTo(pL+cW,y);ctx.stroke();}
+  ctx.fillStyle='#b5b0a8';ctx.font='600 10px Helvetica,sans-serif';ctx.textAlign='right';ctx.textBaseline='middle';
+  ctx.fillText(Math.round(poids)+' kg',pL-10,pT+6);
+  ctx.fillText(Math.round(poids-pK)+' kg',pL-10,pT+cH);
+
+  ctx.beginPath();drawCurve(ptA);
+  const startA=xy(0,ptA[0]),endA=xy(1,ptA[2]);
+  ctx.lineTo(endA.x,pT+cH);ctx.lineTo(startA.x,pT+cH);ctx.closePath();
+  ctx.fillStyle='rgba(245,200,66,.22)';ctx.fill();
+
+  ctx.beginPath();ctx.setLineDash([7,6]);ctx.strokeStyle='#b8b8b8';ctx.lineWidth=2.2;ctx.lineCap='round';drawCurve(ptS);ctx.stroke();
+  ctx.setLineDash([]);ctx.beginPath();ctx.strokeStyle='#1a1a1a';ctx.lineWidth=3.2;ctx.lineJoin='round';ctx.lineCap='round';drawCurve(ptA);ctx.stroke();
+
+  const endS=xy(1,ptS[2]);
+  [{pt:startA,c:'#1a1a1a',r:5.5},{pt:endA,c:'#1a1a1a',r:6.5},{pt:endS,c:'#b8b8b8',r:5.5}].forEach(({pt,c,r})=>{
+    ctx.beginPath();ctx.arc(pt.x,pt.y,r,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();ctx.lineWidth=2.2;ctx.strokeStyle=c;ctx.stroke();
+  });
+
+  const midA=xy(.58,bz(ptA,.58)),midS=xy(.58,bz(ptS,.58));
+  chartTag(ctx,midA.x,midA.y-16,'Avec Annette','#1a1a1a','#fff',W);
+  chartTag(ctx,midS.x,midS.y+18,'Sans Annette','#f5f5f3','#666',W);
+  chartTag(ctx,endA.x-46,endA.y-4,'−'+pK+' kg','#F5C842','#1a1a1a',W);
+  chartTag(ctx,endS.x-46,endS.y-26,'−'+pS+' kg','#ececec','#666',W);
+
+  ctx.fillStyle='#9d9890';ctx.font='600 10px Helvetica,sans-serif';ctx.textAlign='center';ctx.textBaseline='top';
+  ctx.fillText('Plus bas = plus de perte de poids',pL+cW/2,pT+cH+8);
+}
+function chartTag(ctx,x,y,txt,bg,fg,W){
+  ctx.font='800 10px Helvetica,sans-serif';
+  const tw=ctx.measureText(txt).width,bw=tw+16,bh=22,bx=Math.min(Math.max(x-bw/2,4),W-bw-4),by=y-bh/2;
+  ctx.beginPath();ctx.moveTo(bx+8,by);ctx.lineTo(bx+bw-8,by);ctx.quadraticCurveTo(bx+bw,by,bx+bw,by+8);
+  ctx.lineTo(bx+bw,by+bh-8);ctx.quadraticCurveTo(bx+bw,by+bh,bx+bw-8,by+bh);ctx.lineTo(bx+8,by+bh);
+  ctx.quadraticCurveTo(bx,by+bh,bx,by+bh-8);ctx.lineTo(bx,by+8);ctx.quadraticCurveTo(bx,by,bx+8,by);ctx.closePath();
+  ctx.fillStyle=bg;ctx.fill();ctx.fillStyle=fg;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(txt,bx+bw/2,by+bh/2);
+}
 /* PROCESSING */
 function clearProcTimers(){procTimerIds.forEach(id=>clearTimeout(id));procTimerIds=[];}
 function delayProc(fn,ms){const id=setTimeout(fn,ms);procTimerIds.push(id);return id;}
