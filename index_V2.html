@@ -361,6 +361,36 @@ canvas#chart{display:block;width:100%;height:160px}
 @media(max-width:600px){.choices.grid{grid-template-columns:1fr}.irow{grid-template-columns:1fr}.three-opts{grid-template-columns:1fr}.land-hl{font-size:32px}}
 
 
+/* ── CONFIDENTIALITY BADGE ── */
+
+/* ── EARLY VALUE PROPOSITION ── */
+.value-screen{}
+.value-card{background:#fff;border:1.5px solid #ebebeb;border-radius:22px;padding:22px;margin:18px 0 18px;box-shadow:0 18px 42px rgba(26,26,26,.06);overflow:hidden}
+.value-kicker{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:#b49a35;margin-bottom:8px}
+.value-title{font-size:24px;font-weight:950;color:#1a1a1a;line-height:1.1;letter-spacing:-.025em;margin-bottom:12px}
+.value-copy{font-size:15px;color:#625b54;line-height:1.65;margin-bottom:18px}
+.value-proof{background:#f8d8f2;border-radius:20px;padding:20px 18px;margin-bottom:18px;position:relative;overflow:hidden}
+.value-proof::before{content:'';position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.26);left:-80px;top:-70px}
+.value-proof-inner{position:relative;display:grid;grid-template-columns:130px 1fr;gap:18px;align-items:center}
+.value-x2{font-size:54px;font-weight:950;line-height:1;color:#1a1a1a;letter-spacing:-.04em;text-align:center}
+.value-x2-sub{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:rgba(26,26,26,.45);text-align:center;margin-top:5px}
+.value-proof-text{font-size:15px;font-weight:800;color:#1a1a1a;line-height:1.45}
+.value-source{font-size:11px;color:rgba(26,26,26,.5);line-height:1.4;margin-top:8px}
+.value-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+.value-step{display:flex;gap:12px;align-items:flex-start;background:#f8f3ed;border-radius:14px;padding:13px 14px}
+.value-step-num{width:24px;height:24px;border-radius:50%;background:#1a1a1a;color:#F5C842;font-size:11px;font-weight:950;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.value-step-title{font-size:14px;font-weight:850;color:#1a1a1a;margin-bottom:2px}
+.value-step-copy{font-size:13px;color:#77716b;line-height:1.45}
+.value-note{font-size:13px;color:#8a7d69;line-height:1.55;background:#fffaf0;border:1px solid #f0e3bf;border-radius:14px;padding:13px 15px}
+.mobile-version .value-card{border-radius:22px;padding:18px;margin:14px 0 18px}
+.mobile-version .value-title{font-size:23px}
+.mobile-version .value-copy{font-size:14.5px;line-height:1.58}
+.mobile-version .value-proof{border-radius:20px;padding:18px 15px}
+.mobile-version .value-proof-inner{grid-template-columns:1fr;gap:10px;text-align:center}
+.mobile-version .value-x2{font-size:50px}
+.mobile-version .value-proof-text{font-size:14.5px}
+.mobile-version .value-step{border-radius:15px;padding:13px}
+
 /* MOBILE VERSION DEDICATED OVERRIDES */
 body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas Grotesk Display Pro','Neue Haas Grotesk Text Pro','Helvetica Neue',Arial,sans-serif;overflow-x:hidden}
 .mobile-version .topbar{height:56px;padding:0 16px;border-bottom:1px solid rgba(26,26,26,.08);background:rgba(255,255,255,.96);backdrop-filter:blur(10px)}
@@ -372,6 +402,9 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 /* Mobile: show it */
 .mobile-version .topbar-progress{display:flex!important;gap:8px;min-width:0;max-width:178px}
 .mobile-version .tp-label{font-size:10px;max-width:82px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#9d9a95}
+/* Mobile: keep only the explanatory sticky progress, not the mini topbar progress */
+.mobile-version .topbar-progress{display:none!important}
+.mobile-version .topbar-right{flex:0 1 auto}
 .mobile-version .tp-bar{width:92px;height:4px;background:#e8e3dc}
 .mobile-version .av-chip{padding:4px 9px 4px 4px;max-width:118px;overflow:hidden}
 .mobile-version .av-circle{width:24px;height:24px;font-size:9px}
@@ -640,45 +673,54 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   padding:28px 20px 40px;
 }
 
-/* ── VALUE 4-BLOCK VISUAL ── */
-.va-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0 4px}
-.va-block{background:#fff;border:1.5px solid #ebebeb;border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:8px}
-.va-ico{width:42px;height:42px;border-radius:12px;background:#F5C842;display:flex;align-items:center;justify-content:center}
-.va-ico svg{width:22px;height:22px}
-.va-title{font-size:15px;font-weight:800;color:#1a1a1a;line-height:1.25}
-.va-copy{font-size:13px;color:#777;line-height:1.5}
-.mobile-version .va-grid{grid-template-columns:1fr;gap:10px;margin:18px 0 4px}
-.mobile-version .va-block{border-radius:16px;padding:16px}
-@media(max-width:600px){.va-grid{grid-template-columns:1fr}}
-
-
-/* ── NOUVEAU QUIZ : cartes descriptives choix unique ── */
-.qcard-list{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
-.qcard-opt{width:100%;text-align:left;border:1.5px solid #e8e8e6;background:#fafafa;border-radius:14px;padding:16px 18px;cursor:pointer;display:flex;flex-direction:column;gap:4px;transition:border-color .15s,background .15s,box-shadow .18s,transform .12s}
-.qcard-opt:hover{border-color:#aaa;background:#fff}
-.qcard-opt.picked{border-color:#1a1a1a;border-width:2px;background:#fff;box-shadow:0 10px 26px rgba(26,26,26,.07)}
-.qcard-main{font-size:15px;font-weight:800;color:#1a1a1a;line-height:1.3}
-.qcard-sub{font-size:13px;color:#888;line-height:1.45}
-.qcard-opt.picked .qcard-sub{color:#666}
-.mobile-version .qcard-opt{border-radius:16px;padding:15px 16px;background:#fff;border-color:#e5ded5}
-.mobile-version .qcard-main{font-size:14.5px}
-.mobile-version .qcard-sub{font-size:12.5px}
-
-/* ── SLIDE DE RÉASSURANCE UNIQUE ── */
-.reassure-card{background:#F5C842;border-radius:18px;padding:22px;margin:18px 0 4px}
-.reassure-line{font-size:15px;font-weight:700;color:#1a1a1a;line-height:1.5;margin-bottom:16px}
-.reassure-list{display:flex;flex-direction:column;gap:10px}
-.reassure-item{display:flex;align-items:flex-start;gap:10px;font-size:14px;font-weight:600;color:#1a1a1a;line-height:1.45}
-.reassure-check{width:22px;height:22px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
-.reassure-check svg{width:13px;height:13px}
-.mobile-version .reassure-card{border-radius:16px;padding:18px}
-
-
-/* Légende graphique projection */
-.glegend{display:flex;gap:18px;margin-top:12px;padding-top:12px;border-top:1px solid #ebebeb}
-.glegend-item{display:flex;align-items:center;gap:7px;font-size:12px;color:#777;font-weight:600}
-.glegend-dot{width:18px;height:0;border-top:2.5px solid #1a1a1a;flex-shrink:0}
-.glegend-dot.dashed{border-top:2.5px dashed #bbb}
+/* Compact phones: reduce vertical pressure on iPhone-sized screens */
+@media(max-width:430px){
+  .mobile-version .topbar{height:52px;padding:0 14px}
+  .mobile-version .topbar-logo{font-size:19px}
+  .mobile-version .av-chip{max-width:126px;padding:4px 8px 4px 4px}
+  .mobile-version .av-email{max-width:80px;font-size:10.5px}
+  .mobile-progress{top:52px;padding:8px 14px 9px}
+  .mobile-progress-row{margin-bottom:6px}
+  .mobile-progress-meta{font-size:11.5px}
+  .mobile-progress-btn{padding:6px 10px;font-size:10.5px}
+  .mobile-progress-track{height:4px}
+  .mobile-version .main{padding:16px 14px 34px;min-height:calc(100vh - 52px)}
+  .mobile-version .eyebrow{font-size:9.5px;margin-bottom:7px}
+  .mobile-version .hl{font-size:23px;line-height:1.13;margin-bottom:9px}
+  .mobile-version .sub{font-size:14px;line-height:1.48;margin-bottom:16px}
+  .mobile-version .hero{margin-bottom:18px;border-radius:18px}
+  .mobile-version .hero img{height:150px}
+  .mobile-version .cbtn{padding:13px 14px;border-radius:14px;font-size:14px}
+  .mobile-version .choices{gap:8px;margin-bottom:16px}
+  .mobile-version .back-link{margin-bottom:14px;font-size:13px}
+  .mobile-version .quiz-prog{margin-bottom:14px}
+  .mobile-version .quiz-q{font-size:24px;line-height:1.12;margin-bottom:7px}
+  .mobile-version .quiz-cite{font-size:13px;line-height:1.45;margin-bottom:16px}
+  .mobile-version .qopt{min-height:74px;padding:13px 12px;border-radius:16px;gap:6px}
+  .mobile-version .qopt-icon{width:32px;height:32px}
+  .mobile-version .qopt-label{font-size:14px}
+  .mobile-version .qopt-sub{font-size:11.5px}
+  .mobile-version .three-opts{gap:8px;margin-bottom:14px}
+  .mobile-version .three-opts.answered .qopt.picked{min-height:90px;padding:18px 14px}
+  .mobile-version .quiz-counter{font-size:11.5px;margin-top:7px}
+  .mobile-version .chip{padding:11px 12px;font-size:12.5px;line-height:1.45}
+  .mobile-version .mbtn{padding:12px 13px;border-radius:14px;font-size:12.8px}
+  .mobile-version .multi{gap:7px}
+  .mobile-version .actions{margin-top:18px}
+  .mobile-version .btn{min-height:48px;padding:14px 16px;font-size:15px}
+  .mobile-version .drow{gap:7px}
+  .mobile-version .iw input,.mobile-version .ifl{padding:13px 14px;border-radius:13px;font-size:15px}
+  .mobile-version .gbig{font-size:32px}
+  .mobile-version .imcn{font-size:21px}
+  .mobile-version canvas#chart{height:125px}
+}
+@media(max-width:360px){
+  .mobile-version .hl{font-size:22px}
+  .mobile-version .quiz-q{font-size:22px}
+  .mobile-version .qopt{min-height:68px;padding:11px 10px}
+  .mobile-version .qopt-icon{width:30px;height:30px}
+  .mobile-version .land-hl{font-size:29px}
+}
 
 </style>
 </head>
@@ -697,8 +739,65 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 })();
 </script>
 
+<!-- LANDING PAGE -->
+<div class="landing active" id="landing">
+  <nav class="land-nav">
+    <div class="land-logo">annette</div>
+    <div class="land-trust">Données sécurisées · Vérification personnalisée</div>
+  </nav>
+  <div class="land-hero">
+    <div class="land-left">
+      <div class="land-eyebrow">Programme d'accompagnement GLP-1</div>
+      <div class="land-hl">L'obésité est une maladie.<br><mark>L'accompagnement</mark> change tout.</div>
+      <div class="land-sub">Chaque parcours est différent. Annette combine suivi médical, diététicienne dédiée et programme personnalisé pour construire un accompagnement adapté à votre profil.</div>
+      <div class="land-props">
+        <div class="land-prop">
+          <div class="land-prop-icon"><svg viewBox="0 0 20 20" fill="none" style="width:16px;height:16px"><path d="M10 2a8 8 0 100 16A8 8 0 0010 2zm0 4v5l3 2.5" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          <div class="land-prop-text"><strong>Diététicienne dédiée</strong>, disponible par chat, personnalisée à votre traitement et votre profil.</div>
+        </div>
+        <div class="land-prop">
+          <div class="land-prop-icon"><svg viewBox="0 0 20 20" fill="none" style="width:16px;height:16px"><path d="M4 10h12M10 4v12" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          <div class="land-prop-text"><strong>Suivi médical intégré</strong> - rendez-vous avec des médecins partenaires, prescriptions suivies.</div>
+        </div>
+        <div class="land-prop">
+          <div class="land-prop-icon"><svg viewBox="0 0 20 20" fill="none" style="width:16px;height:16px"><path d="M3 10l4 4 10-8" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="land-prop-text"><strong>Programme personnalisé</strong> - recettes, ateliers, suivi des injections et gestion des effets secondaires.</div>
+        </div>
+      </div>
+      <div class="land-cta-wrap">
+        <button class="land-cta" onclick="startForm()">Vérifier mon éligibilité</button>
+        <div class="land-cta-note">Vérification gratuite · Sans engagement · Données sécurisées</div>
+        <div class="land-trust-row">
+          <span>★★★★★ 4.9/5</span><span class="sep">·</span>
+          <span>Des milliers de patients accompagnés</span><span class="sep">·</span>
+          <span>Données cryptées</span>
+        </div>
+      </div>
+    </div>
+    <div class="land-right">
+      <div style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:340px">
+        <div style="background:#fff;border-radius:20px;padding:24px">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#bbb;margin-bottom:8px">Résultat moyen observé</div>
+          <div style="font-size:48px;font-weight:900;color:#1a1a1a;line-height:1;letter-spacing:-1px">×2</div>
+          <div style="font-size:14px;color:#666;margin-top:6px;line-height:1.5">plus de perte de poids avec accompagnement intensif qu’avec le traitement seul, selon l’étude STEP 3.</div>
+          <div style="font-size:11px;color:#bbb;margin-top:8px">Source : STEP 3, Wadden et al., JAMA 2021</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.7);border-radius:16px;padding:18px">
+          <div style="font-size:13px;font-weight:700;color:#1a1a1a;margin-bottom:12px">Ce que vous obtenez</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#444"><span style="width:20px;height:20px;border-radius:50%;background:#1a1a1a;color:#F5C842;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</span>Diététicienne dédiée par chat</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#444"><span style="width:20px;height:20px;border-radius:50%;background:#1a1a1a;color:#F5C842;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</span>Suivi médical &amp; rendez-vous</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#444"><span style="width:20px;height:20px;border-radius:50%;background:#1a1a1a;color:#F5C842;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</span>Programme nutritionnel personnalisé</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#444"><span style="width:20px;height:20px;border-radius:50%;background:#1a1a1a;color:#F5C842;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">4</span>Gestion des effets secondaires</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- TOP BAR -->
-<header class="topbar" id="topbar">
+<header class="topbar" id="topbar" style="display:none">
   <div class="topbar-logo">annette</div>
   <div class="topbar-right">
     <div class="topbar-progress" id="topbar-progress-wrap">
@@ -720,11 +819,11 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <div class="mobile-progress-track"><div class="mobile-progress-fill" id="mobile-progress-fill"></div></div>
 </div>
 
-<div class="main" id="main-wrap">
+<div class="main" id="main-wrap" style="display:none">
 <div class="form-col">
 
 <!-- S0 - MOTIVATION -->
-<div class="screen active" id="s0">
+<div class="screen" id="s0">
   <div class="hero yellow"><img src="./images/content-1.85e59d6dd.webp" onerror="this.style.display='none'" alt=""></div>
   <div class="eyebrow">Informations personnelles</div>
   <div class="hl">Qu’est-ce qui motive votre perte de poids ?</div>
@@ -748,13 +847,13 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
       </div>
     </div>
   </div>
-  <div class="actions" id="motivation-actions" style="display:none;margin-top:18px"><button class="btn" onclick="go('s2')">Continuer</button></div>
+  <div class="actions" id="motivation-actions" style="display:none;margin-top:18px"><button class="btn" onclick="go('value_glp')">Continuer</button></div>
   <div class="trust"><span>Données sécurisées</span><span class="tdot"></span><span>Parcours personnalisé</span></div>
 </div>
 
 <!-- S1 - SOURCE -->
 <div class="screen" id="s1">
-  <button class="back-link" onclick="go('value_glp')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <button class="back-link" onclick="go('s3')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="eyebrow">Informations personnelles</div>
   <div class="hl">Comment avez-vous entendu parler d’Annette ?</div>
   <div class="sub">Aidez-nous à faire découvrir Annette à d’autres personnes !</div>
@@ -771,10 +870,48 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   </div>
 </div>
 
+
+<!-- VALUE_GLP - PROPOSITION DE VALEUR / EXPLICATION SIMPLE -->
+<div class="screen value-screen" id="value_glp">
+  <button class="back-link" onclick="go('s0')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="eyebrow">Pourquoi Annette</div>
+  <div class="hl">Un traitement peut aider. <br>L’accompagnement le rend plus durable.</div>
+  <div class="sub">Si vous découvrez les GLP-1, l’idée est simple : ce sont des traitements médicaux qui peuvent aider à réguler la faim et la satiété lorsqu’ils sont indiqués. Annette ajoute le suivi nécessaire pour avancer sans être seul(e).</div>
+
+  <div class="value-card">
+    <div class="value-kicker">Ce que vous devez comprendre</div>
+    <div class="value-title">Le poids n’est pas seulement une question d’effort.</div>
+    <div class="value-copy">L’obésité implique souvent des mécanismes biologiques : faim, satiété, métabolisme, fatigue, environnement. Le traitement agit sur une partie du problème ; le suivi aide à transformer le parcours au quotidien.</div>
+
+    <div class="value-proof">
+      <div class="value-proof-inner">
+        <div>
+          <div class="value-x2">×2</div>
+          <div class="value-x2-sub">résultat observé</div>
+        </div>
+        <div>
+          <div class="value-proof-text">Plus de perte de poids avec accompagnement intensif qu’avec le traitement seul, selon l’étude STEP 3.</div>
+          <div class="value-source">Source : STEP 3, Wadden et al., JAMA, 2021</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="value-steps">
+      <div class="value-step"><div class="value-step-num">1</div><div><div class="value-step-title">Traitement médical</div><div class="value-step-copy">Quand votre profil le permet, un médecin peut évaluer l’intérêt d’un GLP-1.</div></div></div>
+      <div class="value-step"><div class="value-step-num">2</div><div><div class="value-step-title">Diététicienne dédiée</div><div class="value-step-copy">Elle adapte l’alimentation, les habitudes et la gestion des effets secondaires à votre situation.</div></div></div>
+      <div class="value-step"><div class="value-step-num">3</div><div><div class="value-step-title">Programme durable</div><div class="value-step-copy">Le but n’est pas seulement de perdre du poids, mais de tenir dans la durée.</div></div></div>
+    </div>
+
+    <div class="value-note">La suite du formulaire nous aide à vérifier si ce type de parcours peut correspondre à votre profil, avant validation médicale.</div>
+  </div>
+
+  <div class="actions"><button class="btn" onclick="go('s2')">Comprendre pourquoi ce n’est pas une question de volonté</button></div>
+</div>
+
 <!-- S2 - EDU VOLONTÉ -->
 <div class="screen edu-screen" id="s2" style="background:#f5efe6">
   <div class="edu-screen-inner">
-  <button class="back-link" onclick="go('s0')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <button class="back-link" onclick="go('value_glp')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="hero cream" style="margin-top:0"><img src="./images/content-2-1.127b20a2a.webp" onerror="this.style.display='none'" alt=""></div>
   <div class="hl">Perdre du poids n'est pas une question de volonté.</div>
   <div class="sub">Régimes. Efforts. Rechutes. Toujours le même cycle qui se répète.</div>
@@ -795,52 +932,22 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <button class="back-link" onclick="go('s2')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="hero pink" style="margin-top:0"><img src="./images/content-glp1.6165.webp" onerror="this.style.display='none'" alt=""></div>
   <div class="hl">Bonne nouvelle : une solution est <b>validée scientifiquement</b>.</div>
-  <div class="sub">Certains traitements pour la perte de poids, lorsqu'ils sont indiqués et suivis médicalement, peuvent s'intégrer dans une stratégie accompagnée.</div>
+  <div class="sub">Les traitements GLP-1, lorsqu'ils sont indiqués et suivis médicalement, peuvent s'intégrer dans une stratégie de perte de poids accompagnée.</div>
   <div class="pillars">
-    <div class="pillar"><div class="pill-num">1</div><div><div class="ptitle">Une hormone déjà là</div><div class="pdesc">Une hormone de satiété est produite naturellement par votre corps après chaque repas.</div></div></div>
+    <div class="pillar"><div class="pill-num">1</div><div><div class="ptitle">Une hormone déjà là</div><div class="pdesc">Le GLP-1 est produit naturellement par votre corps après chaque repas.</div></div></div>
     <div class="pillar"><div class="pill-num">2</div><div><div class="ptitle">Signal de satiété</div><div class="pdesc">Il dit au cerveau "j'ai assez mangé". La faim se régule progressivement.</div></div></div>
     <div class="pillar"><div class="pill-num">3</div><div><div class="ptitle">Action dans la durée</div><div class="pdesc">Le traitement prolonge ce signal naturel, sans frustration ni restriction brutale.</div></div></div>
   </div>
   <div style="font-size:13px;color:#888;margin-bottom:24px">Traitement étudié, prescrit et suivi par des professionnels de santé lorsque le profil médical le permet.</div>
-  <div class="actions"><button class="btn" onclick="go('value_glp')">Suivant</button></div>
-</div>
-  </div>
-
-<!-- VALUE_GLP - CE QU'ANNETTE APPORTE (4 blocs visuels) -->
-<div class="screen value-screen" id="value_glp">
-  <button class="back-link" onclick="go('s3')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
-  <div class="eyebrow">Pourquoi Annette</div>
-  <div class="hl">Un accompagnement complet, pas juste un traitement.</div>
-  <div class="va-grid">
-    <div class="va-block">
-      <div class="va-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v18M3 12h18" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="#1a1a1a" stroke-width="1.6"/></svg></div>
-      <div class="va-title">Accès au traitement si éligible</div>
-      <div class="va-copy">Un médecin évalue votre profil et peut prescrire le traitement adapté.</div>
-    </div>
-    <div class="va-block">
-      <div class="va-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5h16v11H7l-3 3V5z" stroke="#1a1a1a" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
-      <div class="va-title">Diététicienne dédiée</div>
-      <div class="va-copy">Disponible par chat pour adapter votre alimentation et votre suivi.</div>
-    </div>
-    <div class="va-block">
-      <div class="va-ico"><svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="9" r="2.4" stroke="#1a1a1a" stroke-width="1.6"/><circle cx="16" cy="9" r="2.4" stroke="#1a1a1a" stroke-width="1.6"/><path d="M3.5 18c0-2.4 2-3.8 4.5-3.8s4.5 1.4 4.5 3.8M12 18c0-2.4 2-3.8 4.5-3.8s4 1.4 4 3.8" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"/></svg></div>
-      <div class="va-title">Communauté et ateliers</div>
-      <div class="va-copy">Des échanges et des ateliers pour avancer sans vous sentir seul(e).</div>
-    </div>
-    <div class="va-block">
-      <div class="va-ico"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="2.5" stroke="#1a1a1a" stroke-width="1.6"/><path d="M8 8h8M8 12h8M8 16h5" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"/></svg></div>
-      <div class="va-title">Suivi adapté à votre traitement</div>
-      <div class="va-copy">Un suivi qui s'ajuste à votre traitement et à votre progression.</div>
-    </div>
-  </div>
   <div class="actions"><button class="btn" onclick="go('s1')">Continuer</button></div>
 </div>
+  </div>
 
 <!-- S4 - PRESCRIPTION -->
 <div class="screen" id="s4">
-  <button class="back-link" onclick="go('s1')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <button class="back-link" onclick="go('s3')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="eyebrow">Profil santé</div>
-  <div class="hl">Avez-vous déjà une prescription pour un traitement pour la perte de poids ?</div>
+  <div class="hl">Avez-vous déjà une prescription pour un traitement perte de poids GLP-1 ?</div>
   <div class="sub">(Wegovy, Mounjaro, Saxenda)</div>
   <div class="chip"><span class="chip-dot"></span>Cela nous permet de vous orienter vers le bon parcours dès le début - avec ou sans ordonnance.</div>
   <div class="choices">
@@ -907,8 +1014,8 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
         Reprise du poids
       </div>
     </div>
-    <div class="hl" style="text-align:center">Le traitement seul ne suffit pas...<br>L'accompagnement fait la différence.</div>
-    <div class="sub" style="text-align:center;margin-top:10px">La Haute Autorité de Santé est claire.<br>Ce type de traitement nécessite un accompagnement spécialisé.<br>Sans suivi adapté, les risques augmentent.</div>
+    <div class="hl" style="text-align:center">Le GLP-1 seul ne suffit pas...<br>L'accompagnement fait la différence.</div>
+    <div class="sub" style="text-align:center;margin-top:10px">La Haute Autorité de Santé est claire.<br>Le GLP-1 nécessite un accompagnement spécialisé.<br>Sans suivi adapté, les risques augmentent.</div>
     <div class="slide-dots" style="margin-top:24px">
       <div class="slide-dot active"></div>
       <div class="slide-dot"></div>
@@ -954,7 +1061,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <button class="back-link" onclick="go('s4')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="eyebrow">Profil santé</div>
   <div class="hl">Quelle est votre date de naissance ?</div>
-  <div class="chip"><span class="chip-dot"></span>L'âge influe sur les critères d'éligibilité médicale au traitement.</div>
+  <div class="chip"><span class="chip-dot"></span>L'âge influe sur les critères d'éligibilité médicale au traitement GLP-1.</div>
   <div class="drow">
     <div class="ig"><label>Jour</label><div class="iw"><input type="number" id="ddn-j" placeholder="JJ" min="1" max="31" inputmode="numeric" oninput="valDDN()"></div></div>
     <div class="ig"><label>Mois</label><div class="iw"><input type="number" id="ddn-m" placeholder="MM" min="1" max="12" inputmode="numeric" oninput="valDDN()"></div></div>
@@ -969,7 +1076,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <button class="back-link" onclick="go('s5')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="eyebrow">Profil santé</div>
   <div class="hl">Quel est votre poids actuel ?</div>
-  <div class="chip"><span class="chip-dot"></span>Requis pour calculer votre IMC - le critère principal d'éligibilité au traitement.</div>
+  <div class="chip"><span class="chip-dot"></span>Requis pour calculer votre IMC - le critère principal d'éligibilité au traitement GLP-1.</div>
   <div class="irow">
     <div class="ig"><label>Poids actuel</label><div class="iw"><input type="number" id="poids" placeholder="-" min="40" max="250" inputmode="numeric" oninput="valPoids()"><span class="iu">kg</span></div></div>
     <div class="ig"><label>Taille</label><div class="iw"><input type="number" id="taille" placeholder="-" min="140" max="210" inputmode="numeric" oninput="valPoids()"><span class="iu">cm</span></div></div>
@@ -984,7 +1091,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <button class="back-link" onclick="go('s6')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="eyebrow">Profil santé</div>
   <div class="hl">Sauvegardez votre progression</div>
-  <div class="sub">Renseignez votre email pour sauvegarder vos réponses et accéder à vos résultats à l'étape suivante. <b>Utilisez le même email que sur Doctolib</b> : il servira à organiser vos rendez-vous avec les professionnels de santé.</div>
+  <div class="sub">Renseignez votre email pour sauvegarder vos réponses et accéder à vos résultats à l'étape suivante.</div>
   <input type="email" class="ifl" id="email-inp" placeholder="votre@email.com" oninput="onEmail(this.value)">
   <div class="crow" onclick="tc('c1')"><div class="cchk" id="c1"></div><span class="ctxt">J'accepte que mes informations soient utilisées pour accéder au programme Annette. <a href="#">Politique de confidentialité</a></span></div>
   <div class="actions" style="margin-top:18px">
@@ -992,21 +1099,19 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   </div>
 </div>
 
-<!-- S8 - PROJECTION (12 mois, sans IMC, courbes expliquées) -->
+<!-- S8 - PROJECTION IMC + GRAPHIQUE -->
 <div class="screen" id="s8">
   <button class="back-link" onclick="go('s7')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
-  <div class="hl"><span id="reassure-prenom">Vous</span> pourriez perdre jusqu'à <b id="hl-kg">14 kg</b> en 12 mois avec le suivi Annette</div>
-  <div class="sub">Une perte de poids, c'est aussi retrouver de l'énergie, mieux dormir, bouger plus facilement et gagner en confiance.</div>
+  <div class="hero yellow"><img src="./images/eligible-bmi.be16.webp" onerror="this.style.display='none'" alt=""></div>
+  <div class="hl">Selon les informations partagées, une évolution autour de <b id="hl-kg">14 kg</b> peut être estimée</div>
+  <div class="sub">Cette projection est indicative et sert à préparer votre dossier. Elle ne remplace pas un avis médical ; les résultats varient selon chaque personne et seront réévalués avec un professionnel de santé.</div>
   <div class="gcard">
     <div class="gtop">
-      <div><div class="gbig"><span id="proj-kg">−14</span><sub> kg</sub></div><div class="gsub">projection indicative à 12 mois</div></div>
+      <div><div class="gbig"><span id="proj-kg">−14</span><sub> kg</sub></div><div class="gsub">projection indicative à 6 mois</div></div>
+      <div class="imcpill"><div class="imcn" id="imc-n">31.9</div><div class="imct">IMC</div><div class="imccat obese" id="imc-cat">Obésité</div></div>
     </div>
     <canvas id="chart" style="width:100%;height:160px;display:block"></canvas>
-    <div class="trow"><span>Aujourd'hui</span><span>6 mois</span><span>12 mois</span></div>
-    <div class="glegend">
-      <div class="glegend-item"><span class="glegend-dot solid"></span>Avec le suivi Annette</div>
-      <div class="glegend-item"><span class="glegend-dot dashed"></span>Avec le traitement seul</div>
-    </div>
+    <div class="trow"><span>Aujourd'hui</span><span>3 mois</span><span>6 mois</span></div>
   </div>
   <div class="cmprow">
     <div class="ccard plain"><div class="clbl">Traitement seul</div><div class="cval" id="cv-sans">−7 kg</div><div class="csub">Estimation indicative</div></div>
@@ -1014,102 +1119,84 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   </div>
   <div class="temo">
     <div class="tstars">★★★★★</div>
-    <div class="ttxt">"En rejoignant Annette, j'ai trouvé une approche humaine et un vrai suivi. Un an plus tard, une énergie retrouvée."</div>
-    <div class="tauth">Valérie L. · résultat individuel</div>
+    <div class="ttxt">"En rejoignant Annette, j'ai trouvé une approche humaine et un vrai suivi. Six mois plus tard, 21 kg en moins et une énergie retrouvée."</div>
+    <div class="tauth">Valérie L. - 6 mois avec Annette · résultat individuel</div>
   </div>
-  <div class="src">Cette projection est indicative, basée sur vos réponses, et sera réévaluée avec un professionnel de santé. Les résultats varient selon chaque personne.</div>
-  <div class="actions"><button class="btn" onclick="go('q1')">Continuer</button></div>
+  <div class="src">Projection indicative · données patients Annette et littérature clinique · résultats variables</div>
+  <div class="actions"><button class="btn" onclick="go('q3')">Continuer avec Annette</button></div>
 </div>
 
-<!-- Q1 - QUIZ : DIFFICULTÉ -->
-<div class="screen quiz-screen" id="q1">
-  <button class="back-link" onclick="go('s8')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
-  <div class="quiz-prog" id="qprog1"></div>
-  <div class="quiz-eyebrow">Votre parcours</div>
-  <div class="quiz-q">Qu'est-ce qui rend votre perte de poids difficile aujourd'hui ?</div>
-  <div class="quiz-cite">Certaines difficultés ne viennent pas d'un manque de volonté, mais du quotidien, du stress ou du manque de soutien.</div>
-  <div class="qcard-list">
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je manque de cadre</span><span class="qcard-sub">Je sais quoi faire, mais j'ai du mal à tenir dans la durée</span></button>
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je me sens souvent seul face à ça</span><span class="qcard-sub">J'aurais besoin d'un vrai soutien au quotidien</span></button>
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Mon quotidien complique tout</span><span class="qcard-sub">Stress, fatigue, repas, rythme de vie... difficile de garder le cap</span></button>
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">J'ai déjà essayé plusieurs fois</span><span class="qcard-sub">Régimes, efforts, reprises de poids... je veux sortir de ce cycle</span></button>
-  </div>
-  <button class="quiz-next" id="next-q1" onclick="go('q2')">Continuer</button>
-  <div class="quiz-counter" id="qcount1"></div>
-</div>
-
-<!-- Q2 - QUIZ : SITUATIONS ÉVITÉES -->
-<div class="screen quiz-screen" id="q2">
-  <button class="back-link" onclick="go('q1')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
-  <div class="quiz-prog" id="qprog2"></div>
-  <div class="quiz-eyebrow">Votre quotidien</div>
-  <div class="quiz-q">Est-ce que votre poids vous pousse parfois à éviter certaines situations ?</div>
-  <div class="quiz-cite">Sorties, vêtements, photos, rendez-vous, moments professionnels... parfois on renonce sans vraiment le dire.</div>
-  <div class="qcard-list">
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je limite certaines sorties</span><span class="qcard-sub">Restaurants, événements, voyages... je préfère parfois éviter</span></button>
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je ne me sens pas à l'aise avec mon corps</span><span class="qcard-sub">Vêtements, photos, regard des autres... ça peut me freiner</span></button>
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je me sens vite gêné ou fatigué</span><span class="qcard-sub">Escaliers, marche, activités... certaines situations demandent plus d'effort</span></button>
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">J'évite certaines occasions professionnelles</span><span class="qcard-sub">Réunions, prises de parole, déplacements... je peux manquer de confiance</span></button>
-  </div>
-  <button class="quiz-next" id="next-q2" onclick="go('q3')">Continuer</button>
-  <div class="quiz-counter" id="qcount2"></div>
-</div>
-
-<!-- Q3 - QUIZ : ÉNERGIE -->
+<!-- Q3 - QUIZ : EXPÉRIENCES PASSÉES (après projection) -->
 <div class="screen quiz-screen" id="q3">
-  <button class="back-link" onclick="go('q2')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <button class="back-link" onclick="go('s8')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="quiz-prog" id="qprog3"></div>
-  <div class="quiz-eyebrow">Votre énergie</div>
-  <div class="quiz-q">Est-ce que votre poids impacte votre énergie au quotidien ?</div>
-  <div class="quiz-cite">Fatigue, essoufflement, sommeil, motivation... certaines journées peuvent demander plus d'efforts qu'on ne l'imagine.</div>
-  <div class="qcard-list">
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je me fatigue plus vite</span><span class="qcard-sub">Marche, escaliers, déplacements... certains efforts me demandent plus d'énergie</span></button>
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je manque d'élan dans la journée</span><span class="qcard-sub">Je me sens parfois lourd, ralenti ou moins motivé</span></button>
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Mon sommeil n'est pas toujours réparateur</span><span class="qcard-sub">Je me réveille fatigué ou j'ai du mal à récupérer</span></button>
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">J'ai envie de retrouver plus de confort</span><span class="qcard-sub">Bouger, sortir, faire mes activités... j'aimerais que ce soit plus simple</span></button>
+  <div class="quiz-eyebrow">Votre parcours</div>
+  <div class="quiz-q">Mes tentatives précédentes de perte de poids m'ont laissé un sentiment d'inachevé.</div>
+  <div class="quiz-cite">"Régimes, efforts, rechutes - un cycle que beaucoup connaissent."</div>
+  <div class="three-opts">
+    <div class="qopt q-no" onclick="qpick(this,'q3','next-q3')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8h10" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="qopt-label">Pas vraiment</div>
+      <div class="qopt-sub">Je pars de zéro</div>
+    </div>
+    <div class="qopt q-mid" onclick="qpick(this,'q3','next-q3')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8h4m2 0h4" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="qopt-label">Parfois</div>
+      <div class="qopt-sub">Quelques essais mitigés</div>
+    </div>
+    <div class="qopt q-yes" onclick="qpick(this,'q3','next-q3')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8l3.5 3.5L13 4" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="qopt-label">Oui, c'est moi</div>
+      <div class="qopt-sub">Plusieurs fois</div>
+    </div>
   </div>
-  <button class="quiz-next" id="next-q3" onclick="go('q4')">Continuer</button>
+  <div class="quiz-feedback qfb-no" id="q3-fb-no"><span class="quiz-annette-tag">Avec Annette</span><br>Partir sans bagages, c'est une force. Votre diététicienne construira votre programme sur une base solide et sans préjugés.</div>
+  <div class="quiz-feedback qfb-mid" id="q3-fb-mid"><span class="quiz-annette-tag">Avec Annette</span><br>Chaque tentative enseigne quelque chose. Annette s'appuie sur ce que vous avez déjà essayé pour ne pas répéter les mêmes schémas.</div>
+  <div class="quiz-feedback qfb-yes" id="q3-fb-yes"><span class="quiz-annette-tag">Avec Annette</span><br>Ce n'est pas un échec personnel - c'est la biologie. Sans accompagnement adapté au traitement GLP-1, les résultats ne durent pas. C'est exactement ce qu'Annette change.</div>
+  <button class="quiz-next" id="next-q3" onclick="go('q4')">Question suivante</button>
   <div class="quiz-counter" id="qcount3"></div>
 </div>
 
-<!-- Q4 - QUIZ : DÉCOURAGEMENT -->
+<!-- Q4 - QUIZ : IMPACT VIE SOCIALE -->
 <div class="screen quiz-screen" id="q4">
   <button class="back-link" onclick="go('q3')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="quiz-prog" id="qprog4"></div>
-  <div class="quiz-eyebrow">Votre état d'esprit</div>
-  <div class="quiz-q">Qu'est-ce qui vous décourage le plus dans votre parcours ?</div>
-  <div class="quiz-cite">Quand on a déjà essayé plusieurs fois, il peut devenir difficile de croire qu'un changement durable est encore possible.</div>
-  <div class="qcard-list">
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">J'ai peur de reprendre le poids perdu</span><span class="qcard-sub">J'ai déjà vu mes efforts s'effacer avec le temps</span></button>
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je me sens fatigué de recommencer</span><span class="qcard-sub">J'ai l'impression d'avoir déjà beaucoup essayé</span></button>
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Les résultats ne tiennent pas toujours</span><span class="qcard-sub">Je peux perdre du poids, mais j'ai du mal à stabiliser</span></button>
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je manque de soutien dans les moments difficiles</span><span class="qcard-sub">Quand je doute ou que je décroche, je ne sais pas vers qui me tourner</span></button>
+  <div class="quiz-eyebrow">Votre quotidien</div>
+  <div class="quiz-q">Il m'arrive d'éviter certaines situations à cause de mon poids.</div>
+  <div class="quiz-cite">"Sorties, activités, occasions professionnelles - parfois on renonce sans vraiment se l'avouer."</div>
+  <div class="three-opts">
+    <div class="qopt q-no" onclick="qpick(this,'q4','next-q4')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8h10" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="qopt-label">Pas vraiment</div>
+      <div class="qopt-sub">Ça ne me freine pas</div>
+    </div>
+    <div class="qopt q-mid" onclick="qpick(this,'q4','next-q4')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8h4m2 0h4" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="qopt-label">Parfois</div>
+      <div class="qopt-sub">Dans certains contextes</div>
+    </div>
+    <div class="qopt q-yes" onclick="qpick(this,'q4','next-q4')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8l3.5 3.5L13 4" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="qopt-label">Oui, c'est moi</div>
+      <div class="qopt-sub">Régulièrement</div>
+    </div>
   </div>
-  <button class="quiz-next" id="next-q4" onclick="go('quiz_reassure')">Continuer</button>
+  <div class="quiz-feedback qfb-no" id="q4-fb-no"><span class="quiz-annette-tag">Avec Annette</span><br>Votre vie sociale est préservée - c'est une vraie force. Annette peut s'appuyer dessus pour maintenir votre motivation sur la durée.</div>
+  <div class="quiz-feedback qfb-mid" id="q4-fb-mid"><span class="quiz-annette-tag">Avec Annette</span><br>Ces situations sont plus fréquentes qu'on ne l'exprime. Votre diététicienne en tient compte dans votre suivi.</div>
+  <div class="quiz-feedback qfb-yes" id="q4-fb-yes"><span class="quiz-annette-tag">Avec Annette</span><br>Annette le sait - l'obésité touche bien plus que le corps. Retrouver de la liberté dans ces situations fait partie des objectifs du programme.</div>
+  <button class="quiz-next" id="next-q4" onclick="go('s9')">Continuer</button>
   <div class="quiz-counter" id="qcount4"></div>
 </div>
 
-<!-- QUIZ_REASSURE - SLIDE DE RÉASSURANCE UNIQUE (varie selon réponses) -->
-<div class="screen" id="quiz_reassure">
-  <div class="eyebrow">Avec Annette</div>
-  <div class="hl" id="reassure-title">Vous n'avez pas à avancer seul(e).</div>
-  <div class="reassure-card" id="reassure-card">
-    <div class="reassure-line" id="reassure-line"></div>
-    <div class="reassure-list" id="reassure-list"></div>
-  </div>
-  <div class="actions"><button class="btn" onclick="go('s9')">Continuer le bilan</button></div>
-</div>
-
-<!-- S9 - SEXE BIOLOGIQUE -->
+<!-- S9 - SEXE BIO -->
 <div class="screen" id="s9">
-  <button class="back-link" onclick="go('quiz_reassure')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <button class="back-link" onclick="go('q4')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="eyebrow">Antécédents médicaux</div>
   <div class="hl">Quel est votre sexe biologique ?</div>
-  <div class="sub">Connaître votre sexe biologique nous aide à personnaliser au mieux votre programme.</div>
-  <div class="chip"><span class="chip-dot"></span>Cette information sera renseignée dans votre dossier médical.</div>
+  <div class="sub">Connaître votre sexe biologique nous aidera à personnaliser au mieux votre programme.</div>
   <div class="choices">
-    <button class="cbtn" onclick="sel(this,'s9');w(()=>go('s10'))">Femme</button>
     <button class="cbtn" onclick="sel(this,'s9');w(()=>go('s10'))">Homme</button>
+    <button class="cbtn" onclick="sel(this,'s9');w(()=>go('s10'))">Femme</button>
   </div>
   <div class="secure"><svg viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3v4c0 2.8 2.1 5.4 5 6 2.9-.6 5-3.2 5-6V3L7 1Z" stroke="#bbb" stroke-width="1.2"/></svg>Vos données sont cryptées et sécurisées</div>
 </div>
@@ -1118,22 +1205,145 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 <div class="screen" id="s10">
   <button class="back-link" onclick="go('s9')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="eyebrow">Antécédents médicaux</div>
-  <div class="hl">Avez-vous déjà suivi un régime ou un programme alimentaire ?</div>
-  <div class="sub">Connaître ce que vous avez déjà essayé aide votre diététicienne à mieux vous accompagner.</div>
+  <div class="hl">Avez-vous déjà suivi des régimes et/ou des programmes de rééquilibrage alimentaire ? Si oui, étiez-vous accompagné par un professionnel de santé ?</div>
+  <div class="sub">Connaître ce que vous avez déjà essayé aidera votre coach à mieux comprendre comment vous accompagner.</div>
   <div class="choices">
-    <button class="cbtn" onclick="sel(this,'s10');w(()=>go('s11'))">Oui, avec un professionnel de santé</button>
-    <button class="cbtn" onclick="sel(this,'s10');w(()=>go('s11'))">Oui, sans accompagnement</button>
-    <button class="cbtn" onclick="sel(this,'s10');w(()=>go('s11'))">Non, jamais</button>
+    <button class="cbtn" onclick="sel(this,'s10');w(()=>go('q5'))">Oui, et j’étais accompagné par un professionnel de santé</button>
+    <button class="cbtn" onclick="sel(this,'s10');w(()=>go('q5'))">Oui, sans accompagnement</button>
+    <button class="cbtn" onclick="sel(this,'s10');w(()=>go('q5'))">Non</button>
   </div>
   <div class="secure"><svg viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3v4c0 2.8 2.1 5.4 5 6 2.9-.6 5-3.2 5-6V3L7 1Z" stroke="#bbb" stroke-width="1.2"/></svg>Vos données sont cryptées et sécurisées</div>
 </div>
 
+<!-- Q5 - QUIZ : ÉNERGIE LE MATIN -->
+<div class="screen quiz-screen" id="q5">
+  <button class="back-link" onclick="go('s10')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="quiz-prog" id="qprog5"></div>
+  <div class="quiz-eyebrow">Votre quotidien</div>
+  <div class="quiz-q">Je me réveille avec suffisamment d'énergie pour bien commencer ma journée.</div>
+  <div class="quiz-cite">"La fatigue chronique est l'une des conséquences les moins visibles de l'obésité."</div>
+  <div class="three-opts">
+    <div class="qopt q-no" onclick="qpick(this,'q5','next-q5')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8h10" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="qopt-label">Rarement</div>
+      <div class="qopt-sub">Je suis souvent épuisé(e)</div>
+    </div>
+    <div class="qopt q-mid" onclick="qpick(this,'q5','next-q5')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8h4m2 0h4" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="qopt-label">Ça dépend</div>
+      <div class="qopt-sub">Certains jours mieux que d'autres</div>
+    </div>
+    <div class="qopt q-yes" onclick="qpick(this,'q5','next-q5')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8l3.5 3.5L13 4" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="qopt-label">Oui, globalement</div>
+      <div class="qopt-sub">Je gère bien</div>
+    </div>
+  </div>
+  <div class="quiz-feedback qfb-no" id="q5-fb-no"><span class="quiz-annette-tag">Avec Annette</span><br>La fatigue chronique est directement liée aux dérèglements métaboliques. Votre diététicienne intègre cet aspect dans votre programme nutritionnel.</div>
+  <div class="quiz-feedback qfb-mid" id="q5-fb-mid"><span class="quiz-annette-tag">Avec Annette</span><br>Ces variations sont souvent liées à l'alimentation et au sommeil. Annette travaille sur les deux pour stabiliser votre énergie.</div>
+  <div class="quiz-feedback qfb-yes" id="q5-fb-yes"><span class="quiz-annette-tag">Avec Annette</span><br>C'est un bon point de départ. L'accompagnement va vous aider à maintenir et renforcer cette énergie au fil du programme.</div>
+  <button class="quiz-next" id="next-q5" onclick="go('q6')">Question suivante</button>
+  <div class="quiz-counter" id="qcount5"></div>
+</div>
+
+<!-- Q6 - QUIZ : RAPPORT AU CORPS -->
+<div class="screen quiz-screen" id="q6">
+  <button class="back-link" onclick="go('q5')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="quiz-prog" id="qprog6"></div>
+  <div class="quiz-eyebrow">Votre quotidien</div>
+  <div class="quiz-q">Je me sens à l'aise dans mon corps dans les situations du quotidien.</div>
+  <div class="quiz-cite">"Se sentir bien dans son corps - c'est l'un des premiers objectifs concrets du programme."</div>
+  <div class="three-opts">
+    <div class="qopt q-no" onclick="qpick(this,'q6','next-q6')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8h10" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="qopt-label">Rarement</div>
+      <div class="qopt-sub">C'est difficile au quotidien</div>
+    </div>
+    <div class="qopt q-mid" onclick="qpick(this,'q6','next-q6')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8h4m2 0h4" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="qopt-label">Parfois</div>
+      <div class="qopt-sub">Selon les situations</div>
+    </div>
+    <div class="qopt q-yes" onclick="qpick(this,'q6','next-q6')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8l3.5 3.5L13 4" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="qopt-label">Globalement oui</div>
+      <div class="qopt-sub">Je vis avec</div>
+    </div>
+  </div>
+  <div class="quiz-feedback qfb-no" id="q6-fb-no"><span class="quiz-annette-tag">Avec Annette</span><br>Annette prend en compte cette dimension. Votre diététicienne est formée pour vous accompagner de façon bienveillante, sans jugement sur votre corps.</div>
+  <div class="quiz-feedback qfb-mid" id="q6-fb-mid"><span class="quiz-annette-tag">Avec Annette</span><br>Ces moments difficiles font partie du parcours que l'accompagnement Annette cherche à transformer progressivement.</div>
+  <div class="quiz-feedback qfb-yes" id="q6-fb-yes"><span class="quiz-annette-tag">Avec Annette</span><br>Partir avec cette base, c'est une vraie force. Le programme va renforcer cette relation positive avec votre corps.</div>
+  <button class="quiz-next" id="next-q6" onclick="go('q7')">Question suivante</button>
+  <div class="quiz-counter" id="qcount6"></div>
+</div>
+
+<!-- Q7 - QUIZ : RAPPORT À LA NOURRITURE -->
+<div class="screen quiz-screen" id="q7">
+  <button class="back-link" onclick="go('q6')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="quiz-prog" id="qprog7"></div>
+  <div class="quiz-eyebrow">Votre alimentation</div>
+  <div class="quiz-q">Il m'arrive de manger sans avoir vraiment faim, par habitude ou dans certaines situations.</div>
+  <div class="quiz-cite">"Les signaux de faim et de satiété peuvent se dérégler - c'est biologique, pas comportemental."</div>
+  <div class="three-opts">
+    <div class="qopt q-no" onclick="qpick(this,'q7','next-q7')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8h10" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="qopt-label">Pas vraiment</div>
+      <div class="qopt-sub">Je mange selon ma faim</div>
+    </div>
+    <div class="qopt q-mid" onclick="qpick(this,'q7','next-q7')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8h4m2 0h4" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="qopt-label">Parfois</div>
+      <div class="qopt-sub">Dans certains moments</div>
+    </div>
+    <div class="qopt q-yes" onclick="qpick(this,'q7','next-q7')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8l3.5 3.5L13 4" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="qopt-label">Oui, c'est moi</div>
+      <div class="qopt-sub">Assez souvent</div>
+    </div>
+  </div>
+  <div class="quiz-feedback qfb-no" id="q7-fb-no"><span class="quiz-annette-tag">Avec Annette</span><br>Un rapport équilibré à la faim, c'est une vraie base. Votre diététicienne travaillera à le renforcer avec le traitement GLP-1.</div>
+  <div class="quiz-feedback qfb-mid" id="q7-fb-mid"><span class="quiz-annette-tag">Avec Annette</span><br>Le GLP-1 agit directement sur ces signaux de satiété. Avec un accompagnement, vous apprenez aussi à les reconnaître et les interpréter.</div>
+  <div class="quiz-feedback qfb-yes" id="q7-fb-yes"><span class="quiz-annette-tag">Avec Annette</span><br>C'est l'un des effets les plus transformateurs du GLP-1 combiné à un suivi - réguler ces signaux naturellement, sans restriction brutale.</div>
+  <button class="quiz-next" id="next-q7" onclick="go('q8')">Question suivante</button>
+  <div class="quiz-counter" id="qcount7"></div>
+</div>
+
+<!-- Q8 - QUIZ : CONFIANCE DANS CE PARCOURS -->
+<div class="screen quiz-screen" id="q8">
+  <button class="back-link" onclick="go('q7')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="quiz-prog" id="qprog8"></div>
+  <div class="quiz-eyebrow">Votre état d'esprit</div>
+  <div class="quiz-q">J'ai confiance que cette fois, les choses peuvent vraiment changer.</div>
+  <div class="quiz-cite">"L'espoir n'est pas naïf - c'est le point de départ de tout changement durable."</div>
+  <div class="three-opts">
+    <div class="qopt q-no" onclick="qpick(this,'q8','next-q8')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8h10" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="qopt-label">Pas encore</div>
+      <div class="qopt-sub">J'ai des doutes</div>
+    </div>
+    <div class="qopt q-mid" onclick="qpick(this,'q8','next-q8')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8h4m2 0h4" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="qopt-label">Je commence à y croire</div>
+      <div class="qopt-sub">Avec le bon cadre</div>
+    </div>
+    <div class="qopt q-yes" onclick="qpick(this,'q8','next-q8')">
+      <div class="qopt-icon"><svg viewBox="0 0 16 16" fill="none" style="width:16px;height:16px"><path d="M3 8l3.5 3.5L13 4" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="qopt-label">Oui, je suis prêt(e)</div>
+      <div class="qopt-sub">C'est le bon moment</div>
+    </div>
+  </div>
+  <div class="quiz-feedback qfb-no" id="q8-fb-no"><span class="quiz-annette-tag">Avec Annette</span><br>Ces doutes sont légitimes après plusieurs tentatives. Ce qui change avec Annette, c'est la combinaison GLP-1 + accompagnement médical - une approche que votre corps peut suivre.</div>
+  <div class="quiz-feedback qfb-mid" id="q8-fb-mid"><span class="quiz-annette-tag">Avec Annette</span><br>C'est exactement le bon état d'esprit pour commencer. Votre diététicienne sera là à chaque étape pour renforcer cette confiance.</div>
+  <div class="quiz-feedback qfb-yes" id="q8-fb-yes"><span class="quiz-annette-tag">Avec Annette</span><br>Cette motivation est votre meilleur atout. Annette est là pour la transformer en résultats concrets et durables.</div>
+  <button class="quiz-next" id="next-q8" onclick="go('s11')">Continuer le bilan</button>
+  <div class="quiz-counter" id="qcount8"></div>
+</div>
+
 <!-- S11 - PATHOLOGIES PRINCIPALES -->
 <div class="screen" id="s11">
-  <button class="back-link" onclick="go('s10')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <button class="back-link" onclick="go('q8')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="eyebrow">Antécédents médicaux</div>
   <div class="hl">Avez-vous ces pathologies existantes ?</div>
-  <div class="conf-badge">Réponse médicale confidentielle</div>
   <div class="multi" id="ml-patho">
     <button class="mbtn" onclick="ms(this,'ml-patho','anc-p','rbox-p')"><span class="txt">Diabète de type 1</span><span class="mck"></span></button>
     <button class="mbtn" onclick="ms(this,'ml-patho','anc-p','rbox-p')"><span class="txt">Diabète de type 2</span><span class="mck"></span></button>
@@ -1153,7 +1363,6 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <button class="back-link" onclick="go('s11')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="eyebrow">Antécédents médicaux</div>
   <div class="hl">Souffrez-vous ou avez-vous souffert d’une pathologie liée à votre système digestif ?</div>
-  <div class="conf-badge">Réponse médicale confidentielle</div>
   <div class="multi" id="ml-dig">
     <button class="mbtn" onclick="ms(this,'ml-dig','anc-d',null)"><span class="txt">Reflux gastro-oesophagien (remontée acide)</span><span class="mck"></span></button>
     <button class="mbtn" onclick="ms(this,'ml-dig','anc-d',null)"><span class="txt">Hernie hiatale</span><span class="mck"></span></button>
@@ -1172,7 +1381,6 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <button class="back-link" onclick="go('s12')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="eyebrow">Antécédents médicaux</div>
   <div class="hl">Avez-vous une autre pathologie ?</div>
-  <div class="conf-badge">Réponse médicale confidentielle</div>
   <div class="multi" id="ml-autre">
     <button class="mbtn" onclick="ms(this,'ml-autre','anc-a',null)"><span class="txt">Prédiabète</span><span class="mck"></span></button>
     <button class="mbtn" onclick="ms(this,'ml-autre','anc-a',null)"><span class="txt">Hypertension artérielle</span><span class="mck"></span></button>
@@ -1212,7 +1420,6 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <button class="back-link" onclick="go('s14')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="eyebrow">Antécédents médicaux</div>
   <div class="hl">Avez-vous un parent ou un membre de votre famille qui a l’une des pathologies suivantes ?</div>
-  <div class="conf-badge">Réponse médicale confidentielle</div>
   <div class="multi" id="ml-fam">
     <button class="mbtn" onclick="ms(this,'ml-fam','anc-f',null)"><span class="txt">Diabète</span><span class="mck"></span></button>
     <button class="mbtn" onclick="ms(this,'ml-fam','anc-f',null)"><span class="txt">Hypertension artérielle</span><span class="mck"></span></button>
@@ -1232,7 +1439,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
     <div class="proc-logo">annette</div>
     <div class="proc-list">
       <div class="pitem" id="pi0"><div class="pchk"></div><div><div class="ptxt">Analyse de votre IMC</div><div class="psub">Calcul de votre profil morphologique</div></div></div>
-      <div class="pitem" id="pi1"><div class="pchk"></div><div><div class="ptxt">Vérification du traitement</div><div class="psub">Compatibilité et contre-indications</div></div></div>
+      <div class="pitem" id="pi1"><div class="pchk"></div><div><div class="ptxt">Vérification du traitement GLP-1</div><div class="psub">Compatibilité et contre-indications</div></div></div>
       <div class="pitem" id="pi2"><div class="pchk"></div><div><div class="ptxt">Profil médical analysé</div><div class="psub">Antécédents et pathologies</div></div></div>
       <div class="pitem" id="pi3"><div class="pchk"></div><div><div class="ptxt">Programme personnalisé</div><div class="psub">Création de votre plan sur-mesure</div></div></div>
     </div>
@@ -1504,25 +1711,25 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 
 <script>
 /* STATE */
-let cur='s0',email='',tcaNeedsDetail=false,tcaDetail='';
+let cur='landing',email='',tcaNeedsDetail=false,tcaDetail='';
 const FORM_START='s0';
-const HIDE_TOP=['s16','s20'];
+const HIDE_TOP=['s16','s20','landing'];
 let procTimerIds=[];
 const PCT={
-  s0:4,s2:8,s3:12,value_glp:16,s1:19,s4:22,glp1_date:23,glp1_poids:24,glp1_duree:25,glp1_seul:26,glp1_annette:27,s5:28,s6:30,s7:34,s8:40,
-  q1:42,q2:45,q3:48,q4:51,quiz_reassure:54,s9:57,s10:60,
+  landing:0,s0:4,value_glp:7,s2:10,s3:14,s1:18,s4:22,glp1_date:23,glp1_poids:24,glp1_duree:25,glp1_seul:26,glp1_annette:27,s5:28,s6:30,s7:34,s8:40,
+  q3:43,q4:46,s9:50,s10:54,q5:57,q6:60,q7:63,q8:66,
   s11:68,s12:71,s13:74,s14:77,s15:80,s16:84,s17:90,s18:94,s19:97,s20:100
 };
 const STEP_LABELS={
-  s0:'Étape 1',s2:'Étape 2',s3:'Étape 3',value_glp:'Pourquoi Annette',s1:'Étape 4',
+  s0:'Étape 1',value_glp:'Pourquoi Annette',s2:'Étape 2',s3:'Étape 3',s1:'Étape 4',
   s4:'Étape 5',glp1_date:'Votre prescription',glp1_poids:'Votre prescription',glp1_duree:'Votre prescription',glp1_seul:'',glp1_annette:'',s5:'Étape 6',s6:'Étape 7',s7:'Étape 8',s8:'Étape 9',
-  q1:'Question 1 / 4',q2:'Question 2 / 4',q3:'Question 3 / 4',q4:'Question 4 / 4',quiz_reassure:'Avec Annette',s9:'Étape 10',s10:'Étape 11',
+  q3:'Question 1 / 6',q4:'Question 2 / 6',s9:'Étape 10',s10:'Étape 11',q5:'Question 3 / 6',q6:'Question 4 / 6',q7:'Question 5 / 6',q8:'Question 6 / 6',
   s11:'Étape 12',s12:'Étape 12',s13:'Étape 12',s14:'Étape 13',s15:'Étape 13',
   s16:'Analyse',s17:'Résultat',s18:'Étape 14',s19:'Étape 15',s20:'Terminé'
 };
 const SIDE_MAP={
-  s0:0,s2:0,s3:0,value_glp:0,s1:1,s4:2,glp1_date:2,glp1_poids:2,glp1_duree:2,glp1_seul:2,glp1_annette:2,s5:2,s6:2,s7:2,s8:3,
-  q1:3,q2:3,q3:3,q4:3,quiz_reassure:3,s9:4,s10:4,
+  landing:0,s0:0,value_glp:0,s2:0,s3:0,s1:1,s4:2,glp1_date:2,glp1_poids:2,glp1_duree:2,glp1_seul:2,glp1_annette:2,s5:2,s6:2,s7:2,s8:3,
+  q3:3,q4:3,s9:4,s10:4,q5:4,q6:4,q7:4,q8:4,
   s11:4,s12:4,s13:4,s14:4,s15:4,s16:4,s17:5,s18:6,s19:6,s20:6
 };
 const MOBILE_STEP_NAMES=['Motivation','Source','Profil santé','Projection IMC','Santé','Résultat','Compte'];
@@ -1533,7 +1740,7 @@ function getMobilePhaseIndex(){
 function updateMobileProgress(){
   const box=document.getElementById('mobile-progress');
   if(!box)return;
-  const hide=HIDE_TOP.includes(cur);
+  const hide=HIDE_TOP.includes(cur)||(typeof cur==='string'&&cur==='landing');
   box.style.display=hide?'none':'block';
   if(hide)return;
   const idx=getMobilePhaseIndex();
@@ -1573,9 +1780,13 @@ function closeMobileSteps(evt){
 }
 
 /* Quiz progress - which quiz number each Q screen is (out of 6) */
-const QUIZ_POS={q1:1,q2:2,q3:3,q4:4};
+const QUIZ_POS={q3:1,q4:2,q5:3,q6:4,q7:5,q8:6};
 
 function startForm(){
+  document.getElementById('landing').classList.remove('active');
+  document.getElementById('landing').style.display='none';
+  document.getElementById('topbar').style.display='';
+  document.getElementById('main-wrap').style.display='';
   go(FORM_START);
 }
 
@@ -1596,7 +1807,6 @@ function go(idx){
   if(idx==='s20')upRecap();
   /* Init quiz progress bars */
   if(QUIZ_POS[idx])initQProg(idx);
-  if(idx==='quiz_reassure')buildReassure();
 }
 
 function initQProg(qid){
@@ -1606,13 +1816,13 @@ function initQProg(qid){
   const el=screen.querySelector('.quiz-prog');
   if(!el)return;
   el.innerHTML='';
-  for(let i=1;i<=4;i++){
+  for(let i=1;i<=6;i++){
     const d=document.createElement('div');
     d.className='qpd'+(i<pos?' done':i===pos?' cur':'');
     el.appendChild(d);
   }
   const cnt=screen.querySelector('.quiz-counter');
-  if(cnt)cnt.textContent='Question '+pos+' sur 4';
+  if(cnt)cnt.textContent='Question '+pos+' sur 6';
 }
 
 function upRecap(){
@@ -1654,14 +1864,16 @@ function valPhone(){
 function upUI(){
   const topbar=document.getElementById('topbar');
   const mainWrap=document.getElementById('main-wrap');
-  const hide=HIDE_TOP.includes(cur);
+  const landing=document.getElementById('landing');
+  const hide=HIDE_TOP.includes(cur)||(typeof cur==='string'&&cur==='landing');
   if(topbar)topbar.style.display=hide?'none':'';
   if(mainWrap){
-    mainWrap.style.display='';
+    mainWrap.style.display=cur==='landing'?'none':'';
     mainWrap.classList.remove('info-cream','info-pink');
     if(cur==='s2')mainWrap.classList.add('info-cream');
     if(cur==='s3')mainWrap.classList.add('info-pink');
   }
+  if(landing)landing.style.display=cur==='landing'?'flex':'none';
   updateMobileProgress();
   const lblEl=document.getElementById('tp-lbl');
   const fillEl=document.getElementById('tp-fill');
@@ -1681,36 +1893,36 @@ function w(fn){setTimeout(fn,240);}
 
 const MOTIVATION_CONTENT={
   health:{
-    title:'Reprendre la main sur votre santé.',
-    lead:'Dès 5 à 10 % de poids perdu, votre santé peut déjà s\'améliorer :',
-    copy:'',
-    solutionTitle:'Avec Annette, et un traitement si adapté, vous pouvez viser jusqu\'à 20 % de perte de poids, selon votre profil.',
-    items:['Glycémie','Tension','Cholestérol','Mobilité'],
-    proof:''
+    title:'Vous voulez reprendre la main sur votre santé.',
+    lead:'Quand le poids commence à peser sur la santé, on peut se sentir inquiet, fatigué ou bloqué malgré ses efforts.',
+    copy:'Annette part de votre profil pour construire un cadre plus sûr : suivi médical, diététicienne dédiée et programme adapté à votre situation.',
+    solutionTitle:'Pour votre profil, l’objectif est simple : avancer avec un accompagnement sérieux, sans jugement.',
+    items:['Comprendre vos besoins de santé.','Adapter le suivi à votre IMC et votre histoire.','Vous aider à perdre du poids de façon plus durable.'],
+    proof:'Votre parcours commence par mieux comprendre ce qui compte pour vous.'
   },
   energy:{
-    title:'Retrouver plus d\'énergie au quotidien.',
-    lead:'Dès 5 à 10 % de poids perdu, vous pouvez déjà ressentir plus d\'énergie :',
-    copy:'',
-    solutionTitle:'Avec Annette, et un traitement si adapté, vous pouvez viser jusqu\'à 20 % de perte de poids, selon votre profil.',
-    items:['Moins de fatigue','Moins d\'essoufflement','Meilleur sommeil','Plus d\'endurance'],
-    proof:''
+    title:'Vous voulez retrouver plus d’énergie au quotidien.',
+    lead:'Quand chaque journée demande plus d’effort, la perte de poids devient aussi une question de confort et de liberté.',
+    copy:'Annette vous aide à construire une routine réaliste, avec un programme nutritionnel adapté au traitement et à votre rythme.',
+    solutionTitle:'Pour votre profil, l’objectif est de réduire la fatigue et retrouver de l’élan.',
+    items:['Un plan adapté à vos journées.','Un suivi pour mieux gérer faim et satiété.','Des objectifs concrets, pas seulement un chiffre.'],
+    proof:'On va utiliser vos réponses pour personnaliser la suite.'
   },
   confidence:{
-    title:'Vous sentir mieux dans votre corps.',
-    lead:'Perdre du poids peut aider, mais la confiance se reconstruit aussi avec du soutien et de l\'écoute.',
-    copy:'',
-    solutionTitle:'Avec Annette, vous avancez avec un accompagnement humain pour travailler :',
-    items:['Votre rapport au corps','Votre motivation','Vos blocages du quotidien','Vos habitudes alimentaires'],
-    proof:''
+    title:'Vous voulez vous sentir mieux dans votre corps.',
+    lead:'Le poids peut impacter les vêtements, les photos, les sorties et la façon dont on se regarde.',
+    copy:'Annette propose un accompagnement bienveillant, pensé pour votre vécu, pas seulement pour votre IMC.',
+    solutionTitle:'Pour votre profil, l’objectif est de retrouver confiance progressivement.',
+    items:['Une diététicienne dédiée, sans jugement.','Un programme adapté à votre histoire.','Un cadre pour avancer étape par étape.'],
+    proof:'Vous n’êtes pas seul(e) à ressentir ça.'
   },
   mental:{
-    title:'Retrouver de la sérénité au quotidien.',
-    lead:'Une perte de poids peut réduire certaines préoccupations et vous aider à vous sentir plus serein(e) :',
-    copy:'',
-    solutionTitle:'Avec Annette, et un traitement si adapté, vous pouvez viser jusqu\'à 20 % de perte de poids, selon votre profil.',
-    items:['Moins d\'inquiétude sur votre santé','Moins de charge mentale','Plus de confiance dans vos progrès','Plus de sérénité au quotidien'],
-    proof:''
+    title:'Vous voulez sortir du cycle frustration et culpabilité.',
+    lead:'Régimes, efforts, reprise de poids : ce cycle peut peser mentalement et donner l’impression que tout repose sur vous.',
+    copy:'Annette vous aide à avancer avec une approche plus douce, qui tient compte du corps, du mental et du traitement.',
+    solutionTitle:'Pour votre profil, l’objectif est de créer un cadre rassurant et durable.',
+    items:['Pas de régime brutal.','Un suivi pour comprendre ce qui bloque.','Un accompagnement GLP-1 et nutritionnel coordonné.'],
+    proof:'La suite se fait étape par étape, sans jugement.'
   }
 };
 
@@ -1728,10 +1940,10 @@ function motiveChoice(btn){
   choices.classList.add('answered');
   document.getElementById('motivation-title').textContent=data.title;
   document.getElementById('motivation-lead').textContent=data.lead;
-  var copyEl=document.getElementById('motivation-copy');copyEl.textContent=data.copy;copyEl.style.display=data.copy?'':'none';
+  document.getElementById('motivation-copy').textContent=data.copy;
   document.getElementById('motivation-solution-title').textContent=data.solutionTitle;
   document.getElementById('motivation-solution-list').innerHTML=data.items.map(item=>'<div class="motivation-solution-item">'+escapeHtml(item)+'</div>').join('');
-  var proofEl=document.getElementById('motivation-proof');proofEl.innerHTML=data.proof;proofEl.style.display=data.proof?'':'none';
+  document.getElementById('motivation-proof').innerHTML=data.proof;
   if(panel)panel.classList.add('show');
   if(actions)actions.style.display='flex';
   if(change)change.classList.add('show');
@@ -1748,64 +1960,71 @@ function resetMotivation(){
   if(panel)panel.classList.remove('show');if(actions)actions.style.display='none';if(change)change.classList.remove('show');
 }
 
-/* ── QUIZ (nouvelles questions, choix unique, pas de feedback par réponse) ── */
-const QUIZ_ANSWERS={};
-function quizPick(btn){
-  const screen=btn.closest('.screen');
-  const qid=screen?screen.id:null;
-  const list=btn.closest('.qcard-list');
-  if(list)list.querySelectorAll('.qcard-opt').forEach(o=>o.classList.remove('picked'));
+/* Quiz pick */
+function qpick(btn,qid,nextBtnId){
+  const parent=btn.parentElement;
+
+  parent.querySelectorAll('.qopt').forEach(o=>{o.classList.remove('picked');});
   btn.classList.add('picked');
-  if(qid){
-    const main=btn.querySelector('.qcard-main');
-    QUIZ_ANSWERS[qid]=main?main.textContent.trim():'';
+  parent.classList.add('answered');
+
+  ['no','mid','yes'].forEach(v=>{
+    const fb=document.getElementById(qid+'-fb-'+v);
+    if(fb)fb.classList.remove('show');
+  });
+
+  const cls=btn.classList.contains('q-no')?'no':btn.classList.contains('q-mid')?'mid':'yes';
+  const fb=document.getElementById(qid+'-fb-'+cls);
+  if(fb){
+    enrichQuizFeedback(fb,btn);
+    fb.classList.add('show');
   }
-  const nb=screen?screen.querySelector('.quiz-next'):null;
+
+  const nb=document.getElementById(nextBtnId);
   if(nb)nb.classList.add('show');
+
+  let change=document.getElementById(qid+'-change');
+  if(!change){
+    change=document.createElement('button');
+    change.type='button';
+    change.id=qid+'-change';
+    change.className='quiz-change';
+    change.textContent='Modifier ma réponse';
+    change.onclick=()=>qreset(qid,nextBtnId);
+    parent.insertAdjacentElement('afterend',change);
+  }
+  change.style.display='block';
 }
 
-/* Slide de réassurance unique — varie selon les réponses précédentes */
-function buildReassure(){
-  const titleEl=document.getElementById('reassure-title');
-  const lineEl=document.getElementById('reassure-line');
-  const listEl=document.getElementById('reassure-list');
-  if(!lineEl||!listEl)return;
-
-  const a1=QUIZ_ANSWERS['q1']||'';
-  const a4=QUIZ_ANSWERS['q4']||'';
-
-  // Titre et phrase d'accroche varient selon la difficulté principale (q1)
-  let title="Vous n'avez pas à avancer seul(e).";
-  let line="Annette construit un accompagnement adapté à ce que vous vivez, sans jugement.";
-  if(a1.includes('manque de cadre')){
-    title="Un cadre clair, pour tenir dans la durée.";
-    line="Votre diététicienne vous aide à transformer ce que vous savez en habitudes qui tiennent.";
-  } else if(a1.includes('seul')){
-    title="Vous ne serez plus seul(e) face à ça.";
-    line="Une diététicienne dédiée et une communauté vous accompagnent au quotidien.";
-  } else if(a1.includes('quotidien complique')){
-    title="On part de votre quotidien réel.";
-    line="Stress, fatigue, rythme de vie : votre suivi s'adapte à votre réalité, pas l'inverse.";
-  } else if(a1.includes('déjà essayé')){
-    title="Cette fois, vous êtes accompagné(e).";
-    line="Ce qui change, c'est un suivi médical et nutritionnel pensé pour durer.";
+function qreset(qid,nextBtnId){
+  const screen=document.getElementById(qid);
+  if(!screen)return;
+  const opts=screen.querySelector('.three-opts');
+  if(opts){
+    opts.classList.remove('answered');
+    opts.querySelectorAll('.qopt').forEach(o=>o.classList.remove('picked'));
   }
-
-  // Liste de bénéfices, légèrement orientée selon le découragement (q4)
-  let items=['Une diététicienne dédiée par chat','Un suivi adapté à votre profil','Une communauté et des ateliers'];
-  if(a4.includes('reprendre le poids')||a4.includes('ne tiennent pas')){
-    items=['Un accompagnement pensé pour stabiliser les résultats','Une diététicienne dédiée par chat','Un suivi régulier de votre progression'];
-  } else if(a4.includes('soutien')){
-    items=['Une diététicienne dédiée, disponible quand vous doutez','Une communauté et des ateliers','Un suivi régulier de votre progression'];
-  } else if(a4.includes('fatigué de recommencer')){
-    items=['Un seul parcours, clair, sans tout recommencer','Une diététicienne dédiée par chat','Un suivi adapté à votre profil'];
-  }
-
-  titleEl.textContent=title;
-  lineEl.textContent=line;
-  listEl.innerHTML=items.map(it=>'<div class="reassure-item"><span class="reassure-check"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7l3 3 5-6" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'+escapeHtml(it)+'</div>').join('');
+  ['no','mid','yes'].forEach(v=>{
+    const fb=document.getElementById(qid+'-fb-'+v);
+    if(fb)fb.classList.remove('show');
+  });
+  const nb=document.getElementById(nextBtnId);
+  if(nb)nb.classList.remove('show');
+  const change=document.getElementById(qid+'-change');
+  if(change)change.style.display='none';
 }
 
+
+function enrichQuizFeedback(fb,btn){
+  if(!fb.dataset.original){
+    fb.dataset.original=fb.textContent.replace(/^\s*Avec Annette\s*/,'').trim();
+  }
+  const annette=fb.dataset.original;
+  fb.innerHTML='<div class="quiz-diagnostic"><div class="quiz-diag-row">'
+    +'<div class="quiz-diag-ico"><svg viewBox="0 0 16 16" fill="none" style="width:12px;height:12px"><path d="M3 8l3.5 3.5L13 4" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>'
+    +'<div><div class="quiz-diag-title">Avec Annette</div><div class="quiz-diag-text">'+escapeHtml(annette)+'</div></div>'
+    +'</div></div>';
+}
 function escapeHtml(str){
   return String(str).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});
 }
@@ -1850,7 +2069,7 @@ function imcCat(v){if(v<18.5)return{l:'Sous-poids',c:'normal'};if(v<25)return{l:
 function renderChart(){
   // Defer one frame to ensure canvas is visible and has width
   requestAnimationFrame(()=>{
-  const{p,imc,kg}=getStats(),kgS=Math.round(kg*.5),cat=imcCat(imc);document.getElementById('hl-kg').textContent=kg+' kg';var pn=document.getElementById('reassure-prenom');if(pn){var pe=document.getElementById('prenom-inp');pn.textContent=(pe&&pe.value.trim())?pe.value.trim():'Vous';}document.getElementById('proj-kg').textContent='−'+kg;var imcN=document.getElementById('imc-n');if(imcN)imcN.textContent=imc.toFixed(1);var el=document.getElementById('imc-cat');if(el){el.textContent=cat.l;el.className='imccat '+cat.c;}document.getElementById('cv-sans').textContent='−'+kgS+' kg';document.getElementById('cv-avec').textContent='−'+kg+' kg';drawChart(p,kg);});}
+  const{p,imc,kg}=getStats(),kgS=Math.round(kg*.5),cat=imcCat(imc);document.getElementById('hl-kg').textContent=kg+' kg';document.getElementById('proj-kg').textContent='−'+kg;document.getElementById('imc-n').textContent=imc.toFixed(1);const el=document.getElementById('imc-cat');el.textContent=cat.l;el.className='imccat '+cat.c;document.getElementById('cv-sans').textContent='−'+kgS+' kg';document.getElementById('cv-avec').textContent='−'+kg+' kg';drawChart(p,kg);});}
 function upFinal(){const{imc,kg}=getStats();document.getElementById('final-kg').textContent='−'+kg+' kg';document.getElementById('final-imc').textContent=imc.toFixed(1);}
 /* CANVAS */
 function drawChart(poids,pK){const cv=document.getElementById('chart'),W=cv.offsetWidth||480,H=160,dpr=window.devicePixelRatio||1;cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);ctx.clearRect(0,0,W,H);const pL=6,pR=12,pT=18,pB=8,cW=W-pL-pR,cH=H-pT-pB,pS=Math.round(pK*.5),minY=poids-pK-4,maxY=poids+3,rY=maxY-minY;const ptA=[poids,poids-pK*.58,poids-pK],ptS=[poids,poids-pS*.58,poids-pS];const xy=(t,py)=>({x:pL+t*cW,y:pT+((maxY-py)/rY)*cH});const bz=(ys,t)=>(1-t)**2*ys[0]+2*(1-t)*t*ys[1]+t**2*ys[2];ctx.beginPath();const p0=xy(0,ptA[0]);ctx.moveTo(p0.x,p0.y);for(let t=.01;t<=1;t+=.01){const pt=xy(t,bz(ptA,t));ctx.lineTo(pt.x,pt.y);}const pe=xy(1,ptA[2]);ctx.lineTo(pe.x,pT+cH);ctx.lineTo(pL,pT+cH);ctx.closePath();ctx.fillStyle='rgba(245,200,66,.18)';ctx.fill();ctx.beginPath();ctx.setLineDash([4,4]);ctx.strokeStyle='rgba(0,0,0,.18)';ctx.lineWidth=1.5;for(let t=0;t<=1;t+=.01){const pt=xy(t,bz(ptS,t));t===0?ctx.moveTo(pt.x,pt.y):ctx.lineTo(pt.x,pt.y);}ctx.stroke();ctx.setLineDash([]);ctx.beginPath();ctx.strokeStyle='#1a1a1a';ctx.lineWidth=2.5;ctx.lineJoin='round';ctx.lineCap='round';for(let t=0;t<=1;t+=.01){const pt=xy(t,bz(ptA,t));t===0?ctx.moveTo(pt.x,pt.y):ctx.lineTo(pt.x,pt.y);}ctx.stroke();const m3=xy(.5,bz(ptA,.5));bub(ctx,m3.x,m3.y,'−'+Math.round(pK*.58)+' kg','#F5C842','#1a1a1a',W);const m6=xy(1,ptA[2]);ctx.beginPath();ctx.arc(m6.x,m6.y,5,0,Math.PI*2);ctx.fillStyle='#1a1a1a';ctx.fill();bub(ctx,m6.x,m6.y,'−'+pK+' kg','#1a1a1a','#fff',W);}
@@ -2029,7 +2248,7 @@ function triggerGoodBullets(){
 }
 
 /* INIT */
-go('s0');
+upUI();
 </script>
 
 <div class="mobile-steps-overlay" id="mobile-steps-overlay" onclick="closeMobileSteps(event)">
