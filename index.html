@@ -188,6 +188,11 @@ canvas#chart{display:block;width:100%;height:240px}
 .overlay.open{display:flex}
 .modal{background:#fff;border-radius:20px;padding:36px;max-width:480px;width:100%;transform:scale(.94);opacity:0;transition:transform .3s cubic-bezier(.4,0,.2,1),opacity .3s ease}
 .overlay.open .modal{transform:scale(1);opacity:1}
+#s16 #tca-ov{position:static;inset:auto;background:transparent;z-index:auto;display:none;align-items:stretch;justify-content:initial;padding:0;margin-top:24px;pointer-events:auto}
+#s16 #tca-ov.open{display:block}
+#s16 #tca-modal{max-width:540px;margin:0 auto;background:#fff;border:1.5px solid #ebebeb;box-shadow:0 18px 42px rgba(26,26,26,.08);transform:none;opacity:1;padding:24px;border-radius:22px}
+.mobile-version #s16 #tca-ov{align-items:stretch;padding:0;background:transparent;margin-top:20px}
+.mobile-version #s16 #tca-modal{width:100%;max-width:none;border-radius:22px;padding:20px;max-height:none;overflow:visible}
 .modal-close{float:right;background:none;border:none;font-size:14px;color:#aaa;cursor:pointer;font-weight:600;padding:0;line-height:1}
 
 
@@ -655,6 +660,15 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 .mobile-version .proj-benefits{border-radius:16px;padding:16px 17px;margin-bottom:18px}
 .mobile-version .proj-ben-item{font-size:13.5px;padding:9px 11px}
 .chart-wrap{position:relative;margin-top:4px}
+.chart-labels{position:absolute;inset:0;pointer-events:none;z-index:2}
+.chart-sticker{position:absolute;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:7px 11px;font-size:10px;font-weight:900;line-height:1;white-space:nowrap;box-shadow:0 8px 18px rgba(26,26,26,.12)}
+.chart-sticker.dark{background:#1a1a1a;color:#fff;left:23%;top:28%}
+.chart-sticker.light{background:#f5f5f3;color:#666;border:1px solid #e8e8e6;left:58%;top:39%}
+.chart-sticker.loss-solo{background:#ececec;color:#666;right:4%;top:43%}
+.chart-sticker.loss-annette{background:#F5C842;color:#1a1a1a;right:4%;top:70%}
+.mobile-version .chart-sticker{font-size:9.5px;padding:6px 9px}
+.mobile-version .chart-sticker.dark{left:18%;top:27%}
+.mobile-version .chart-sticker.light{left:50%;top:40%}
 .doctolib-box{display:flex;align-items:flex-start;gap:12px;background:#fffaf0;border:1.5px solid #f0e3bf;border-radius:14px;padding:14px 16px;margin-bottom:16px}
 .doctolib-box-text{font-size:13px;color:#6c5a28;line-height:1.55}
 .doctolib-box-text strong{color:#1a1a1a}
@@ -668,6 +682,13 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 .qcard-opt{width:100%;text-align:left;border:1.5px solid #e8e8e6;background:#fafafa;border-radius:14px;padding:16px 18px;cursor:pointer;display:flex;flex-direction:column;gap:4px;transition:border-color .15s,background .15s,box-shadow .18s,transform .12s}
 .qcard-opt:hover{border-color:#aaa;background:#fff}
 .qcard-opt.picked{border-color:#1a1a1a;border-width:2px;background:#fff;box-shadow:0 10px 26px rgba(26,26,26,.07)}
+.qcard-list.answered{gap:0;margin-bottom:12px}
+.qcard-list.answered .qcard-opt:not(.picked){opacity:0;max-height:0;padding-top:0;padding-bottom:0;margin:0;border-width:0;overflow:hidden;pointer-events:none;transform:translateY(6px)}
+.qcard-list.answered .qcard-opt.picked{margin-bottom:0}
+.quiz-inline-feedback{display:none;background:#fffaf0;border:1.5px solid #f0e3bf;border-radius:16px;padding:15px 16px;margin:0 0 16px;color:#6c5a28;font-size:13.5px;line-height:1.55;box-shadow:0 12px 28px rgba(26,26,26,.05)}
+.quiz-inline-feedback.show{display:block;animation:fadeUp .22s cubic-bezier(.4,0,.2,1)}
+.quiz-inline-feedback strong{display:block;color:#1a1a1a;font-size:13px;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px}
+.quiz-inline-feedback .quiz-change{margin:10px 0 0;text-align:left}
 .qcard-main{font-size:15px;font-weight:800;color:#1a1a1a;line-height:1.3}
 .qcard-sub{font-size:13px;color:#888;line-height:1.45}
 .qcard-opt.picked .qcard-sub{color:#666}
@@ -1026,6 +1047,12 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
     </div>
     <div class="chart-wrap">
       <canvas id="chart"></canvas>
+      <div class="chart-labels" aria-hidden="true">
+        <span class="chart-sticker dark">Avec Annette</span>
+        <span class="chart-sticker light">Sans Annette</span>
+        <span class="chart-sticker loss-solo" id="chart-loss-solo">−7 kg</span>
+        <span class="chart-sticker loss-annette" id="chart-loss-annette">−14 kg</span>
+      </div>
     </div>
     <div class="trow"><span>Aujourd'hui</span><span>6 mois</span><span>12 mois</span></div>
     <div class="glegend">
@@ -1050,6 +1077,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Mon quotidien complique tout</span><span class="qcard-sub">Stress, fatigue, repas, rythme de vie... difficile de garder le cap</span></button>
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">J'ai déjà essayé plusieurs fois</span><span class="qcard-sub">Régimes, efforts, reprises de poids... je veux sortir de ce cycle</span></button>
   </div>
+  <div class="quiz-inline-feedback" id="q1-feedback"></div>
   <button class="quiz-next" id="next-q1" onclick="go('q2')">Continuer</button>
   <div class="quiz-counter" id="qcount1"></div>
 </div>
@@ -1067,6 +1095,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je me sens vite gêné ou fatigué</span><span class="qcard-sub">Escaliers, marche, activités... certaines situations demandent plus d'effort</span></button>
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">J'évite certaines occasions professionnelles</span><span class="qcard-sub">Réunions, prises de parole, déplacements... je peux manquer de confiance</span></button>
   </div>
+  <div class="quiz-inline-feedback" id="q2-feedback"></div>
   <button class="quiz-next" id="next-q2" onclick="go('q3')">Continuer</button>
   <div class="quiz-counter" id="qcount2"></div>
 </div>
@@ -1084,6 +1113,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Mon sommeil n'est pas toujours réparateur</span><span class="qcard-sub">Je me réveille fatigué ou j'ai du mal à récupérer</span></button>
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">J'ai envie de retrouver plus de confort</span><span class="qcard-sub">Bouger, sortir, faire mes activités... j'aimerais que ce soit plus simple</span></button>
   </div>
+  <div class="quiz-inline-feedback" id="q3-feedback"></div>
   <button class="quiz-next" id="next-q3" onclick="go('q4')">Continuer</button>
   <div class="quiz-counter" id="qcount3"></div>
 </div>
@@ -1101,6 +1131,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Les résultats ne tiennent pas toujours</span><span class="qcard-sub">Je peux perdre du poids, mais j'ai du mal à stabiliser</span></button>
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je manque de soutien dans les moments difficiles</span><span class="qcard-sub">Quand je doute ou que je décroche, je ne sais pas toujours vers qui me tourner</span></button>
   </div>
+  <div class="quiz-inline-feedback" id="q4-feedback"></div>
   <button class="quiz-next" id="next-q4" onclick="go('quiz_reassure')">Continuer</button>
   <div class="quiz-counter" id="qcount4"></div>
 </div>
@@ -1617,14 +1648,14 @@ function go(idx){
 
 function shuffleSourceChoices(){
   const grid=document.getElementById('s1-choices');
-  if(!grid||grid.dataset.shuffled)return;
+  if(!grid)return;
   const btns=Array.from(grid.querySelectorAll('.cbtn'));
+  btns.forEach(b=>b.classList.remove('sel'));
   for(let i=btns.length-1;i>0;i--){
     const j=Math.floor(Math.random()*(i+1));
     [btns[i],btns[j]]=[btns[j],btns[i]];
   }
   btns.forEach(b=>grid.appendChild(b));
-  grid.dataset.shuffled='1';
 }
 
 function initQProg(qid){
@@ -1778,20 +1809,48 @@ function resetMotivation(){
   if(panel)panel.classList.remove('show');if(actions)actions.style.display='none';if(change)change.classList.remove('show');
 }
 
-/* ── QUIZ (nouvelles questions, choix unique, pas de feedback par réponse) ── */
+/* ── QUIZ (choix unique + réassurance immédiate) ── */
 const QUIZ_ANSWERS={};
+const QUIZ_FEEDBACK={
+  q1:"Avec Annette, votre diététicienne transforme cette difficulté en plan concret : cadre simple, suivi régulier et objectifs réalistes.",
+  q2:"Avec Annette, on tient compte de ces situations pour vous aider à retrouver du confort, sans jugement et étape par étape.",
+  q3:"Avec Annette, votre alimentation, votre rythme et votre traitement sont suivis ensemble pour vous aider à récupérer plus d'énergie.",
+  q4:"Avec Annette, vous n'êtes pas seul(e) quand la motivation baisse : suivi, relances utiles et accompagnement humain sont là pour tenir dans la durée."
+};
 function quizPick(btn){
   const screen=btn.closest('.screen');
   const qid=screen?screen.id:null;
   const list=btn.closest('.qcard-list');
-  if(list)list.querySelectorAll('.qcard-opt').forEach(o=>o.classList.remove('picked'));
+  if(list){
+    list.querySelectorAll('.qcard-opt').forEach(o=>o.classList.remove('picked'));
+    list.classList.add('answered');
+  }
   btn.classList.add('picked');
   if(qid){
     const main=btn.querySelector('.qcard-main');
     QUIZ_ANSWERS[qid]=main?main.textContent.trim():'';
+    const fb=document.getElementById(qid+'-feedback');
+    if(fb){
+      fb.innerHTML='<strong>Comment Annette vous aide</strong>'+escapeHtml(QUIZ_FEEDBACK[qid]||'Annette adapte votre accompagnement à votre réponse pour avancer avec plus de clarté et de soutien.')+'<button type="button" class="quiz-change" onclick="resetQuiz(\''+qid+'\')">Modifier ma réponse</button>';
+      fb.classList.add('show');
+    }
   }
   const nb=screen?screen.querySelector('.quiz-next'):null;
   if(nb)nb.classList.add('show');
+}
+function resetQuiz(qid){
+  const screen=document.getElementById(qid);
+  if(!screen)return;
+  const list=screen.querySelector('.qcard-list');
+  if(list){
+    list.classList.remove('answered');
+    list.querySelectorAll('.qcard-opt').forEach(o=>o.classList.remove('picked'));
+  }
+  const fb=document.getElementById(qid+'-feedback');
+  if(fb){fb.classList.remove('show');fb.innerHTML='';}
+  const nb=screen.querySelector('.quiz-next');
+  if(nb)nb.classList.remove('show');
+  delete QUIZ_ANSWERS[qid];
 }
 
 /* Slide de réassurance unique — varie selon les réponses précédentes */
@@ -1920,10 +1979,10 @@ function drawChart(poids,pK){
   const placed=[];
   const bounds={top:pT-4,bottom:pT+cH+2,left:pL,right:W-pR};
   const ptMidA=xy(.32,bz(ptA,.32)),ptMidS=xy(.68,bz(ptS,.68));
-  chartTagPlace(ctx,ptMidA.x,ptMidA.y,['above','above-left'],placed,'Avec Annette','#1a1a1a','#fff',W,bounds);
-  chartTagPlace(ctx,ptMidS.x,ptMidS.y,['above','above-right'],placed,'Sans Annette','#f5f5f3','#666',W,bounds);
-  chartTagPlace(ctx,endS.x,endS.y,['above','above-left','left'],placed,'−'+pS+' kg','#ececec','#666',W,bounds);
-  chartTagPlace(ctx,endA.x,endA.y,['below','below-left','below-right'],placed,'−'+pK+' kg','#F5C842','#1a1a1a',W,bounds);
+  const soloEl=document.getElementById('chart-loss-solo');
+  const annetteEl=document.getElementById('chart-loss-annette');
+  if(soloEl)soloEl.textContent='−'+pS+' kg';
+  if(annetteEl)annetteEl.textContent='−'+pK+' kg';
 
   ctx.fillStyle='#9d9890';ctx.font='600 10px Helvetica,sans-serif';ctx.textAlign='center';ctx.textBaseline='top';
   ctx.fillText('Plus bas = plus de perte de poids',pL+cW/2,pT+cH+10);
@@ -2027,7 +2086,7 @@ function openTCA(){
   if(bar)bar.classList.add('paused');
   if(lbl){lbl.textContent='En attente de votre réponse…';lbl.classList.add('waiting');}
   if(banner)banner.classList.add('show');
-  delayProc(()=>{if(ov){ov.style.display='';ov.classList.add('open');}},700);
+  delayProc(()=>{if(ov){ov.style.display='';ov.classList.add('open');ov.scrollIntoView({behavior:'smooth',block:'center'});}},700);
 }
 function tcaChoix(btn,choice){
   document.querySelectorAll('#tca-step-main .cbtn').forEach(b=>b.classList.remove('sel'));
