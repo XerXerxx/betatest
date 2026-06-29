@@ -68,6 +68,7 @@ body{background:#f0ede8;font-family:'Helvetica Neue',-apple-system,Arial,sans-se
 .motivation-panel.show{display:block}
 @keyframes motivationPanelIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 .motivation-panel-head{background:#f5efe6;padding:18px 20px;border-bottom:1px solid #eee6d9}
+.motivation-panel-head.no-title{display:none}
 .motivation-panel-kicker{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#b49a35;margin-bottom:6px}
 .motivation-panel-title{font-size:20px;font-weight:900;color:#1a1a1a;line-height:1.22;letter-spacing:-.2px}
 .motivation-panel-body{padding:20px}
@@ -642,11 +643,17 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 
 /* ── VALUE 4-BLOCK VISUAL ── */
 .va-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0 4px}
-.va-block{background:#fff;border:1.5px solid #ebebeb;border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:8px}
-.va-ico{width:42px;height:42px;border-radius:12px;background:#F5C842;display:flex;align-items:center;justify-content:center}
-.va-ico svg{width:22px;height:22px}
+.va-block{background:#fff;border:1.5px solid #ebebeb;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+.va-img{width:100%;height:88px;border-radius:12px;object-fit:cover;display:block}
 .va-title{font-size:15px;font-weight:800;color:#1a1a1a;line-height:1.25}
 .va-copy{font-size:13px;color:#777;line-height:1.5}
+.proj-benefits{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.proj-ben-lead{font-size:15px;font-weight:700;color:#1a1a1a;margin-bottom:4px}
+.proj-ben-item{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:#666;line-height:1.5}
+.proj-ben-item::before{content:'→';color:#1a1a1a;font-weight:800;flex-shrink:0}
+.doctolib-box{display:flex;align-items:flex-start;gap:12px;background:#fffaf0;border:1.5px solid #f0e3bf;border-radius:14px;padding:14px 16px;margin-bottom:16px}
+.doctolib-box-text{font-size:13px;color:#6c5a28;line-height:1.55}
+.doctolib-box-text strong{color:#1a1a1a}
 .mobile-version .va-grid{grid-template-columns:1fr;gap:10px;margin:18px 0 4px}
 .mobile-version .va-block{border-radius:16px;padding:16px}
 @media(max-width:600px){.va-grid{grid-template-columns:1fr}}
@@ -758,7 +765,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <div class="eyebrow">Informations personnelles</div>
   <div class="hl">Comment avez-vous entendu parler d’Annette ?</div>
   <div class="sub">Aidez-nous à faire découvrir Annette à d’autres personnes !</div>
-  <div class="choices grid">
+  <div class="choices grid" id="s1-choices">
     <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">Instagram</button>
     <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">TikTok</button>
     <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">Facebook</button>
@@ -813,24 +820,24 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <div class="hl">Un accompagnement complet, pas juste un traitement.</div>
   <div class="va-grid">
     <div class="va-block">
-      <div class="va-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v18M3 12h18" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="#1a1a1a" stroke-width="1.6"/></svg></div>
+      <img class="va-img" src="./images/final-step-benefits-3.webp" alt="" onerror="this.style.display='none'">
       <div class="va-title">Accès au traitement si éligible</div>
       <div class="va-copy">Un médecin évalue votre profil et peut prescrire le traitement adapté.</div>
     </div>
     <div class="va-block">
-      <div class="va-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5h16v11H7l-3 3V5z" stroke="#1a1a1a" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+      <img class="va-img" src="./images/final-step-benefits.webp" alt="" onerror="this.style.display='none'">
       <div class="va-title">Diététicienne dédiée</div>
       <div class="va-copy">Disponible par chat pour adapter votre alimentation et votre suivi.</div>
     </div>
     <div class="va-block">
-      <div class="va-ico"><svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="9" r="2.4" stroke="#1a1a1a" stroke-width="1.6"/><circle cx="16" cy="9" r="2.4" stroke="#1a1a1a" stroke-width="1.6"/><path d="M3.5 18c0-2.4 2-3.8 4.5-3.8s4.5 1.4 4.5 3.8M12 18c0-2.4 2-3.8 4.5-3.8s4 1.4 4 3.8" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"/></svg></div>
-      <div class="va-title">Communauté et ateliers</div>
+      <img class="va-img" src="./images/final-step-benefits-4.webp" alt="" onerror="this.style.display='none'">
+      <div class="va-title">Communautés et ateliers</div>
       <div class="va-copy">Des échanges et des ateliers pour avancer sans vous sentir seul(e).</div>
     </div>
     <div class="va-block">
-      <div class="va-ico"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="2.5" stroke="#1a1a1a" stroke-width="1.6"/><path d="M8 8h8M8 12h8M8 16h5" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"/></svg></div>
-      <div class="va-title">Suivi adapté à votre traitement</div>
-      <div class="va-copy">Un suivi qui s'ajuste à votre traitement et à votre progression.</div>
+      <img class="va-img" src="./images/final-step-benefits-2.3.webp" alt="" onerror="this.style.display='none'">
+      <div class="va-title">Tracker adapté aux traitements pour la perte de poids</div>
+      <div class="va-copy">Suivi des repas, calories et progression, pensé pour votre parcours.</div>
     </div>
   </div>
   <div class="actions"><button class="btn" onclick="go('s1')">Continuer</button></div>
@@ -983,8 +990,11 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 <div class="screen" id="s7">
   <button class="back-link" onclick="go('s6')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="eyebrow">Profil santé</div>
-  <div class="hl">Sauvegardez votre progression</div>
-  <div class="sub">Renseignez votre email pour sauvegarder vos réponses et accéder à vos résultats à l'étape suivante. <b>Utilisez le même email que sur Doctolib</b> : il servira à organiser vos rendez-vous avec les professionnels de santé.</div>
+  <div class="hl">Découvrez votre perte de poids potentielle</div>
+  <div class="sub">Et si vous visualisiez votre futur parcours ? Renseignez votre email pour accéder à une projection personnalisée.</div>
+  <div class="doctolib-box">
+    <div class="doctolib-box-text"><strong>Utilisez le même email que sur Doctolib.</strong> Il servira à sauvegarder votre progression et à organiser vos rendez-vous avec les professionnels de santé Annette.</div>
+  </div>
   <input type="email" class="ifl" id="email-inp" placeholder="votre@email.com" oninput="onEmail(this.value)">
   <div class="crow" onclick="tc('c1')"><div class="cchk" id="c1"></div><span class="ctxt">J'accepte que mes informations soient utilisées pour accéder au programme Annette. <a href="#">Politique de confidentialité</a></span></div>
   <div class="actions" style="margin-top:18px">
@@ -996,7 +1006,14 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 <div class="screen" id="s8">
   <button class="back-link" onclick="go('s7')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="hl"><span id="reassure-prenom">Vous</span> pourriez perdre jusqu'à <b id="hl-kg">14 kg</b> en 12 mois avec le suivi Annette</div>
-  <div class="sub">Une perte de poids, c'est aussi retrouver de l'énergie, mieux dormir, bouger plus facilement et gagner en confiance.</div>
+  <div class="proj-benefits">
+    <div class="proj-ben-lead">Une perte de poids, c'est aussi :</div>
+    <div class="proj-ben-item">retrouver plus d'énergie</div>
+    <div class="proj-ben-item">réduire l'essoufflement</div>
+    <div class="proj-ben-item">mieux dormir</div>
+    <div class="proj-ben-item">bouger plus facilement</div>
+    <div class="proj-ben-item">gagner en confiance</div>
+  </div>
   <div class="gcard">
     <div class="gtop">
       <div><div class="gbig"><span id="proj-kg">−14</span><sub> kg</sub></div><div class="gsub">projection indicative à 12 mois</div></div>
@@ -1005,19 +1022,10 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
     <div class="trow"><span>Aujourd'hui</span><span>6 mois</span><span>12 mois</span></div>
     <div class="glegend">
       <div class="glegend-item"><span class="glegend-dot solid"></span>Avec le suivi Annette</div>
-      <div class="glegend-item"><span class="glegend-dot dashed"></span>Avec le traitement seul</div>
+      <div class="glegend-item"><span class="glegend-dot dashed"></span>Sans accompagnement Annette</div>
     </div>
   </div>
-  <div class="cmprow">
-    <div class="ccard plain"><div class="clbl">Traitement seul</div><div class="cval" id="cv-sans">−7 kg</div><div class="csub">Estimation indicative</div></div>
-    <div class="ccard dark"><div class="clbl">Avec suivi Annette</div><div class="cval" id="cv-avec">−14 kg</div><div class="csub">Accompagnement renforcé</div></div>
-  </div>
-  <div class="temo">
-    <div class="tstars">★★★★★</div>
-    <div class="ttxt">"En rejoignant Annette, j'ai trouvé une approche humaine et un vrai suivi. Un an plus tard, une énergie retrouvée."</div>
-    <div class="tauth">Valérie L. · résultat individuel</div>
-  </div>
-  <div class="src">Cette projection est indicative, basée sur vos réponses, et sera réévaluée avec un professionnel de santé. Les résultats varient selon chaque personne.</div>
+  <div class="src">Cette projection est indicative, basée sur vos réponses, et sera réévaluée avec un professionnel de santé.</div>
   <div class="actions"><button class="btn" onclick="go('q1')">Continuer</button></div>
 </div>
 
@@ -1027,7 +1035,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <div class="quiz-prog" id="qprog1"></div>
   <div class="quiz-eyebrow">Votre parcours</div>
   <div class="quiz-q">Qu'est-ce qui rend votre perte de poids difficile aujourd'hui ?</div>
-  <div class="quiz-cite">Certaines difficultés ne viennent pas d'un manque de volonté, mais du quotidien, du stress ou du manque de soutien.</div>
+  <div class="quiz-cite">Certaines difficultés ne viennent pas d'un manque de volonté, mais du quotidien, de la charge mentale, du stress ou du manque de soutien.</div>
   <div class="qcard-list">
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je manque de cadre</span><span class="qcard-sub">Je sais quoi faire, mais j'ai du mal à tenir dans la durée</span></button>
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je me sens souvent seul face à ça</span><span class="qcard-sub">J'aurais besoin d'un vrai soutien au quotidien</span></button>
@@ -1044,7 +1052,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <div class="quiz-prog" id="qprog2"></div>
   <div class="quiz-eyebrow">Votre quotidien</div>
   <div class="quiz-q">Est-ce que votre poids vous pousse parfois à éviter certaines situations ?</div>
-  <div class="quiz-cite">Sorties, vêtements, photos, rendez-vous, moments professionnels... parfois on renonce sans vraiment le dire.</div>
+  <div class="quiz-cite">Sorties, vêtements, photos, rendez-vous, moments professionnels… parfois on renonce à certaines choses sans vraiment le dire.</div>
   <div class="qcard-list">
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je limite certaines sorties</span><span class="qcard-sub">Restaurants, événements, voyages... je préfère parfois éviter</span></button>
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je ne me sens pas à l'aise avec mon corps</span><span class="qcard-sub">Vêtements, photos, regard des autres... ça peut me freiner</span></button>
@@ -1083,7 +1091,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">J'ai peur de reprendre le poids perdu</span><span class="qcard-sub">J'ai déjà vu mes efforts s'effacer avec le temps</span></button>
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je me sens fatigué de recommencer</span><span class="qcard-sub">J'ai l'impression d'avoir déjà beaucoup essayé</span></button>
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Les résultats ne tiennent pas toujours</span><span class="qcard-sub">Je peux perdre du poids, mais j'ai du mal à stabiliser</span></button>
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je manque de soutien dans les moments difficiles</span><span class="qcard-sub">Quand je doute ou que je décroche, je ne sais pas vers qui me tourner</span></button>
+      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je manque de soutien dans les moments difficiles</span><span class="qcard-sub">Quand je doute ou que je décroche, je ne sais pas toujours vers qui me tourner</span></button>
   </div>
   <button class="quiz-next" id="next-q4" onclick="go('quiz_reassure')">Continuer</button>
   <div class="quiz-counter" id="qcount4"></div>
@@ -1295,8 +1303,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <div class="hl" style="margin-bottom:8px">Ce que vos réponses nous indiquent.</div>
   <div class="sub">D'après les informations partagées, votre profil semble compatible avec une première analyse Annette. La validation finale reste médicale.</div>
   <div class="stat-row">
-    <div class="sbox yel"><div class="sval" id="final-kg">−14 kg</div><div class="slbl">estimation indicative</div></div>
-    <div class="sbox"><div class="sval" id="final-imc">31.9</div><div class="slbl">Votre IMC</div></div>
+    <div class="sbox yel" style="grid-column:1/-1"><div class="sval" id="final-kg">−14 kg</div><div class="slbl">estimation indicative sur 12 mois</div></div>
   </div>
   <div class="rebox"><div class="rbox-mark"><svg viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 3v5l3 2.5" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round"/></svg></div><span class="rbox-text">Votre profil semble compatible avec le programme Annette. L'éligibilité médicale finale sera confirmée par un professionnel de santé.</span></div>
   <div style="font-size:15px;font-weight:700;color:#1a1a1a;margin-bottom:12px">Ce qui est inclus dans votre programme</div>
@@ -1493,7 +1500,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
     <div class="side-step"><div class="sdot cur" id="dot-0"></div><span class="slabel cur" id="lbl-0">Objectif</span></div>
     <div class="side-step"><div class="sdot" id="dot-1"></div><span class="slabel" id="lbl-1">Source</span></div>
     <div class="side-step"><div class="sdot" id="dot-2"></div><span class="slabel" id="lbl-2">Profil santé</span></div>
-    <div class="side-step"><div class="sdot" id="dot-3"></div><span class="slabel" id="lbl-3">Projection IMC</span></div>
+    <div class="side-step"><div class="sdot" id="dot-3"></div><span class="slabel" id="lbl-3">Projection</span></div>
     <div class="side-step"><div class="sdot" id="dot-4"></div><span class="slabel" id="lbl-4">Antécédents médicaux</span></div>
     <div class="side-step"><div class="sdot" id="dot-5"></div><span class="slabel" id="lbl-5">Résultat</span></div>
     <div class="side-step"><div class="sdot" id="dot-6"></div><span class="slabel" id="lbl-6">Création du compte</span></div>
@@ -1525,7 +1532,7 @@ const SIDE_MAP={
   q1:3,q2:3,q3:3,q4:3,quiz_reassure:3,s9:4,s10:4,
   s11:4,s12:4,s13:4,s14:4,s15:4,s16:4,s17:5,s18:6,s19:6,s20:6
 };
-const MOBILE_STEP_NAMES=['Motivation','Source','Profil santé','Projection IMC','Santé','Résultat','Compte'];
+const MOBILE_STEP_NAMES=['Motivation','Source','Profil santé','Projection','Santé','Résultat','Compte'];
 function getMobilePhaseIndex(){
   const v=SIDE_MAP[cur];
   return typeof v==='number'?v:0;
@@ -1597,6 +1604,19 @@ function go(idx){
   /* Init quiz progress bars */
   if(QUIZ_POS[idx])initQProg(idx);
   if(idx==='quiz_reassure')buildReassure();
+  if(idx==='s1')shuffleSourceChoices();
+}
+
+function shuffleSourceChoices(){
+  const grid=document.getElementById('s1-choices');
+  if(!grid||grid.dataset.shuffled)return;
+  const btns=Array.from(grid.querySelectorAll('.cbtn'));
+  for(let i=btns.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [btns[i],btns[j]]=[btns[j],btns[i]];
+  }
+  btns.forEach(b=>grid.appendChild(b));
+  grid.dataset.shuffled='1';
 }
 
 function initQProg(qid){
@@ -1681,34 +1701,34 @@ function w(fn){setTimeout(fn,240);}
 
 const MOTIVATION_CONTENT={
   health:{
-    title:'Reprendre la main sur votre santé.',
+    title:'',
     lead:'Dès 5 à 10 % de poids perdu, votre santé peut déjà s\'améliorer :',
     copy:'',
-    solutionTitle:'Avec Annette, et un traitement si adapté, vous pouvez viser jusqu\'à 20 % de perte de poids, selon votre profil.',
+    solutionTitle:'Avec Annette et un traitement si adapté, vous pouvez viser jusqu\'à 20 % de perte de poids, selon votre profil.',
     items:['Glycémie','Tension','Cholestérol','Mobilité'],
     proof:''
   },
   energy:{
-    title:'Retrouver plus d\'énergie au quotidien.',
+    title:'',
     lead:'Dès 5 à 10 % de poids perdu, vous pouvez déjà ressentir plus d\'énergie :',
     copy:'',
-    solutionTitle:'Avec Annette, et un traitement si adapté, vous pouvez viser jusqu\'à 20 % de perte de poids, selon votre profil.',
+    solutionTitle:'Avec Annette et un traitement si adapté, vous pouvez viser jusqu\'à 20 % de perte de poids, selon votre profil.',
     items:['Moins de fatigue','Moins d\'essoufflement','Meilleur sommeil','Plus d\'endurance'],
     proof:''
   },
   confidence:{
-    title:'Vous sentir mieux dans votre corps.',
-    lead:'Perdre du poids peut aider, mais la confiance se reconstruit aussi avec du soutien et de l\'écoute.',
+    title:'',
+    lead:'Perdre du poids peut aider à se sentir mieux, mais la confiance se reconstruit aussi avec du soutien et de l\'écoute.',
     copy:'',
     solutionTitle:'Avec Annette, vous avancez avec un accompagnement humain pour travailler :',
     items:['Votre rapport au corps','Votre motivation','Vos blocages du quotidien','Vos habitudes alimentaires'],
     proof:''
   },
   mental:{
-    title:'Retrouver de la sérénité au quotidien.',
-    lead:'Une perte de poids peut réduire certaines préoccupations et vous aider à vous sentir plus serein(e) :',
+    title:'',
+    lead:'Une perte de poids peut réduire certaines préoccupations du quotidien et vous aider à vous sentir plus serein(e) :',
     copy:'',
-    solutionTitle:'Avec Annette, et un traitement si adapté, vous pouvez viser jusqu\'à 20 % de perte de poids, selon votre profil.',
+    solutionTitle:'Avec Annette et un traitement si adapté, vous pouvez viser jusqu\'à 20 % de perte de poids, selon votre profil.',
     items:['Moins d\'inquiétude sur votre santé','Moins de charge mentale','Plus de confiance dans vos progrès','Plus de sérénité au quotidien'],
     proof:''
   }
@@ -1727,6 +1747,8 @@ function motiveChoice(btn){
   choices.prepend(btn);
   choices.classList.add('answered');
   document.getElementById('motivation-title').textContent=data.title;
+  const head=document.querySelector('.motivation-panel-head');
+  if(head)head.classList.toggle('no-title',!data.title);
   document.getElementById('motivation-lead').textContent=data.lead;
   var copyEl=document.getElementById('motivation-copy');copyEl.textContent=data.copy;copyEl.style.display=data.copy?'':'none';
   document.getElementById('motivation-solution-title').textContent=data.solutionTitle;
@@ -1850,8 +1872,8 @@ function imcCat(v){if(v<18.5)return{l:'Sous-poids',c:'normal'};if(v<25)return{l:
 function renderChart(){
   // Defer one frame to ensure canvas is visible and has width
   requestAnimationFrame(()=>{
-  const{p,imc,kg}=getStats(),kgS=Math.round(kg*.5),cat=imcCat(imc);document.getElementById('hl-kg').textContent=kg+' kg';var pn=document.getElementById('reassure-prenom');if(pn){var pe=document.getElementById('prenom-inp');pn.textContent=(pe&&pe.value.trim())?pe.value.trim():'Vous';}document.getElementById('proj-kg').textContent='−'+kg;var imcN=document.getElementById('imc-n');if(imcN)imcN.textContent=imc.toFixed(1);var el=document.getElementById('imc-cat');if(el){el.textContent=cat.l;el.className='imccat '+cat.c;}document.getElementById('cv-sans').textContent='−'+kgS+' kg';document.getElementById('cv-avec').textContent='−'+kg+' kg';drawChart(p,kg);});}
-function upFinal(){const{imc,kg}=getStats();document.getElementById('final-kg').textContent='−'+kg+' kg';document.getElementById('final-imc').textContent=imc.toFixed(1);}
+  const{p,imc,kg}=getStats(),kgS=Math.round(kg*.5);document.getElementById('hl-kg').textContent=kg+' kg';var pn=document.getElementById('reassure-prenom');if(pn){var pe=document.getElementById('prenom-inp');pn.textContent=(pe&&pe.value.trim())?pe.value.trim():'Vous';}document.getElementById('proj-kg').textContent='−'+kg;drawChart(p,kg);});}
+function upFinal(){const{kg}=getStats();document.getElementById('final-kg').textContent='−'+kg+' kg';}
 /* CANVAS */
 function drawChart(poids,pK){const cv=document.getElementById('chart'),W=cv.offsetWidth||480,H=160,dpr=window.devicePixelRatio||1;cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);ctx.clearRect(0,0,W,H);const pL=6,pR=12,pT=18,pB=8,cW=W-pL-pR,cH=H-pT-pB,pS=Math.round(pK*.5),minY=poids-pK-4,maxY=poids+3,rY=maxY-minY;const ptA=[poids,poids-pK*.58,poids-pK],ptS=[poids,poids-pS*.58,poids-pS];const xy=(t,py)=>({x:pL+t*cW,y:pT+((maxY-py)/rY)*cH});const bz=(ys,t)=>(1-t)**2*ys[0]+2*(1-t)*t*ys[1]+t**2*ys[2];ctx.beginPath();const p0=xy(0,ptA[0]);ctx.moveTo(p0.x,p0.y);for(let t=.01;t<=1;t+=.01){const pt=xy(t,bz(ptA,t));ctx.lineTo(pt.x,pt.y);}const pe=xy(1,ptA[2]);ctx.lineTo(pe.x,pT+cH);ctx.lineTo(pL,pT+cH);ctx.closePath();ctx.fillStyle='rgba(245,200,66,.18)';ctx.fill();ctx.beginPath();ctx.setLineDash([4,4]);ctx.strokeStyle='rgba(0,0,0,.18)';ctx.lineWidth=1.5;for(let t=0;t<=1;t+=.01){const pt=xy(t,bz(ptS,t));t===0?ctx.moveTo(pt.x,pt.y):ctx.lineTo(pt.x,pt.y);}ctx.stroke();ctx.setLineDash([]);ctx.beginPath();ctx.strokeStyle='#1a1a1a';ctx.lineWidth=2.5;ctx.lineJoin='round';ctx.lineCap='round';for(let t=0;t<=1;t+=.01){const pt=xy(t,bz(ptA,t));t===0?ctx.moveTo(pt.x,pt.y):ctx.lineTo(pt.x,pt.y);}ctx.stroke();const m3=xy(.5,bz(ptA,.5));bub(ctx,m3.x,m3.y,'−'+Math.round(pK*.58)+' kg','#F5C842','#1a1a1a',W);const m6=xy(1,ptA[2]);ctx.beginPath();ctx.arc(m6.x,m6.y,5,0,Math.PI*2);ctx.fillStyle='#1a1a1a';ctx.fill();bub(ctx,m6.x,m6.y,'−'+pK+' kg','#1a1a1a','#fff',W);}
 function bub(ctx,x,y,txt,bg,fg,W){ctx.font='700 11px Helvetica,sans-serif';const tw=ctx.measureText(txt).width,bw=tw+16,bh=21,bx=Math.min(Math.max(x-bw/2,2),W-bw-2),by=y-bh-7;ctx.beginPath();ctx.moveTo(bx+6,by);ctx.lineTo(bx+bw-6,by);ctx.quadraticCurveTo(bx+bw,by,bx+bw,by+6);ctx.lineTo(bx+bw,by+bh-6);ctx.quadraticCurveTo(bx+bw,by+bh,bx+bw-6,by+bh);ctx.lineTo(bx+6,by+bh);ctx.quadraticCurveTo(bx,by+bh,bx,by+bh-6);ctx.lineTo(bx,by+6);ctx.quadraticCurveTo(bx,by,bx+6,by);ctx.closePath();ctx.fillStyle=bg;ctx.fill();ctx.fillStyle=fg;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(txt,bx+bw/2,by+bh/2);}
