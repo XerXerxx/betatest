@@ -1797,13 +1797,16 @@ function go(idx){
 function shuffleSourceChoices(){
   const grid=document.getElementById('s1-choices');
   if(!grid)return;
-  const btns=Array.from(grid.querySelectorAll('.cbtn'));
-  btns.forEach(b=>b.classList.remove('sel'));
+  const allBtns=Array.from(grid.querySelectorAll('.cbtn'));
+  allBtns.forEach(b=>b.classList.remove('sel'));
+  const otherBtn=allBtns.find(b=>b.textContent.trim()==='Autre');
+  const btns=allBtns.filter(b=>b!==otherBtn);
   for(let i=btns.length-1;i>0;i--){
     const j=Math.floor(Math.random()*(i+1));
     [btns[i],btns[j]]=[btns[j],btns[i]];
   }
   btns.forEach(b=>grid.appendChild(b));
+  if(otherBtn)grid.appendChild(otherBtn);
 }
 
 function initQProg(qid){
