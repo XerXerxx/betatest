@@ -2316,19 +2316,6 @@ function tcaChoix(btn,choice){
 
   tcaNeedsDetail=(choice==='current'||choice==='past');
 
-  const rb=document.getElementById('tca-rebox');
-  const rbText=rb?rb.querySelector('.rbox-text'):null;
-  if(rb&&rbText){
-    if(choice==='later'){
-      rbText.textContent="On comprend. Vous n'avez pas besoin de répondre maintenant. Votre diététicienne pourra revenir sur ce point avec vous plus tard, dans un cadre confidentiel et bienveillant.";
-    }else if(choice==='never'){
-      rbText.textContent="Merci. Votre dossier peut être finalisé avec ces informations. Votre accompagnement restera adapté à votre profil.";
-    }else{
-      rbText.textContent="Merci pour votre confiance. On vous pose une seule précision pour adapter le suivi, pas pour vous juger.";
-    }
-    rb.style.display='flex';
-  }
-
   const cta=document.getElementById('tca-btn');
   if(cta){
     cta.textContent=tcaNeedsDetail?'Préciser en 1 clic':'Continuer vers l\'analyse';
