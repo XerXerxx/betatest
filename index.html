@@ -387,7 +387,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 /* Desktop: hide progress from topbar (uses side panel instead) */
 .topbar-progress{display:none}
 /* Mobile: show it */
-.mobile-version .topbar-progress{display:flex!important;gap:8px;min-width:0;max-width:178px}
+.mobile-version .topbar-progress{display:none!important}
 .mobile-version .tp-label{font-size:10px;max-width:82px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#9d9a95}
 .mobile-version .tp-bar{width:92px;height:4px;background:#e8e3dc}
 .mobile-version .av-chip{padding:4px 9px 4px 4px;max-width:118px;overflow:hidden}
@@ -543,11 +543,6 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 .mobile-version .main.info-cream,.mobile-version .main.info-pink{padding-top:0}
 
 
-  @media(max-width:600px){
-    .mobile-version .topbar-progress{max-width:150px}
-    .mobile-version .tp-bar{width:78px}
-    .mobile-version .tp-label{max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  }
 
 /* ── GLP-1 SOUS-PARCOURS ─────────────────────────── */
 @keyframes bulletDrop{
