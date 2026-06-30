@@ -231,11 +231,30 @@ canvas#chart{display:block;width:100%;height:240px}
 .sbox.yel{background:#F5C842;border-color:#F5C842}
 .sval{font-size:30px;font-weight:900;color:#1a1a1a;line-height:1}
 .slbl{font-size:12px;color:#888;margin-top:4px;font-weight:500}
-.bscroll{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;margin-bottom:16px}
+.bscroll{display:flex;gap:10px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;padding:2px 2px 8px;margin-bottom:16px}
 .bscroll::-webkit-scrollbar{display:none}
-.bcard{flex-shrink:0;width:120px;border-radius:12px;overflow:hidden;background:#f5f5f3}
+.bcard{flex-shrink:0;scroll-snap-align:start;width:120px;border-radius:12px;overflow:hidden;background:#f5f5f3;border:none;padding:0;cursor:pointer;text-align:left;font:inherit}
 .bcard img{width:100%;height:88px;object-fit:cover;display:block}
+.bcard-icon-only{width:100%;height:88px;background:#f0ede8;display:flex;align-items:center;justify-content:center}
+.bcard-icon-only svg{width:30px;height:30px}
 .bclbl{font-size:11px;font-weight:700;color:#1a1a1a;padding:8px 10px;line-height:1.35}
+
+
+/* ── FEATURE DETAIL MODAL ── */
+.feature-ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:250;display:none;align-items:center;justify-content:center;padding:20px}
+.feature-ov.open{display:flex}
+.feature-modal{background:#fff;border-radius:24px;max-width:420px;width:100%;max-height:88vh;overflow-y:auto;transform:scale(.94);opacity:0;transition:transform .3s cubic-bezier(.4,0,.2,1),opacity .3s ease;position:relative}
+.feature-ov.open .feature-modal{transform:scale(1);opacity:1}
+.feature-modal-img{width:100%;height:200px;object-fit:cover;display:block;border-radius:24px 24px 0 0;background:#f0ede8}
+.feature-modal-body{padding:24px}
+.feature-modal-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.92);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:#1a1a1a;font-weight:700;z-index:2}
+.feature-modal-title{font-size:20px;font-weight:900;color:#1a1a1a;margin-bottom:10px;letter-spacing:-.01em}
+.feature-modal-desc{font-size:14px;color:#666;line-height:1.65;margin-bottom:16px}
+.feature-modal-list{display:flex;flex-direction:column;gap:9px}
+.feature-modal-item{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:#444;line-height:1.5}
+.feature-modal-item::before{content:'';width:7px;height:7px;border-radius:50%;background:#F5C842;flex-shrink:0;margin-top:6px;box-shadow:0 0 0 3px rgba(245,200,66,.22)}
+.mobile-version .feature-ov{align-items:flex-end;padding:0}
+.mobile-version .feature-modal{border-radius:24px 24px 0 0;max-width:none;max-height:85vh}
 
 /* ── CONSENT ── */
 .crow{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;cursor:pointer}
@@ -1495,12 +1514,29 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <div class="rebox"><div class="rbox-mark"><svg viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 3v5l3 2.5" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round"/></svg></div><span class="rbox-text">Votre profil semble compatible avec le programme Annette. L'éligibilité médicale finale sera confirmée par un professionnel de santé.</span></div>
   <div style="font-size:15px;font-weight:700;color:#1a1a1a;margin-bottom:12px">Ce qui est inclus dans votre programme</div>
   <div class="bscroll">
-    <div class="bcard"><img src="./images/final-step-benefits.webp" onerror="this.style.display='none'" alt=""><div class="bclbl">Chat diététicienne</div></div>
-    <div class="bcard"><img src="./images/final-step-benefits-2.3.webp" onerror="this.style.display='none'" alt=""><div class="bclbl">Suivi personnalisé</div></div>
-    <div class="bcard"><img src="./images/final-step-benefits-3.webp" onerror="this.style.display='none'" alt=""><div class="bclbl">Rendez-vous médecin</div></div>
-    <div class="bcard"><img src="./images/final-step-benefits-4.webp" onerror="this.style.display='none'" alt=""><div class="bclbl">Communauté</div></div>
-    <div class="bcard"><img src="./images/final-step-benefi.29f.webp" onerror="this.style.display='none'" alt=""><div class="bclbl">Effets secondaires</div></div>
-  </div>
+  <button type="button" class="bcard" onclick="openFeature('foodlogger')">
+    <img src="https://userimg-assets-eu.customeriomail.com/images/client-env-199553/01KV5KPM28JYZE4YAD22JNPJY3.png" alt="" onerror="this.style.display='none'">
+    <div class="bclbl">Food Logger</div>
+  </button>
+  <button type="button" class="bcard" onclick="openFeature('cleo')">
+    <img src="https://userimg-assets-eu.customeriomail.com/images/client-env-199553/01KTM2TY2PZDEM96YTBGF39NVW.png" alt="" onerror="this.style.display='none'">
+    <div class="bclbl">Cléo, l'IA Annette</div>
+  </button>
+  <button type="button" class="bcard" onclick="openFeature('dieteticienne')">
+    <img src="https://userimg-assets-eu.customeriomail.com/images/client-env-199553/01KTBW7J3E63X5QHR8F7TM5RVV.png" alt="" onerror="this.style.display='none'">
+    <div class="bclbl">Chat diététicienne</div>
+  </button>
+  <button type="button" class="bcard" onclick="openFeature('communaute')">
+    <img src="https://userimg-assets-eu.customeriomail.com/images/client-env-199553/01KT9378HB58X0CDXGKBY0GHE2.png" alt="" onerror="this.style.display='none'">
+    <div class="bclbl">Communauté</div>
+  </button>
+  <button type="button" class="bcard" onclick="openFeature('rdv')">
+    <div class="bcard-icon-only">
+      <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2.5" stroke="#1a1a1a" stroke-width="1.6"/><path d="M3 9h18M8 3v4M16 3v4" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="14.5" r="2.3" stroke="#1a1a1a" stroke-width="1.6"/></svg>
+    </div>
+    <div class="bclbl">Rendez-vous médecin</div>
+  </button>
+</div>
   <div class="temo"><div class="tstars">★★★★★</div><div class="ttxt">"Un accompagnement humain, structuré et pensé pour les patients suivis dans un parcours de perte de poids."</div><div class="tauth">Annette · Note moyenne 4.9/5</div></div>
   <div class="actions"><button class="btn" onclick="go('s18')">Créer mon accès Annette</button></div>
 </div>
@@ -1665,13 +1701,30 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 
   <!-- SCREENS APP -->
   <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:12px">Ce qui vous attend dans l'application</div>
-  <div class="bscroll" style="margin-bottom:20px">
-    <div class="bcard"><img src="./images/final-step-benefits.webp" onerror="this.style.display='none'" alt=""><div class="bclbl">Chat diététicienne</div></div>
-    <div class="bcard"><img src="./images/final-step-benefits-2.3.webp" onerror="this.style.display='none'" alt=""><div class="bclbl">Suivi personnalisé</div></div>
-    <div class="bcard"><img src="./images/final-step-benefits-3.webp" onerror="this.style.display='none'" alt=""><div class="bclbl">Rendez-vous médecin</div></div>
-    <div class="bcard"><img src="./images/final-step-benefits-4.webp" onerror="this.style.display='none'" alt=""><div class="bclbl">Communauté</div></div>
-    <div class="bcard"><img src="./images/final-step-benefi.29f.webp" onerror="this.style.display='none'" alt=""><div class="bclbl">Effets secondaires</div></div>
-  </div>
+  <div class="bscroll">
+  <button type="button" class="bcard" onclick="openFeature('foodlogger')">
+    <img src="https://userimg-assets-eu.customeriomail.com/images/client-env-199553/01KV5KPM28JYZE4YAD22JNPJY3.png" alt="" onerror="this.style.display='none'">
+    <div class="bclbl">Food Logger</div>
+  </button>
+  <button type="button" class="bcard" onclick="openFeature('cleo')">
+    <img src="https://userimg-assets-eu.customeriomail.com/images/client-env-199553/01KTM2TY2PZDEM96YTBGF39NVW.png" alt="" onerror="this.style.display='none'">
+    <div class="bclbl">Cléo, l'IA Annette</div>
+  </button>
+  <button type="button" class="bcard" onclick="openFeature('dieteticienne')">
+    <img src="https://userimg-assets-eu.customeriomail.com/images/client-env-199553/01KTBW7J3E63X5QHR8F7TM5RVV.png" alt="" onerror="this.style.display='none'">
+    <div class="bclbl">Chat diététicienne</div>
+  </button>
+  <button type="button" class="bcard" onclick="openFeature('communaute')">
+    <img src="https://userimg-assets-eu.customeriomail.com/images/client-env-199553/01KT9378HB58X0CDXGKBY0GHE2.png" alt="" onerror="this.style.display='none'">
+    <div class="bclbl">Communauté</div>
+  </button>
+  <button type="button" class="bcard" onclick="openFeature('rdv')">
+    <div class="bcard-icon-only">
+      <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2.5" stroke="#1a1a1a" stroke-width="1.6"/><path d="M3 9h18M8 3v4M16 3v4" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="14.5" r="2.3" stroke="#1a1a1a" stroke-width="1.6"/></svg>
+    </div>
+    <div class="bclbl">Rendez-vous médecin</div>
+  </button>
+</div>
 
   <!-- CTA TÉLÉCHARGEMENT -->
   <a href="https://annette.care/download" style="display:block;width:100%;padding:16px 24px;background:#1a1a1a;color:#fff;border-radius:100px;font-size:16px;font-weight:700;text-align:center;text-decoration:none;margin-bottom:8px">Télécharger l'application</a>
@@ -2360,6 +2413,61 @@ function triggerGoodBullets(){
   });
 }
 
+
+const FEATURE_DETAILS = {
+  foodlogger: {
+    img: 'https://userimg-assets-eu.customeriomail.com/images/client-env-199553/01KV5KPM28JYZE4YAD22JNPJY3.png',
+    title: 'Food Logger',
+    desc: "Notez vos repas en quelques secondes : une photo, un mémo vocal, ou juste deux mots suffisent. L'app estime tout pour vous — calories, protéines, fibres, eau.",
+    items: ['Photo, mémo vocal ou texte libre','Analyse automatique en 30 secondes','Calories, protéines, fibres et eau en un coup d’œil','Historique de chaque repas, chaque jour']
+  },
+  cleo: {
+    img: 'https://userimg-assets-eu.customeriomail.com/images/client-env-199553/01KTM2TY2PZDEM96YTBGF39NVW.png',
+    title: 'Cléo, votre compagnon IA',
+    desc: "Cléo répond à vos questions du quotidien en quelques secondes, jour et nuit. Des conseils personnalisés, simples et rassurants.",
+    items: ['Réponses utiles en quelques secondes','Conseils adaptés à vos besoins et habitudes','Disponible à tout moment, même la nuit']
+  },
+  dieteticienne: {
+    img: 'https://userimg-assets-eu.customeriomail.com/images/client-env-199553/01KTBW7J3E63X5QHR8F7TM5RVV.png',
+    title: 'Chat diététicienne',
+    desc: "Votre diététicienne dédiée vous répond directement par chat — texte, photo ou message vocal. Un vrai suivi humain, personnalisé à votre parcours.",
+    items: ['Une diététicienne dédiée, pas un standard','Réponses par texte, photo ou audio','Suivi continu de votre parcours']
+  },
+  communaute: {
+    img: 'https://userimg-assets-eu.customeriomail.com/images/client-env-199553/01KT9378HB58X0CDXGKBY0GHE2.png',
+    title: 'Communauté Annette',
+    desc: "Échangez avec d'autres utilisateurs Annette dans des groupes thématiques : premiers pas, motivation, recettes. Vous n'êtes jamais seul(e) dans ce parcours.",
+    items: ['Des groupes thématiques (motivation, recettes, premiers pas)','Des échanges avec d’autres utilisateurs Annette','Un soutien collectif, à tout moment']
+  },
+  rdv: {
+    img: '',
+    title: 'Rendez-vous médecin',
+    desc: "Prenez rendez-vous directement dans l'application avec un professionnel de santé pour valider et suivre votre traitement.",
+    items: ['Créneaux disponibles directement dans l’app','Suivi médical coordonné avec votre diététicienne','Renouvellement d’ordonnance simplifié']
+  }
+};
+
+function openFeature(key){
+  const data = FEATURE_DETAILS[key];
+  if(!data)return;
+  const img = document.getElementById('feature-modal-img');
+  if(data.img){
+    img.src = data.img;
+    img.style.display = '';
+  } else {
+    img.removeAttribute('src');
+    img.style.display = 'none';
+  }
+  document.getElementById('feature-modal-title').textContent = data.title;
+  document.getElementById('feature-modal-desc').textContent = data.desc;
+  document.getElementById('feature-modal-list').innerHTML = data.items.map(it=>'<div class="feature-modal-item">'+escapeHtml(it)+'</div>').join('');
+  document.getElementById('feature-ov').classList.add('open');
+}
+function closeFeature(evt){
+  if(evt && evt.target && evt.target.id !== 'feature-ov')return;
+  document.getElementById('feature-ov').classList.remove('open');
+}
+
 /* INIT */
 go('s0');
 </script>
@@ -2371,6 +2479,18 @@ go('s0');
       <button type="button" class="mobile-steps-close" onclick="closeMobileSteps()">×</button>
     </div>
     <div class="mobile-step-list" id="mobile-step-list"></div>
+  </div>
+</div>
+
+<div class="feature-ov" id="feature-ov" onclick="closeFeature(event)">
+  <div class="feature-modal" id="feature-modal">
+    <button type="button" class="feature-modal-close" onclick="closeFeature()">×</button>
+    <img class="feature-modal-img" id="feature-modal-img" src="" alt="" onerror="this.style.display='none'">
+    <div class="feature-modal-body">
+      <div class="feature-modal-title" id="feature-modal-title"></div>
+      <div class="feature-modal-desc" id="feature-modal-desc"></div>
+      <div class="feature-modal-list" id="feature-modal-list"></div>
+    </div>
   </div>
 </div>
 
