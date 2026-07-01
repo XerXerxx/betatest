@@ -1512,7 +1512,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <button class="back-link" onclick="go('s13')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="eyebrow">Antécédents médicaux</div>
   <div class="hl">Avez-vous des antécédents de traitement de l’obésité ?</div>
-  <div class="sub">Connaître votre historique nous permettra d’adapter nos recommandations.</div>
+  <div class="sub" style="margin-bottom:8px">Connaître votre historique nous permettra d’adapter nos recommandations.</div>
   <div class="conf-badge">Réponse médicale confidentielle</div>
   <div class="multi" id="ml-trt">
     <button class="mbtn" onclick="ms(this,'ml-trt','anc-t',null)"><span class="txt">Anneau gastrique</span><span class="mck"></span></button>
@@ -2173,29 +2173,31 @@ function buildReassure(){
   const titleEl=document.getElementById('reassure-title');
   const lineEl=document.getElementById('reassure-line');
   const listEl=document.getElementById('reassure-list');
-  if(!lineEl||!listEl)return;
+  const eyebrowEl=document.querySelector('#quiz_reassure .eyebrow');
+  if(!titleEl||!lineEl||!listEl)return;
+
+  if(eyebrowEl)eyebrowEl.textContent='Ce qu\'Annette a retenu';
 
   const a1=QUIZ_ANSWERS['q1']||'';
   const a4=QUIZ_ANSWERS['q4']||'';
 
-  // Titre et phrase d'accroche varient selon la difficulté principale (q1)
   let title="Vous n'avez pas à avancer seul(e).";
-  let line="Annette construit un accompagnement adapté à ce que vous vivez, sans jugement.";
+  let line="Quel que soit votre point de départ, Annette construit un suivi médical et nutritionnel fait pour vous.";
+
   if(a1.includes('manque de cadre')){
     title="Un cadre clair, pour tenir dans la durée.";
-    line="Votre diététicienne vous aide à transformer ce que vous savez en habitudes qui tiennent.";
+    line="Vous savez quoi faire, mais tenir dans la durée demande un vrai cadre. C'est exactement ce qu'Annette construit avec vous.";
   } else if(a1.includes('seul')){
     title="Vous ne serez plus seul(e) face à ça.";
-    line="Une diététicienne dédiée et une communauté vous accompagnent au quotidien.";
+    line="Avancer seul(e) face à ça, c'est épuisant. Avec Annette, vous avez une diététicienne dédiée et une communauté à chaque étape.";
   } else if(a1.includes('quotidien complique')){
     title="On part de votre quotidien réel.";
-    line="Stress, fatigue, rythme de vie : votre suivi s'adapte à votre réalité, pas l'inverse.";
+    line="Votre quotidien est chargé. Votre suivi s'adapte à votre rythme réel, pas à un idéal difficile à tenir.";
   } else if(a1.includes('déjà essayé')){
     title="Cette fois, vous êtes accompagné(e).";
-    line="Ce qui change, c'est un suivi médical et nutritionnel pensé pour durer.";
+    line="Vous n'avez pas manqué de volonté. Ce qui manquait, c'était un accompagnement médical et nutritionnel pensé pour durer.";
   }
 
-  // Liste de bénéfices, légèrement orientée selon le découragement (q4)
   let items=['Une diététicienne dédiée par chat','Un suivi adapté à votre profil','Une communauté et des ateliers'];
   if(a4.includes('reprendre le poids')||a4.includes('ne tiennent pas')){
     items=['Un accompagnement pensé pour stabiliser les résultats','Une diététicienne dédiée par chat','Un suivi régulier de votre progression'];
