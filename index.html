@@ -84,14 +84,16 @@ body{background:#f0ede8;font-family:'Helvetica Neue',-apple-system,Arial,sans-se
 /* ── S0 RESULT CARD ── */
 .s0r-solution-card{background:#F5C842;border-radius:18px;padding:22px 20px;margin-bottom:4px}
 .s0r-sol-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:rgba(0,0,0,.45);margin-bottom:10px}
-.s0r-sol-title{font-size:16px;font-weight:800;color:#1a1a1a;line-height:1.4;margin-bottom:14px}
+.s0r-sol-title{font-size:16px;font-weight:600;color:#1a1a1a;line-height:1.4;margin-bottom:14px}
 .s0r-sol-list{display:flex;flex-direction:column;gap:9px}
-.s0r-sol-item{display:flex;align-items:flex-start;gap:9px;font-size:14px;font-weight:600;color:#1a1a1a;line-height:1.45}
+.s0r-sol-item{display:flex;align-items:flex-start;gap:9px;font-size:14px;font-weight:400;color:#1a1a1a;line-height:1.45}
 .s0r-sol-check{width:20px;height:20px;border-radius:50%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
 .s0r-sol-check svg{width:11px;height:11px}
 .mobile-version .s0r-solution-card{border-radius:16px;padding:18px 16px}
 .mobile-version .s0r-sol-title{font-size:15px}
 .mobile-version .s0r-sol-item{font-size:13.5px}
+.glp-x2-mark{font-size:2.2em;font-weight:900;color:#1a1a1a;display:inline-block;line-height:1;vertical-align:middle;position:relative;padding:0 6px}
+.glp-x2-mark::before{content:'';position:absolute;inset:-4px -6px;background:#F5C842;border-radius:3px 6px 4px 5px / 5px 3px 6px 4px;transform:rotate(-1.5deg) skewX(-2deg);z-index:-1;opacity:.92}
 .motivation-mini-proof{display:flex;align-items:flex-start;gap:10px;background:#fffaf0;border:1px solid #f0e3bf;border-radius:12px;padding:13px 15px;font-size:13px;color:#6c5a28;line-height:1.55;margin-bottom:2px}
 .motivation-mini-proof strong{color:#1a1a1a}
 .motivation-change{display:none;background:none;border:none;color:#8f835e;font-size:12px;font-weight:800;cursor:pointer;text-decoration:underline;text-underline-offset:3px;margin:-10px auto 16px;padding:0}
@@ -126,6 +128,7 @@ body{background:#f0ede8;font-family:'Helvetica Neue',-apple-system,Arial,sans-se
 .chip-dot{width:6px;height:6px;border-radius:50%;background:#bbb;flex-shrink:0;margin-top:5px}
 .conf-badge{display:inline-flex;align-items:center;gap:7px;background:#fffaf0;border:1px solid #f0e3bf;border-radius:999px;padding:7px 11px;margin:0 0 14px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#7a5a11}
 .conf-badge::before{content:'';width:7px;height:7px;border-radius:50%;background:#F5C842;box-shadow:0 0 0 3px rgba(245,200,66,.24);flex-shrink:0}
+.med-note{font-size:11px;color:#bbb;font-weight:500;text-align:center;margin:0 0 12px;line-height:1.4}
 
 /* ── REASSURANCE ── */
 .rebox{display:flex;align-items:flex-start;gap:12px;background:#F5C842;border-radius:12px;padding:16px;margin-bottom:16px}
@@ -886,7 +889,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 <div class="screen" id="s0_result">
   <button class="back-link" onclick="go('s0')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="eyebrow">Ce que ça nous indique</div>
-  <div class="hl" id="s0r-lead" style="margin-bottom:20px"></div>
+  <div class="hl" id="s0r-lead" style="margin-bottom:20px;font-weight:700"></div>
   <div class="s0r-solution-card">
     <div class="s0r-sol-label">Avec Annette</div>
     <div class="s0r-sol-title" id="s0r-sol-title"></div>
@@ -907,7 +910,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
       <img src="https://app.annette.care/assets/assets/images/signup/weight-loss-content.c9c2ef61220f3258a332ad5a2202eb4c.webp" alt="Graphique perte de poids" style="width:100%;max-width:420px;display:block;margin:0 auto;border-radius:20px">
     </div>
     <div style="font-size:12px;color:#888;text-align:center;margin:12px 0 16px">Source : STEP 3, Wadden et al., JAMA, 2021</div>
-    <div style="font-size:15px;color:#1a1a1a;line-height:1.6;margin-bottom:24px">Les études montrent une efficacité jusqu'à <strong>×2</strong> sur la perte de poids en combinant GLP-1 et suivi personnalisé.</div>
+    <div style="font-size:15px;color:#1a1a1a;line-height:1.6;margin-bottom:24px">Les études montrent une efficacité jusqu'à <span class="glp-x2-mark">×2</span> sur la perte de poids en combinant GLP-1 et suivi personnalisé.</div>
     <div class="actions"><button class="btn" onclick="go('s_volonte_intro')">Continuer</button></div>
   </div>
 </div>
@@ -1453,15 +1456,15 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <div class="hl">Avez-vous ces pathologies existantes ?</div>
   <div class="conf-badge">Réponse médicale confidentielle</div>
   <div class="multi" id="ml-patho">
-    <button class="mbtn" onclick="ms(this,'ml-patho','anc-p','rbox-p')"><span class="txt">Diabète de type 1</span><span class="mck"></span></button>
-    <button class="mbtn" onclick="ms(this,'ml-patho','anc-p','rbox-p')"><span class="txt">Diabète de type 2</span><span class="mck"></span></button>
-    <button class="mbtn" onclick="ms(this,'ml-patho','anc-p','rbox-p')"><span class="txt">Insuffisance rénale (vous êtes suivi par un néphrologue)</span><span class="mck"></span></button>
-    <button class="mbtn" onclick="ms(this,'ml-patho','anc-p','rbox-p')"><span class="txt">Insuffisance hépatique (vous êtes suivi par un gastro-entérologue)</span><span class="mck"></span></button>
-    <button class="mbtn" onclick="ms(this,'ml-patho','anc-p','rbox-p')"><span class="txt">Antécédents de pancréatite</span><span class="mck"></span></button>
-    <button class="mbtn" onclick="ms(this,'ml-patho','anc-p','rbox-p')"><span class="txt">Antécédents de cancer de la thyroïde</span><span class="mck"></span></button>
-    <button class="mbtn" id="anc-p" onclick="ma(this,'ml-patho','rbox-p')"><span class="txt">Aucune de ces pathologies</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-patho','anc-p',null)"><span class="txt">Diabète de type 1</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-patho','anc-p',null)"><span class="txt">Diabète de type 2</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-patho','anc-p',null)"><span class="txt">Insuffisance rénale (vous êtes suivi par un néphrologue)</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-patho','anc-p',null)"><span class="txt">Insuffisance hépatique (vous êtes suivi par un gastro-entérologue)</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-patho','anc-p',null)"><span class="txt">Antécédents de pancréatite</span><span class="mck"></span></button>
+    <button class="mbtn" onclick="ms(this,'ml-patho','anc-p',null)"><span class="txt">Antécédents de cancer de la thyroïde</span><span class="mck"></span></button>
+    <button class="mbtn" id="anc-p" onclick="ma(this,'ml-patho',null)"><span class="txt">Aucune de ces pathologies</span><span class="mck"></span></button>
   </div>
-  <div class="rebox" id="rbox-p" style="display:none"><div class="rbox-mark"><svg viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 3v5l3 2.5" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round"/></svg></div><span class="rbox-text">Ces informations permettent à votre diététicienne de vous proposer un accompagnement adapté à votre profil médical.</span></div>
+  <div class="med-note">Ces informations aident votre diététicienne à personnaliser votre suivi.</div>
   <div class="actions"><button class="btn" id="btn-s11" onclick="go('s12')" disabled>Continuer</button></div>
   <div class="secure" style="margin-top:10px"><svg viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3v4c0 2.8 2.1 5.4 5 6 2.9-.6 5-3.2 5-6V3L7 1Z" stroke="#bbb" stroke-width="1.2"/></svg>Vos données sont cryptées et sécurisées</div>
 </div>
@@ -1472,6 +1475,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <div class="eyebrow">Antécédents médicaux</div>
   <div class="hl">Souffrez-vous ou avez-vous souffert d’une pathologie liée à votre système digestif ?</div>
   <div class="conf-badge">Réponse médicale confidentielle</div>
+  <div class="med-note">Ces informations aident votre diététicienne à personnaliser votre suivi.</div>
   <div class="multi" id="ml-dig">
     <button class="mbtn" onclick="ms(this,'ml-dig','anc-d',null)"><span class="txt">Reflux gastro-oesophagien (remontée acide)</span><span class="mck"></span></button>
     <button class="mbtn" onclick="ms(this,'ml-dig','anc-d',null)"><span class="txt">Hernie hiatale</span><span class="mck"></span></button>
@@ -1491,6 +1495,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <div class="eyebrow">Antécédents médicaux</div>
   <div class="hl">Avez-vous une autre pathologie ?</div>
   <div class="conf-badge">Réponse médicale confidentielle</div>
+  <div class="med-note">Ces informations aident votre diététicienne à personnaliser votre suivi.</div>
   <div class="multi" id="ml-autre">
     <button class="mbtn" onclick="ms(this,'ml-autre','anc-a',null)"><span class="txt">Prédiabète</span><span class="mck"></span></button>
     <button class="mbtn" onclick="ms(this,'ml-autre','anc-a',null)"><span class="txt">Hypertension artérielle</span><span class="mck"></span></button>
@@ -1514,6 +1519,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <div class="hl">Avez-vous des antécédents de traitement de l’obésité ?</div>
   <div class="sub" style="margin-bottom:8px">Connaître votre historique nous permettra d’adapter nos recommandations.</div>
   <div class="conf-badge">Réponse médicale confidentielle</div>
+  <div class="med-note">Ces informations aident votre diététicienne à personnaliser votre suivi.</div>
   <div class="multi" id="ml-trt">
     <button class="mbtn" onclick="ms(this,'ml-trt','anc-t',null)"><span class="txt">Anneau gastrique</span><span class="mck"></span></button>
     <button class="mbtn" onclick="ms(this,'ml-trt','anc-t',null)"><span class="txt">Ballon gastrique</span><span class="mck"></span></button>
@@ -1532,6 +1538,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <div class="eyebrow">Antécédents médicaux</div>
   <div class="hl">Avez-vous un parent ou un membre de votre famille qui a l’une des pathologies suivantes ?</div>
   <div class="conf-badge">Réponse médicale confidentielle</div>
+  <div class="med-note">Ces informations aident votre diététicienne à personnaliser votre suivi.</div>
   <div class="multi" id="ml-fam">
     <button class="mbtn" onclick="ms(this,'ml-fam','anc-f',null)"><span class="txt">Diabète</span><span class="mck"></span></button>
     <button class="mbtn" onclick="ms(this,'ml-fam','anc-f',null)"><span class="txt">Hypertension artérielle</span><span class="mck"></span></button>
@@ -1571,7 +1578,6 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
           <div class="eyebrow">Antécédents médicaux</div>
           <div class="hl">Avez-vous déjà été diagnostiqué d’un trouble des conduites alimentaires ?</div>
           <div class="conf-badge">Réponse médicale confidentielle</div>
-          <div class="chip" style="margin-bottom:18px"><span class="chip-dot"></span>Cette information sera renseignée dans votre dossier médical et permet à votre diététicienne d'adapter le suivi avec plus de justesse.</div>
           <div class="choices" style="margin-bottom:16px">
             <button class="cbtn" onclick="tcaChoix(this,'current')">Oui, j’en souffre toujours</button>
             <button class="cbtn" onclick="tcaChoix(this,'past')">Oui, mais je n’en souffre plus</button>
