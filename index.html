@@ -765,8 +765,21 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 .proj-cmp-card.dark .proj-cmp-sub{color:rgba(255,255,255,.4)}
 .proj-benefits-compact{background:#f5f5f3;border-radius:14px;padding:14px 16px;margin-bottom:16px}
 .proj-ben-lead{font-size:13px;font-weight:700;color:#1a1a1a;margin-bottom:10px}
-.proj-benefits-tags{display:flex;flex-wrap:wrap;gap:7px}
-.proj-benefits-tags span{font-size:12px;font-weight:600;color:#555;background:#fff;border:1px solid #e8e8e6;border-radius:999px;padding:5px 11px}
+.proj-benefits-tags{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pbt{font-size:13px;font-weight:700;border-radius:12px;padding:11px 14px;display:flex;align-items:center;gap:8px;line-height:1.3}
+.pbt::before{content:'';width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.pbt-yellow{background:#FFF3DC;color:#7a5000;border:1.5px solid #FFD973}
+.pbt-yellow::before{background:#FFD973}
+.pbt-blue{background:#dff2ff;color:#1a5a7a;border:1.5px solid #a8d8f0}
+.pbt-blue::before{background:#5ab4e0}
+.pbt-purple{background:#ede8ff;color:#4a3a8a;border:1.5px solid #c4b8f0}
+.pbt-purple::before{background:#9b8de0}
+.pbt-green{background:#e8f5e8;color:#2a6a2a;border:1.5px solid #a8d8a8}
+.pbt-green::before{background:#6abf6a}
+.pbt-pink{background:#fff0f5;color:#7a2a4a;border:1.5px solid #f0b8d0}
+.pbt-pink::before{background:#e080aa}
+.mobile-version .proj-benefits-tags{grid-template-columns:1fr 1fr;gap:7px}
+.mobile-version .pbt{font-size:12px;padding:10px 12px}
 .mobile-version .proj-compare{gap:8px}
 .mobile-version .proj-cmp-val{font-size:24px}
 
@@ -1300,11 +1313,11 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
     <div class="proj-benefits-compact">
       <div class="proj-ben-lead">Une perte de poids, c'est aussi :</div>
       <div class="proj-benefits-tags">
-        <span>Retrouver plus d'énergie</span>
-        <span>Réduire l'essoufflement</span>
-        <span>Mieux dormir</span>
-        <span>Bouger plus facilement</span>
-        <span>Gagner en confiance</span>
+        <span class="pbt pbt-yellow">Retrouver plus d'énergie</span>
+        <span class="pbt pbt-blue">Réduire l'essoufflement</span>
+        <span class="pbt pbt-purple">Mieux dormir</span>
+        <span class="pbt pbt-green">Bouger plus facilement</span>
+        <span class="pbt pbt-pink" style="grid-column:1/-1;justify-content:center">Gagner en confiance</span>
       </div>
     </div>
   </div>
