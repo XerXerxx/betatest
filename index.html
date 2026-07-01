@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/png" href="https://cdn.prod.website-files.com/697cb6a0aa04e7ac8c07831b/698f95257d86078943df6692_favicon32.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Annette - Vérification d'éligibilité</title>
 <style>
@@ -80,6 +81,17 @@ body{background:#f0ede8;font-family:'Helvetica Neue',-apple-system,Arial,sans-se
 .motivation-solution-list{display:flex;flex-direction:column;gap:8px}
 .motivation-solution-item{display:flex;gap:9px;align-items:flex-start;font-size:13px;line-height:1.5;color:rgba(255,255,255,.78)}
 .motivation-solution-item::before{content:'';width:6px;height:6px;border-radius:50%;background:#F5C842;flex-shrink:0;margin-top:7px}
+/* ── S0 RESULT CARD ── */
+.s0r-solution-card{background:#F5C842;border-radius:18px;padding:22px 20px;margin-bottom:4px}
+.s0r-sol-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:rgba(0,0,0,.45);margin-bottom:10px}
+.s0r-sol-title{font-size:16px;font-weight:800;color:#1a1a1a;line-height:1.4;margin-bottom:14px}
+.s0r-sol-list{display:flex;flex-direction:column;gap:9px}
+.s0r-sol-item{display:flex;align-items:flex-start;gap:9px;font-size:14px;font-weight:600;color:#1a1a1a;line-height:1.45}
+.s0r-sol-check{width:20px;height:20px;border-radius:50%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.s0r-sol-check svg{width:11px;height:11px}
+.mobile-version .s0r-solution-card{border-radius:16px;padding:18px 16px}
+.mobile-version .s0r-sol-title{font-size:15px}
+.mobile-version .s0r-sol-item{font-size:13.5px}
 .motivation-mini-proof{display:flex;align-items:flex-start;gap:10px;background:#fffaf0;border:1px solid #f0e3bf;border-radius:12px;padding:13px 15px;font-size:13px;color:#6c5a28;line-height:1.55;margin-bottom:2px}
 .motivation-mini-proof strong{color:#1a1a1a}
 .motivation-change{display:none;background:none;border:none;color:#8f835e;font-size:12px;font-weight:800;cursor:pointer;text-decoration:underline;text-underline-offset:3px;margin:-10px auto 16px;padding:0}
@@ -873,13 +885,12 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 
 <div class="screen" id="s0_result">
   <button class="back-link" onclick="go('s0')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
-  <div class="eyebrow" id="s0r-eyebrow">Ce que ça nous indique</div>
-  <div class="hl" id="s0r-title"></div>
-  <div style="font-size:15px;font-weight:700;color:#1a1a1a;line-height:1.55;margin-bottom:16px" id="s0r-lead"></div>
-  <div class="motivation-solution">
-    <div class="motivation-solution-label">Avec Annette</div>
-    <div class="motivation-solution-title" id="s0r-sol-title"></div>
-    <div class="motivation-solution-list" id="s0r-sol-list"></div>
+  <div class="eyebrow">Ce que ça nous indique</div>
+  <div class="hl" id="s0r-lead" style="margin-bottom:20px"></div>
+  <div class="s0r-solution-card">
+    <div class="s0r-sol-label">Avec Annette</div>
+    <div class="s0r-sol-title" id="s0r-sol-title"></div>
+    <div class="s0r-sol-list" id="s0r-sol-list"></div>
   </div>
   <div class="actions" style="margin-top:24px">
     <button class="btn" onclick="go('s_glp1_intro')">Continuer</button>
@@ -2069,10 +2080,19 @@ function motiveChoice(btn){
   btn.classList.add('sel');
   const key=btn.dataset.key;
   const data=MOTIVATION_CONTENT[key]||MOTIVATION_CONTENT.health;
-  document.getElementById('s0r-title').textContent=data.title||'';
-  document.getElementById('s0r-lead').textContent=data.lead||'';
-  document.getElementById('s0r-sol-title').textContent=data.solutionTitle||'';
-  document.getElementById('s0r-sol-list').innerHTML=(data.items||[]).map(item=>'<div class="motivation-solution-item">'+escapeHtml(item)+'</div>').join('');
+  const leadEl=document.getElementById('s0r-lead');
+  const solTitleEl=document.getElementById('s0r-sol-title');
+  const solListEl=document.getElementById('s0r-sol-list');
+  if(leadEl)leadEl.textContent=data.lead||'';
+  if(solTitleEl)solTitleEl.textContent=data.solutionTitle||'';
+  if(solListEl){
+    solListEl.innerHTML=(data.items||[]).map(item=>
+      '<div class="s0r-sol-item">'
+      +'<span class="s0r-sol-check"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7l3 3 5-6" stroke="#F5C842" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'
+      +'<span>'+escapeHtml(item)+'</span>'
+      +'</div>'
+    ).join('');
+  }
   go('s0_result');
 }
 function resetMotivation(){
@@ -2130,7 +2150,9 @@ function quizPick(btn){
     if(fb){
       const answerText = btn.querySelector('.qcard-main')?.textContent.trim()||'';
       const feedbackMap = QUIZ_FEEDBACK_MAP[qid]||{};
-      const feedbackKey = Object.keys(feedbackMap).find(k => answerText.startsWith(k.substring(0,12))) || Object.keys(feedbackMap)[0];
+      function normalizeApos(s){return s.replace(/[\u2018\u2019\u201a\u201b']/g,"'").toLowerCase().trim();}
+      const answerNorm=normalizeApos(answerText);
+      const feedbackKey=Object.keys(feedbackMap).find(k=>answerNorm.startsWith(normalizeApos(k).substring(0,16)))||Object.keys(feedbackMap)[0];
       const feedbackText = feedbackMap[feedbackKey] || 'Annette adapte votre accompagnement à votre réponse.';
       const feedbackLines = feedbackText.split('\n').map(line => {
         if(line.startsWith('✓')) return '<div style="display:flex;align-items:flex-start;gap:8px;margin-top:6px"><span style="color:#F5C842;font-weight:900;flex-shrink:0">✓</span><span>'+escapeHtml(line.slice(1).trim())+'</span></div>';
