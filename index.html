@@ -887,25 +887,6 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   </div>
 </div>
 
-<!-- S1 - SOURCE -->
-<div class="screen" id="s1">
-  <button class="back-link" onclick="go('value_glp')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
-  <div class="eyebrow">Informations personnelles</div>
-  <div class="hl">Comment avez-vous entendu parler d’Annette ?</div>
-  <div class="sub">Aidez-nous à faire découvrir Annette à d’autres personnes !</div>
-  <div class="choices grid" id="s1-choices">
-    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">Instagram</button>
-    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">TikTok</button>
-    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">Facebook</button>
-    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">Google</button>
-    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">YouTube</button>
-    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">Influenceurs</button>
-    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">Votre médecin</button>
-    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">Entourage proche</button>
-    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">Autre</button>
-  </div>
-</div>
-
 <!-- S_GLP1_INTRO - PREUVE GLP-1 -->
 <div class="screen edu-screen" id="s_glp1_intro" style="background:#fce8e8">
   <div class="edu-screen-inner">
@@ -1010,6 +991,25 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
     </div>
   </div>
   <div class="actions"><button class="btn" onclick="go('s1')">Continuer</button></div>
+</div>
+
+<!-- S1 - SOURCE -->
+<div class="screen" id="s1">
+  <button class="back-link" onclick="go('value_glp')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="eyebrow">Informations personnelles</div>
+  <div class="hl">Comment avez-vous entendu parler d’Annette ?</div>
+  <div class="sub">Aidez-nous à faire découvrir Annette à d’autres personnes !</div>
+  <div class="choices grid" id="s1-choices">
+    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">Instagram</button>
+    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">TikTok</button>
+    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">Facebook</button>
+    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">Google</button>
+    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">YouTube</button>
+    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">Influenceurs</button>
+    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">Votre médecin</button>
+    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">Entourage proche</button>
+    <button class="cbtn" onclick="sel(this,'s1');w(()=>go('s4'))">Autre</button>
+  </div>
 </div>
 
 <!-- S4 - PRESCRIPTION -->
@@ -1502,6 +1502,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <div class="eyebrow">Antécédents médicaux</div>
   <div class="hl">Avez-vous des antécédents de traitement de l’obésité ?</div>
   <div class="sub">Connaître votre historique nous permettra d’adapter nos recommandations.</div>
+  <div class="conf-badge">Réponse médicale confidentielle</div>
   <div class="multi" id="ml-trt">
     <button class="mbtn" onclick="ms(this,'ml-trt','anc-t',null)"><span class="txt">Anneau gastrique</span><span class="mck"></span></button>
     <button class="mbtn" onclick="ms(this,'ml-trt','anc-t',null)"><span class="txt">Ballon gastrique</span><span class="mck"></span></button>
@@ -1754,13 +1755,10 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
     <!-- RÉCAPITULATIF -->
     <div style="display:flex;flex-direction:column;gap:10px">
       <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#bbb;margin-bottom:2px">Votre profil</div>
-      <div style="background:#fafafa;border:1.5px solid #ebebeb;border-radius:14px;padding:14px">
-        <div style="font-size:11px;color:#bbb;font-weight:600;margin-bottom:4px">Perte de poids estimée</div>
-        <div style="font-size:22px;font-weight:900;color:#1a1a1a" id="recap-kg">-</div>
-      </div>
-      <div style="background:#F5C842;border-radius:14px;padding:14px">
-        <div style="font-size:11px;color:rgba(0,0,0,.4);font-weight:600;margin-bottom:4px">Votre IMC</div>
-        <div style="font-size:22px;font-weight:900;color:#1a1a1a" id="recap-imc">-</div>
+      <div style="background:#F5C842;border-radius:14px;padding:16px">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:rgba(0,0,0,.45);margin-bottom:6px">Perte de poids estimée</div>
+        <div style="font-size:28px;font-weight:900;color:#1a1a1a;line-height:1" id="recap-kg">-</div>
+        <div style="font-size:12px;color:rgba(0,0,0,.5);font-weight:600;margin-top:4px">objectif indicatif à 12 mois</div>
       </div>
       <div style="background:#fafafa;border:1.5px solid #ebebeb;border-radius:14px;padding:14px">
         <div style="font-size:11px;color:#bbb;font-weight:600;margin-bottom:4px">Email enregistré</div>
@@ -1828,7 +1826,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
     <div class="side-step"><div class="sdot cur" id="dot-0"></div><span class="slabel cur" id="lbl-0">Objectif</span></div>
     <div class="side-step"><div class="sdot" id="dot-1"></div><span class="slabel" id="lbl-1">Source</span></div>
     <div class="side-step"><div class="sdot" id="dot-2"></div><span class="slabel" id="lbl-2">Profil santé</span></div>
-    <div class="side-step"><div class="sdot" id="dot-3"></div><span class="slabel" id="lbl-3">Votre potentiel</span></div>
+    <div class="side-step"><div class="sdot" id="dot-3"></div><span class="slabel" id="lbl-3">Votre parcours</span></div>
     <div class="side-step"><div class="sdot" id="dot-4"></div><span class="slabel" id="lbl-4">Antécédents médicaux</span></div>
     <div class="side-step"><div class="sdot" id="dot-5"></div><span class="slabel" id="lbl-5">Résultat</span></div>
     <div class="side-step"><div class="sdot" id="dot-6"></div><span class="slabel" id="lbl-6">Création du compte</span></div>
@@ -1860,7 +1858,7 @@ const SIDE_MAP={
   q1:3,testi_q1:3,q2:3,testi_q2:3,q3:3,testi_q3:3,q4:3,testi_q4:3,quiz_reassure:3,s9:4,s10:4,
   s11:4,s12:4,s13:4,s14:4,s15:4,s16:4,s17:5,s18:6,s19:6,s20:6
 };
-const MOBILE_STEP_NAMES=['Motivation','Source','Profil santé','Votre potentiel','Santé','Résultat','Compte'];
+const MOBILE_STEP_NAMES=['Motivation','Source','Profil santé','Votre parcours','Santé','Résultat','Compte'];
 function getMobilePhaseIndex(){
   const v=SIDE_MAP[cur];
   return typeof v==='number'?v:0;
@@ -1969,7 +1967,6 @@ function initQProg(qid){
 function upRecap(){
   const{imc,kg}=getStats();
   document.getElementById('recap-kg').textContent='−'+kg+' kg en 12 mois';
-  document.getElementById('recap-imc').textContent=imc.toFixed(1);
   document.getElementById('recap-email').textContent=email||'-';
   const p=document.getElementById('prenom-inp');
   if(p&&p.value)document.getElementById('wname').textContent=', '+p.value+' !';
@@ -2093,28 +2090,28 @@ function resetMotivation(){
 const QUIZ_ANSWERS={};
 const QUIZ_FEEDBACK_MAP = {
   q1: {
-    'Je manque de cadre': "Perdre du poids, c'est important. Ne pas tout reprendre, c'est essentiel. Avec Annette, vous êtes accompagné(e) par une diététicienne qui vous connait vraiment.\n✓ Un cadre clair pour éviter l'effet yoyo\n✓ Une diététicienne dédiée par chat\n✓ Un suivi adapté à votre profil et à votre traitement",
-    'Je me sens souvent seul face à ça': "Avec Annette, vous n'avancez jamais seul(e). Votre diététicienne dédiée est disponible par chat, et une communauté d'utilisateurs vous accompagne au quotidien.\n✓ Une diététicienne dédiée par chat\n✓ Une communauté active et bienveillante\n✓ Des ateliers et relances régulières",
-    'Mon quotidien complique tout': "Avec Annette, le programme s'adapte à votre rythme réel — pas l'inverse. Votre diététicienne tient compte de votre stress, de vos contraintes et de votre quotidien.\n✓ Un suivi flexible, adapté à votre vie\n✓ Des conseils concrets pour les moments difficiles\n✓ Une diététicienne dédiée par chat",
-    'J\'ai déjà essayé plusieurs fois': "Ce qui change avec Annette, c'est un accompagnement médical et nutritionnel pensé pour durer — pas un régime de plus.\n✓ Un suivi médical intégré\n✓ Des habitudes progressives, sans restriction brutale\n✓ Un cadre pour ne pas reprendre le poids perdu"
+    'Je manque de cadre': "Perdre du poids, c'est important. Ne pas tout reprendre, c'est essentiel.\n✓ Un cadre clair pour éviter l'effet yoyo\n✓ Une diététicienne dédiée par chat\n✓ Un suivi adapté à votre profil",
+    'Je me sens souvent seul face à ça': "Avec Annette, vous n'avancez jamais seul(e).\n✓ Une diététicienne dédiée par chat\n✓ Une communauté active et bienveillante\n✓ Des ateliers et relances régulières",
+    'Mon quotidien complique tout': "Le programme s'adapte à votre rythme réel, pas l'inverse.\n✓ Un suivi flexible, adapté à votre vie\n✓ Des conseils concrets pour les moments difficiles\n✓ Une diététicienne dédiée par chat",
+    "J'ai déjà essayé plusieurs fois": "Ce qui change, c'est un accompagnement pensé pour durer.\n✓ Un suivi médical intégré\n✓ Des habitudes progressives, sans restriction brutale\n✓ Un cadre pour ne pas reprendre le poids perdu"
   },
   q2: {
-    'Je limite certaines sorties': "Avec Annette, chaque kilo perdu vous redonne de la liberté. Votre diététicienne vous aide à retrouver un confort de vie concret, étape par étape.\n✓ Un suivi personnalisé à votre rythme\n✓ Des objectifs réalistes et motivants\n✓ Une progression visible dès les premières semaines",
-    'Je ne me sens pas à l\'aise avec mon corps': "Avec Annette, on travaille votre rapport au corps sans jugement. Votre diététicienne tient compte de votre histoire et avance avec vous à votre rythme.\n✓ Une approche bienveillante, sans culpabilisation\n✓ Un suivi humain et personnalisé\n✓ Des résultats visibles qui renforcent la confiance",
-    'Je me sens vite gêné ou fatigué': "Avec Annette, votre alimentation et votre traitement sont coordonnés pour vous aider à récupérer plus d'énergie progressivement.\n✓ Un suivi nutritionnel adapté\n✓ Des conseils pour réduire la fatigue au quotidien\n✓ Une diététicienne dédiée par chat",
-    'J\'évite certaines occasions professionnelles': "Avec Annette, vous reprenez confiance progressivement. Votre diététicienne vous accompagne avec un plan clair et des résultats concrets.\n✓ Un suivi structuré et motivant\n✓ Des objectifs atteignables\n✓ Un soutien humain dans les moments de doute"
+    'Je limite certaines sorties': "Chaque kilo perdu vous redonne de la liberté.\n✓ Un suivi personnalisé à votre rythme\n✓ Des objectifs réalistes et motivants\n✓ Une progression visible dès les premières semaines",
+    "Je ne me sens pas à l'aise avec mon corps": "On travaille votre rapport au corps, sans jugement.\n✓ Une approche bienveillante, sans culpabilisation\n✓ Un suivi humain et personnalisé\n✓ Des résultats visibles qui renforcent la confiance",
+    'Je me sens vite gêné ou fatigué': "Alimentation et traitement coordonnés pour récupérer de l'énergie.\n✓ Un suivi nutritionnel adapté\n✓ Des conseils pour réduire la fatigue\n✓ Une diététicienne dédiée par chat",
+    "J'évite certaines occasions professionnelles": "Votre diététicienne vous accompagne avec un plan clair.\n✓ Un suivi structuré et motivant\n✓ Des objectifs atteignables\n✓ Un soutien humain dans les moments de doute"
   },
   q3: {
-    'Je me fatigue plus vite': "Avec Annette, votre alimentation et votre suivi sont pensés pour vous aider à retrouver de l'énergie — pas seulement à perdre du poids.\n✓ Un plan nutritionnel adapté à votre rythme\n✓ Suivi des apports en protéines, fibres et eau\n✓ Des conseils pour mieux récupérer",
-    'Je manque d\'élan dans la journée': "Avec Annette, votre diététicienne identifie ce qui vous ralentit et ajuste votre alimentation pour vous redonner de l'élan dès le quotidien.\n✓ Un suivi personnalisé de votre énergie\n✓ Des conseils concrets et actionnables\n✓ Une diététicienne disponible par chat",
-    'Mon sommeil n\'est pas toujours réparateur': "Avec Annette, alimentation et qualité du sommeil sont liés. Votre diététicienne intègre cet aspect dans votre suivi pour des nuits plus récupératrices.\n✓ Des ajustements nutritionnels ciblés\n✓ Un suivi global, pas uniquement le poids\n✓ Un accompagnement humain et personnalisé",
-    'J\'ai envie de retrouver plus de confort': "Avec Annette, vous retrouvez le confort du quotidien progressivement : bouger, sortir, faire vos activités avec plus de légèreté.\n✓ Un programme adapté à votre profil\n✓ Des objectifs concrets et motivants\n✓ Un suivi régulier pour tenir dans la durée"
+    'Je me fatigue plus vite': "Votre suivi est pensé pour retrouver de l'énergie, pas seulement perdre du poids.\n✓ Un plan nutritionnel adapté\n✓ Suivi protéines, fibres et eau\n✓ Des conseils pour mieux récupérer",
+    "Je manque d'élan dans la journée": "Votre diététicienne identifie ce qui vous ralentit et ajuste votre alimentation.\n✓ Un suivi personnalisé de votre énergie\n✓ Des conseils concrets et actionnables\n✓ Une diététicienne disponible par chat",
+    "Mon sommeil n'est pas toujours réparateur": "Alimentation et sommeil sont liés — votre suivi en tient compte.\n✓ Des ajustements nutritionnels ciblés\n✓ Un suivi global, pas uniquement le poids\n✓ Un accompagnement humain et personnalisé",
+    "J'ai envie de retrouver plus de confort": "Bouger, sortir, faire vos activités avec plus de légèreté.\n✓ Un programme adapté à votre profil\n✓ Des objectifs concrets et motivants\n✓ Un suivi régulier pour tenir dans la durée"
   },
   q4: {
-    'J\'ai peur de reprendre le poids perdu': "Avec Annette, l'objectif n'est pas seulement de perdre — c'est de ne pas reprendre. Votre diététicienne vous accompagne pour construire des habitudes durables.\n✓ Un accompagnement pensé pour stabiliser les résultats\n✓ Un suivi régulier même après les premières semaines\n✓ Des habitudes progressives, sans effet yoyo",
-    'Je me sens fatigué de recommencer': "Avec Annette, vous ne recommencez pas depuis zéro. Vous bénéficiez d'un cadre structuré et d'un soutien humain pour avancer différemment cette fois.\n✓ Un seul parcours clair, pas un régime de plus\n✓ Une diététicienne qui vous connait vraiment\n✓ Un suivi médical intégré",
-    'Les résultats ne tiennent pas toujours': "Avec Annette, la stabilisation fait partie du programme dès le début. Votre diététicienne anticipe les plateaux et ajuste votre suivi en conséquence.\n✓ Un suivi actif pendant et après la perte de poids\n✓ Des ajustements en temps réel\n✓ Un cadre pour éviter l'effet yoyo",
-    'Je manque de soutien dans les moments difficiles': "Avec Annette, votre diététicienne est là quand vous en avez le plus besoin. Par chat, disponible, et qui vous connait vraiment.\n✓ Une diététicienne dédiée par chat\n✓ Des relances régulières pour ne pas décrocher\n✓ Une communauté et des ateliers pour ne jamais être seul(e)"
+    "J'ai peur de reprendre le poids perdu": "L'objectif n'est pas seulement de perdre — c'est de ne pas reprendre.\n✓ Un accompagnement pour stabiliser les résultats\n✓ Un suivi régulier même après les premières semaines\n✓ Des habitudes progressives, sans effet yoyo",
+    'Je me sens fatigué de recommencer': "Vous ne recommencez pas depuis zéro cette fois.\n✓ Un seul parcours clair, pas un régime de plus\n✓ Une diététicienne qui vous connait vraiment\n✓ Un suivi médical intégré",
+    'Les résultats ne tiennent pas toujours': "La stabilisation fait partie du programme dès le début.\n✓ Un suivi actif pendant et après la perte de poids\n✓ Des ajustements en temps réel\n✓ Un cadre pour éviter l'effet yoyo",
+    'Je manque de soutien dans les moments difficiles': "Votre diététicienne est là quand vous en avez le plus besoin.\n✓ Une diététicienne dédiée par chat\n✓ Des relances régulières pour ne pas décrocher\n✓ Une communauté pour ne jamais être seul(e)"
   }
 };
 function quizPick(btn){
