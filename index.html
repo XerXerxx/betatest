@@ -2043,25 +2043,34 @@ function valDDN(){
   document.getElementById('btn-s5').disabled=!ok;
 }
 function s6Update(){
-  const p=parseFloat(document.getElementById('poids').value)||90;
-  const t=parseFloat(document.getElementById('taille').value)||170;
-
-  const imc=p/Math.pow(t/100,2);
-  let cat;
-  if(imc<18.5) cat={label:'Sous-poids',bg:'#dbeafe',text:'#1e40af',thumb:4};
-  else if(imc<25) cat={label:'Normal',bg:'#dcfce7',text:'#166634',thumb:28};
-  else if(imc<30) cat={label:'Surpoids',bg:'#fef9c3',text:'#854d0e',thumb:55};
-  else if(imc<35) cat={label:'Obésité',bg:'#fee2e2',text:'#991b1b',thumb:75};
-  else cat={label:'Obésité sévère',bg:'#fecaca',text:'#7f1d1d',thumb:92};
+  const p=parseFloat(document.getElementById('poids').value)||0;
+  const t=parseFloat(document.getElementById('taille').value)||0;
 
   const card=document.getElementById('s6-imc-card');
   const badge=document.getElementById('s6-imc-badge');
   const num=document.getElementById('s6-imc-num');
   const thumb=document.getElementById('s6-imc-thumb');
-  if(card)card.style.background=cat.bg;
-  if(badge){badge.textContent=cat.label;badge.style.color=cat.text;badge.style.borderColor=cat.text+'44';}
-  if(num){num.textContent=imc.toFixed(1);num.style.color=cat.text;}
-  if(thumb)thumb.style.left=cat.thumb+'%';
+
+  if(p>=40&&t>=140){
+    const imc=p/Math.pow(t/100,2);
+    let cat;
+    if(imc<18.5) cat={label:'Sous-poids',bg:'#dbeafe',text:'#1e40af',thumb:4};
+    else if(imc<25) cat={label:'Normal',bg:'#dcfce7',text:'#166634',thumb:28};
+    else if(imc<30) cat={label:'Surpoids',bg:'#fef9c3',text:'#854d0e',thumb:55};
+    else if(imc<35) cat={label:'Obésité',bg:'#fee2e2',text:'#991b1b',thumb:75};
+    else cat={label:'Obésité sévère',bg:'#fecaca',text:'#7f1d1d',thumb:92};
+
+    if(card)card.style.background=cat.bg;
+    if(badge){badge.textContent=cat.label;badge.style.color=cat.text;badge.style.borderColor=cat.text+'44';}
+    if(num){num.textContent=imc.toFixed(1);num.style.color=cat.text;}
+    if(thumb)thumb.style.left=cat.thumb+'%';
+  } else {
+    // État neutre
+    if(card)card.style.background='#f5f5f3';
+    if(badge){badge.textContent='—';badge.style.color='#bbb';badge.style.borderColor='#e8e8e6';}
+    if(num){num.textContent='—';num.style.color='#bbb';}
+    if(thumb)thumb.style.left='50%';
+  }
 
   s6ValBtn();
 }
