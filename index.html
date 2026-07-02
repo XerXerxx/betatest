@@ -1200,7 +1200,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
     <div class="ig"><label>Taille</label><div class="iw"><input type="number" id="taille" placeholder="—" min="140" max="210" inputmode="numeric" oninput="s6Update()"><span class="iu">cm</span></div></div>
   </div>
 
-  <div class="imc-widget" id="s6-imc-card" style="display:none">
+  <div class="imc-widget" id="s6-imc-card">
     <div class="imc-widget-top">
       <div class="imc-widget-eyebrow">Votre IMC</div>
       <div class="imc-widget-badge" id="s6-imc-badge"></div>
@@ -1981,6 +1981,7 @@ function go(idx){
   cur=idx; upUI();
   /* Scroll window to top (scrollIntoView fails on position:fixed screens) */
   window.scrollTo({top:0,behavior:'smooth'});
+  if(idx==='s6')s6Update();
   if(idx==='s8')renderChart();
   if(idx==='glp1_seul')setTimeout(triggerBadBullets,200);
   if(idx==='glp1_annette')setTimeout(triggerGoodBullets,200);
@@ -2042,31 +2043,25 @@ function valDDN(){
   document.getElementById('btn-s5').disabled=!ok;
 }
 function s6Update(){
-  const p=parseFloat(document.getElementById('poids').value)||0;
-  const t=parseFloat(document.getElementById('taille').value)||0;
+  const p=parseFloat(document.getElementById('poids').value)||90;
+  const t=parseFloat(document.getElementById('taille').value)||170;
+
+  const imc=p/Math.pow(t/100,2);
+  let cat;
+  if(imc<18.5) cat={label:'Sous-poids',bg:'#dbeafe',text:'#1e40af',thumb:4};
+  else if(imc<25) cat={label:'Normal',bg:'#dcfce7',text:'#166634',thumb:28};
+  else if(imc<30) cat={label:'Surpoids',bg:'#fef9c3',text:'#854d0e',thumb:55};
+  else if(imc<35) cat={label:'Obésité',bg:'#fee2e2',text:'#991b1b',thumb:75};
+  else cat={label:'Obésité sévère',bg:'#fecaca',text:'#7f1d1d',thumb:92};
 
   const card=document.getElementById('s6-imc-card');
-
-  if(p>=40&&t>=140){
-    const imc=p/Math.pow(t/100,2);
-    let cat;
-    if(imc<18.5) cat={label:'Sous-poids',bg:'#dbeafe',text:'#1e40af',thumb:4};
-    else if(imc<25) cat={label:'Normal',bg:'#dcfce7',text:'#166634',thumb:28};
-    else if(imc<30) cat={label:'Surpoids',bg:'#fef9c3',text:'#854d0e',thumb:55};
-    else if(imc<35) cat={label:'Obésité',bg:'#fee2e2',text:'#991b1b',thumb:75};
-    else cat={label:'Obésité sévère',bg:'#fecaca',text:'#7f1d1d',thumb:92};
-
-    if(card)card.style.display='block';
-    const badge=document.getElementById('s6-imc-badge');
-    const num=document.getElementById('s6-imc-num');
-    const thumb=document.getElementById('s6-imc-thumb');
-    if(card)card.style.background=cat.bg;
-    if(badge){badge.textContent=cat.label;badge.style.color=cat.text;badge.style.borderColor=cat.text+'44';}
-    if(num){num.textContent=imc.toFixed(1);num.style.color=cat.text;}
-    if(thumb)thumb.style.left=cat.thumb+'%';
-  } else {
-    if(card)card.style.display='none';
-  }
+  const badge=document.getElementById('s6-imc-badge');
+  const num=document.getElementById('s6-imc-num');
+  const thumb=document.getElementById('s6-imc-thumb');
+  if(card)card.style.background=cat.bg;
+  if(badge){badge.textContent=cat.label;badge.style.color=cat.text;badge.style.borderColor=cat.text+'44';}
+  if(num){num.textContent=imc.toFixed(1);num.style.color=cat.text;}
+  if(thumb)thumb.style.left=cat.thumb+'%';
 
   s6ValBtn();
 }
