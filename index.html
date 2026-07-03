@@ -149,7 +149,7 @@ body{background:#f0ede8;font-family:'Helvetica Neue',-apple-system,Arial,sans-se
 .proj-badge-unit{font-size:20px;font-weight:700;color:rgba(0,0,0,.55)}
 .proj-badge-sub{font-size:13px;font-weight:600;color:rgba(0,0,0,.55);margin-top:8px}
 .proj-badge-meta{margin-top:14px;padding-top:14px;border-top:1px solid rgba(26,26,26,.14)}
-.proj-badge-line{font-size:14px;font-weight:750;color:#1a1a1a;line-height:1.45}
+.proj-badge-line{font-size:15px;font-weight:800;color:#1a1a1a;line-height:1.4}
 .proj-badge-line strong{font-weight:900}
 .proj-badge-note{font-size:11px;line-height:1.45;color:rgba(0,0,0,.56);margin-top:8px}
 .mobile-version .proj-badge{padding:17px 18px;border-radius:16px}
@@ -251,18 +251,18 @@ canvas#chart{display:block;width:100%;height:240px}
 .slbl{font-size:12px;color:#888;margin-top:4px;font-weight:500}
 .bscroll{display:flex;gap:10px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;padding:2px 2px 8px;margin-bottom:16px}
 .bscroll::-webkit-scrollbar{display:none}
-.bcard{position:relative;flex-shrink:0;scroll-snap-align:start;width:120px;border-radius:14px;overflow:hidden;background:#f5f5f3;border:1px solid #e6e1da;padding:0;cursor:pointer;text-align:left;font:inherit;box-shadow:0 10px 24px rgba(26,26,26,.07);transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;animation:bcardNudge 4.6s ease-in-out infinite}
-.bcard:nth-child(2){animation-delay:.35s}
-.bcard:nth-child(3){animation-delay:.7s}
-.bcard:nth-child(4){animation-delay:1.05s}
-.bcard:nth-child(5){animation-delay:1.4s}
+.bcard{position:relative;flex-shrink:0;scroll-snap-align:start;width:120px;border-radius:14px;overflow:hidden;background:#f5f5f3;border:1px solid #e6e1da;padding:0;cursor:pointer;text-align:left;font:inherit;box-shadow:0 10px 24px rgba(26,26,26,.07);transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;animation:bcardNudge 4s ease-in-out infinite;animation-delay:-.45s}
+.bcard:nth-child(2){animation-delay:-.1s}
+.bcard:nth-child(3){animation-delay:-.7s}
+.bcard:nth-child(4){animation-delay:-1.05s}
+.bcard:nth-child(5){animation-delay:-1.4s}
 .bcard:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 16px 30px rgba(26,26,26,.11);border-color:#d7cfbf}
 .bcard:active{transform:translateY(-1px) scale(.99)}
 .bcard img{width:100%;height:88px;object-fit:cover;display:block}
 .bcard-icon-only{width:100%;height:88px;background:#f0ede8;display:flex;align-items:center;justify-content:center}
 .bcard-icon-only svg{width:30px;height:30px}
 .bclbl{font-size:11px;font-weight:800;color:#1a1a1a;padding:9px 10px 11px;line-height:1.35}
-@keyframes bcardNudge{0%,78%,100%{transform:translate3d(0,0,0)}82%{transform:translate3d(-1px,0,0)}86%{transform:translate3d(2px,-1px,0)}90%{transform:translate3d(-1px,0,0)}94%{transform:translate3d(1px,0,0)}}
+@keyframes bcardNudge{0%,5%,30%,72%,100%{transform:translate3d(0,0,0)}8%{transform:translate3d(-1px,0,0)}12%{transform:translate3d(2px,-1px,0)}16%{transform:translate3d(-1px,0,0)}20%{transform:translate3d(1px,0,0)}78%{transform:translate3d(-1px,0,0)}84%{transform:translate3d(2px,-1px,0)}90%{transform:translate3d(-1px,0,0)}94%{transform:translate3d(1px,0,0)}}
 
 
 /* ── FEATURE DETAIL MODAL ── */
@@ -807,10 +807,17 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 .review-card.dark .review-stars{color:rgba(255,255,255,.42)}
 
 .mobile-version .reviews-screen.active{min-height:auto;justify-content:flex-start}
-.mobile-version .reviews-scatter{display:flex;flex-direction:column;gap:12px;min-height:auto;margin:16px 0 18px}
-.mobile-version .review-card{position:relative;left:auto;right:auto;top:auto;width:100%;transform:none;padding:17px}
-.mobile-version .review-quote.big{font-size:17px}
-.mobile-version .review-stat{font-size:34px}
+.mobile-version .reviews-scatter{display:grid;grid-template-columns:1fr 1fr;gap:12px;min-height:auto;margin:16px 0 18px}
+.mobile-version .review-card{position:relative;left:auto;right:auto;top:auto;width:100%;padding:16px;border-radius:18px}
+.mobile-version .review-card.r1{grid-column:1/-1;transform:rotate(-2deg)}
+.mobile-version .review-card.r2{grid-column:2;transform:rotate(2deg);margin-top:-6px}
+.mobile-version .review-card.r3{grid-column:1;transform:rotate(-1.4deg);margin-top:8px;margin-left:0}
+.mobile-version .review-card.r4{grid-column:1/-1;transform:rotate(1.3deg);margin-top:2px}
+.mobile-version .review-quote.big{font-size:19px;line-height:1.28}
+.mobile-version .review-quote{font-size:13px;line-height:1.48}
+.mobile-version .review-stat{font-size:30px}
+.mobile-version .review-sub{font-size:11px;margin-bottom:10px}
+.mobile-version .review-author{margin-top:12px}
 
 /* ── SLIDE DE RÉASSURANCE UNIQUE ── */
 .reassure-card{background:#F5C842;border-radius:18px;padding:22px;margin:18px 0 4px}
@@ -1222,7 +1229,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
         <div class="proj-badge-stat"><span id="proj-kg">−14</span><span class="proj-badge-unit">kg</span></div>
         <div class="proj-badge-sub">objectif indicatif à 12 mois avec Annette</div>
         <div class="proj-badge-meta">
-          <div class="proj-badge-line" id="proj-summary">Autour du 3 juillet 2027, vous pourriez être vers 76 kg avec un accompagnement adapté.</div>
+          <div class="proj-badge-line" id="proj-summary">Projection 3 juillet 2027 : 76 kg, soit -14 kg</div>
           <div class="proj-badge-note">Projection indicative, qui peut varier d'une personne à l'autre.</div>
         </div>
       </div>
@@ -2269,7 +2276,7 @@ function getProjectionPreview(){
 function renderChart(){
   // Defer one frame to ensure canvas is visible and has width
   requestAnimationFrame(()=>{
-  const{p,imc,kg}=getStats(),kgS=Math.round(kg*.5),preview=getProjectionPreview();document.getElementById('hl-kg').textContent=kg+' kg';var pn=document.getElementById('reassure-prenom');if(pn){var pe=document.getElementById('prenom-inp');pn.textContent=(pe&&pe.value.trim())?pe.value.trim():'Vous';}document.getElementById('proj-kg').textContent='−'+kg;var ps=document.getElementById('proj-summary');if(ps)ps.innerHTML='Autour du <strong>'+preview.dateText+'</strong>, vous pourriez être vers <strong>'+String(preview.targetWeight).replace('.',',')+' kg</strong> avec un accompagnement adapté.';drawChart(p,kg);});}
+  const{p,imc,kg}=getStats(),kgS=Math.round(kg*.5),preview=getProjectionPreview();document.getElementById('hl-kg').textContent=kg+' kg';var pn=document.getElementById('reassure-prenom');if(pn){var pe=document.getElementById('prenom-inp');pn.textContent=(pe&&pe.value.trim())?pe.value.trim():'Vous';}document.getElementById('proj-kg').textContent='−'+kg;var ps=document.getElementById('proj-summary');if(ps)ps.innerHTML='Projection <strong>'+preview.dateText+'</strong> : <strong>'+String(preview.targetWeight).replace('.',',')+' kg</strong>, soit <strong>−'+kg+' kg</strong>';drawChart(p,kg);});}
 function upFinal(){const{kg}=getStats();document.getElementById('final-kg').textContent='−'+kg+' kg';}
 /* CANVAS */
 function drawChart(poids,pK){
