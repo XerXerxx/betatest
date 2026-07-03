@@ -144,8 +144,8 @@ body{background:#f0ede8;font-family:'Helvetica Neue',-apple-system,Arial,sans-se
 .gtop{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
 .gbig{font-size:42px;font-weight:900;line-height:1;color:#1a1a1a;letter-spacing:-1.5px}
 .gbig sub{font-size:18px;font-weight:600;vertical-align:baseline}
-.proj-badge{background:#F5C842;border-radius:18px;padding:20px 24px;display:inline-flex;flex-direction:column;align-items:flex-start;box-shadow:0 10px 24px rgba(245,200,66,.28);width:100%}
-.proj-badge-stat{font-size:48px;font-weight:900;color:#1a1a1a;line-height:1;letter-spacing:-2px;display:flex;align-items:baseline;gap:6px}
+.proj-badge{background:#F5C842;border-radius:18px;padding:20px 24px;display:inline-flex;flex-direction:column;align-items:center;box-shadow:0 10px 24px rgba(245,200,66,.28);width:100%;text-align:center}
+.proj-badge-stat{font-size:48px;font-weight:900;color:#1a1a1a;line-height:1;letter-spacing:-2px;display:flex;align-items:baseline;justify-content:center;gap:6px}
 .proj-badge-unit{font-size:20px;font-weight:700;color:rgba(0,0,0,.55)}
 .proj-badge-sub{font-size:13px;font-weight:600;color:rgba(0,0,0,.55);margin-top:8px}
 .proj-badge-meta{margin-top:14px;padding-top:14px;border-top:1px solid rgba(26,26,26,.14)}
@@ -1869,7 +1869,7 @@ const SIDE_MAP={
   q1:3,quiz_help:3,q2:3,q3:3,q4:3,quiz_reviews:3,quiz_reassure:3,s9:4,s10:4,
   s11:4,s12:4,s13:4,s14:4,s15:4,s16:4,s17:5,s18:6,s19:6,s20:6
 };
-const MOBILE_STEP_NAMES=['Motivation','Source','Profil santé','Votre parcours','Santé','Résultat','Compte'];
+const MOBILE_STEP_NAMES=['Objectif','Source','Profil santé','Votre parcours','Antécédents médicaux','Résultat','Création du compte'];
 function getMobilePhaseIndex(){
   const v=SIDE_MAP[cur];
   return typeof v==='number'?v:0;
