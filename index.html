@@ -122,17 +122,6 @@ body{background:#f0ede8;font-family:'Helvetica Neue',-apple-system,Arial,sans-se
 .ifl{width:100%;padding:14px 18px;border:1.5px solid #e8e8e6;border-radius:11px;font-size:16px;font-weight:500;color:#1a1a1a;background:#fafafa;outline:none;transition:border-color .18s;margin-bottom:10px}
 .ifl:focus{border-color:#1a1a1a;background:#fff}
 .ifl::placeholder{color:#ccc;font-weight:400}
-.imc-widget{border-radius:14px;padding:16px;margin-bottom:14px;transition:background .25s}
-.imc-widget-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
-.imc-widget-eyebrow{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:rgba(0,0,0,.4)}
-.imc-widget-badge{font-size:11px;font-weight:800;padding:4px 10px;border-radius:999px;transition:all .25s;border:1.5px solid transparent}
-.imc-widget-num{font-size:52px;font-weight:900;line-height:1;transition:color .25s;margin-bottom:8px}
-.imc-bar-track{height:8px;border-radius:4px;background:linear-gradient(to right,#93c5fd,#86efac,#fde68a,#fca5a5,#f87171);position:relative;margin-bottom:6px}
-.imc-bar-thumb{position:absolute;top:50%;transform:translate(-50%,-50%);width:16px;height:16px;border-radius:50%;background:#1a1a1a;border:2.5px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.2);transition:left .25s}
-.imc-bar-labels{display:flex;justify-content:space-between}
-.imc-bar-labels span{font-size:10px;color:#bbb}
-.mobile-version .imc-widget-num{font-size:44px}
-
 /* ── REASON CHIP ── */
 .chip{display:flex;align-items:flex-start;gap:10px;background:#f5f5f3;border-radius:10px;padding:12px 15px;margin-bottom:16px;font-size:13px;color:#777;line-height:1.55;border-left:3px solid #e8e8e6}
 .chip-dot{width:6px;height:6px;border-radius:50%;background:#bbb;flex-shrink:0;margin-top:5px}
@@ -159,6 +148,10 @@ body{background:#f0ede8;font-family:'Helvetica Neue',-apple-system,Arial,sans-se
 .proj-badge-stat{font-size:48px;font-weight:900;color:#1a1a1a;line-height:1;letter-spacing:-2px;display:flex;align-items:baseline;gap:6px}
 .proj-badge-unit{font-size:20px;font-weight:700;color:rgba(0,0,0,.55)}
 .proj-badge-sub{font-size:13px;font-weight:600;color:rgba(0,0,0,.55);margin-top:8px}
+.proj-badge-meta{margin-top:14px;padding-top:14px;border-top:1px solid rgba(26,26,26,.14)}
+.proj-badge-line{font-size:14px;font-weight:750;color:#1a1a1a;line-height:1.45}
+.proj-badge-line strong{font-weight:900}
+.proj-badge-note{font-size:11px;line-height:1.45;color:rgba(0,0,0,.56);margin-top:8px}
 .mobile-version .proj-badge{padding:17px 18px;border-radius:16px}
 .mobile-version .proj-badge-stat{font-size:38px}
 .gsub{font-size:13px;color:#aaa;margin-top:4px}
@@ -258,11 +251,18 @@ canvas#chart{display:block;width:100%;height:240px}
 .slbl{font-size:12px;color:#888;margin-top:4px;font-weight:500}
 .bscroll{display:flex;gap:10px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;padding:2px 2px 8px;margin-bottom:16px}
 .bscroll::-webkit-scrollbar{display:none}
-.bcard{flex-shrink:0;scroll-snap-align:start;width:120px;border-radius:12px;overflow:hidden;background:#f5f5f3;border:none;padding:0;cursor:pointer;text-align:left;font:inherit}
+.bcard{position:relative;flex-shrink:0;scroll-snap-align:start;width:120px;border-radius:14px;overflow:hidden;background:#f5f5f3;border:1px solid #e6e1da;padding:0;cursor:pointer;text-align:left;font:inherit;box-shadow:0 10px 24px rgba(26,26,26,.07);transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;animation:bcardNudge 4.6s ease-in-out infinite}
+.bcard:nth-child(2){animation-delay:.35s}
+.bcard:nth-child(3){animation-delay:.7s}
+.bcard:nth-child(4){animation-delay:1.05s}
+.bcard:nth-child(5){animation-delay:1.4s}
+.bcard:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 16px 30px rgba(26,26,26,.11);border-color:#d7cfbf}
+.bcard:active{transform:translateY(-1px) scale(.99)}
 .bcard img{width:100%;height:88px;object-fit:cover;display:block}
 .bcard-icon-only{width:100%;height:88px;background:#f0ede8;display:flex;align-items:center;justify-content:center}
 .bcard-icon-only svg{width:30px;height:30px}
-.bclbl{font-size:11px;font-weight:700;color:#1a1a1a;padding:8px 10px;line-height:1.35}
+.bclbl{font-size:11px;font-weight:800;color:#1a1a1a;padding:9px 10px 11px;line-height:1.35}
+@keyframes bcardNudge{0%,78%,100%{transform:translate3d(0,0,0)}82%{transform:translate3d(-1px,0,0)}86%{transform:translate3d(2px,-1px,0)}90%{transform:translate3d(-1px,0,0)}94%{transform:translate3d(1px,0,0)}}
 
 
 /* ── FEATURE DETAIL MODAL ── */
@@ -413,8 +413,6 @@ canvas#chart{display:block;width:100%;height:240px}
 .quiz-diag-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#b49a35;margin-bottom:3px}
 .quiz-diag-text{font-size:13px;color:#555;line-height:1.58;font-weight:500}
 .quiz-annette-tag{font-size:12px;font-weight:700;margin-bottom:4px;opacity:.7}
-.quiz-next{width:100%;padding:15px;background:#1a1a1a;color:#fff;border:none;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;display:none;margin-top:4px}
-.quiz-next.show{display:block}
 .quiz-counter{text-align:center;font-size:12px;color:#bbb;margin-top:8px}
 
 @media(max-width:900px){.land-right{display:none}.land-left{max-width:100%;padding:48px 32px}}
@@ -532,7 +530,6 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 .mobile-version .quiz-diagnostic{padding:15px}
 .mobile-version .quiz-diag-row{padding:10px 0}
 .mobile-version .quiz-diag-text{font-size:12.8px}
-.mobile-version .quiz-next{padding:15px;font-size:15px}
 
 /* Multiselect lists */
 .mobile-version .multi{gap:8px;margin-bottom:18px}
@@ -766,52 +763,54 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 .qcard-list.answered{gap:0;margin-bottom:12px}
 .qcard-list.answered .qcard-opt:not(.picked){opacity:0;max-height:0;padding-top:0;padding-bottom:0;margin:0;border-width:0;overflow:hidden;pointer-events:none;transform:translateY(6px)}
 .qcard-list.answered .qcard-opt.picked{margin-bottom:0}
-.quiz-inline-feedback{display:none;background:#fffaf0;border:1.5px solid #f0e3bf;border-radius:16px;padding:15px 16px;margin:0 0 16px;color:#6c5a28;font-size:13.5px;line-height:1.55;box-shadow:0 12px 28px rgba(26,26,26,.05)}
-.quiz-inline-feedback.show{display:block;animation:fadeUp .22s cubic-bezier(.4,0,.2,1)}
-.quiz-inline-feedback strong{display:block;color:#1a1a1a;font-size:13px;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px}
-.quiz-inline-feedback .quiz-change{margin:10px 0 0;text-align:left}
 .qcard-main{font-size:15px;font-weight:800;color:#1a1a1a;line-height:1.3}
 .qcard-sub{font-size:13px;color:#888;line-height:1.45}
 .qcard-opt.picked .qcard-sub{color:#666}
+.quiz-help-card{background:#F5C842;border-radius:18px;padding:24px 22px;margin:18px 0 18px}
+.quiz-help-line{font-size:16px;font-weight:800;color:#1a1a1a;line-height:1.5;margin-bottom:18px}
+.quiz-help-list{display:flex;flex-direction:column;gap:12px}
+.quiz-help-item{display:flex;align-items:flex-start;gap:11px;font-size:15px;font-weight:700;color:#1a1a1a;line-height:1.45}
+.quiz-help-check{width:24px;height:24px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:0}
+.quiz-help-check svg{width:14px;height:14px}
 .mobile-version .qcard-opt{border-radius:16px;padding:15px 16px;background:#fff;border-color:#e5ded5}
 .mobile-version .qcard-main{font-size:14.5px}
 .mobile-version .qcard-sub{font-size:12.5px}
+.mobile-version .quiz-help-card{border-radius:16px;padding:20px 18px}
+.mobile-version .quiz-help-line{font-size:15px}
+.mobile-version .quiz-help-item{font-size:14px}
 
+.reviews-screen.active{display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 180px)}
+.reviews-kicker{display:inline-flex;align-items:center;gap:8px;background:#1a1a1a;color:#F5C842;border-radius:999px;padding:8px 12px;margin-bottom:14px;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.08em}
+.reviews-kicker::before{content:'';width:7px;height:7px;border-radius:50%;background:#F5C842;box-shadow:0 0 0 3px rgba(245,200,66,.22)}
+.reviews-scatter{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:18px;margin:18px 0 24px;align-items:start}
+.review-card{position:relative;background:#fff;border:1.5px solid #ebe8e2;border-radius:14px;padding:18px;box-shadow:0 18px 42px rgba(26,26,26,.08);color:#1a1a1a}
+.review-card.yellow{background:#F5C842;border-color:#F5C842}
+.review-card.dark{background:#1a1a1a;border-color:#1a1a1a;color:#fff}
+.review-card.soft{background:#fffaf0;border-color:#f0e3bf}
+.review-card.r1{grid-column:1;transform:rotate(-1.7deg) translateY(10px)}
+.review-card.r2{grid-column:2;transform:rotate(1.6deg) translateY(58px)}
+.review-card.r3{grid-column:1;transform:rotate(1.2deg) translateY(-2px);margin-left:36px}
+.review-card.r4{grid-column:2;transform:rotate(-1.4deg) translateY(22px)}
+.review-label{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.09em;color:rgba(26,26,26,.45);margin-bottom:10px}
+.review-card.dark .review-label{color:rgba(255,255,255,.42)}
+.review-stat{font-size:38px;font-weight:950;line-height:1;color:#1a1a1a;margin-bottom:6px;letter-spacing:-.02em}
+.review-card.dark .review-stat{color:#F5C842}
+.review-sub{font-size:12px;font-weight:800;color:rgba(26,26,26,.48);margin-bottom:14px}
+.review-card.dark .review-sub{color:rgba(255,255,255,.48)}
+.review-quote{font-size:14px;font-weight:650;line-height:1.58;color:inherit}
+.review-quote.big{font-size:18px;font-weight:900;line-height:1.35;letter-spacing:-.01em}
+.review-author{display:flex;align-items:center;gap:10px;margin-top:14px}
+.review-avatar{width:30px;height:30px;border-radius:50%;background:#1a1a1a;color:#F5C842;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.review-card.dark .review-avatar{background:#F5C842;color:#1a1a1a}
+.review-name{font-size:12px;font-weight:800;color:inherit}
+.review-stars{font-size:11px;color:rgba(26,26,26,.45);margin-top:2px}
+.review-card.dark .review-stars{color:rgba(255,255,255,.42)}
 
-/* ── SLIDES TÉMOIGNAGE ── */
-.testi-screen{display:none}
-.testi-screen.active{display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 180px)}
-
-/* Option A — fond jaune (avec stat chiffrée, chiffre en noir) */
-.testi-wrap-a{background:#F5C842;border-radius:20px;padding:28px 24px;margin-bottom:8px;display:flex;flex-direction:column;justify-content:space-between;min-height:320px}
-.testi-label-a{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:rgba(0,0,0,.45);margin-bottom:20px}
-.testi-stat{font-size:72px;font-weight:900;color:#1a1a1a;line-height:1;letter-spacing:-3px;margin-bottom:6px}
-.testi-stat-sub{font-size:14px;color:rgba(0,0,0,.5);margin-bottom:28px}
-.testi-divider-a{height:1px;background:rgba(0,0,0,.12);margin-bottom:20px}
-.testi-quote-a{font-size:15px;color:rgba(0,0,0,.78);line-height:1.6;font-style:italic}
-.testi-quote-a::before{content:'\201C'}
-.testi-quote-a::after{content:'\201D'}
-.testi-author-a{display:flex;align-items:center;gap:10px;margin-top:22px}
-.testi-avatar-a{width:32px;height:32px;border-radius:50%;background:#1a1a1a;color:#F5C842;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.testi-name-a{font-size:12px;font-weight:700;color:#1a1a1a}
-.testi-stars-a{font-size:11px;color:rgba(0,0,0,.45);margin-top:2px}
-
-/* Option B — fond jaune (grande citation, pas de stat) */
-.testi-wrap-b{background:#F5C842;border-radius:20px;padding:28px 24px;margin-bottom:8px;display:flex;flex-direction:column;justify-content:space-between;min-height:320px}
-.testi-label-b{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:rgba(0,0,0,.4);margin-bottom:20px}
-.testi-quote-b{font-size:22px;font-weight:900;color:#1a1a1a;line-height:1.3;letter-spacing:-.02em;margin-bottom:0}
-.testi-quote-b::before{content:'\201C'}
-.testi-quote-b::after{content:'\201D'}
-.testi-author-b{display:flex;align-items:center;gap:10px;margin-top:24px}
-.testi-avatar-b{width:32px;height:32px;border-radius:50%;background:#1a1a1a;color:#F5C842;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.testi-name-b{font-size:12px;font-weight:700;color:#1a1a1a}
-.testi-stars-b{font-size:11px;color:rgba(0,0,0,.4);margin-top:2px}
-
-/* Mobile */
-.mobile-version .testi-wrap-a,.mobile-version .testi-wrap-b{border-radius:18px;padding:22px 18px;min-height:280px}
-.mobile-version .testi-stat{font-size:58px}
-.mobile-version .testi-quote-a{font-size:14px}
-.mobile-version .testi-quote-b{font-size:19px}
+.mobile-version .reviews-screen.active{min-height:auto;justify-content:flex-start}
+.mobile-version .reviews-scatter{display:flex;flex-direction:column;gap:12px;min-height:auto;margin:16px 0 18px}
+.mobile-version .review-card{position:relative;left:auto;right:auto;top:auto;width:100%;transform:none;padding:17px}
+.mobile-version .review-quote.big{font-size:17px}
+.mobile-version .review-stat{font-size:34px}
 
 /* ── SLIDE DE RÉASSURANCE UNIQUE ── */
 .reassure-card{background:#F5C842;border-radius:18px;padding:22px;margin:18px 0 4px}
@@ -1222,6 +1221,10 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
       <div class="proj-badge">
         <div class="proj-badge-stat"><span id="proj-kg">−14</span><span class="proj-badge-unit">kg</span></div>
         <div class="proj-badge-sub">objectif indicatif à 12 mois avec Annette</div>
+        <div class="proj-badge-meta">
+          <div class="proj-badge-line" id="proj-summary">Autour du 3 juillet 2027, vous pourriez être vers 76 kg avec un accompagnement adapté.</div>
+          <div class="proj-badge-note">Projection indicative, qui peut varier d'une personne à l'autre.</div>
+        </div>
       </div>
     </div>
     <div class="chart-simple-title">Deux chemins possibles : plus la ligne descend, plus la perte de poids est importante.</div>
@@ -1275,35 +1278,27 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Mon quotidien complique tout</span><span class="qcard-sub">Stress, fatigue, repas, rythme de vie... difficile de garder le cap</span></button>
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">J'ai déjà essayé plusieurs fois</span><span class="qcard-sub">Régimes, efforts, reprises de poids... je veux sortir de ce cycle</span></button>
   </div>
-  <div class="quiz-inline-feedback" id="q1-feedback"></div>
-  <button class="quiz-next" id="next-q1" onclick="go('testi_q1')">Continuer</button>
   <div class="quiz-counter" id="qcount1"></div>
 
 </div>
 
-<div class="screen testi-screen" id="testi_q1">
-  <button class="back-link" onclick="go('q1')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
-  <div class="testi-wrap-b">
-  <div>
-    <div class="testi-label-b">Elles l'ont fait</div>
-    <div class="testi-quote-b">Le suivi dans la durée, c'est 50 % de la réussite. Les diététiciennes sont empathiques, avec des relances régulières pour ne jamais être perdu.</div>
+<!-- QUIZ_HELP - RÉASSURANCE APRÈS CHAQUE RÉPONSE -->
+<div class="screen quiz-help-screen" id="quiz_help">
+  <button class="back-link" id="quiz-help-back" onclick="resetQuiz(quizHelpBack||'q1');go(quizHelpBack||'q1')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="eyebrow">Avec Annette</div>
+  <div class="hl">Comment Annette vous aide</div>
+  <div class="quiz-help-card">
+    <div class="quiz-help-line" id="quiz-help-line"></div>
+    <div class="quiz-help-list" id="quiz-help-list"></div>
   </div>
-  <div class="testi-author-b">
-    <div class="testi-avatar-b">AN</div>
-    <div>
-      <div class="testi-name-b">Aurore N.</div>
-      <div class="testi-stars-b">★★★★★ Google</div>
-    </div>
-  </div>
-</div>
   <div class="actions">
-    <button class="btn" onclick="go('q2')">Continuer</button>
+    <button class="btn" id="quiz-help-next" onclick="go(quizHelpNext||'q2')">Continuer</button>
   </div>
 </div>
 
 <!-- Q2 - QUIZ : SITUATIONS ÉVITÉES -->
 <div class="screen quiz-screen" id="q2">
-  <button class="back-link" onclick="go('testi_q1')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <button class="back-link" onclick="go('quiz_help')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="quiz-prog" id="qprog2"></div>
   <div class="quiz-eyebrow">Votre quotidien</div>
   <div class="quiz-q">Est-ce que votre poids vous pousse parfois à éviter certaines situations ?</div>
@@ -1314,38 +1309,13 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je me sens vite gêné ou fatigué</span><span class="qcard-sub">Escaliers, marche, activités... certaines situations demandent plus d'effort</span></button>
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">J'évite certaines occasions professionnelles</span><span class="qcard-sub">Réunions, prises de parole, déplacements... je peux manquer de confiance</span></button>
   </div>
-  <div class="quiz-inline-feedback" id="q2-feedback"></div>
-  <button class="quiz-next" id="next-q2" onclick="go('testi_q2')">Continuer</button>
   <div class="quiz-counter" id="qcount2"></div>
 
 </div>
 
-<div class="screen testi-screen" id="testi_q2">
-  <button class="back-link" onclick="go('q2')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
-  <div class="testi-wrap-a">
-  <div>
-    <div class="testi-label-a">Résultat réel</div>
-    <div class="testi-stat">2 mois</div>
-    <div class="testi-stat-sub">pour changer son rapport au corps</div>
-    <div class="testi-divider-a"></div>
-    <div class="testi-quote-a">Pour la première fois depuis de très longues années, j'ai l'impression de pouvoir vraiment changer ma relation avec la nourriture et mon corps.</div>
-  </div>
-  <div class="testi-author-a">
-    <div class="testi-avatar-a">YA</div>
-    <div>
-      <div class="testi-name-a">Yousra A.</div>
-      <div class="testi-stars-a">★★★★★ Google</div>
-    </div>
-  </div>
-</div>
-  <div class="actions">
-    <button class="btn" onclick="go('q3')">Continuer</button>
-  </div>
-</div>
-
 <!-- Q3 - QUIZ : ÉNERGIE -->
 <div class="screen quiz-screen" id="q3">
-  <button class="back-link" onclick="go('testi_q2')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <button class="back-link" onclick="go('quiz_help')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="quiz-prog" id="qprog3"></div>
   <div class="quiz-eyebrow">Votre énergie</div>
   <div class="quiz-q">Est-ce que votre poids impacte votre énergie au quotidien ?</div>
@@ -1356,38 +1326,13 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Mon sommeil n'est pas toujours réparateur</span><span class="qcard-sub">Je me réveille fatigué ou j'ai du mal à récupérer</span></button>
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">J'ai envie de retrouver plus de confort</span><span class="qcard-sub">Bouger, sortir, faire mes activités... j'aimerais que ce soit plus simple</span></button>
   </div>
-  <div class="quiz-inline-feedback" id="q3-feedback"></div>
-  <button class="quiz-next" id="next-q3" onclick="go('testi_q3')">Continuer</button>
   <div class="quiz-counter" id="qcount3"></div>
 
 </div>
 
-<div class="screen testi-screen" id="testi_q3">
-  <button class="back-link" onclick="go('q3')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
-  <div class="testi-wrap-a">
-  <div>
-    <div class="testi-label-a">Résultat réel</div>
-    <div class="testi-stat">−33 kg</div>
-    <div class="testi-stat-sub">en 12 mois avec Annette</div>
-    <div class="testi-divider-a"></div>
-    <div class="testi-quote-a">Je suis en très bonne forme pour mes 50 ans, avec la reprise du sport en plus comme conseillé. Je continue pour la stabilisation.</div>
-  </div>
-  <div class="testi-author-a">
-    <div class="testi-avatar-a">AB</div>
-    <div>
-      <div class="testi-name-a">Arielle B.</div>
-      <div class="testi-stars-a">★★★★★ Google</div>
-    </div>
-  </div>
-</div>
-  <div class="actions">
-    <button class="btn" onclick="go('q4')">Continuer</button>
-  </div>
-</div>
-
 <!-- Q4 - QUIZ : DÉCOURAGEMENT -->
 <div class="screen quiz-screen" id="q4">
-  <button class="back-link" onclick="go('testi_q3')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <button class="back-link" onclick="go('quiz_help')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
   <div class="quiz-prog" id="qprog4"></div>
   <div class="quiz-eyebrow">Votre état d'esprit</div>
   <div class="quiz-q">Qu'est-ce qui vous décourage le plus dans votre parcours ?</div>
@@ -1398,33 +1343,57 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Les résultats ne tiennent pas toujours</span><span class="qcard-sub">Je peux perdre du poids, mais j'ai du mal à stabiliser</span></button>
       <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je manque de soutien dans les moments difficiles</span><span class="qcard-sub">Quand je doute ou que je décroche, je ne sais pas toujours vers qui me tourner</span></button>
   </div>
-  <div class="quiz-inline-feedback" id="q4-feedback"></div>
-  <button class="quiz-next" id="next-q4" onclick="go('testi_q4')">Continuer</button>
   <div class="quiz-counter" id="qcount4"></div>
 
 </div>
 
-<div class="screen testi-screen" id="testi_q4">
-  <button class="back-link" onclick="go('q4')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
-  <div class="testi-wrap-a">
-  <div>
-    <div class="testi-label-a">Résultat réel</div>
-    <div class="testi-stat">−18 kg</div>
-    <div class="testi-stat-sub">avec le soutien de sa diététicienne</div>
-    <div class="testi-divider-a"></div>
-    <div class="testi-quote-a">Je ne regrette absolument rien de mon choix. Leurs écoutes, leurs disponibilités, leurs conseils — toujours présents dans les moments difficiles.</div>
-  </div>
-  <div class="testi-author-a">
-    <div class="testi-avatar-a">SE</div>
-    <div>
-      <div class="testi-name-a">Sandrine E.</div>
-      <div class="testi-stars-a">★★★★★ Google</div>
+<!-- QUIZ_REVIEWS - AVIS GROUPÉS APRÈS LE PARCOURS -->
+<div class="screen reviews-screen" id="quiz_reviews">
+  <button class="back-link" onclick="go('quiz_help')"><svg viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Retour</button>
+  <div class="reviews-kicker">Elles l'ont fait</div>
+  <div class="hl">Des parcours différents, un vrai accompagnement.</div>
+  <div class="sub">Ce que les patientes retiennent le plus : un cadre, du soutien, et une présence humaine quand ça compte.</div>
+  <div class="reviews-scatter">
+    <div class="review-card yellow r1">
+      <div class="review-label">Suivi dans la durée</div>
+      <div class="review-quote big">Le suivi dans la durée, c'est 50 % de la réussite. Les diététiciennes sont empathiques, avec des relances régulières pour ne jamais être perdu.</div>
+      <div class="review-author">
+        <div class="review-avatar">AN</div>
+        <div><div class="review-name">Aurore N.</div><div class="review-stars">★★★★★ Google</div></div>
+      </div>
+    </div>
+    <div class="review-card soft r2">
+      <div class="review-label">Résultat réel</div>
+      <div class="review-stat">2 mois</div>
+      <div class="review-sub">pour changer son rapport au corps</div>
+      <div class="review-quote">Pour la première fois depuis de très longues années, j'ai l'impression de pouvoir vraiment changer ma relation avec la nourriture et mon corps.</div>
+      <div class="review-author">
+        <div class="review-avatar">YA</div>
+        <div><div class="review-name">Yousra A.</div><div class="review-stars">★★★★★ Google</div></div>
+      </div>
+    </div>
+    <div class="review-card dark r3">
+      <div class="review-label">Résultat réel</div>
+      <div class="review-stat">-33 kg</div>
+      <div class="review-sub">en 12 mois avec Annette</div>
+      <div class="review-quote">Je suis en très bonne forme pour mes 50 ans, avec la reprise du sport en plus comme conseillé. Je continue pour la stabilisation.</div>
+      <div class="review-author">
+        <div class="review-avatar">AB</div>
+        <div><div class="review-name">Arielle B.</div><div class="review-stars">★★★★★ Google</div></div>
+      </div>
+    </div>
+    <div class="review-card r4">
+      <div class="review-label">Soutien humain</div>
+      <div class="review-stat">-18 kg</div>
+      <div class="review-sub">avec le soutien de sa diététicienne</div>
+      <div class="review-quote">Je ne regrette absolument rien de mon choix. Leurs écoutes, leurs disponibilités, leurs conseils, toujours présents dans les moments difficiles.</div>
+      <div class="review-author">
+        <div class="review-avatar">SE</div>
+        <div><div class="review-name">Sandrine E.</div><div class="review-stars">★★★★★ Google</div></div>
+      </div>
     </div>
   </div>
-</div>
-  <div class="actions">
-    <button class="btn" onclick="go('quiz_reassure')">Continuer</button>
-  </div>
+  <div class="actions"><button class="btn" onclick="go('quiz_reassure')">Continuer</button></div>
 </div>
 
 <!-- QUIZ_REASSURE - SLIDE DE RÉASSURANCE UNIQUE (varie selon réponses) -->
@@ -1646,7 +1615,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 
   <button type="button" class="bcard" onclick="openFeature('foodlogger')">
     <img src="https://userimg-assets-eu.customeriomail.com/images/client-env-199553/01KWCFPNDQHQ2JJGZADADFFGM1.png" alt="" onerror="this.style.display='none'">
-    <div class="bclbl">Food Logger</div>
+    <div class="bclbl">Journal alimentaire</div>
   </button>
   <button type="button" class="bcard" onclick="openFeature('cleo')">
     <img src="https://userimg-assets-eu.customeriomail.com/images/client-env-199553/01KWCFP45M0MMJW8G8HMVJFYZG.png" alt="" onerror="this.style.display='none'">
@@ -1830,7 +1799,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 </button>
   <button type="button" class="bcard" onclick="openFeature('foodlogger')">
     <img src="https://userimg-assets-eu.customeriomail.com/images/client-env-199553/01KWCFPNDQHQ2JJGZADADFFGM1.png" alt="" onerror="this.style.display='none'">
-    <div class="bclbl">Food Logger</div>
+    <div class="bclbl">Journal alimentaire</div>
   </button>
   <button type="button" class="bcard" onclick="openFeature('cleo')">
     <img src="https://userimg-assets-eu.customeriomail.com/images/client-env-199553/01KWCFP45M0MMJW8G8HMVJFYZG.png" alt="" onerror="this.style.display='none'">
@@ -1878,19 +1847,19 @@ const HIDE_TOP=['s20'];
 let procTimerIds=[];
 const PCT={
   s0:4,s0_result:6,s_glp1_intro:7,s_volonte_intro:8,s2:9,s3:12,value_glp:16,s1:19,s4:22,glp1_date:23,glp1_prescripteur:24,glp1_poids:25,glp1_duree:26,glp1_seul:27,glp1_annette:28,s5:29,s6:30,s7:34,s8:40,
-  q1:42,testi_q1:44,q2:45,testi_q2:48,q3:49,testi_q3:51,q4:52,testi_q4:54,quiz_reassure:55,s9:57,s10:60,
+  q1:42,quiz_help:43,q2:45,q3:49,q4:52,quiz_reviews:55,quiz_reassure:56,s9:57,s10:60,
   s11:68,s12:71,s13:74,s14:77,s15:80,s16:84,s17:90,s18:94,s19:97,s20:100
 };
 const STEP_LABELS={
   s0:'Étape 1',s0_result:'',s_glp1_intro:'',s_volonte_intro:'',s2:'Étape 2',s3:'Étape 3',value_glp:'Pourquoi Annette',s1:'Étape 4',
   s4:'Étape 5',glp1_date:'Votre prescription',glp1_prescripteur:'Votre prescription',glp1_poids:'Votre prescription',glp1_duree:'Votre prescription',glp1_seul:'',glp1_annette:'',s5:'Étape 6',s6:'Étape 7',s7:'Étape 8',s8:'Étape 9',
-  q1:'Question 1 / 4',testi_q1:'',q2:'Question 2 / 4',testi_q2:'',q3:'Question 3 / 4',testi_q3:'',q4:'Question 4 / 4',testi_q4:'',quiz_reassure:'Avec Annette',s9:'Étape 10',s10:'Étape 11',
+  q1:'Question 1 / 4',quiz_help:'Avec Annette',q2:'Question 2 / 4',q3:'Question 3 / 4',q4:'Question 4 / 4',quiz_reviews:'Avis patientes',quiz_reassure:'Avec Annette',s9:'Étape 10',s10:'Étape 11',
   s11:'Étape 12',s12:'Étape 12',s13:'Étape 12',s14:'Étape 13',s15:'Étape 13',
   s16:'Analyse',s17:'Résultat',s18:'Étape 14',s19:'Étape 15',s20:'Terminé'
 };
 const SIDE_MAP={
   s0:0,s0_result:0,s_glp1_intro:0,s_volonte_intro:0,s2:0,s3:0,value_glp:0,s1:1,s4:2,glp1_date:2,glp1_prescripteur:2,glp1_poids:2,glp1_duree:2,glp1_seul:2,glp1_annette:2,s5:2,s6:2,s7:2,s8:3,
-  q1:3,testi_q1:3,q2:3,testi_q2:3,q3:3,testi_q3:3,q4:3,testi_q4:3,quiz_reassure:3,s9:4,s10:4,
+  q1:3,quiz_help:3,q2:3,q3:3,q4:3,quiz_reviews:3,quiz_reassure:3,s9:4,s10:4,
   s11:4,s12:4,s13:4,s14:4,s15:4,s16:4,s17:5,s18:6,s19:6,s20:6
 };
 const MOBILE_STEP_NAMES=['Motivation','Source','Profil santé','Votre parcours','Santé','Résultat','Compte'];
@@ -2018,35 +1987,6 @@ function valDDN(){
   document.getElementById('btn-s5').disabled=!ok;
 }
 function s6Update(){
-  const p=parseFloat(document.getElementById('poids').value)||0;
-  const t=parseFloat(document.getElementById('taille').value)||0;
-
-  const card=document.getElementById('s6-imc-card');
-  const badge=document.getElementById('s6-imc-badge');
-  const num=document.getElementById('s6-imc-num');
-  const thumb=document.getElementById('s6-imc-thumb');
-
-  if(p>=40&&t>=140){
-    const imc=p/Math.pow(t/100,2);
-    let cat;
-    if(imc<18.5) cat={label:'Sous-poids',bg:'#dbeafe',text:'#1e40af',thumb:4};
-    else if(imc<25) cat={label:'Normal',bg:'#dcfce7',text:'#166634',thumb:28};
-    else if(imc<30) cat={label:'Surpoids',bg:'#fef9c3',text:'#854d0e',thumb:55};
-    else if(imc<35) cat={label:'Obésité',bg:'#fee2e2',text:'#991b1b',thumb:75};
-    else cat={label:'Obésité sévère',bg:'#fecaca',text:'#7f1d1d',thumb:92};
-
-    if(card)card.style.background=cat.bg;
-    if(badge){badge.textContent=cat.label;badge.style.color=cat.text;badge.style.borderColor=cat.text+'44';}
-    if(num){num.textContent=imc.toFixed(1);num.style.color=cat.text;}
-    if(thumb)thumb.style.left=cat.thumb+'%';
-  } else {
-    // État neutre
-    if(card)card.style.background='#f5f5f3';
-    if(badge){badge.textContent='—';badge.style.color='#bbb';badge.style.borderColor='#e8e8e6';}
-    if(num){num.textContent='—';num.style.color='#bbb';}
-    if(thumb)thumb.style.left='50%';
-  }
-
   s6ValBtn();
 }
 
@@ -2155,6 +2095,8 @@ function resetMotivation(){
 
 /* ── QUIZ (choix unique + réassurance immédiate) ── */
 const QUIZ_ANSWERS={};
+const QUIZ_HELP_NEXT={q1:'q2',q2:'q3',q3:'q4',q4:'quiz_reviews'};
+let quizHelpBack='q1',quizHelpNext='q2';
 const QUIZ_FEEDBACK_MAP = {
   q1: {
     'Je manque de cadre': "Perdre du poids, c'est important. Ne pas tout reprendre, c'est essentiel.\n✓ Un cadre clair pour éviter l'effet yoyo\n✓ Une diététicienne dédiée par chat\n✓ Un suivi adapté à votre profil",
@@ -2192,25 +2134,33 @@ function quizPick(btn){
   btn.classList.add('picked');
   if(qid){
     const main=btn.querySelector('.qcard-main');
-    QUIZ_ANSWERS[qid]=main?main.textContent.trim():'';
-    const fb=document.getElementById(qid+'-feedback');
-    if(fb){
-      const answerText = btn.querySelector('.qcard-main')?.textContent.trim()||'';
-      const feedbackMap = QUIZ_FEEDBACK_MAP[qid]||{};
-      function normalizeApos(s){return s.replace(/[\u2018\u2019\u201a\u201b']/g,"'").toLowerCase().trim();}
-      const answerNorm=normalizeApos(answerText);
-      const feedbackKey=Object.keys(feedbackMap).find(k=>answerNorm.startsWith(normalizeApos(k).substring(0,16)))||Object.keys(feedbackMap)[0];
-      const feedbackText = feedbackMap[feedbackKey] || 'Annette adapte votre accompagnement à votre réponse.';
-      const feedbackLines = feedbackText.split('\n').map(line => {
-        if(line.startsWith('✓')) return '<div style="display:flex;align-items:flex-start;gap:8px;margin-top:6px"><span style="color:#F5C842;font-weight:900;flex-shrink:0">✓</span><span>'+escapeHtml(line.slice(1).trim())+'</span></div>';
-        return '<div style="margin-bottom:8px">'+escapeHtml(line)+'</div>';
-      }).join('');
-      fb.innerHTML='<strong>Comment Annette vous aide</strong>'+feedbackLines+'<button type="button" class="quiz-change" onclick="resetQuiz(\''+qid+'\')">Modifier ma réponse</button>';
-      fb.classList.add('show');
-    }
+    const answerText=main?main.textContent.trim():'';
+    QUIZ_ANSWERS[qid]=answerText;
+    w(()=>showQuizHelp(qid,answerText));
   }
-  const nb=screen?screen.querySelector('.quiz-next'):null;
-  if(nb)nb.classList.add('show');
+}
+function getQuizFeedback(qid,answerText){
+  const feedbackMap=QUIZ_FEEDBACK_MAP[qid]||{};
+  function normalizeApos(s){return s.replace(/[\u2018\u2019\u201a\u201b']/g,"'").toLowerCase().trim();}
+  const answerNorm=normalizeApos(answerText||'');
+  const feedbackKey=Object.keys(feedbackMap).find(k=>answerNorm.startsWith(normalizeApos(k).substring(0,16)))||Object.keys(feedbackMap)[0];
+  return feedbackMap[feedbackKey]||'Annette adapte votre accompagnement à votre réponse.';
+}
+function showQuizHelp(qid,answerText){
+  const feedbackText=getQuizFeedback(qid,answerText);
+  const lines=feedbackText.split('\n');
+  const lineEl=document.getElementById('quiz-help-line');
+  const listEl=document.getElementById('quiz-help-list');
+  if(lineEl)lineEl.textContent=lines[0]||'';
+  if(listEl){
+    listEl.innerHTML=lines.slice(1).map(line=>{
+      const text=line.replace(/^✓\s*/,'').trim();
+      return '<div class="quiz-help-item"><span class="quiz-help-check"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7l3 3 5-6" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>'+escapeHtml(text)+'</span></div>';
+    }).join('');
+  }
+  quizHelpBack=qid||'q1';
+  quizHelpNext=QUIZ_HELP_NEXT[qid]||'q2';
+  go('quiz_help');
 }
 function resetQuiz(qid){
   const screen=document.getElementById(qid);
@@ -2220,10 +2170,6 @@ function resetQuiz(qid){
     list.classList.remove('answered');
     list.querySelectorAll('.qcard-opt').forEach(o=>o.classList.remove('picked'));
   }
-  const fb=document.getElementById(qid+'-feedback');
-  if(fb){fb.classList.remove('show');fb.innerHTML='';}
-  const nb=screen.querySelector('.quiz-next');
-  if(nb)nb.classList.remove('show');
   delete QUIZ_ANSWERS[qid];
 }
 
@@ -2312,10 +2258,18 @@ function onEmail(v){
 /* IMC */
 function getStats(){const p=parseFloat(document.getElementById('poids')?.value)||0,t=parseFloat(document.getElementById('taille')?.value)||0;if(!p||!t)return{p:90,imc:31.9,kg:14};const imc=p/Math.pow(t/100,2);let r=imc<27?.07:imc<30?.10:imc<35?.14:imc<40?.18:.20;return{p,imc,kg:Math.round(p*r)};}
 function imcCat(v){if(v<18.5)return{l:'Sous-poids',c:'normal'};if(v<25)return{l:'Normal',c:'normal'};if(v<30)return{l:'Surpoids',c:'surpoids'};if(v<35)return{l:'Obésité',c:'obese'};return{l:'Obésité sév.',c:'obese'};}
+function getProjectionPreview(){
+  const stats=getStats();
+  const targetWeight=Math.max(40,Math.round((stats.p-stats.kg)*10)/10);
+  const targetDate=new Date();
+  targetDate.setFullYear(targetDate.getFullYear()+1);
+  const dateText=targetDate.toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+  return{dateText,targetWeight};
+}
 function renderChart(){
   // Defer one frame to ensure canvas is visible and has width
   requestAnimationFrame(()=>{
-  const{p,imc,kg}=getStats(),kgS=Math.round(kg*.5);document.getElementById('hl-kg').textContent=kg+' kg';var pn=document.getElementById('reassure-prenom');if(pn){var pe=document.getElementById('prenom-inp');pn.textContent=(pe&&pe.value.trim())?pe.value.trim():'Vous';}document.getElementById('proj-kg').textContent='−'+kg;drawChart(p,kg);});}
+  const{p,imc,kg}=getStats(),kgS=Math.round(kg*.5),preview=getProjectionPreview();document.getElementById('hl-kg').textContent=kg+' kg';var pn=document.getElementById('reassure-prenom');if(pn){var pe=document.getElementById('prenom-inp');pn.textContent=(pe&&pe.value.trim())?pe.value.trim():'Vous';}document.getElementById('proj-kg').textContent='−'+kg;var ps=document.getElementById('proj-summary');if(ps)ps.innerHTML='Autour du <strong>'+preview.dateText+'</strong>, vous pourriez être vers <strong>'+String(preview.targetWeight).replace('.',',')+' kg</strong> avec un accompagnement adapté.';drawChart(p,kg);});}
 function upFinal(){const{kg}=getStats();document.getElementById('final-kg').textContent='−'+kg+' kg';}
 /* CANVAS */
 function drawChart(poids,pK){
@@ -2578,7 +2532,7 @@ function triggerGoodBullets(){
 const FEATURE_DETAILS = {
   foodlogger: {
     img: 'https://userimg-assets-eu.customeriomail.com/images/client-env-199553/01KV5KPM28JYZE4YAD22JNPJY3.png',
-    title: 'Food Logger',
+    title: 'Journal alimentaire',
     desc: "Notez vos repas en quelques secondes : une photo, un mémo vocal, ou juste deux mots suffisent. L'app estime tout pour vous — calories, protéines, fibres, eau.",
     items: ['Photo, mémo vocal ou texte libre','Analyse automatique en 30 secondes','Calories, protéines, fibres et eau en un coup d’œil','Historique de chaque repas, chaque jour']
   },
