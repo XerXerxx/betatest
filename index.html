@@ -1229,7 +1229,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
         <div class="proj-badge-stat"><span id="proj-kg">−14</span><span class="proj-badge-unit">kg</span></div>
         <div class="proj-badge-sub">objectif indicatif à 12 mois avec Annette</div>
         <div class="proj-badge-meta">
-          <div class="proj-badge-line" id="proj-summary">Projection 3 juillet 2027 : 76 kg, soit -14 kg</div>
+          <div class="proj-badge-line" id="proj-summary">Projection <strong id="proj-summary-date">dans 12 mois</strong> : <strong id="proj-summary-weight">vers 76 kg</strong>, soit <strong id="proj-summary-loss">−14 kg</strong></div>
           <div class="proj-badge-note">Projection indicative, qui peut varier d'une personne à l'autre.</div>
         </div>
       </div>
@@ -2276,7 +2276,7 @@ function getProjectionPreview(){
 function renderChart(){
   // Defer one frame to ensure canvas is visible and has width
   requestAnimationFrame(()=>{
-  const{p,imc,kg}=getStats(),kgS=Math.round(kg*.5),preview=getProjectionPreview();document.getElementById('hl-kg').textContent=kg+' kg';var pn=document.getElementById('reassure-prenom');if(pn){var pe=document.getElementById('prenom-inp');pn.textContent=(pe&&pe.value.trim())?pe.value.trim():'Vous';}document.getElementById('proj-kg').textContent='−'+kg;var ps=document.getElementById('proj-summary');if(ps)ps.innerHTML='Projection <strong>'+preview.dateText+'</strong> : <strong>'+String(preview.targetWeight).replace('.',',')+' kg</strong>, soit <strong>−'+kg+' kg</strong>';drawChart(p,kg);});}
+  const{p,imc,kg}=getStats(),kgS=Math.round(kg*.5),preview=getProjectionPreview();document.getElementById('hl-kg').textContent=kg+' kg';var pn=document.getElementById('reassure-prenom');if(pn){var pe=document.getElementById('prenom-inp');pn.textContent=(pe&&pe.value.trim())?pe.value.trim():'Vous';}document.getElementById('proj-kg').textContent='−'+kg;var psd=document.getElementById('proj-summary-date');if(psd)psd.textContent=preview.dateText;var psw=document.getElementById('proj-summary-weight');if(psw)psw.textContent=String(preview.targetWeight).replace('.',',')+' kg';var psl=document.getElementById('proj-summary-loss');if(psl)psl.textContent='−'+kg+' kg';drawChart(p,kg);});}
 function upFinal(){const{kg}=getStats();document.getElementById('final-kg').textContent='−'+kg+' kg';}
 /* CANVAS */
 function drawChart(poids,pK){
