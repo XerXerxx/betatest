@@ -750,16 +750,8 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 .proj-benefits-tags{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .pbt{font-size:13px;font-weight:700;border-radius:12px;padding:11px 14px;display:flex;align-items:center;gap:8px;line-height:1.3}
 .pbt::before{content:'';width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.pbt-yellow{background:#FFF3DC;color:#7a5000;border:1.5px solid #FFD973}
-.pbt-yellow::before{background:#FFD973}
-.pbt-blue{background:#dff2ff;color:#1a5a7a;border:1.5px solid #a8d8f0}
-.pbt-blue::before{background:#5ab4e0}
-.pbt-purple{background:#ede8ff;color:#4a3a8a;border:1.5px solid #c4b8f0}
-.pbt-purple::before{background:#9b8de0}
-.pbt-green{background:#e8f5e8;color:#2a6a2a;border:1.5px solid #a8d8a8}
-.pbt-green::before{background:#6abf6a}
-.pbt-pink{background:#fff0f5;color:#7a2a4a;border:1.5px solid #f0b8d0}
-.pbt-pink::before{background:#e080aa}
+.pbt-neutral{background:#f5f5f3;color:#1a1a1a;border:1.5px solid #e0ddd8}
+.pbt-neutral::before{background:#1a1a1a}
 .mobile-version .proj-benefits-tags{grid-template-columns:1fr 1fr;gap:7px}
 .mobile-version .pbt{font-size:12px;padding:10px 12px}
 .mobile-version .proj-compare{gap:8px}
@@ -1200,23 +1192,6 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
     <div class="ig"><label>Taille</label><div class="iw"><input type="number" id="taille" placeholder="—" min="140" max="210" inputmode="numeric" oninput="s6Update()"><span class="iu">cm</span></div></div>
   </div>
 
-  <div class="imc-widget" id="s6-imc-card">
-    <div class="imc-widget-top">
-      <div class="imc-widget-eyebrow">Votre IMC</div>
-      <div class="imc-widget-badge" id="s6-imc-badge"></div>
-    </div>
-    <div class="imc-widget-num" id="s6-imc-num"></div>
-    <div class="imc-bar-track">
-      <div class="imc-bar-thumb" id="s6-imc-thumb" style="left:55%"></div>
-    </div>
-    <div class="imc-bar-labels">
-      <span>Sous-poids</span>
-      <span>Normal</span>
-      <span>Surpoids</span>
-      <span>Obésité</span>
-    </div>
-  </div>
-
   <div class="ig" style="margin-bottom:20px"><label>Poids objectif</label><div class="iw"><input type="number" id="poids-obj" placeholder="—" min="40" max="200" inputmode="numeric" oninput="s6ValBtn()"><span class="iu">kg</span></div></div>
 
   <div class="actions"><button class="btn" id="btn-s6" onclick="go('s7')" disabled>Continuer</button></div>
@@ -1275,11 +1250,11 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
     <div class="proj-benefits-compact">
       <div class="proj-ben-lead">Une perte de poids, c'est aussi :</div>
       <div class="proj-benefits-tags">
-        <span class="pbt pbt-yellow">Retrouver plus d'énergie</span>
-        <span class="pbt pbt-blue">Réduire l'essoufflement</span>
-        <span class="pbt pbt-purple">Mieux dormir</span>
-        <span class="pbt pbt-green">Bouger plus facilement</span>
-        <span class="pbt pbt-pink" style="grid-column:1/-1;justify-content:center">Gagner en confiance</span>
+        <span class="pbt pbt-neutral">Retrouver plus d'énergie</span>
+        <span class="pbt pbt-neutral">Réduire l'essoufflement</span>
+        <span class="pbt pbt-neutral">Mieux dormir</span>
+        <span class="pbt pbt-neutral">Bouger plus facilement</span>
+        <span class="pbt pbt-neutral" style="grid-column:1/-1;justify-content:center">Gagner en confiance</span>
       </div>
     </div>
   </div>
@@ -2377,8 +2352,6 @@ function drawChart(poids,pK){
 
   ctx.fillStyle='#777';ctx.font='700 11px Helvetica,sans-serif';ctx.textAlign='center';ctx.textBaseline='top';
   ctx.fillText('12 mois',right,205);
-  ctx.fillStyle='#9d9890';ctx.font='600 10px Helvetica,sans-serif';
-  ctx.fillText('La ligne la plus basse montre le plus grand potentiel.',W/2,220);
 
   const soloEl=document.getElementById('chart-loss-solo');
   const annetteEl=document.getElementById('chart-loss-annette');
