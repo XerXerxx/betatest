@@ -807,13 +807,16 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
 .review-card.dark .review-stars{color:rgba(255,255,255,.42)}
 
 .mobile-version .reviews-screen.active{min-height:auto;justify-content:flex-start}
-.mobile-version .reviews-scatter{display:grid;grid-template-columns:1fr 1fr;gap:12px;min-height:auto;margin:16px 0 18px}
-.mobile-version .review-card{position:relative;left:auto;right:auto;top:auto;width:100%;padding:16px;border-radius:18px}
-.mobile-version .review-card.r1{grid-column:1/-1;transform:rotate(-2deg)}
-.mobile-version .review-card.r2{grid-column:2;transform:rotate(2deg);margin-top:-6px}
-.mobile-version .review-card.r3{grid-column:1;transform:rotate(-1.4deg);margin-top:8px;margin-left:0}
-.mobile-version .review-card.r4{grid-column:1/-1;transform:rotate(1.3deg);margin-top:2px}
-.mobile-version .review-quote.big{font-size:19px;line-height:1.28}
+.mobile-version .reviews-scatter{display:flex;overflow-x:auto;overflow-y:hidden;gap:14px;min-height:auto;margin:16px -16px 14px;padding:4px 16px 16px;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory}
+.mobile-version .reviews-scatter::-webkit-scrollbar{display:none}
+.mobile-version .review-card{position:relative;left:auto;right:auto;top:auto;width:82vw;max-width:310px;flex-shrink:0;scroll-snap-align:center;padding:18px;border-radius:18px;box-shadow:0 8px 24px rgba(26,26,26,.06);transform:none !important;margin:0 !important}
+.mobile-version .review-card.r1,
+.mobile-version .review-card.r2,
+.mobile-version .review-card.r3,
+.mobile-version .review-card.r4{grid-column:auto;transform:none !important;margin-top:0 !important;margin-left:0 !important}
+.reviews-swipe-tip{display:none}
+.mobile-version .reviews-swipe-tip{display:flex;align-items:center;justify-content:center;color:#8f835e;font-size:12px;font-weight:700;margin-top:-4px;margin-bottom:18px;gap:6px}
+.mobile-version .review-quote.big{font-size:17px;line-height:1.35}
 .mobile-version .review-quote{font-size:13px;line-height:1.48}
 .mobile-version .review-stat{font-size:30px}
 .mobile-version .review-sub{font-size:11px;margin-bottom:10px}
@@ -1383,7 +1386,7 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
       <div class="review-label">Résultat réel</div>
       <div class="review-stat">-33 kg</div>
       <div class="review-sub">en 12 mois avec Annette</div>
-      <div class="review-quote">Je suis en très bonne forme pour mes 50 ans, avec la reprise du sport en plus comme conseillé. Je continue pour la stabilisation.</div>
+      <div class="review-quote">Je suis en très bonne forme pour mes 50 ans, with la reprise du sport en plus comme conseillé. Je continue pour la stabilisation.</div>
       <div class="review-author">
         <div class="review-avatar">AB</div>
         <div><div class="review-name">Arielle B.</div><div class="review-stars">★★★★★ Google</div></div>
@@ -1399,6 +1402,9 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
         <div><div class="review-name">Sandrine E.</div><div class="review-stars">★★★★★ Google</div></div>
       </div>
     </div>
+  </div>
+  <div class="reviews-swipe-tip">
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>Glissez pour voir tous les avis
   </div>
   <div class="actions"><button class="btn" onclick="go('quiz_reassure')">Continuer</button></div>
 </div>
