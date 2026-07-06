@@ -144,16 +144,27 @@ body{background:#f0ede8;font-family:'Helvetica Neue',-apple-system,Arial,sans-se
 .gtop{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
 .gbig{font-size:42px;font-weight:900;line-height:1;color:#1a1a1a;letter-spacing:-1.5px}
 .gbig sub{font-size:18px;font-weight:600;vertical-align:baseline}
-.proj-badge{background:#F5C842;border-radius:18px;padding:20px 24px;display:inline-flex;flex-direction:column;align-items:center;box-shadow:0 10px 24px rgba(245,200,66,.28);width:100%;text-align:center}
-.proj-badge-stat{font-size:48px;font-weight:900;color:#1a1a1a;line-height:1;letter-spacing:-2px;display:flex;align-items:baseline;justify-content:center;gap:6px}
-.proj-badge-unit{font-size:20px;font-weight:700;color:rgba(0,0,0,.55)}
-.proj-badge-sub{font-size:13px;font-weight:600;color:rgba(0,0,0,.55);margin-top:8px}
-.proj-badge-meta{margin-top:14px;padding-top:14px;border-top:1px solid rgba(26,26,26,.14)}
-.proj-badge-line{font-size:15px;font-weight:800;color:#1a1a1a;line-height:1.4}
-.proj-badge-line strong{font-weight:900}
-.proj-badge-note{font-size:11px;line-height:1.45;color:rgba(0,0,0,.56);margin-top:8px}
-.mobile-version .proj-badge{padding:17px 18px;border-radius:16px}
-.mobile-version .proj-badge-stat{font-size:38px}
+.proj-badge{background:#fffaf0;border:1.5px solid #f0e3bf;border-radius:20px;padding:22px;display:flex;flex-direction:column;box-shadow:0 12px 32px rgba(26,26,26,.04);width:100%}
+.proj-badge-header{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#b49a35;margin-bottom:16px;text-align:center}
+.proj-badge-grid{display:flex;align-items:center;justify-content:center;gap:28px;margin-bottom:16px}
+.proj-badge-col{display:flex;flex-direction:column;align-items:center;text-align:center}
+.proj-badge-col.divider{border-left:1.5px solid #f0e3bf;padding-left:28px}
+.proj-badge-label{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.proj-badge-val-wrap{display:flex;align-items:baseline;justify-content:center;gap:2px}
+.proj-badge-val{font-size:36px;font-weight:900;color:#1a1a1a;line-height:1}
+.proj-badge-val-unit{font-size:16px;font-weight:700;color:#1a1a1a}
+.proj-badge-val-small{font-size:18px;font-weight:800;color:#1a1a1a;line-height:1.2}
+.proj-badge-sub{font-size:11px;font-weight:600;color:#888;margin-top:4px}
+.proj-badge-meta{padding-top:14px;border-top:1px solid #f0e3bf;text-align:center}
+.proj-badge-line{font-size:13px;font-weight:700;color:#444;line-height:1.4}
+.proj-badge-line strong{font-weight:800;color:#1a1a1a}
+.proj-badge-note{font-size:11px;line-height:1.5;color:#8f835e;margin-top:8px;font-weight:600;max-width:440px;margin-left:auto;margin-right:auto}
+.mobile-version .proj-badge{padding:18px 16px;border-radius:16px}
+.mobile-version .proj-badge-grid{gap:16px}
+.mobile-version .proj-badge-col.divider{padding-left:16px}
+.mobile-version .proj-badge-val{font-size:32px}
+.mobile-version .proj-badge-val-small{font-size:16px}
+.mobile-version .proj-badge-line{font-size:12px}
 .gsub{font-size:13px;color:#aaa;margin-top:4px}
 .imcpill{background:#fff;border:1.5px solid #ebebeb;border-radius:12px;padding:12px 16px;text-align:center}
 .imcn{font-size:26px;font-weight:900;color:#1a1a1a;line-height:1}
@@ -1229,11 +1240,19 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <div class="gcard">
     <div class="gtop">
       <div class="proj-badge">
-        <div class="proj-badge-stat"><span id="proj-kg">−14</span><span class="proj-badge-unit">kg</span></div>
-        <div class="proj-badge-sub">objectif indicatif à 12 mois avec Annette</div>
+        <div class="proj-badge-header">Estimation personnalisée</div>
+        <div class="proj-badge-grid">
+          <div class="proj-badge-col">
+            <div class="proj-badge-label">POTENTIEL À 12 MOIS</div>
+            <div class="proj-badge-val-wrap">
+              <div class="proj-badge-val" id="proj-kg">−14</div>
+              <div class="proj-badge-val-unit">kg</div>
+            </div>
+            <div class="proj-badge-sub">avec l'accompagnement Annette</div>
+          </div>
+        </div>
         <div class="proj-badge-meta">
-          <div class="proj-badge-line" id="proj-summary">Projection <strong id="proj-summary-date">dans 12 mois</strong> : <strong id="proj-summary-weight">vers 76 kg</strong>, soit <strong id="proj-summary-loss">−14 kg</strong></div>
-          <div class="proj-badge-note">Projection indicative, qui peut varier d'une personne à l'autre.</div>
+          <div class="proj-badge-note">Résultat indicatif calculé d'après votre profil. Les effets varient selon chaque personne — ce chiffre sera discuté avec un professionnel de santé.</div>
         </div>
       </div>
     </div>
@@ -1283,10 +1302,10 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <div class="quiz-q">Qu'est-ce qui rend votre perte de poids difficile aujourd'hui ?</div>
   <div class="quiz-cite">Certaines difficultés ne viennent pas d'un manque de volonté, mais du quotidien, de la charge mentale, du stress ou du manque de soutien.</div>
   <div class="qcard-list">
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je manque de cadre</span><span class="qcard-sub">Je sais quoi faire, mais j'ai du mal à tenir dans la durée</span></button>
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je me sens souvent seul face à ça</span><span class="qcard-sub">J'aurais besoin d'un vrai soutien au quotidien</span></button>
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Mon quotidien complique tout</span><span class="qcard-sub">Stress, fatigue, repas, rythme de vie... difficile de garder le cap</span></button>
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">J'ai déjà essayé plusieurs fois</span><span class="qcard-sub">Régimes, efforts, reprises de poids... je veux sortir de ce cycle</span></button>
+      <button type="button" class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je manque de cadre</span><span class="qcard-sub">Je sais quoi faire, mais j'ai du mal à tenir dans la durée</span></button>
+      <button type="button" class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je me sens souvent seul face à ça</span><span class="qcard-sub">J'aurais besoin d'un vrai soutien au quotidien</span></button>
+      <button type="button" class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Mon quotidien complique tout</span><span class="qcard-sub">Stress, fatigue, repas, rythme de vie... difficile de garder le cap</span></button>
+      <button type="button" class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">J'ai déjà essayé plusieurs fois</span><span class="qcard-sub">Régimes, efforts, reprises de poids... je veux sortir de ce cycle</span></button>
   </div>
   <div class="quiz-counter" id="qcount1"></div>
 
@@ -1314,10 +1333,10 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <div class="quiz-q">Est-ce que votre poids vous pousse parfois à éviter certaines situations ?</div>
   <div class="quiz-cite">Sorties, vêtements, photos, rendez-vous, moments professionnels… parfois on renonce à certaines choses sans vraiment le dire.</div>
   <div class="qcard-list">
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je limite certaines sorties</span><span class="qcard-sub">Restaurants, événements, voyages... je préfère parfois éviter</span></button>
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je ne me sens pas à l'aise avec mon corps</span><span class="qcard-sub">Vêtements, photos, regard des autres... ça peut me freiner</span></button>
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je me sens vite gêné ou fatigué</span><span class="qcard-sub">Escaliers, marche, activités... certaines situations demandent plus d'effort</span></button>
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">J'évite certaines occasions professionnelles</span><span class="qcard-sub">Réunions, prises de parole, déplacements... je peux manquer de confiance</span></button>
+      <button type="button" class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je limite certaines sorties</span><span class="qcard-sub">Restaurants, événements, voyages... je préfère parfois éviter</span></button>
+      <button type="button" class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je ne me sens pas à l'aise avec mon corps</span><span class="qcard-sub">Vêtements, photos, regard des autres... ça peut me freiner</span></button>
+      <button type="button" class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je me sens vite gêné ou fatigué</span><span class="qcard-sub">Escaliers, marche, activités... certaines situations demandent plus d'effort</span></button>
+      <button type="button" class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">J'évite certaines occasions professionnelles</span><span class="qcard-sub">Réunions, prises de parole, déplacements... je peux manquer de confiance</span></button>
   </div>
   <div class="quiz-counter" id="qcount2"></div>
 
@@ -1331,10 +1350,10 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <div class="quiz-q">Est-ce que votre poids impacte votre énergie au quotidien ?</div>
   <div class="quiz-cite">Fatigue, essoufflement, sommeil, motivation... certaines journées peuvent demander plus d'efforts qu'on ne l'imagine.</div>
   <div class="qcard-list">
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je me fatigue plus vite</span><span class="qcard-sub">Marche, escaliers, déplacements... certains efforts me demandent plus d'énergie</span></button>
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je manque d'élan dans la journée</span><span class="qcard-sub">Je me sens parfois lourd, ralenti ou moins motivé</span></button>
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Mon sommeil n'est pas toujours réparateur</span><span class="qcard-sub">Je me réveille fatigué ou j'ai du mal à récupérer</span></button>
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">J'ai envie de retrouver plus de confort</span><span class="qcard-sub">Bouger, sortir, faire mes activités... j'aimerais que ce soit plus simple</span></button>
+      <button type="button" class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je me fatigue plus vite</span><span class="qcard-sub">Marche, escaliers, déplacements... certains efforts me demandent plus d'énergie</span></button>
+      <button type="button" class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je manque d'élan dans la journée</span><span class="qcard-sub">Je me sens parfois lourd, ralenti ou moins motivé</span></button>
+      <button type="button" class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Mon sommeil n'est pas toujours réparateur</span><span class="qcard-sub">Je me réveille fatigué ou j'ai du mal à récupérer</span></button>
+      <button type="button" class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">J'ai envie de retrouver plus de confort</span><span class="qcard-sub">Bouger, sortir, faire mes activités... j'aimerais que ce soit plus simple</span></button>
   </div>
   <div class="quiz-counter" id="qcount3"></div>
 
@@ -1348,10 +1367,10 @@ body.mobile-version{min-height:100vh;background:#f0ede8;font-family:'Neue Haas G
   <div class="quiz-q">Qu'est-ce qui vous décourage le plus dans votre parcours ?</div>
   <div class="quiz-cite">Quand on a déjà essayé plusieurs fois, il peut devenir difficile de croire qu'un changement durable est encore possible.</div>
   <div class="qcard-list">
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">J'ai peur de reprendre le poids perdu</span><span class="qcard-sub">J'ai déjà vu mes efforts s'effacer avec le temps</span></button>
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je me sens fatigué de recommencer</span><span class="qcard-sub">J'ai l'impression d'avoir déjà beaucoup essayé</span></button>
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Les résultats ne tiennent pas toujours</span><span class="qcard-sub">Je peux perdre du poids, mais j'ai du mal à stabiliser</span></button>
-      <button class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je manque de soutien dans les moments difficiles</span><span class="qcard-sub">Quand je doute ou que je décroche, je ne sais pas toujours vers qui me tourner</span></button>
+      <button type="button" class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">J'ai peur de reprendre le poids perdu</span><span class="qcard-sub">J'ai déjà vu mes efforts s'effacer avec le temps</span></button>
+      <button type="button" class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je me sens fatigué de recommencer</span><span class="qcard-sub">J'ai l'impression d'avoir déjà beaucoup essayé</span></button>
+      <button type="button" class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Les résultats ne tiennent pas toujours</span><span class="qcard-sub">Je peux perdre du poids, mais j'ai du mal à stabiliser</span></button>
+      <button type="button" class="qcard-opt" onclick="quizPick(this)"><span class="qcard-main">Je manque de soutien dans les moments difficiles</span><span class="qcard-sub">Quand je doute ou que je décroche, je ne sais pas toujours vers qui me tourner</span></button>
   </div>
   <div class="quiz-counter" id="qcount4"></div>
 
@@ -2053,8 +2072,7 @@ function w(fn){setTimeout(fn,240);}
 const MOTIVATION_CONTENT={
   health:{
     lead:"Dès 5 à 10 % de poids perdu, votre santé peut déjà s'améliorer :",
-    solutionTitle:"Avec Annette et un traitement adapté à votre profil, vous pouvez viser jusqu’à 20 % de perte de poids. Et dès 5 à 10 % de poids perdu, votre santé peut déjà s’améliorer.
-",
+    solutionTitle:"Avec Annette et un traitement si adapté, vous pouvez viser jusqu'à 20 % de perte de poids, selon votre profil.",
     items:["Glycémie","Tension","Cholestérol","Mobilité"]
   },
   energy:{
@@ -2150,7 +2168,7 @@ function quizPick(btn){
     const main=btn.querySelector('.qcard-main');
     const answerText=main?main.textContent.trim():'';
     QUIZ_ANSWERS[qid]=answerText;
-    w(()=>showQuizHelp(qid,answerText));
+    showQuizHelp(qid,answerText);
   }
 }
 function getQuizFeedback(qid,answerText){
@@ -2161,6 +2179,11 @@ function getQuizFeedback(qid,answerText){
   return feedbackMap[feedbackKey]||'Annette adapte votre accompagnement à votre réponse.';
 }
 function showQuizHelp(qid,answerText){
+  const helpScreen=document.getElementById('quiz_help');
+  if(!helpScreen){
+    go(QUIZ_HELP_NEXT[qid]||'q2');
+    return;
+  }
   const feedbackText=getQuizFeedback(qid,answerText);
   const lines=feedbackText.split('\n');
   const lineEl=document.getElementById('quiz-help-line');
@@ -2283,7 +2306,7 @@ function getProjectionPreview(){
 function renderChart(){
   // Defer one frame to ensure canvas is visible and has width
   requestAnimationFrame(()=>{
-  const{p,imc,kg}=getStats(),kgS=Math.round(kg*.5),preview=getProjectionPreview();document.getElementById('hl-kg').textContent=kg+' kg';var pn=document.getElementById('reassure-prenom');if(pn){var pe=document.getElementById('prenom-inp');pn.textContent=(pe&&pe.value.trim())?pe.value.trim():'Vous';}document.getElementById('proj-kg').textContent='−'+kg;var psd=document.getElementById('proj-summary-date');if(psd)psd.textContent=preview.dateText;var psw=document.getElementById('proj-summary-weight');if(psw)psw.textContent=String(preview.targetWeight).replace('.',',')+' kg';var psl=document.getElementById('proj-summary-loss');if(psl)psl.textContent='−'+kg+' kg';drawChart(p,kg);});}
+  const{p,kg}=getStats();document.getElementById('hl-kg').textContent=kg+' kg';var pn=document.getElementById('reassure-prenom');if(pn){var pe=document.getElementById('prenom-inp');pn.textContent=(pe&&pe.value.trim())?pe.value.trim():'Vous';}document.getElementById('proj-kg').textContent='−'+kg;drawChart(p,kg);});}
 function upFinal(){const{kg}=getStats();document.getElementById('final-kg').textContent='−'+kg+' kg';}
 /* CANVAS */
 function drawChart(poids,pK){
