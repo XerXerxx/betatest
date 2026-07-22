@@ -1,4 +1,1452 @@
-<div class="anf-block">
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Annette — Landing Ads</title>
+  <meta name="description" content="Prototype de la landing page Annette destinée aux campagnes publicitaires.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --annette-black:#0f0f0e;
+      --annette-cream:#fefbf9;
+      --annette-blue:#a9e1ff;
+      --annette-blue-50:#f0f9ff;
+      --annette-blue-100:#dff2ff;
+      --annette-pink:#ffd5fb;
+      --annette-pink-50:#fff4fe;
+      --annette-sun:#ffd973;
+      --annette-sun-50:#fff8e4;
+      --annette-orange:#fc6f22;
+      --annette-line:rgba(15,15,14,.10);
+    }
+
+    html { scroll-behavior:smooth; }
+    body {
+      margin:0;
+      background:var(--annette-cream);
+      color:var(--annette-black);
+      font-family:Inter,Arial,sans-serif;
+      overflow-x:hidden;
+    }
+    *,*::before,*::after { box-sizing:border-box; }
+    img { max-width:100%; }
+
+    .annette-site-header {
+      position:fixed;
+      z-index:1000;
+      top:16px;
+      left:50%;
+      transform:translateX(-50%);
+      width:min(calc(100% - 32px),1060px);
+    }
+
+    .annette-navbar {
+      min-height:72px;
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      align-items:center;
+      gap:26px;
+      padding:8px 10px 8px 28px;
+      background:rgba(254,251,249,.88);
+      border:1px solid rgba(255,255,255,.62);
+      border-radius:999px;
+      box-shadow:0 10px 36px rgba(15,15,14,.10);
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
+    }
+
+    .annette-navbar__logo {
+      display:flex;
+      align-items:center;
+      width:168px;
+      flex:0 0 auto;
+    }
+    .annette-navbar__logo img { display:block; width:100%; height:auto; }
+
+    .annette-navbar__links {
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:36px;
+    }
+    .annette-navbar__links a {
+      position:relative;
+      isolation:isolate;
+      padding:10px 14px;
+      border-radius:999px;
+      color:var(--annette-black);
+      font-size:15px;
+      font-weight:600;
+      line-height:1;
+      text-decoration:none !important;
+      white-space:nowrap;
+      transition:background-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+    }
+    .annette-navbar__links a::before {
+      content:"";
+      position:absolute;
+      z-index:-1;
+      inset:2px;
+      border-radius:inherit;
+      background:rgba(169,225,255,.22);
+      box-shadow:0 0 22px rgba(169,225,255,.34);
+      opacity:0;
+      transform:scale(.88);
+      transition:opacity 180ms ease, transform 180ms ease;
+    }
+    .annette-navbar__links a:hover,
+    .annette-navbar__links a:focus-visible,
+    .annette-navbar__links a.is-active {
+      text-decoration:none !important;
+      background:rgba(255,255,255,.35);
+      box-shadow:inset 0 0 0 1px rgba(169,225,255,.35);
+      transform:translateY(-1px);
+    }
+    .annette-navbar__links a:hover::before,
+    .annette-navbar__links a:focus-visible::before,
+    .annette-navbar__links a.is-active::before {
+      opacity:1;
+      transform:scale(1);
+    }
+    .annette-navbar__links a:focus-visible {
+      outline:2px solid rgba(15,15,14,.78);
+      outline-offset:2px;
+    }
+
+    .annette-navbar__cta {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:54px;
+      padding:0 26px;
+      border-radius:999px;
+      background:var(--annette-black);
+      color:var(--annette-cream);
+      font-size:16px;
+      font-weight:600;
+      line-height:1.15;
+      text-align:center;
+      text-decoration:none;
+      white-space:nowrap;
+      transition:transform 180ms ease, opacity 180ms ease;
+    }
+    .annette-navbar__cta:hover { transform:translateY(-1px); opacity:.92; }
+    .annette-navbar__cta-mobile { display:none; }
+
+    .annette-page-main { display:block; }
+
+    .annette-hero {
+      position:relative;
+      isolation:isolate;
+      overflow:hidden;
+      padding:132px 20px 30px;
+      background:
+        radial-gradient(circle at 10% 4%, rgba(169,225,255,.76), transparent 31%),
+        radial-gradient(circle at 86% 12%, rgba(255,217,115,.58), transparent 28%),
+        linear-gradient(180deg, #fefbf9 0%, #fff 100%);
+    }
+    .annette-hero::before,
+    .annette-hero::after {
+      content:"";
+      position:absolute;
+      z-index:-1;
+      border-radius:50%;
+      filter:blur(54px);
+      pointer-events:none;
+    }
+    .annette-hero::before {
+      width:240px;
+      height:240px;
+      left:-90px;
+      bottom:-80px;
+      background:rgba(255,213,251,.5);
+    }
+    .annette-hero::after {
+      width:260px;
+      height:260px;
+      right:-100px;
+      bottom:-100px;
+      background:rgba(169,225,255,.44);
+    }
+    .annette-hero__inner {
+      width:min(100%,1240px);
+      margin:0 auto;
+    }
+    .annette-hero__intro {
+      max-width:900px;
+      margin:0 auto 23px;
+      text-align:center;
+    }
+    .annette-hero__eyebrow {
+      display:inline-flex;
+      align-items:center;
+      gap:9px;
+      margin-bottom:12px;
+      color:rgba(15,15,14,.62);
+      font-size:.72rem;
+      font-weight:750;
+      letter-spacing:.075em;
+      line-height:1.2;
+      text-transform:uppercase;
+    }
+    .annette-hero__eyebrow::before {
+      content:"";
+      width:30px;
+      height:3px;
+      border-radius:999px;
+      background:var(--annette-blue);
+    }
+    .annette-hero__title {
+      max-width:880px;
+      margin:0 auto;
+      font-family:"Neue Haas Grotesk Display Pro","Neue Haas Grotesk",Inter,Arial,sans-serif;
+      font-size:clamp(2.35rem,1.45rem + 3.2vw,4.65rem);
+      font-weight:600;
+      line-height:.98;
+      letter-spacing:-.052em;
+      text-wrap:balance;
+    }
+    .annette-hero__copy {
+      max-width:710px;
+      margin:18px auto 0;
+      color:rgba(15,15,14,.72);
+      font-size:clamp(1rem,.95rem + .28vw,1.18rem);
+      line-height:1.5;
+      text-wrap:balance;
+    }
+    .annette-hero__prompt {
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      margin-top:18px;
+      padding:7px 12px;
+      border:1px solid rgba(15,15,14,.08);
+      border-radius:999px;
+      background:rgba(254,251,249,.72);
+      color:rgba(15,15,14,.62);
+      font-size:.78rem;
+      font-weight:650;
+      line-height:1.2;
+      backdrop-filter:blur(8px);
+    }
+    .annette-hero__prompt::before {
+      content:"";
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:var(--annette-blue);
+      box-shadow:0 0 0 5px rgba(169,225,255,.24);
+    }
+
+    .annette-pathways {
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:14px;
+      align-items:start;
+    }
+    .annette-pathway {
+      display:contents;
+    }
+    .annette-pathway[data-tone="sky"] {
+      --path-soft:var(--annette-blue-50);
+      --path-accent:var(--annette-blue);
+      --path-glow:rgba(169,225,255,.42);
+    }
+    .annette-pathway[data-tone="pink"] {
+      --path-soft:var(--annette-pink-50);
+      --path-accent:var(--annette-pink);
+      --path-glow:rgba(255,213,251,.40);
+    }
+    .annette-pathway[data-tone="sun"] {
+      --path-soft:var(--annette-sun-50);
+      --path-accent:var(--annette-sun);
+      --path-glow:rgba(255,217,115,.40);
+    }
+    .annette-pathway:nth-child(1) .annette-pathway__trigger { grid-column:1; }
+    .annette-pathway:nth-child(2) .annette-pathway__trigger { grid-column:2; }
+    .annette-pathway:nth-child(3) .annette-pathway__trigger { grid-column:3; }
+
+    .annette-pathway__trigger {
+      grid-row:1;
+      min-height:220px;
+      width:100%;
+      padding:20px;
+      border:1px solid rgba(15,15,14,.11);
+      border-radius:24px;
+      display:flex;
+      flex-direction:column;
+      align-items:flex-start;
+      gap:0;
+      background:rgba(254,251,249,.82);
+      color:var(--annette-black);
+      text-align:left;
+      font:inherit;
+      cursor:pointer;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.86);
+      transition:border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease, background-color 180ms ease;
+    }
+    .annette-pathway__trigger:hover {
+      border-color:rgba(15,15,14,.18);
+      background:rgba(255,255,255,.9);
+      transform:translateY(-2px);
+    }
+    .annette-pathway__trigger:focus-visible {
+      outline:3px solid var(--path-accent);
+      outline-offset:3px;
+    }
+    .annette-pathway.is-active .annette-pathway__trigger {
+      border-color:rgba(15,15,14,.20);
+      background:var(--path-soft);
+      box-shadow:0 0 0 5px var(--path-glow), 0 18px 46px rgba(15,15,14,.08), inset 0 1px 0 rgba(255,255,255,.8);
+      transform:translateY(-3px);
+    }
+    .annette-pathway__top {
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:18px;
+    }
+    .annette-pathway__icon {
+      width:48px;
+      height:48px;
+      flex:0 0 48px;
+      border-radius:16px;
+      display:grid;
+      place-items:center;
+      background:var(--path-accent);
+      color:var(--annette-black);
+    }
+    .annette-pathway__icon svg {
+      width:23px;
+      height:23px;
+      fill:none;
+      stroke:currentColor;
+      stroke-width:1.9;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+    .annette-pathway__number {
+      color:rgba(15,15,14,.46);
+      font-size:.68rem;
+      font-weight:750;
+      letter-spacing:.07em;
+      text-transform:uppercase;
+    }
+    .annette-pathway__label {
+      display:block;
+      margin-bottom:8px;
+      color:rgba(15,15,14,.60);
+      font-size:.68rem;
+      font-weight:750;
+      letter-spacing:.06em;
+      line-height:1.25;
+      text-transform:uppercase;
+    }
+    .annette-pathway__title {
+      display:block;
+      max-width:310px;
+      font-family:"Neue Haas Grotesk Display Pro","Neue Haas Grotesk",Inter,Arial,sans-serif;
+      font-size:clamp(1.24rem,1.06rem + .55vw,1.52rem);
+      font-weight:600;
+      line-height:1.08;
+      letter-spacing:-.026em;
+      text-wrap:balance;
+    }
+    .annette-pathway__summary {
+      display:block;
+      margin-top:11px;
+      color:rgba(15,15,14,.68);
+      font-size:.88rem;
+      line-height:1.42;
+    }
+    .annette-pathway__more {
+      width:100%;
+      margin-top:auto;
+      padding-top:17px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      color:rgba(15,15,14,.68);
+      font-size:.76rem;
+      font-weight:700;
+    }
+    .annette-pathway__chevron {
+      width:28px;
+      height:28px;
+      border:1px solid rgba(15,15,14,.12);
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:rgba(255,255,255,.62);
+      transition:transform 180ms ease, background-color 180ms ease;
+    }
+    .annette-pathway__chevron svg {
+      width:14px;
+      height:14px;
+      fill:none;
+      stroke:currentColor;
+      stroke-width:2;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+    .annette-pathway.is-active .annette-pathway__chevron {
+      background:var(--annette-black);
+      color:var(--annette-cream);
+      transform:rotate(90deg);
+    }
+
+    .annette-pathway__detail {
+      grid-column:1 / -1;
+      grid-row:2;
+      margin-top:2px;
+      padding:clamp(24px,3.2vw,38px);
+      border:1px solid rgba(15,15,14,.10);
+      border-radius:27px;
+      background:rgba(255,255,255,.80);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.92);
+      backdrop-filter:blur(12px);
+      animation:annette-panel-in 220ms ease both;
+    }
+    .annette-pathway__detail[hidden] { display:none !important; }
+    .annette-pathway.is-active .annette-pathway__detail {
+      display:grid;
+      grid-template-columns:minmax(0,1.05fr) minmax(330px,.95fr);
+      gap:clamp(24px,4vw,56px);
+      align-items:center;
+    }
+    @keyframes annette-panel-in {
+      from { opacity:0; transform:translateY(7px); }
+      to { opacity:1; transform:translateY(0); }
+    }
+    .annette-pathway__detail-copy { max-width:610px; }
+    .annette-pathway__badge {
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      background:var(--path-soft);
+      color:rgba(15,15,14,.68);
+      font-size:.67rem;
+      font-weight:750;
+      letter-spacing:.045em;
+      text-transform:uppercase;
+    }
+    .annette-pathway__badge::before {
+      content:"";
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:var(--path-accent);
+    }
+    .annette-pathway__detail-title {
+      margin:14px 0 0;
+      font-family:"Neue Haas Grotesk Display Pro","Neue Haas Grotesk",Inter,Arial,sans-serif;
+      font-size:clamp(1.65rem,1.25rem + 1.2vw,2.55rem);
+      font-weight:600;
+      line-height:1.04;
+      letter-spacing:-.038em;
+      text-wrap:balance;
+    }
+    .annette-pathway__detail-copy p {
+      margin:14px 0 0;
+      color:rgba(15,15,14,.72);
+      font-size:.98rem;
+      line-height:1.55;
+    }
+    .annette-pathway__benefits {
+      padding:20px;
+      border:1px solid rgba(15,15,14,.08);
+      border-radius:21px;
+      background:var(--path-soft);
+    }
+    .annette-pathway__benefits-title {
+      margin:0 0 13px;
+      color:rgba(15,15,14,.62);
+      font-size:.68rem;
+      font-weight:750;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+    }
+    .annette-pathway__benefits ul {
+      list-style:none;
+      margin:0;
+      padding:0;
+      display:grid;
+      gap:11px;
+    }
+    .annette-pathway__benefits li {
+      display:grid;
+      grid-template-columns:20px 1fr;
+      gap:9px;
+      color:rgba(15,15,14,.80);
+      font-size:.88rem;
+      line-height:1.4;
+    }
+    .annette-pathway__check {
+      width:20px;
+      height:20px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:var(--annette-black);
+      color:var(--annette-cream);
+    }
+    .annette-pathway__check svg {
+      width:10px;
+      height:10px;
+      fill:none;
+      stroke:currentColor;
+      stroke-width:2;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+    .annette-pathway__cta {
+      min-height:52px;
+      margin-top:17px;
+      padding:14px 19px;
+      border-radius:999px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:9px;
+      background:var(--annette-black);
+      color:var(--annette-cream);
+      text-decoration:none;
+      text-align:center;
+      font-size:.91rem;
+      font-weight:650;
+      line-height:1.2;
+      transition:transform 180ms ease, opacity 180ms ease;
+    }
+    .annette-pathway__cta:hover { transform:translateY(-2px); opacity:.92; }
+    .annette-pathway__cta svg {
+      width:17px;
+      height:17px;
+      fill:none;
+      stroke:currentColor;
+      stroke-width:2;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+    .annette-pathway__note {
+      margin:10px 0 0;
+      color:rgba(15,15,14,.54);
+      font-size:.72rem;
+      line-height:1.4;
+      text-align:center;
+    }
+
+    .annette-proof {
+      scroll-margin-top:110px;
+      padding:34px 0 38px;
+      background:var(--annette-cream);
+      border-top:1px solid rgba(15,15,14,.04);
+      border-bottom:1px solid rgba(15,15,14,.05);
+    }
+    .annette-proof__inner {
+      width:min(100%,1240px);
+      margin:0 auto;
+      padding:0 20px;
+    }
+    .annette-proof__title {
+      margin:0 0 23px;
+      color:#656565;
+      font-family:"Neue Haas Grotesk Display Pro","Neue Haas Grotesk",Inter,Arial,sans-serif;
+      font-size:clamp(1.35rem,1.15rem + .7vw,1.8rem);
+      font-weight:600;
+      line-height:1.1;
+      text-align:center;
+    }
+    .annette-proof__logos {
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      align-items:center;
+      gap:44px;
+      width:min(100%,720px);
+      margin:0 auto 27px;
+    }
+    .annette-proof__logo {
+      min-height:72px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .annette-proof__logo img {
+      display:block;
+      width:auto;
+      height:auto;
+      max-width:190px;
+      max-height:58px;
+      object-fit:contain;
+    }
+    .annette-proof__reviews { margin-inline:calc(50% - 50vw); }
+
+    
+  .annette-proof .ar {
+    overflow: hidden;
+    padding: 10px 0 16px;
+    background: #fefbf9;
+    font-family: Inter, Arial, sans-serif;
+    line-height: 1;
+    box-sizing: border-box;
+  }
+
+  .annette-proof .ah { display:flex; justify-content:center; gap:7px; align-items:center; margin:0 0 10px; }
+  .annette-proof .ab { display:flex; gap:5px; align-items:center; background:#fff; border:1px solid rgba(15,15,14,.07); border-radius:99px; padding:6px 11px; font-size:12px; font-weight:700; }
+  .annette-proof .ab img { width:14px; height:14px; }
+
+  .annette-proof .aw { overflow:hidden; height:132px; position:relative; }
+  .annette-proof .at {
+    display:flex;
+    width:max-content;
+    gap:12px;
+    white-space:nowrap;
+    will-change:transform;
+    animation:annette-review-slide 160s linear infinite;
+  }
+  .annette-proof .aw:hover .at { animation-play-state:paused; }
+
+  @keyframes annette-review-slide {
+    0% { transform:translate3d(0,0,0); }
+    100% { transform:translate3d(calc(-50% - 6px),0,0); }
+  }
+
+  .annette-proof .ac {
+    position:relative;
+    flex:0 0 286px;
+    height:124px;
+    box-sizing:border-box;
+    background:#fff;
+    border:1px solid #ebebeb;
+    border-radius:16px;
+    padding:13px 14px;
+    color:inherit;
+    text-decoration:none;
+    white-space:normal;
+    transition:border-color 180ms ease, transform 180ms ease;
+  }
+  .annette-proof .ac:hover { border-color:#a9e1ff; transform:translateY(-1px); }
+  .annette-proof .top { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+  .annette-proof .av { width:31px; height:31px; border-radius:50%; display:grid; place-items:center; color:#fff; font-size:11px; font-weight:800; flex:0 0 31px; }
+  .annette-proof .c1 { background:#7db9ff; }
+  .annette-proof .c2 { background:#9b8cff; }
+  .annette-proof .c3 { background:#58c7a3; }
+  .annette-proof .c4 { background:#ffb15e; }
+  .annette-proof .c5 { background:#f28bb3; }
+  .annette-proof .c6 { background:#7bc7d9; }
+  .annette-proof .nm { font-size:12px; font-weight:800; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .annette-proof .st { color:#f5a623; font-size:10px; letter-spacing:.2px; }
+  .annette-proof .tx {
+    font-size:11.5px;
+    color:#444;
+    line-height:1.36;
+    margin:0 20px 6px 0;
+    display:-webkit-box;
+    -webkit-line-clamp:3;
+    line-clamp:3;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
+  .annette-proof .dt { font-size:9.5px; color:#9a9a9a; }
+  .annette-proof .g { position:absolute; right:11px; bottom:10px; width:14px; height:14px; }
+  .annette-proof .btn-wrap { display:flex; justify-content:center; margin-top:12px; }
+  .annette-proof .btn {
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    background:#fff;
+    border:1px solid #d0d0d0;
+    border-radius:99px;
+    padding:9px 17px;
+    font-size:12px;
+    font-weight:600;
+    color:#2f2f2f;
+    text-decoration:none;
+    font-family:Inter,Arial,sans-serif;
+    transition:border-color 180ms ease, color 180ms ease, transform 180ms ease;
+  }
+  .annette-proof .btn:hover { border-color:#a9e1ff; color:#0f0f0e; transform:translateY(-1px); }
+  .annette-proof .btn img { width:14px; height:14px; }
+
+  @media (max-width:600px) {
+    .annette-proof .ar { padding:8px 0 14px; }
+    .annette-proof .aw { height:136px; }
+    .annette-proof .at { gap:10px; animation-duration:300s; }
+    .annette-proof .ac { flex-basis:82vw; max-width:310px; height:128px; padding:13px; }
+    .annette-proof .av { width:29px; height:29px; flex-basis:29px; }
+    .annette-proof .tx { font-size:12px; line-height:1.34; margin-right:24px; }
+    .annette-proof .nm { font-size:12px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .annette-pathway__trigger,
+    .annette-pathway__chevron,
+    .annette-pathway__cta,
+    .annette-pathway__detail { transition:none !important; animation:none !important; }
+    .annette-proof .at { animation:none; }
+    .annette-proof .aw { overflow-x:auto; scrollbar-width:none; }
+    .annette-proof .aw::-webkit-scrollbar { display:none; }
+  }
+
+
+    .annette-page-footer-spacer { height:28px; }
+
+    @media (max-width:900px) {
+      .annette-site-header { top:10px; width:min(calc(100% - 20px),720px); }
+      .annette-navbar { min-height:64px; grid-template-columns:auto 1fr auto; gap:12px; padding:7px 8px 7px 20px; }
+      .annette-navbar__logo { width:132px; }
+      .annette-navbar__links { gap:20px; }
+      .annette-navbar__links a { font-size:13px; }
+      .annette-navbar__cta { min-height:48px; padding-inline:18px; font-size:14px; }
+      .annette-hero { padding-top:112px; }
+      .annette-pathway__trigger { min-height:205px; }
+    }
+
+    @media (max-width:680px) {
+      .annette-site-header { width:calc(100% - 20px); }
+      .annette-navbar { grid-template-columns:auto 1fr; padding-left:17px; }
+      .annette-navbar__links { display:none; }
+      .annette-navbar__logo { width:116px; }
+      .annette-navbar__cta { justify-self:end; min-height:46px; padding:0 16px; font-size:13px; }
+      .annette-navbar__cta-desktop { display:none; }
+      .annette-navbar__cta-mobile { display:inline; }
+      .annette-hero {
+        padding:96px 14px 24px;
+        background:
+          radial-gradient(circle at 8% 4%, rgba(169,225,255,.68), transparent 34%),
+          radial-gradient(circle at 94% 8%, rgba(255,217,115,.48), transparent 30%),
+          linear-gradient(180deg,#fefbf9 0%,#fff 100%);
+      }
+      .annette-hero__intro { margin-bottom:20px; text-align:left; }
+      .annette-hero__eyebrow { margin-bottom:9px; }
+      .annette-hero__title {
+        font-size:clamp(2.18rem,11.3vw,3.35rem);
+        line-height:1;
+        letter-spacing:-.047em;
+        text-wrap:pretty;
+      }
+      .annette-hero__copy {
+        margin-top:14px;
+        font-size:.96rem;
+        line-height:1.48;
+      }
+      .annette-hero__prompt { margin-top:14px; font-size:.72rem; }
+      .annette-pathways { display:block; }
+      .annette-pathway {
+        display:block;
+        margin-bottom:10px;
+      }
+      .annette-pathway__trigger {
+        min-height:0;
+        padding:16px;
+        border-radius:20px;
+        display:grid;
+        grid-template-columns:44px 1fr 30px;
+        grid-template-areas:
+          "icon label arrow"
+          "icon title arrow"
+          "summary summary summary";
+        column-gap:12px;
+        align-items:center;
+      }
+      .annette-pathway.is-active .annette-pathway__trigger {
+        box-shadow:0 0 0 4px var(--path-glow), 0 12px 32px rgba(15,15,14,.07), inset 0 1px 0 rgba(255,255,255,.8);
+        transform:none;
+      }
+      .annette-pathway__top { display:contents; }
+      .annette-pathway__icon {
+        grid-area:icon;
+        width:44px;
+        height:44px;
+        flex-basis:44px;
+        border-radius:14px;
+      }
+      .annette-pathway__number { display:none; }
+      .annette-pathway__label {
+        grid-area:label;
+        margin:0 0 3px;
+        font-size:.62rem;
+      }
+      .annette-pathway__title {
+        grid-area:title;
+        max-width:none;
+        font-size:1.07rem;
+        line-height:1.12;
+      }
+      .annette-pathway__summary {
+        grid-area:summary;
+        margin-top:12px;
+        font-size:.82rem;
+        line-height:1.4;
+      }
+      .annette-pathway__more {
+        grid-area:arrow;
+        width:auto;
+        margin:0;
+        padding:0;
+      }
+      .annette-pathway__more > span:first-child { display:none; }
+      .annette-pathway__chevron { width:30px; height:30px; }
+      .annette-pathway.is-active .annette-pathway__chevron { transform:rotate(90deg); }
+      .annette-pathway__detail {
+        margin:10px 0 12px;
+        padding:21px 17px;
+        border-radius:21px;
+      }
+      .annette-pathway.is-active .annette-pathway__detail {
+        display:grid;
+        grid-template-columns:1fr;
+        gap:19px;
+      }
+      .annette-pathway__detail-title {
+        margin-top:11px;
+        font-size:clamp(1.58rem,7.5vw,2rem);
+        line-height:1.05;
+      }
+      .annette-pathway__detail-copy p {
+        margin-top:11px;
+        font-size:.91rem;
+        line-height:1.5;
+      }
+      .annette-pathway__benefits { padding:17px; border-radius:18px; }
+      .annette-pathway__benefits li { font-size:.84rem; }
+      .annette-pathway__cta { width:100%; min-height:50px; }
+      .annette-proof { padding:28px 0 32px; }
+      .annette-proof__inner { padding-inline:16px; }
+      .annette-proof__title { margin-bottom:19px; font-size:1.3rem; }
+      .annette-proof__logos { gap:18px; margin-bottom:28px; }
+      .annette-proof__logo { min-height:48px; }
+      .annette-proof__logo img { max-width:102px; max-height:38px; }
+    }
+
+    @media (max-width:380px) {
+      .annette-navbar__logo { width:102px; }
+      .annette-navbar__cta { padding-inline:13px; font-size:12px; }
+      .annette-proof__logos { gap:12px; }
+      .annette-proof__logo img { max-width:88px; max-height:34px; }
+    }
+  </style>
+</head>
+<body id="accueil">
+  <header class="annette-site-header">
+    <nav class="annette-navbar" aria-label="Navigation principale">
+      <a class="annette-navbar__logo" href="#accueil" aria-label="Retour en haut de la page">
+        <img src="https://cdn.prod.website-files.com/697cb6a0aa04e7ac8c07831b/6985ad51e92fafc96242dd93_Logo_Annette.svg" alt="Annette">
+      </a>
+
+      <div class="annette-navbar__links">
+        <a href="#notre-accompagnement">Notre accompagnement</a>
+        <a href="#temoignages">Témoignages</a>
+      </div>
+
+      <!-- Remplacer #offres par le lien réel du formulaire lorsque celui-ci sera prêt. -->
+      <a class="annette-navbar__cta" href="#offres" data-eligibility-link>
+        <span class="annette-navbar__cta-desktop">Vérifier mon éligibilité au programme</span>
+        <span class="annette-navbar__cta-mobile">Vérifier mon éligibilité</span>
+      </a>
+    </nav>
+  </header>
+
+  <main class="annette-page-main">
+  <section class="annette-hero" aria-labelledby="annette-hero-title">
+    <div class="annette-hero__inner">
+      <div class="annette-hero__intro">
+        <span class="annette-hero__eyebrow">Avec ou sans traitement</span>
+        <h1 class="annette-hero__title" id="annette-hero-title">Quel accompagnement vous correspond aujourd'hui&nbsp;?</h1>
+        <p class="annette-hero__copy">Choisissez la situation qui vous ressemble. Annette vous présente le parcours le plus adapté pour avancer durablement, sans rester seul·e.</p>
+        <span class="annette-hero__prompt">Sélectionnez votre point de départ</span>
+      </div>
+
+      <div class="annette-pathways" data-pathways>
+        <div class="annette-pathway is-active" data-tone="sky">
+          <button class="annette-pathway__trigger" type="button" aria-expanded="true" aria-controls="annette-pathway-treatment">
+            <span class="annette-pathway__top">
+              <span class="annette-pathway__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M6 3v5a6 6 0 0 0 12 0V3"/><path d="M8 3v5a4 4 0 0 0 8 0V3"/><path d="M12 14v2a4 4 0 0 0 8 0v-1"/><circle cx="20" cy="13" r="2"/></svg>
+              </span>
+              <span class="annette-pathway__number">Option 01</span>
+            </span>
+            <span class="annette-pathway__label">Je m'interroge sur un traitement</span>
+            <span class="annette-pathway__title">Savoir si un traitement peut me convenir</span>
+            <span class="annette-pathway__summary">Une évaluation médicale, puis un accompagnement dans la durée si un traitement est indiqué.</span>
+            <span class="annette-pathway__more">
+              <span>Voir ce parcours</span>
+              <span class="annette-pathway__chevron" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></span>
+            </span>
+          </button>
+
+          <article class="annette-pathway__detail" id="annette-pathway-treatment">
+            <div class="annette-pathway__detail-copy">
+              <span class="annette-pathway__badge">Parcours avec évaluation médicale</span>
+              <h2 class="annette-pathway__detail-title">Comprendre d'abord si un traitement est adapté à votre situation.</h2>
+              <p>Vous échangez avec un médecin partenaire qui évalue votre situation et vous explique les possibilités adaptées à votre profil. Si un traitement est indiqué et prescrit, Annette vous accompagne ensuite au quotidien.</p>
+            </div>
+            <div class="annette-pathway__benefits">
+              <p class="annette-pathway__benefits-title">Ce parcours comprend</p>
+              <ul>
+                <li><span class="annette-pathway__check"><svg viewBox="0 0 12 10"><path d="M1 5 4.5 8.5 11 1.5"/></svg></span><span>Évaluation de votre situation avec un médecin partenaire</span></li>
+                <li><span class="annette-pathway__check"><svg viewBox="0 0 12 10"><path d="M1 5 4.5 8.5 11 1.5"/></svg></span><span>Explications claires sur les possibilités adaptées à votre profil</span></li>
+                <li><span class="annette-pathway__check"><svg viewBox="0 0 12 10"><path d="M1 5 4.5 8.5 11 1.5"/></svg></span><span>Accompagnement nutritionnel et quotidien après la consultation</span></li>
+              </ul>
+              <a class="annette-pathway__cta" href="#offres" data-eligibility-link>
+                <span>Évaluer ma situation</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+              </a>
+              <p class="annette-pathway__note">Toute prescription reste une décision médicale.</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="annette-pathway" data-tone="pink">
+          <button class="annette-pathway__trigger" type="button" aria-expanded="false" aria-controls="annette-pathway-prescription">
+            <span class="annette-pathway__top">
+              <span class="annette-pathway__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="3"/><path d="M9 7h6"/><path d="M9 11h6"/><path d="M9 15h3"/><path d="m15 15 1.5 1.5L19 14"/></svg>
+              </span>
+              <span class="annette-pathway__number">Option 02</span>
+            </span>
+            <span class="annette-pathway__label">J'ai déjà une prescription</span>
+            <span class="annette-pathway__title">Être accompagné·e pendant mon traitement</span>
+            <span class="annette-pathway__summary">Une diététicienne au quotidien, une app complète et des outils de suivi pensés pour votre parcours.</span>
+            <span class="annette-pathway__more">
+              <span>Voir ce parcours</span>
+              <span class="annette-pathway__chevron" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></span>
+            </span>
+          </button>
+
+          <article class="annette-pathway__detail" id="annette-pathway-prescription" hidden>
+            <div class="annette-pathway__detail-copy">
+              <span class="annette-pathway__badge">Parcours sous traitement</span>
+              <h2 class="annette-pathway__detail-title">Ne restez pas seul·e entre deux consultations.</h2>
+              <p>Votre diététicienne vous accompagne chaque jour, sans prise de rendez-vous. La nuit, Cléo IA répond aux questions pratiques non médicales en attendant le relais humain. L'application centralise votre alimentation, vos injections, vos progrès et vos ressentis pour rendre votre suivi concret et utile.</p>
+            </div>
+            <div class="annette-pathway__benefits">
+              <p class="annette-pathway__benefits-title">Ce parcours comprend</p>
+              <ul>
+                <li><span class="annette-pathway__check"><svg viewBox="0 0 12 10"><path d="M1 5 4.5 8.5 11 1.5"/></svg></span><span>Échanges illimités avec votre diététicienne dédiée, sans rendez-vous</span></li>
+                <li><span class="annette-pathway__check"><svg viewBox="0 0 12 10"><path d="M1 5 4.5 8.5 11 1.5"/></svg></span><span>Journal alimentaire analysé et tableau de bord complet</span></li>
+                <li><span class="annette-pathway__check"><svg viewBox="0 0 12 10"><path d="M1 5 4.5 8.5 11 1.5"/></svg></span><span>Suivi des injections, des habitudes et de vos progrès</span></li>
+              </ul>
+              <a class="annette-pathway__cta" href="#notre-accompagnement">
+                <span>Découvrir l'accompagnement sous traitement</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+              </a>
+            </div>
+          </article>
+        </div>
+
+        <div class="annette-pathway" data-tone="sun">
+          <button class="annette-pathway__trigger" type="button" aria-expanded="false" aria-controls="annette-pathway-no-treatment">
+            <span class="annette-pathway__top">
+              <span class="annette-pathway__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 11c0 5.65-7 10-7 10Z"/><path d="M8.5 13h2l1-2 1.5 4 1-2h2"/></svg>
+              </span>
+              <span class="annette-pathway__number">Option 03</span>
+            </span>
+            <span class="annette-pathway__label">Je souhaite avancer sans traitement</span>
+            <span class="annette-pathway__title">Perdre du poids avec un accompagnement durable</span>
+            <span class="annette-pathway__summary">Un cadre humain et régulier pour avancer à votre rythme, sans régime extrême ni solution imposée.</span>
+            <span class="annette-pathway__more">
+              <span>Voir ce parcours</span>
+              <span class="annette-pathway__chevron" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></span>
+            </span>
+          </button>
+
+          <article class="annette-pathway__detail" id="annette-pathway-no-treatment" hidden>
+            <div class="annette-pathway__detail-copy">
+              <span class="annette-pathway__badge">Parcours sans traitement</span>
+              <h2 class="annette-pathway__detail-title">Un cadre durable pour perdre du poids à votre rythme.</h2>
+              <p>Annette vous aide à comprendre vos habitudes, à adapter votre alimentation et à rester motivé·e dans le temps. Vous bénéficiez du même accompagnement humain et des mêmes outils, sans traitement médical.</p>
+            </div>
+            <div class="annette-pathway__benefits">
+              <p class="annette-pathway__benefits-title">Ce parcours comprend</p>
+              <ul>
+                <li><span class="annette-pathway__check"><svg viewBox="0 0 12 10"><path d="M1 5 4.5 8.5 11 1.5"/></svg></span><span>Accompagnement quotidien par une diététicienne dédiée</span></li>
+                <li><span class="annette-pathway__check"><svg viewBox="0 0 12 10"><path d="M1 5 4.5 8.5 11 1.5"/></svg></span><span>Objectifs adaptés à votre rythme et à vos habitudes</span></li>
+                <li><span class="annette-pathway__check"><svg viewBox="0 0 12 10"><path d="M1 5 4.5 8.5 11 1.5"/></svg></span><span>Application, journal alimentaire et communautés inclus</span></li>
+              </ul>
+              <a class="annette-pathway__cta" href="#offres" data-eligibility-link>
+                <span>Commencer mon accompagnement</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+              </a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="annette-proof" id="temoignages" aria-labelledby="annette-proof-title">
+    <div class="annette-proof__inner">
+      <h2 class="annette-proof__title" id="annette-proof-title">Ils parlent de nous</h2>
+
+      <div class="annette-proof__logos" aria-label="Médias ayant parlé d'Annette">
+        <div class="annette-proof__logo">
+          <img src="https://cdn.prod.website-files.com/697cb6a0aa04e7ac8c07831b/6983aa1eec634884ca2530a9_Forbes.avif" alt="Forbes" loading="lazy">
+        </div>
+        <div class="annette-proof__logo">
+          <img src="https://cdn.prod.website-files.com/697cb6a0aa04e7ac8c07831b/6983aa1eadefb7ca2e787ec0_Les%20Echos.avif" alt="Les Echos" loading="lazy">
+        </div>
+        <div class="annette-proof__logo">
+          <img src="https://cdn.prod.website-files.com/697cb6a0aa04e7ac8c07831b/6983aa1e78ea1d5b1f82188c_France%202.avif" alt="France 2" loading="lazy">
+        </div>
+      </div>
+    </div>
+
+    <div class="annette-proof__reviews">
+      <div class="ar">
+  <div class="ah">
+    <span class="ab">
+      <img src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">5/5 Google
+    </span>
+    <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+  </div>
+
+  <div class="aw">
+    <div class="at">
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2tsTk1FdEVOMFk1ZG1sU1oxcEJaV280WjJKWGJsRRAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOklNMEtEN0Y5dmlSZ1pBZWo4Z2JXblE%7C%7C?hl=en-US" target="_blank" rel="noopener">
+          <div class="top">
+            <span class="av c1">AN</span>
+            <span class="nm">Aurore N.</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">De mon expérience, le suivi dans la durée c&#x27;est 50% de réussite de perte de poid Et Annette…</p>
+          <span class="dt">Il y a 4 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT214dlJYQmlZa2xPVDNKaGF6UjVTbmR0VjA0NWVIYxAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOmxvRXBiYklOT3JhazR5SndtV045eHc%7C%7C?hl=en-US" target="_blank" rel="noopener">
+          <div class="top">
+            <span class="av c2">FO</span>
+            <span class="nm">Fouzia Ousahla</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">Mon premier mois sur l application Annette est complète.L équipe est a l…</p>
+          <span class="dt">Il y a 3 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT201RFVYSTJTeloyYlRCMWNFbFpXSGcwTjB4aVdIYxAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOm5DUXI2SzZ2bTB1cElZWHg0N0xiWHc%7C%7C?hl=en-US" target="_blank" rel="noopener">
+          <div class="top">
+            <span class="av c3">LM</span>
+            <span class="nm">Linou M</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">Je suis ravie de mon expérience avec Annette Care et en particulier du parcours Annette : le…</p>
+          <span class="dt">Il y a 4 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21ORVQyd3hiRFpJWm1aWWIyaDNkMFJLY0VwRVEyYxAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOmNET2wxbDZIZmZYb2h3d0RKcEpEQ2c%7C%7C?hl=en-US" target="_blank" rel="noopener">
+          <div class="top">
+            <span class="av c4">AA</span>
+            <span class="nm">Aleyna Agbal</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">Cela fait un mois que je suis sur Annette et tout est parfait. J’étais très réticente à l’idée…</p>
+          <span class="dt">Il y a 3 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21OTlprdHhjMDFLTUZaeGJWWkVTa05HYmxkNVdtYxAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOmNNZktxc01KMFZxbVZESkNGbld5Wmc%7C%7C?hl=en-US" target="_blank" rel="noopener">
+          <div class="top">
+            <span class="av c5">LM</span>
+            <span class="nm">LEBRETON MARLENE</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">Je recommande vivement. Ecoute, professionnalisme, bienveillance et compétences sont au rdv…</p>
+          <span class="dt">Il y a 3 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2tWa01FWmZkRTVhWkdkNFdETlNNbkZuV0hOWmVXYxAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOkVkMEZfdE5aZGd4WDNSMnFnWHNZeWc%7C%7C?hl=en-US" target="_blank" rel="noopener">
+          <div class="top">
+            <span class="av c6">AB</span>
+            <span class="nm">arielle Botatin</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">Je suis suivie depuis décembre 2024 par Annette. J&#x27;ai perdu tous mes kilos et même un peu plus…</p>
+          <span class="dt">Il y a 3 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pNNGVtZHlSMHd0UTBjMlgwMTVhRWx2UmpOMWIyYxAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOjM4emdyR0wtQ0c2X015aElvRjN1b2c%7C%7C?hl=en-US" target="_blank" rel="noopener">
+          <div class="top">
+            <span class="av c1">MA</span>
+            <span class="nm">Madii</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">Ça fait un peu moins de 2 mois que je suis sur l’application et je ne regrette rien. J’étais…</p>
+          <span class="dt">Il y a 1 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21JdGIzbDNkWGx5VldoQmREVlFZaTFNUjBrMU1tYxAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOmItb3l3dXlyVWhBdDVQYi1MR0k1Mmc%7C%7C?hl=en-US" target="_blank" rel="noopener">
+          <div class="top">
+            <span class="av c3">CB</span>
+            <span class="nm">Céline Blondiaux</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">Cela fait maintenant plus d’un an que je suis suivie et que j’ai intégré le programme. Je ne…</p>
+          <span class="dt">Il y a 3 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT214WU9XZ3RNblp6VW0xeFYwWndlWE5pTjJWVE0yYxAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOmxYOWgtMnZzUm1xV0ZweXNiN2VTM2c%7C%7C?hl=en-US" target="_blank" rel="noopener">
+          <div class="top">
+            <span class="av c4">OM</span>
+            <span class="nm">ouafae mardaoui</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">Merci Marilou pour son accompagnement plein de bienveillance. Plus qu’un simple accompagnement…</p>
+          <span class="dt">Il y a 6 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2xWNFpqWkJZbUZTUzFFNGJVZFNOM1EzVjBnd1dFRRAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOlV4ZjZBYmFSS1E4bUdSN3Q3V0gwWEE%7C%7C?hl=en-US" target="_blank" rel="noopener">
+          <div class="top">
+            <span class="av c5">ML</span>
+            <span class="nm">Marie Letartre</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">J’utilise l’application depuis mars 2025 et j’en suis pleinement satisfaite. L’équipe est à…</p>
+          <span class="dt">Il y a 6 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pWR2FsSkhVVzAzVEhCcmNpMURVa0p1Wm1GWFRYYxAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOjVGalJHUW03THBrci1DUkJuZmFXTXc%7C%7C?hl=en-US" target="_blank" rel="noopener">
+          <div class="top">
+            <span class="av c6">AG</span>
+            <span class="nm">Adeline Garin</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">Je recommande le site Annette car je suis très satisfaite de l aide que l on peut avoir que se…</p>
+          <span class="dt">Il y a 6 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2t3elMxSkhVa3hoU1ZNek5EZHdTa0o1TFZSR09FRRAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOkwzS1JHUkxhSVMzNDdwSkJ5LVRGOEE%7C%7C?hl=en-US" target="_blank" rel="noopener">
+          <div class="top">
+            <span class="av c1">AA</span>
+            <span class="nm">Audrey Alquier</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">Depuis 2 mois je suis accompagné par Annette pour mon suivie de perte de poids avec le…</p>
+          <span class="dt">Il y a 4 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2tKV01rbzNZVVptTkRFM00yOWplRTlzVW1SYVIwRRAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOkJWMko3YUZmNDE3M29jeE9sUmRaR0E%7C%7C?hl=en-US" target="_blank" rel="noopener">
+          <div class="top">
+            <span class="av c2">DZ</span>
+            <span class="nm">Denise Ziegler</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">Je trouve que cette application rassemble tout le nécessaire pour être accompagnée au mieux…</p>
+          <span class="dt">Il y a 5 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25sQ2FGZDJXSE5PUWpCVlVWUkRPVWxFVlhaRFMwRRAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOnlCaFd2WHNOQjBVUVRDOUlEVXZDS0E%7C%7C?hl=en-US" target="_blank" rel="noopener">
+          <div class="top">
+            <span class="av c3">NL</span>
+            <span class="nm">Nelly Le Comte</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">Suivi par Annette Care depuis 3 semaines, avec déjà un rdv médecin et un rdv diététique avec…</p>
+          <span class="dt">Il y a 6 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pWb1EwNVNjRlpWU25CcGVXNVlZMUptYlVkRWJrRRAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOjVoQ05ScFZVSnBpeW5YY1JmbUdEbkE%7C%7C?hl=en-US" target="_blank" rel="noopener">
+          <div class="top">
+            <span class="av c4">NA</span>
+            <span class="nm">N A</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">très bon premier avis de l&#x27;appli. L&#x27;équipe est top, la nutritioniste est disponible, et l&#x27;app…</p>
+          <span class="dt">Il y a 7 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2kxMVZFaFhiVlV0WlVSSmRXRnRSRFJyUmxOSFowRRAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOi11VEhXbVUtZURJdWFtRDRrRlNHZ0E%7C%7C?hl=en-US" target="_blank" rel="noopener">
+          <div class="top">
+            <span class="av c5">MP</span>
+            <span class="nm">Mathilde Pottier</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">Vraiment ravie d’avoir choisi Annette pour être suivie durant mon parcours. C’est rassurant de…</p>
+          <span class="dt">Il y a 6 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pkcFYydHJVRU5CWkhSMU9YTmZVVGRDUVZOVFZsRRAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOjdpV2trUENBZHR1OXNfUTdCQVNTVlE%7C%7C?hl=en-US" target="_blank" rel="noopener">
+          <div class="top">
+            <span class="av c6">AB</span>
+            <span class="nm">Ab44</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+          </div>
+          <p class="tx">Un mois que j&#x27;utilise cette application, une équipe à l&#x27;écoute avec professionnalisme . Léa…</p>
+          <span class="dt">Il y a 5 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2t4MFZXMWlPREZrVm5welNESnJSbVowU1hsclRsRRAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOkx0VW1iODFkVnpzSDJrRmZ0SXlrTlE%7C%7C?hl=en-US" target="_blank" rel="noopener">
+          <div class="top">
+            <span class="av c1">HB</span>
+            <span class="nm">Hakima B</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+          </div>
+          <p class="tx">Très bonne application bien complète le suivi est juste top, les échanges sont bénéfiques et…</p>
+          <span class="dt">Il y a 4 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pKV1NWSmFiVlJTV1hORFdHUm9iRTV5U2xVME5GRRAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOjJWSVJabVRSWXNDWGRobE5ySlU0NFE%7C%7C?hl=en-US" target="_blank" rel="noopener">
+          <div class="top">
+            <span class="av c2">MS</span>
+            <span class="nm">morand sylvie</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+          </div>
+          <p class="tx">Je fais un suivi avec Annette depuis un mois maintenant. Bon encadrement .</p>
+          <span class="dt">Il y a 2 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+      <div aria-hidden="true" style="display:contents">
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2tsTk1FdEVOMFk1ZG1sU1oxcEJaV280WjJKWGJsRRAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOklNMEtEN0Y5dmlSZ1pBZWo4Z2JXblE%7C%7C?hl=en-US" target="_blank" rel="noopener" tabindex="-1">
+          <div class="top">
+            <span class="av c1">AN</span>
+            <span class="nm">Aurore N.</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">De mon expérience, le suivi dans la durée c&#x27;est 50% de réussite de perte de poid Et Annette…</p>
+          <span class="dt">Il y a 4 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT214dlJYQmlZa2xPVDNKaGF6UjVTbmR0VjA0NWVIYxAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOmxvRXBiYklOT3JhazR5SndtV045eHc%7C%7C?hl=en-US" target="_blank" rel="noopener" tabindex="-1">
+          <div class="top">
+            <span class="av c2">FO</span>
+            <span class="nm">Fouzia Ousahla</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">Mon premier mois sur l application Annette est complète.L équipe est a l…</p>
+          <span class="dt">Il y a 3 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT201RFVYSTJTeloyYlRCMWNFbFpXSGcwTjB4aVdIYxAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOm5DUXI2SzZ2bTB1cElZWHg0N0xiWHc%7C%7C?hl=en-US" target="_blank" rel="noopener" tabindex="-1">
+          <div class="top">
+            <span class="av c3">LM</span>
+            <span class="nm">Linou M</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">Je suis ravie de mon expérience avec Annette Care et en particulier du parcours Annette : le…</p>
+          <span class="dt">Il y a 4 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21ORVQyd3hiRFpJWm1aWWIyaDNkMFJLY0VwRVEyYxAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOmNET2wxbDZIZmZYb2h3d0RKcEpEQ2c%7C%7C?hl=en-US" target="_blank" rel="noopener" tabindex="-1">
+          <div class="top">
+            <span class="av c4">AA</span>
+            <span class="nm">Aleyna Agbal</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">Cela fait un mois que je suis sur Annette et tout est parfait. J’étais très réticente à l’idée…</p>
+          <span class="dt">Il y a 3 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21OTlprdHhjMDFLTUZaeGJWWkVTa05HYmxkNVdtYxAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOmNNZktxc01KMFZxbVZESkNGbld5Wmc%7C%7C?hl=en-US" target="_blank" rel="noopener" tabindex="-1">
+          <div class="top">
+            <span class="av c5">LM</span>
+            <span class="nm">LEBRETON MARLENE</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">Je recommande vivement. Ecoute, professionnalisme, bienveillance et compétences sont au rdv…</p>
+          <span class="dt">Il y a 3 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2tWa01FWmZkRTVhWkdkNFdETlNNbkZuV0hOWmVXYxAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOkVkMEZfdE5aZGd4WDNSMnFnWHNZeWc%7C%7C?hl=en-US" target="_blank" rel="noopener" tabindex="-1">
+          <div class="top">
+            <span class="av c6">AB</span>
+            <span class="nm">arielle Botatin</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">Je suis suivie depuis décembre 2024 par Annette. J&#x27;ai perdu tous mes kilos et même un peu plus…</p>
+          <span class="dt">Il y a 3 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pNNGVtZHlSMHd0UTBjMlgwMTVhRWx2UmpOMWIyYxAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOjM4emdyR0wtQ0c2X015aElvRjN1b2c%7C%7C?hl=en-US" target="_blank" rel="noopener" tabindex="-1">
+          <div class="top">
+            <span class="av c1">MA</span>
+            <span class="nm">Madii</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">Ça fait un peu moins de 2 mois que je suis sur l’application et je ne regrette rien. J’étais…</p>
+          <span class="dt">Il y a 1 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT21JdGIzbDNkWGx5VldoQmREVlFZaTFNUjBrMU1tYxAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOmItb3l3dXlyVWhBdDVQYi1MR0k1Mmc%7C%7C?hl=en-US" target="_blank" rel="noopener" tabindex="-1">
+          <div class="top">
+            <span class="av c3">CB</span>
+            <span class="nm">Céline Blondiaux</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">Cela fait maintenant plus d’un an que je suis suivie et que j’ai intégré le programme. Je ne…</p>
+          <span class="dt">Il y a 3 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT214WU9XZ3RNblp6VW0xeFYwWndlWE5pTjJWVE0yYxAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOmxYOWgtMnZzUm1xV0ZweXNiN2VTM2c%7C%7C?hl=en-US" target="_blank" rel="noopener" tabindex="-1">
+          <div class="top">
+            <span class="av c4">OM</span>
+            <span class="nm">ouafae mardaoui</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">Merci Marilou pour son accompagnement plein de bienveillance. Plus qu’un simple accompagnement…</p>
+          <span class="dt">Il y a 6 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2xWNFpqWkJZbUZTUzFFNGJVZFNOM1EzVjBnd1dFRRAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOlV4ZjZBYmFSS1E4bUdSN3Q3V0gwWEE%7C%7C?hl=en-US" target="_blank" rel="noopener" tabindex="-1">
+          <div class="top">
+            <span class="av c5">ML</span>
+            <span class="nm">Marie Letartre</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">J’utilise l’application depuis mars 2025 et j’en suis pleinement satisfaite. L’équipe est à…</p>
+          <span class="dt">Il y a 6 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pWR2FsSkhVVzAzVEhCcmNpMURVa0p1Wm1GWFRYYxAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOjVGalJHUW03THBrci1DUkJuZmFXTXc%7C%7C?hl=en-US" target="_blank" rel="noopener" tabindex="-1">
+          <div class="top">
+            <span class="av c6">AG</span>
+            <span class="nm">Adeline Garin</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">Je recommande le site Annette car je suis très satisfaite de l aide que l on peut avoir que se…</p>
+          <span class="dt">Il y a 6 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2t3elMxSkhVa3hoU1ZNek5EZHdTa0o1TFZSR09FRRAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOkwzS1JHUkxhSVMzNDdwSkJ5LVRGOEE%7C%7C?hl=en-US" target="_blank" rel="noopener" tabindex="-1">
+          <div class="top">
+            <span class="av c1">AA</span>
+            <span class="nm">Audrey Alquier</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">Depuis 2 mois je suis accompagné par Annette pour mon suivie de perte de poids avec le…</p>
+          <span class="dt">Il y a 4 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2tKV01rbzNZVVptTkRFM00yOWplRTlzVW1SYVIwRRAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOkJWMko3YUZmNDE3M29jeE9sUmRaR0E%7C%7C?hl=en-US" target="_blank" rel="noopener" tabindex="-1">
+          <div class="top">
+            <span class="av c2">DZ</span>
+            <span class="nm">Denise Ziegler</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">Je trouve que cette application rassemble tout le nécessaire pour être accompagnée au mieux…</p>
+          <span class="dt">Il y a 5 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT25sQ2FGZDJXSE5PUWpCVlVWUkRPVWxFVlhaRFMwRRAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOnlCaFd2WHNOQjBVUVRDOUlEVXZDS0E%7C%7C?hl=en-US" target="_blank" rel="noopener" tabindex="-1">
+          <div class="top">
+            <span class="av c3">NL</span>
+            <span class="nm">Nelly Le Comte</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">Suivi par Annette Care depuis 3 semaines, avec déjà un rdv médecin et un rdv diététique avec…</p>
+          <span class="dt">Il y a 6 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pWb1EwNVNjRlpWU25CcGVXNVlZMUptYlVkRWJrRRAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOjVoQ05ScFZVSnBpeW5YY1JmbUdEbkE%7C%7C?hl=en-US" target="_blank" rel="noopener" tabindex="-1">
+          <div class="top">
+            <span class="av c4">NA</span>
+            <span class="nm">N A</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">très bon premier avis de l&#x27;appli. L&#x27;équipe est top, la nutritioniste est disponible, et l&#x27;app…</p>
+          <span class="dt">Il y a 7 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2kxMVZFaFhiVlV0WlVSSmRXRnRSRFJyUmxOSFowRRAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOi11VEhXbVUtZURJdWFtRDRrRlNHZ0E%7C%7C?hl=en-US" target="_blank" rel="noopener" tabindex="-1">
+          <div class="top">
+            <span class="av c5">MP</span>
+            <span class="nm">Mathilde Pottier</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="tx">Vraiment ravie d’avoir choisi Annette pour être suivie durant mon parcours. C’est rassurant de…</p>
+          <span class="dt">Il y a 6 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pkcFYydHJVRU5CWkhSMU9YTmZVVGRDUVZOVFZsRRAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOjdpV2trUENBZHR1OXNfUTdCQVNTVlE%7C%7C?hl=en-US" target="_blank" rel="noopener" tabindex="-1">
+          <div class="top">
+            <span class="av c6">AB</span>
+            <span class="nm">Ab44</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+          </div>
+          <p class="tx">Un mois que j&#x27;utilise cette application, une équipe à l&#x27;écoute avec professionnalisme . Léa…</p>
+          <span class="dt">Il y a 5 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2t4MFZXMWlPREZrVm5welNESnJSbVowU1hsclRsRRAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOkx0VW1iODFkVnpzSDJrRmZ0SXlrTlE%7C%7C?hl=en-US" target="_blank" rel="noopener" tabindex="-1">
+          <div class="top">
+            <span class="av c1">HB</span>
+            <span class="nm">Hakima B</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+          </div>
+          <p class="tx">Très bonne application bien complète le suivi est juste top, les échanges sont bénéfiques et…</p>
+          <span class="dt">Il y a 4 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+        <a class="ac" href="https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sCi9DQUlRQUNvZENodHljRjlvT2pKV1NWSmFiVlJTV1hORFdHUm9iRTV5U2xVME5GRRAB!2m1!1s0x0:0x573690e11ffc2848!3m1!1s2@1:CAIQACodChtycF9oOjJWSVJabVRSWXNDWGRobE5ySlU0NFE%7C%7C?hl=en-US" target="_blank" rel="noopener" tabindex="-1">
+          <div class="top">
+            <span class="av c2">MS</span>
+            <span class="nm">morand sylvie</span>
+            <span class="st">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+          </div>
+          <p class="tx">Je fais un suivi avec Annette depuis un mois maintenant. Bon encadrement .</p>
+          <span class="dt">Il y a 2 mois</span>
+          <img class="g" src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+        </a>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-wrap">
+    <a class="btn" href="https://share.google/g5Erkvn66Ed0u2a3Y" target="_blank" rel="noopener">
+      <img src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="G">
+      Voir tous nos avis Google
+    </a>
+  </div>
+</div>
+    </div>
+  </section>
+
+  <section class="anf-block" id="notre-accompagnement" style="scroll-margin-top:110px;">
 <style>
   .anf-block {
     --anf-ink: #0f0f0e;
@@ -22,7 +1470,7 @@
 
     width: 100%;
     max-width: 1240px;
-    margin: 52px auto 0;
+    margin: 18px auto 0;
     padding: 0 20px;
     color: var(--anf-ink);
     font-family: Inter, Arial, sans-serif;
@@ -37,7 +1485,7 @@
 
   .anf-intro {
     max-width: 820px;
-    margin-bottom: 30px;
+    margin-bottom: 24px;
   }
 
   .anf-intro-eyebrow {
@@ -342,11 +1790,10 @@
 
   .anf-price {
     position: relative;
-    flex: 0 0 calc(100% - 4px);
+    width: 100%;
     min-height: 520px;
+    margin-top: clamp(26px, 3vw, 38px);
     overflow: hidden;
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
     border: 1px solid var(--anf-line);
     border-radius: 30px;
     padding: clamp(36px, 4.7vw, 62px);
@@ -663,7 +2110,7 @@
 
   @media (max-width: 767px) {
     .anf-block {
-      margin-top: 30px;
+      margin-top: 16px;
       padding: 0 16px;
     }
 
@@ -726,8 +2173,8 @@
     }
 
     .anf-price {
-      flex-basis: calc(100vw - 38px);
-      min-height: 660px;
+      min-height: 0;
+      margin-top: 24px;
       padding: 34px 25px;
     }
 
@@ -765,7 +2212,7 @@
     }
 
     .anf-price {
-      min-height: 830px;
+      min-height: 0;
     }
   }
 
@@ -790,7 +2237,6 @@
     }
 
     .anf-price {
-      flex-basis: calc(100vw - 28px);
       border-radius: 25px;
       padding: 30px 20px;
     }
@@ -817,7 +2263,7 @@
   </div>
 
   <div class="anf-carousel-head">
-    <p class="anf-carousel-hint">Faites défiler pour découvrir les 5 piliers et comparer les offres</p>
+    <p class="anf-carousel-hint">Faites défiler pour découvrir les 5 piliers de l’accompagnement</p>
     <div class="anf-carousel-controls" aria-label="Navigation du carrousel">
       <button class="anf-carousel-button anf-carousel-prev" type="button" aria-label="Voir l'élément précédent">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
@@ -903,60 +2349,127 @@
         </ul>
       </article>
 
-      <section class="anf-price" aria-label="Offres d'accompagnement Annette">
-        <div class="anf-blob anf-blob-a"></div>
-        <div class="anf-blob anf-blob-b"></div>
 
-        <div class="anf-price-content">
-          <div class="anf-offer-copy">
-            <span class="anf-price-eyebrow">L'accompagnement complet</span>
-            <h3 class="anf-offer-title">Tout Annette pour moins d'1 € par jour</h3>
-            <p class="anf-offer-description">Médecin partenaire, diététicienne au quotidien, Cléo IA, journal alimentaire, suivi des injections et communautés : tout est réuni dans une seule app.</p>
-
-            <ul class="anf-offer-points">
-              <li><span class="anf-offer-dot"><svg viewBox="0 0 12 10"><path d="M1 5L4.5 8.5L11 1.5"/></svg></span><span>Un accompagnement continu, pas seulement un rendez-vous ponctuel</span></li>
-              <li><span class="anf-offer-dot"><svg viewBox="0 0 12 10"><path d="M1 5L4.5 8.5L11 1.5"/></svg></span><span>Une solution tout-en-un pour éviter de multiplier les rendez-vous et les outils</span></li>
-              <li><span class="anf-offer-dot"><svg viewBox="0 0 12 10"><path d="M1 5L4.5 8.5L11 1.5"/></svg></span><span>Deux formules selon le niveau d'engagement qui vous convient</span></li>
-            </ul>
-          </div>
-
-          <div class="anf-pricing-panel">
-            <div class="anf-plan-grid">
-              <article class="anf-plan anf-plan-featured">
-                <span class="anf-plan-badge">Le plus avantageux</span>
-                <span class="anf-plan-name">Abonnement annuel</span>
-                <div class="anf-plan-price">
-                  <span class="anf-plan-number">349 €</span>
-                  <span class="anf-plan-period">/an</span>
-                </div>
-                <p class="anf-plan-detail">Soit environ 29 € par mois, facturés en une fois.</p>
-                <span class="anf-plan-saving">Économisez 239 € sur 12 mois</span>
-              </article>
-
-              <article class="anf-plan">
-                <span class="anf-plan-name">Abonnement mensuel</span>
-                <div class="anf-plan-price">
-                  <span class="anf-plan-number">49 €</span>
-                  <span class="anf-plan-period">/mois</span>
-                </div>
-                <p class="anf-plan-detail">Engagement minimum de 3 mois.</p>
-              </article>
-            </div>
-
-            <div class="anf-price-actions">
-              <!-- Remplacer # par le lien réel vers le formulaire d'éligibilité -->
-              <a href="#" class="anf-price-cta">
-                <span>Vérifier mon éligibilité</span>
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
-              </a>
-              <p class="anf-price-note">Vous choisissez votre formule après la vérification de votre éligibilité.</p>
-            </div>
-          </div>
-        </div>
-      </section>
 
     </div>
   </div>
+
+  <section class="anf-price" id="offres" aria-label="Offres d'accompagnement Annette" style="scroll-margin-top:110px;">
+    <div class="anf-blob anf-blob-a"></div>
+    <div class="anf-blob anf-blob-b"></div>
+
+    <div class="anf-price-content">
+      <div class="anf-offer-copy">
+        <span class="anf-price-eyebrow">L'accompagnement complet</span>
+        <h3 class="anf-offer-title">Tout Annette pour moins d'1 € par jour</h3>
+        <p class="anf-offer-description">Médecin partenaire, diététicienne au quotidien, Cléo IA, journal alimentaire, suivi des injections et communautés : tout est réuni dans une seule app.</p>
+
+        <ul class="anf-offer-points">
+          <li><span class="anf-offer-dot"><svg viewBox="0 0 12 10"><path d="M1 5L4.5 8.5L11 1.5"/></svg></span><span>Un accompagnement continu, pas seulement un rendez-vous ponctuel</span></li>
+          <li><span class="anf-offer-dot"><svg viewBox="0 0 12 10"><path d="M1 5L4.5 8.5L11 1.5"/></svg></span><span>Une solution tout-en-un pour éviter de multiplier les rendez-vous et les outils</span></li>
+          <li><span class="anf-offer-dot"><svg viewBox="0 0 12 10"><path d="M1 5L4.5 8.5L11 1.5"/></svg></span><span>Deux formules selon le niveau d'engagement qui vous convient</span></li>
+        </ul>
+      </div>
+
+      <div class="anf-pricing-panel">
+        <div class="anf-plan-grid">
+          <article class="anf-plan anf-plan-featured">
+            <span class="anf-plan-badge">Le plus avantageux</span>
+            <span class="anf-plan-name">Abonnement annuel</span>
+            <div class="anf-plan-price">
+              <span class="anf-plan-number">349 €</span>
+              <span class="anf-plan-period">/an</span>
+            </div>
+            <p class="anf-plan-detail">Soit environ 29 € par mois, facturés en une fois.</p>
+            <span class="anf-plan-saving">Économisez 239 € sur 12 mois</span>
+          </article>
+
+          <article class="anf-plan">
+            <span class="anf-plan-name">Abonnement mensuel</span>
+            <div class="anf-plan-price">
+              <span class="anf-plan-number">49 €</span>
+              <span class="anf-plan-period">/mois</span>
+            </div>
+            <p class="anf-plan-detail">Engagement minimum de 3 mois.</p>
+          </article>
+        </div>
+
+        <div class="anf-price-actions">
+          <!-- Remplacer # par le lien réel vers le formulaire d'éligibilité -->
+          <a href="#offres" class="anf-price-cta" data-eligibility-link>
+            <span>Vérifier mon éligibilité</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </a>
+          <p class="anf-price-note">Vous choisissez votre formule après la vérification de votre éligibilité.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      document.querySelectorAll('[data-pathways]').forEach(function (group) {
+        var options = Array.prototype.slice.call(group.querySelectorAll('.annette-pathway'));
+        var triggers = options.map(function (option) { return option.querySelector('.annette-pathway__trigger'); });
+
+        function activate(index, moveFocus) {
+          options.forEach(function (option, optionIndex) {
+            var trigger = triggers[optionIndex];
+            var detail = option.querySelector('.annette-pathway__detail');
+            var active = optionIndex === index;
+            option.classList.toggle('is-active', active);
+            trigger.setAttribute('aria-expanded', active ? 'true' : 'false');
+            if (detail) detail.hidden = !active;
+          });
+          if (moveFocus && triggers[index]) triggers[index].focus();
+        }
+
+        triggers.forEach(function (trigger, index) {
+          trigger.addEventListener('click', function () { activate(index, false); });
+          trigger.addEventListener('keydown', function (event) {
+            var nextIndex = index;
+            if (event.key === 'ArrowRight' || event.key === 'ArrowDown') nextIndex = (index + 1) % triggers.length;
+            if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') nextIndex = (index - 1 + triggers.length) % triggers.length;
+            if (nextIndex !== index) {
+              event.preventDefault();
+              activate(nextIndex, true);
+            }
+          });
+        });
+      });
+
+      var navLinks = Array.prototype.slice.call(document.querySelectorAll('.annette-navbar__links a[href^="#"]'));
+      var observedSections = navLinks.map(function (link) {
+        return document.querySelector(link.getAttribute('href'));
+      }).filter(Boolean);
+
+      function setActiveNav(id) {
+        navLinks.forEach(function (link) {
+          var active = link.getAttribute('href') === '#' + id;
+          link.classList.toggle('is-active', active);
+          if (active) link.setAttribute('aria-current', 'location');
+          else link.removeAttribute('aria-current');
+        });
+      }
+
+      navLinks.forEach(function (link) {
+        link.addEventListener('click', function () {
+          var id = link.getAttribute('href').slice(1);
+          setActiveNav(id);
+        });
+      });
+
+      if ('IntersectionObserver' in window && observedSections.length) {
+        var navObserver = new IntersectionObserver(function (entries) {
+          var visible = entries
+            .filter(function (entry) { return entry.isIntersecting; })
+            .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+          if (visible[0]) setActiveNav(visible[0].target.id);
+        }, { rootMargin:'-24% 0px -58% 0px', threshold:[0,.15,.35,.6] });
+        observedSections.forEach(function (section) { navObserver.observe(section); });
+      }
+    })();
+  </script>
 
   <script>
     (function () {
@@ -969,7 +2482,7 @@
         if (!shell || !scroller || !prev || !next) return;
 
         function getStep() {
-          var firstItem = scroller.querySelector('.anf-card, .anf-price');
+          var firstItem = scroller.querySelector('.anf-card');
           if (!firstItem) return 340;
           var styles = window.getComputedStyle(scroller);
           var gap = parseFloat(styles.columnGap || styles.gap) || 0;
@@ -1001,6 +2514,10 @@
       });
     })();
   </script>
-  <link rel="icon" type="image/png" href="https://cdn.prod.website-files.com/697cb6a0aa04e7ac8c07831b/698f95257d86078943df6692_favicon32.png">
+</section>
 
-</div>
+
+  </main>
+  <div class="annette-page-footer-spacer" aria-hidden="true"></div>
+</body>
+</html>
