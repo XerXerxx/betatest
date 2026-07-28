@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Annette · Découvrez notre accompagnement</title>
+<style>
+  :root{
+    --ink:#0F0F0E; --muted:#5a5a58; --hint:#8a8a87;
+    --line:#EBEBEB; --bg:#FEFBF9; --soft:#f5f3f0;
+    --accent:#A9E1FF; --accent-dark:#0F0F0E; --accent-soft:#eaf6ff;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:#eef1f1; font-family:Arial, Helvetica, sans-serif; color:var(--ink); padding:20px; display:flex; justify-content:center; -webkit-font-smoothing:antialiased;}
+  .card{background:var(--bg); border:1px solid var(--line); border-radius:20px; padding:1.75rem; max-width:480px; width:100%; min-height:340px;}
+  .overline{font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--hint); margin:0 0 8px;}
+  h1{font-family:Arial, Helvetica, sans-serif; font-size:23px; font-weight:bold; line-height:1.3; margin:0 0 20px; color:var(--ink);}
+  #q-count{font-size:13px; color:var(--hint);}
+  .barwrap{height:5px; background:var(--soft); border-radius:3px; overflow:hidden; margin:8px 0 24px;}
+  #q-bar{height:100%; width:20%; background:var(--accent-dark); transition:width .35s;}
+  .q{font-family:Arial, Helvetica, sans-serif; font-size:19px; font-weight:bold; line-height:1.4; margin:0 0 20px; color:var(--ink);}
+  .qopt{display:block; width:100%; text-align:left; background:#fff; border:1.5px solid var(--line); border-radius:14px; padding:16px 18px; margin-bottom:12px; font-size:16px; font-family:inherit; color:var(--ink); line-height:1.4; cursor:pointer; transition:border-color .15s, background .15s; -webkit-tap-highlight-color:transparent;}
+  .qopt:hover,.qopt:active{border-color:var(--accent-dark); background:var(--accent-soft);}
+  .lead{font-family:Arial, Helvetica, sans-serif; font-size:21px; font-weight:bold; line-height:1.35; color:var(--ink); margin:0 0 6px;}
+  .sub{font-size:15px; color:var(--muted); line-height:1.5; margin:0 0 22px;}
+  .feat{display:flex; gap:14px; align-items:flex-start; margin-bottom:16px;}
+  .feat svg{color:var(--ink); flex-shrink:0; margin-top:1px;}
+  .feat p{font-size:15px; line-height:1.45; margin:0; color:var(--ink);}
+  .feat b{font-weight:bold;}
+  .care-note{background:var(--accent-soft); border-radius:12px; padding:14px 16px; margin:0 0 18px; font-size:14px; line-height:1.5; color:var(--ink);}
+  .google{display:flex; align-items:center; justify-content:center; gap:8px; background:var(--soft); border-radius:12px; padding:12px; margin:6px 0 16px; flex-wrap:wrap;}
+  .google .stars{color:#EF9F27; font-size:16px; letter-spacing:1px;}
+  .google .txt{font-size:13px; color:var(--muted);}
+  button.cta{background:var(--accent-dark); color:#FEFBF9; border:none; width:100%; padding:18px; border-radius:14px; font-size:17px; font-weight:bold; font-family:inherit; cursor:pointer; transition:opacity .2s;}
+  button.cta:hover{opacity:.85;}
+  .reassure{font-size:13px; color:var(--muted); margin:12px 0 0; line-height:1.5; text-align:center;}
+  @media(max-width:420px){ body{padding:12px;} .card{padding:1.4rem; border-radius:18px;} h1{font-size:21px;} }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div id="quiz-head">
+      <p class="overline">Auto-évaluation · 1 minute</p>
+      <h1>Où en êtes-vous dans votre parcours de perte de poids ?</h1>
+      <div id="q-count">Question 1 / 5</div>
+      <div class="barwrap"><div id="q-bar"></div></div>
+    </div>
+    <div id="quiz-stage"></div>
+  </div>
+<script>
+  // Remplacer utm_content selon l'article ou ce widget est integre
+  var ELIGIBILITE_URL = "https://app.annette.care/signup?utm_source=blog&utm_medium=quiz&utm_campaign=auto_evaluation&utm_content=quiz_accompagnement";
+  function goEligibilite(){
+    if (window.dataLayer) window.dataLayer.push({event:'encart_cta_click', encart:'quiz_accompagnement'});
+    window.location.href = ELIGIBILITE_URL;
+  }
+  var Q=[
+    {q:"Combien de fois avez-vous perdu du poids avant de tout reprendre ?",o:[
+      "Jamais","Une fois","Plusieurs fois, c'est décourageant"]},
+    {q:"Votre poids pèse-t-il sur votre quotidien : énergie, souffle, articulations ?",o:[
+      "Pas vraiment","Un peu","Oui, tous les jours"]},
+    {q:"Face à la nourriture, vous arrive-t-il de vous sentir dépassé·e (fringales, craquages) ?",o:[
+      "Rarement","Parfois","Souvent"]},
+    {q:"Dans cette démarche, vous sentez-vous seul·e ?",o:[
+      "Non, bien entouré·e","Parfois","Oui, très seul·e"]},
+    {q:"Où en êtes-vous actuellement ?",o:[
+      "Sous traitement pour perdre du poids",
+      "J'envisage un traitement médical",
+      "Je préfère avancer sans traitement"]}
+  ];
+  var ICONS={
+    doctor:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>',
+    heart:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5C6.8 16.6 4 13.7 4 9.9A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 8 1.9c0 3.8-2.8 6.7-8 10.6z"/></svg>',
+    app:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2.5"/><line x1="10" y1="18" x2="14" y2="18"/></svg>',
+    users:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c0-3 2.6-5 5.5-5s5.5 2 5.5 5"/><path d="M16 5.2a3.2 3.2 0 0 1 0 6"/><path d="M15.5 15c3 .2 5 2.2 5 5"/></svg>'
+  };
+  var idx=0;
+  var answers=[0,0,0,0,0];
+  var stage=document.getElementById('quiz-stage'), bar=document.getElementById('q-bar'), count=document.getElementById('q-count');
+  function render(){
+    var item=Q[idx];
+    count.textContent='Question '+(idx+1)+' / '+Q.length;
+    bar.style.width=((idx+1)/Q.length*100)+'%';
+    var html='<p class="q">'+item.q+'</p>';
+    item.o.forEach(function(opt,i){html+='<button class="qopt" data-i="'+i+'">'+opt+'</button>';});
+    stage.innerHTML=html;
+    Array.prototype.forEach.call(stage.querySelectorAll('.qopt'),function(b){
+      b.onclick=function(){
+        answers[idx]=parseInt(b.getAttribute('data-i'));
+        b.style.background='var(--accent-soft)'; b.style.borderColor='var(--accent-dark)';
+        setTimeout(function(){ idx++; idx<Q.length?render():result(); },170);
+      };
+    });
+    window.scrollTo && window.scrollTo(0,0);
+  }
+  function result(){
+    document.getElementById('quiz-head').style.display='none';
+
+    // intensite = poids de la difficulte ressentie (Q1, Q2, Q4), de 0 a 6
+    var intensite = answers[0] + answers[1] + answers[3];
+    var situation = answers[4]; // 0 = sous traitement, 1 = envisage, 2 = sans traitement
+    var fringales = answers[2]; // 0 = rarement, 1 = parfois, 2 = souvent
+
+    var lead, sub, careNote='';
+
+    if (intensite <= 1) {
+      lead = "Votre parcours semble plutôt stable.";
+      sub = "Un accompagnement peut tout de même aider à consolider vos habitudes dans la durée.";
+    } else if (intensite <= 3) {
+      lead = "Votre parcours a ses hauts et ses bas, comme pour beaucoup de monde.";
+      sub = "Un accompagnement peut aider à traverser les moments plus difficiles.";
+    } else {
+      lead = "Ce que vous décrivez semble peser au quotidien.";
+      sub = "Un accompagnement pourrait alléger une partie de cette charge, en complément de votre suivi médical si vous en avez un.";
+    }
+
+    if (fringales === 2) {
+      careNote = '<div class="care-note">Se sentir dépassé·e face à la nourriture est fréquent, et ce n\'est pas un échec personnel. Notre équipe de diététiciennes peut vous accompagner sur ce point précis ; si ce sentiment est très présent ou difficile à vivre, en parler aussi à un médecin (le vôtre, ou l\'un de nos médecins partenaires indépendants) reste une bonne option.</div>';
+    }
+
+    var featsBySituation = {
+      0: [ // sous traitement
+        [ICONS.app, "Un <b>tracker d'injections et de suivi</b>, pensé pour les personnes sous traitement."],
+        [ICONS.heart, "Une <b>équipe de diététiciennes</b> pour accompagner les effets du traitement au quotidien."],
+        [ICONS.users, "Une <b>communauté</b> de personnes dans une situation similaire à la vôtre."],
+        [ICONS.doctor, "Un accès à des <b>médecins partenaires indépendants</b> si un besoin médical survient."]
+      ],
+      1: [ // envisage un traitement
+        [ICONS.doctor, "Un accès à des <b>médecins partenaires indépendants</b> pour évaluer votre situation."],
+        [ICONS.heart, "Un <b>accompagnement diététique</b>, que le traitement soit engagé ou non."],
+        [ICONS.app, "Une <b>application de suivi</b> avec journal alimentaire, pour préparer votre démarche dès maintenant."],
+        [ICONS.users, "Une <b>communauté</b> pour échanger sans jugement sur vos questions."]
+      ],
+      2: [ // sans traitement
+        [ICONS.heart, "Un <b>accompagnement nutritionnel et comportemental</b>, sans médicament."],
+        [ICONS.app, "Une <b>application de suivi</b> avec journal alimentaire, pour calculer vos apports et ajuster vos repas."],
+        [ICONS.users, "Une <b>communauté</b> de personnes avançant, comme vous, sans traitement."],
+        [ICONS.doctor, "Un accès à des <b>médecins partenaires indépendants</b>, si vous souhaitez un jour en discuter."]
+      ]
+    };
+
+    var feats = featsBySituation[situation].map(function(f){ return '<div class="feat">'+f[0]+'<p>'+f[1]+'</p></div>'; }).join('');
+
+    stage.innerHTML =
+      '<p class="lead">'+lead+'</p>'+
+      '<p class="sub">'+sub+'</p>'+
+      careNote+
+      feats+
+      '<div class="google"><svg width="20" height="20" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg><span class="stars">★★★★★</span><span class="txt">5/5 · +3 000 personnes accompagnées</span></div>'+
+      '<button class="cta" onclick="goEligibilite()">Découvrir l\'accompagnement Annette →</button>'+
+      '<p class="reassure">Gratuit et sans engagement · 2 minutes</p>';
+    window.scrollTo && window.scrollTo(0,0);
+  }
+  render();
+</script>
+</body>
+</html>
