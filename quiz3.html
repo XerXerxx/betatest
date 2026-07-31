@@ -1,0 +1,1071 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+  rel="stylesheet"
+>
+
+<div class="annette-quiz-opt2">
+  <style>
+    .annette-quiz-opt2 {
+      --ink: #0f0f0e;
+      --muted: #4a4a4a;
+      --card-bg: #a9e1ff;
+      --element-bg: #fefbf9;
+      --yellow: #ffd973;
+      --pink: #ffd5fb;
+
+      display: flex;
+      justify-content: center;
+
+      width: 100%;
+      margin: 32px 0 !important;
+
+      color: var(--ink);
+      font-family: "Inter", sans-serif;
+
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .annette-quiz-opt2 *,
+    .annette-quiz-opt2 *::before,
+    .annette-quiz-opt2 *::after {
+      box-sizing: border-box;
+    }
+
+    /* =========================
+       CARTE PRINCIPALE
+    ========================= */
+
+    .annette-quiz-opt2 .card {
+      position: relative;
+
+      width: 100% !important;
+      max-width: 480px !important;
+      min-height: 340px !important;
+      padding: 2rem !important;
+
+      overflow: hidden;
+
+      background: var(--card-bg) !important;
+      border-radius: 24px !important;
+      box-shadow: 0 12px 36px rgba(15, 15, 14, 0.08) !important;
+
+      opacity: 0;
+      transform: translateY(24px) scale(0.985);
+
+      transition:
+        opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+        transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .annette-quiz-opt2 .card.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* =========================
+       TRANSITIONS
+    ========================= */
+
+    .annette-quiz-opt2 .slide-container {
+      animation: annetteSlideIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1)
+        forwards !important;
+    }
+
+    .annette-quiz-opt2 .slide-container.slide-out {
+      pointer-events: none;
+
+      animation: annetteSlideOut 0.28s cubic-bezier(0.2, 0.8, 0.2, 1)
+        forwards !important;
+    }
+
+    @keyframes annetteSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes annetteSlideOut {
+      from {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      to {
+        opacity: 0;
+        transform: translateY(-14px);
+      }
+    }
+
+    /* =========================
+       INTRODUCTION
+    ========================= */
+
+    .annette-quiz-opt2 .hook-container {
+      position: relative;
+      z-index: 2;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      padding: 4px 0;
+
+      text-align: center;
+    }
+
+    /* =========================
+       BULLES
+    ========================= */
+
+    .annette-quiz-opt2 .bubbles-area {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      grid-template-rows: repeat(2, auto);
+      align-items: center;
+
+      width: 100%;
+      max-width: 410px;
+      min-height: 116px;
+      margin: 0 auto 12px;
+      gap: 12px 6px;
+    }
+
+    .annette-quiz-opt2 .bubble {
+      --bubble-rotation: 0deg;
+      --bubble-offset: -5px;
+      --bubble-delay: 0s;
+
+      position: relative;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      justify-self: center;
+
+      min-height: 38px;
+      padding: 8px 14px !important;
+
+      color: var(--ink) !important;
+      background: var(--element-bg) !important;
+      border: 1.5px solid var(--ink) !important;
+      border-radius: 999px !important;
+      box-shadow: 0 5px 0 rgba(15, 15, 14, 0.08) !important;
+
+      font-size: 13px !important;
+      font-weight: 600 !important;
+      line-height: 1.1 !important;
+      white-space: nowrap;
+
+      pointer-events: none;
+
+      animation: annetteBubbleFloat 4.8s ease-in-out infinite !important;
+      animation-delay: var(--bubble-delay) !important;
+    }
+
+    .annette-quiz-opt2 .bubble::before {
+      width: 7px;
+      height: 7px;
+      margin-right: 7px;
+
+      content: "";
+      flex: 0 0 auto;
+
+      background: var(--ink);
+      border-radius: 50%;
+      opacity: 0.8;
+    }
+
+    .annette-quiz-opt2 .b1 {
+      grid-column: 1 / 3;
+      grid-row: 1;
+
+      --bubble-rotation: -3deg;
+      --bubble-offset: -4px;
+      --bubble-delay: -0.5s;
+
+      background: var(--element-bg) !important;
+    }
+
+    .annette-quiz-opt2 .b2 {
+      grid-column: 3 / 5;
+      grid-row: 1;
+
+      --bubble-rotation: 2deg;
+      --bubble-offset: -6px;
+      --bubble-delay: -1.8s;
+
+      background: var(--yellow) !important;
+    }
+
+    .annette-quiz-opt2 .b3 {
+      grid-column: 5 / 7;
+      grid-row: 1;
+
+      --bubble-rotation: -2deg;
+      --bubble-offset: -4px;
+      --bubble-delay: -2.7s;
+
+      background: var(--pink) !important;
+    }
+
+    .annette-quiz-opt2 .b4 {
+      grid-column: 2 / 4;
+      grid-row: 2;
+
+      --bubble-rotation: 2deg;
+      --bubble-offset: -5px;
+      --bubble-delay: -1.2s;
+
+      background: #ffffff !important;
+    }
+
+    .annette-quiz-opt2 .b5 {
+      grid-column: 4 / 6;
+      grid-row: 2;
+
+      --bubble-rotation: -2deg;
+      --bubble-offset: -6px;
+      --bubble-delay: -3.4s;
+
+      background: var(--element-bg) !important;
+    }
+
+    @keyframes annetteBubbleFloat {
+      0%,
+      100% {
+        transform: translateY(0) rotate(var(--bubble-rotation));
+      }
+
+      50% {
+        transform: translateY(var(--bubble-offset))
+          rotate(var(--bubble-rotation));
+      }
+    }
+
+    /* =========================
+       TYPOGRAPHIE
+    ========================= */
+
+    .annette-quiz-opt2 h1 {
+      position: relative;
+      z-index: 10;
+
+      margin: 0 0 24px !important;
+
+      color: var(--ink) !important;
+
+      font-size: 24px !important;
+      font-weight: 700 !important;
+      line-height: 1.25 !important;
+      letter-spacing: -0.025em !important;
+    }
+
+    .annette-quiz-opt2 .intro-title {
+      margin-bottom: 16px !important;
+
+      font-size: 28px !important;
+    }
+
+    .annette-quiz-opt2 .sub {
+      position: relative;
+      z-index: 10;
+
+      margin: 0 0 28px !important;
+
+      color: var(--muted) !important;
+
+      font-size: 16px !important;
+      line-height: 1.55 !important;
+    }
+
+    .annette-quiz-opt2 .intro-sub {
+      margin-bottom: 28px !important;
+    }
+
+    .annette-quiz-opt2 .q {
+      margin: 0 0 24px !important;
+
+      color: var(--ink) !important;
+
+      font-size: 19px !important;
+      font-weight: 600 !important;
+      line-height: 1.4 !important;
+    }
+
+    .annette-quiz-opt2 .lead {
+      margin: 0 0 12px !important;
+
+      color: var(--ink) !important;
+
+      font-size: 22px !important;
+      font-weight: 700 !important;
+      line-height: 1.3 !important;
+      letter-spacing: -0.02em !important;
+    }
+
+    /* =========================
+       PROGRESSION
+    ========================= */
+
+    .annette-quiz-opt2 .q-count {
+      display: block !important;
+
+      margin: 0 0 10px !important;
+
+      color: var(--muted) !important;
+
+      font-size: 13px !important;
+      font-weight: 600 !important;
+    }
+
+    .annette-quiz-opt2 .barwrap {
+      height: 6px !important;
+      margin: 0 0 32px !important;
+
+      overflow: hidden;
+
+      background: rgba(254, 251, 249, 0.58) !important;
+      border-radius: 999px !important;
+    }
+
+    .annette-quiz-opt2 .q-bar {
+      width: 20%;
+      height: 100% !important;
+
+      background: var(--ink) !important;
+      border-radius: 999px !important;
+
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+
+    /* =========================
+       OPTIONS
+    ========================= */
+
+    .annette-quiz-opt2 .qopt {
+      display: block !important;
+
+      width: 100% !important;
+      margin: 0 0 12px !important;
+      padding: 18px 20px !important;
+
+      color: var(--ink) !important;
+      background: var(--element-bg) !important;
+      border: 2px solid transparent !important;
+      border-radius: 16px !important;
+      box-shadow: 0 2px 8px rgba(15, 15, 14, 0.04) !important;
+
+      font-family: inherit !important;
+      font-size: 16px !important;
+      font-weight: 500 !important;
+      line-height: 1.35 !important;
+      text-align: left !important;
+
+      cursor: pointer !important;
+
+      -webkit-tap-highlight-color: transparent !important;
+
+      transition:
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease !important;
+    }
+
+    .annette-quiz-opt2 .qopt:hover {
+      border-color: var(--ink) !important;
+      box-shadow: 0 6px 16px rgba(15, 15, 14, 0.08) !important;
+
+      transform: translateY(-2px) !important;
+    }
+
+    .annette-quiz-opt2 .qopt:focus-visible {
+      border-color: var(--ink) !important;
+      outline: 3px solid rgba(15, 15, 14, 0.18) !important;
+      outline-offset: 2px;
+    }
+
+    .annette-quiz-opt2 .qopt.is-selected {
+      border-color: var(--ink) !important;
+
+      transform: scale(0.985) !important;
+    }
+
+    /* =========================
+       CTA
+    ========================= */
+
+    .annette-quiz-opt2 button.cta {
+      position: relative;
+      z-index: 20;
+
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 18px !important;
+
+      color: var(--element-bg) !important;
+      background: var(--ink) !important;
+      border: none !important;
+      border-radius: 16px !important;
+      box-shadow: 0 4px 12px rgba(15, 15, 14, 0.15) !important;
+
+      font-family: inherit !important;
+      font-size: 17px !important;
+      font-weight: 600 !important;
+      line-height: 1.2 !important;
+
+      cursor: pointer !important;
+
+      transition:
+        transform 0.2s ease,
+        opacity 0.2s ease !important;
+    }
+
+    .annette-quiz-opt2 button.cta:hover {
+      opacity: 0.92 !important;
+
+      transform: translateY(-1px) !important;
+    }
+
+    .annette-quiz-opt2 button.cta:active {
+      transform: scale(0.985) !important;
+    }
+
+    .annette-quiz-opt2 button.cta:focus-visible {
+      outline: 3px solid rgba(15, 15, 14, 0.25) !important;
+      outline-offset: 3px;
+    }
+
+    /* =========================
+       RASSURANCE
+    ========================= */
+
+    .annette-quiz-opt2 .privacy-note,
+    .annette-quiz-opt2 .reassure {
+      margin: 14px 0 0 !important;
+
+      color: var(--muted) !important;
+
+      font-size: 12px !important;
+      font-weight: 500 !important;
+      line-height: 1.45 !important;
+      text-align: center !important;
+    }
+
+    /* =========================
+       INTRODUCTION FINALE
+    ========================= */
+
+    .annette-quiz-opt2 .result-intro {
+      margin-bottom: 30px;
+
+      text-align: center;
+    }
+
+    .annette-quiz-opt2 .result-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 62px;
+      height: 62px;
+      margin: 0 auto 18px;
+
+      color: var(--ink);
+      background: var(--yellow);
+      border: 1.5px solid var(--ink);
+      border-radius: 19px;
+      box-shadow: 0 5px 0 rgba(15, 15, 14, 0.08);
+
+      transform: rotate(-3deg);
+    }
+
+    .annette-quiz-opt2 .result-visual svg {
+      display: block;
+
+      transform: rotate(3deg);
+    }
+
+    .annette-quiz-opt2 .result-title {
+      margin-bottom: 10px !important;
+
+      text-align: center !important;
+    }
+
+    .annette-quiz-opt2 .result-text {
+      max-width: 390px;
+      margin-right: auto !important;
+      margin-bottom: 0 !important;
+      margin-left: auto !important;
+
+      text-align: center !important;
+    }
+
+    /* =========================
+       BÉNÉFICES ANNETTE
+    ========================= */
+
+    .annette-quiz-opt2 .feat {
+      display: flex !important;
+      align-items: flex-start !important;
+      gap: 14px !important;
+
+      margin: 0 0 18px !important;
+    }
+
+    .annette-quiz-opt2 .feat-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+
+      width: 36px;
+      height: 36px;
+
+      background: rgba(254, 251, 249, 0.7);
+      border: 1px solid rgba(15, 15, 14, 0.14);
+      border-radius: 11px;
+    }
+
+    .annette-quiz-opt2 .feat svg {
+      display: block;
+      flex-shrink: 0 !important;
+    }
+
+    .annette-quiz-opt2 .feat p {
+      margin: 1px 0 0 !important;
+
+      color: var(--ink) !important;
+
+      font-size: 15px !important;
+      line-height: 1.5 !important;
+    }
+
+    /* =========================
+       AVIS GOOGLE
+    ========================= */
+
+    .annette-quiz-opt2 .google {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      flex-wrap: wrap;
+      gap: 7px !important;
+
+      margin: 12px 0 24px !important;
+      padding: 14px !important;
+
+      background: var(--element-bg) !important;
+      border-radius: 14px !important;
+    }
+
+    .annette-quiz-opt2 .google .stars {
+      color: #ef9f27 !important;
+
+      font-size: 17px !important;
+      letter-spacing: 1px;
+    }
+
+    .annette-quiz-opt2 .google .txt {
+      color: var(--muted) !important;
+
+      font-size: 13px !important;
+      font-weight: 500 !important;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 420px) {
+      .annette-quiz-opt2 {
+        margin: 24px 0 !important;
+      }
+
+      .annette-quiz-opt2 .card {
+        padding: 1.5rem !important;
+
+        border-radius: 20px !important;
+      }
+
+      .annette-quiz-opt2 h1 {
+        font-size: 22px !important;
+      }
+
+      .annette-quiz-opt2 .intro-title {
+        font-size: 25px !important;
+        line-height: 1.2 !important;
+      }
+
+      .annette-quiz-opt2 .intro-sub {
+        font-size: 15px !important;
+      }
+
+      .annette-quiz-opt2 .bubbles-area {
+        min-height: 104px;
+        margin-bottom: 10px;
+        gap: 10px 4px;
+      }
+
+      .annette-quiz-opt2 .bubble {
+        min-height: 34px;
+        padding: 7px 10px !important;
+
+        font-size: 11px !important;
+
+        box-shadow: 0 4px 0 rgba(15, 15, 14, 0.08) !important;
+      }
+
+      .annette-quiz-opt2 .bubble::before {
+        width: 6px;
+        height: 6px;
+        margin-right: 5px;
+      }
+
+      .annette-quiz-opt2 .q {
+        font-size: 18px !important;
+      }
+
+      .annette-quiz-opt2 .qopt {
+        padding: 16px !important;
+
+        font-size: 15px !important;
+      }
+
+      .annette-quiz-opt2 .result-visual {
+        width: 58px;
+        height: 58px;
+        margin-bottom: 17px;
+      }
+
+      .annette-quiz-opt2 .result-title {
+        font-size: 21px !important;
+      }
+
+      .annette-quiz-opt2 .result-text {
+        font-size: 15px !important;
+      }
+
+      .annette-quiz-opt2 .google {
+        gap: 5px !important;
+      }
+
+      .annette-quiz-opt2 .google .txt {
+        width: 100%;
+
+        text-align: center;
+      }
+    }
+
+    /* =========================
+       ACCESSIBILITÉ
+    ========================= */
+
+    @media (prefers-reduced-motion: reduce) {
+      .annette-quiz-opt2 .card,
+      .annette-quiz-opt2 .slide-container,
+      .annette-quiz-opt2 .bubble,
+      .annette-quiz-opt2 .q-bar,
+      .annette-quiz-opt2 .qopt,
+      .annette-quiz-opt2 button.cta {
+        animation: none !important;
+
+        transition-duration: 0.01ms !important;
+      }
+
+      .annette-quiz-opt2 .card {
+        opacity: 1;
+
+        transform: none;
+      }
+    }
+  </style>
+
+  <div class="card" id="annette-card-opt2">
+    <div id="annette-quiz-head-opt2" style="display: none;">
+      <h1>Quelques questions sur votre parcours</h1>
+
+      <div
+        id="annette-q-count-opt2"
+        class="q-count"
+        aria-live="polite"
+      >
+        Question 1 / 5
+      </div>
+
+      <div
+        class="barwrap"
+        id="annette-progress-opt2"
+        role="progressbar"
+        aria-valuemin="1"
+        aria-valuemax="5"
+        aria-valuenow="1"
+      >
+        <div id="annette-q-bar-opt2" class="q-bar"></div>
+      </div>
+    </div>
+
+    <div
+      id="annette-quiz-stage-opt2"
+      aria-live="polite"
+    >
+      <div
+        class="slide-container hook-container"
+        id="current-slide-opt2"
+      >
+        <div class="bubbles-area" aria-hidden="true">
+          <div class="bubble b1">Effet yoyo&nbsp;?</div>
+          <div class="bubble b2">Fringales&nbsp;?</div>
+          <div class="bubble b3">Démotivation&nbsp;?</div>
+          <div class="bubble b4">Fatigue&nbsp;?</div>
+          <div class="bubble b5">Stagnation&nbsp;?</div>
+        </div>
+
+        <h1 class="intro-title">
+          On fait le point sur votre parcours de perte de poids&nbsp;?
+        </h1>
+
+        <p class="sub intro-sub">
+          5 questions rapides pour prendre du recul sur votre parcours
+          et découvrir comment Annette peut vous accompagner.
+        </p>
+
+        <button
+          class="cta"
+          id="btn-start-quiz-opt2"
+          type="button"
+        >
+          Commencer →
+        </button>
+
+        <p class="privacy-note">
+          Vos réponses ne sont ni enregistrées ni analysées.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var card = document.getElementById("annette-card-opt2");
+      var stage = document.getElementById("annette-quiz-stage-opt2");
+      var bar = document.getElementById("annette-q-bar-opt2");
+      var count = document.getElementById("annette-q-count-opt2");
+      var head = document.getElementById("annette-quiz-head-opt2");
+      var progress = document.getElementById("annette-progress-opt2");
+      var startButton = document.getElementById("btn-start-quiz-opt2");
+
+      var questions = [
+        {
+          question:
+            "Combien de fois avez-vous perdu du poids… avant de le reprendre&nbsp;?",
+          options: [
+            "Jamais",
+            "Une fois",
+            "Plusieurs fois, c’est décourageant"
+          ]
+        },
+        {
+          question:
+            "Votre poids a-t-il parfois un impact sur votre quotidien : énergie, souffle ou articulations&nbsp;?",
+          options: [
+            "Pas vraiment",
+            "Un peu",
+            "Oui, régulièrement"
+          ]
+        },
+        {
+          question:
+            "Face à la nourriture, vous arrive-t-il de vous sentir dépassé·e par des fringales ou des craquages&nbsp;?",
+          options: [
+            "Rarement",
+            "Parfois",
+            "Souvent"
+          ]
+        },
+        {
+          question:
+            "Dans votre démarche de perte de poids, vous sentez-vous suffisamment entouré·e&nbsp;?",
+          options: [
+            "Oui, plutôt",
+            "Pas toujours",
+            "Non, je me sens assez seul·e"
+          ]
+        },
+        {
+          question:
+            "Aujourd’hui, quelle situation vous correspond le mieux&nbsp;?",
+          options: [
+            "Je suis déjà sous traitement pour perdre du poids",
+            "J’envisage d’en parler avec un médecin",
+            "Je souhaite avancer sans traitement"
+          ]
+        }
+      ];
+
+      var currentQuestion = 0;
+      var transitionDuration = 280;
+
+      function showCard() {
+        card.classList.add("is-visible");
+      }
+
+      if ("IntersectionObserver" in window) {
+        var observer = new IntersectionObserver(
+          function (entries) {
+            if (entries[0].isIntersecting) {
+              showCard();
+              observer.disconnect();
+            }
+          },
+          {
+            threshold: 0.2
+          }
+        );
+
+        observer.observe(card);
+      } else {
+        showCard();
+      }
+
+      startButton.addEventListener("click", function () {
+        var currentSlide = document.getElementById(
+          "current-slide-opt2"
+        );
+
+        currentSlide.classList.add("slide-out");
+
+        window.setTimeout(function () {
+          head.style.display = "block";
+          renderQuestion();
+        }, transitionDuration);
+      });
+
+      function updateProgress() {
+        var questionNumber = currentQuestion + 1;
+        var percentage =
+          (questionNumber / questions.length) * 100;
+
+        count.textContent =
+          "Question " +
+          questionNumber +
+          " / " +
+          questions.length;
+
+        bar.style.width = percentage + "%";
+
+        progress.setAttribute(
+          "aria-valuenow",
+          String(questionNumber)
+        );
+      }
+
+      function renderQuestion() {
+        updateProgress();
+
+        var current = questions[currentQuestion];
+
+        var html =
+          '<div class="slide-container" id="current-slide-opt2">' +
+            '<p class="q">' +
+              current.question +
+            "</p>";
+
+        current.options.forEach(function (option, index) {
+          html +=
+            '<button class="qopt" type="button" data-index="' +
+              index +
+            '">' +
+              option +
+            "</button>";
+        });
+
+        html += "</div>";
+
+        stage.innerHTML = html;
+
+        var buttons = stage.querySelectorAll(".qopt");
+
+        buttons.forEach(function (button) {
+          button.addEventListener("click", function () {
+            if (button.classList.contains("is-selected")) {
+              return;
+            }
+
+            button.classList.add("is-selected");
+
+            buttons.forEach(function (item) {
+              item.disabled = true;
+            });
+
+            var currentSlide = document.getElementById(
+              "current-slide-opt2"
+            );
+
+            currentSlide.classList.add("slide-out");
+
+            window.setTimeout(function () {
+              currentQuestion += 1;
+
+              if (currentQuestion < questions.length) {
+                renderQuestion();
+              } else {
+                renderPresentation();
+              }
+            }, transitionDuration);
+          });
+        });
+      }
+
+      function renderPresentation() {
+        head.style.display = "none";
+
+        stage.innerHTML =
+          '<div class="slide-container">' +
+
+            '<div class="result-intro">' +
+
+              '<div class="result-visual" aria-hidden="true">' +
+                '<svg width="31" height="31" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+                  '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>' +
+                  '<circle cx="9" cy="7" r="4"></circle>' +
+                  '<path d="M19 8v6"></path>' +
+                  '<path d="M22 11h-6"></path>' +
+                '</svg>' +
+              '</div>' +
+
+              '<p class="lead result-title">' +
+                'Chaque parcours est différent.' +
+              '</p>' +
+
+              '<p class="sub result-text">' +
+                'Quelle que soit votre situation actuelle, être accompagné·e peut apporter davantage de repères, de soutien et de sérénité dans votre démarche.' +
+              '</p>' +
+
+            '</div>' +
+
+            '<div class="feat">' +
+              '<span class="feat-icon" aria-hidden="true">' +
+                '<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+                  '<circle cx="12" cy="12" r="9"></circle>' +
+                  '<line x1="12" y1="8" x2="12" y2="16"></line>' +
+                  '<line x1="8" y1="12" x2="16" y2="12"></line>' +
+                '</svg>' +
+              '</span>' +
+
+              '<p>' +
+                'Un réseau de <b>médecins partenaires</b>, disponibles rapidement lorsque cela est nécessaire.' +
+              '</p>' +
+            '</div>' +
+
+            '<div class="feat">' +
+              '<span class="feat-icon" aria-hidden="true">' +
+                '<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+                  '<path d="M12 20.5C6.8 16.6 4 13.7 4 9.9A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 8 1.9c0 3.8-2.8 6.7-8 10.6z"></path>' +
+                '</svg>' +
+              '</span>' +
+
+              '<p>' +
+                'Une <b>diététicienne dédiée</b> pour vous accompagner dans votre quotidien.' +
+              '</p>' +
+            '</div>' +
+
+            '<div class="feat">' +
+              '<span class="feat-icon" aria-hidden="true">' +
+                '<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+                  '<rect x="6" y="3" width="12" height="18" rx="2.5"></rect>' +
+                  '<line x1="10" y1="18" x2="14" y2="18"></line>' +
+                '</svg>' +
+              '</span>' +
+
+              '<p>' +
+                'Une <b>application de suivi</b> pour vos repas, vos habitudes, vos progrès et, si besoin, vos injections.' +
+              '</p>' +
+            '</div>' +
+
+            '<div class="feat">' +
+              '<span class="feat-icon" aria-hidden="true">' +
+                '<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+                  '<circle cx="9" cy="8" r="3.2"></circle>' +
+                  '<path d="M3.5 20c0-3 2.6-5 5.5-5s5.5 2 5.5 5"></path>' +
+                  '<path d="M16 5.2a3.2 3.2 0 0 1 0 6"></path>' +
+                  '<path d="M15.5 15c3 .2 5 2.2 5 5"></path>' +
+                '</svg>' +
+              '</span>' +
+
+              '<p>' +
+                'Une <b>communauté</b> composée de personnes qui rencontrent des défis similaires.' +
+              '</p>' +
+            '</div>' +
+
+            '<div class="google">' +
+
+              '<svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">' +
+                '<path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"></path>' +
+                '<path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"></path>' +
+                '<path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"></path>' +
+                '<path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"></path>' +
+              '</svg>' +
+
+              '<span class="stars" aria-label="5 étoiles sur 5">' +
+                '★★★★★' +
+              '</span>' +
+
+              '<span class="txt">' +
+                '5/5 · Plus de 3 000 patients accompagnés' +
+              '</span>' +
+
+            '</div>' +
+
+            '<button class="cta" id="annette-final-cta-opt2" type="button">' +
+              'Vérifier mon éligibilité →' +
+            '</button>' +
+
+            '<p class="reassure">' +
+              'Gratuit et sans engagement · Environ 2 minutes' +
+            '</p>' +
+
+          '</div>';
+
+        var finalButton = document.getElementById(
+          "annette-final-cta-opt2"
+        );
+
+        finalButton.addEventListener("click", function () {
+          var pathParts = window.location.pathname
+            .split("/")
+            .filter(Boolean);
+
+          var articleSlug =
+            pathParts.length > 0
+              ? pathParts[pathParts.length - 1]
+              : "page-accueil";
+
+          if (window.dataLayer) {
+            window.dataLayer.push({
+              event: "encart_cta_click",
+              encart: "quiz_accompagnement",
+              article_slug: articleSlug
+            });
+          }
+
+          window.location.href =
+            "https://app.annette.care/signup" +
+            "?utm_source=article" +
+            "&utm_medium=encart" +
+            "&utm_campaign=quiz_accompagnement" +
+            "&utm_content=" +
+            encodeURIComponent(articleSlug);
+        });
+      }
+    })();
+  </script>
+</div>
