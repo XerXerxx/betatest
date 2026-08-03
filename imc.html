@@ -258,7 +258,8 @@
 
       transition:
         border-color 0.2s ease,
-        box-shadow 0.2s ease;
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
     }
 
     .annette-imc-widget .imc-input::placeholder {
@@ -269,6 +270,11 @@
     .annette-imc-widget .imc-input:focus {
       border-color: var(--ink);
       box-shadow: 0 0 0 3px rgba(15, 15, 14, 0.1);
+    }
+
+    .annette-imc-widget .imc-input:disabled {
+      cursor: wait;
+      opacity: 0.7;
     }
 
     .annette-imc-widget .imc-unit {
@@ -312,7 +318,8 @@
 
     .annette-imc-widget .imc-button {
       width: 100%;
-      padding: 18px;
+      min-height: 56px;
+      padding: 17px 18px;
 
       color: var(--cream);
       background: var(--ink);
@@ -344,6 +351,154 @@
     .annette-imc-widget .imc-button:focus-visible {
       outline: 3px solid rgba(15, 15, 14, 0.25);
       outline-offset: 3px;
+    }
+
+    .annette-imc-widget .imc-button:disabled {
+      cursor: wait;
+      opacity: 1;
+      transform: none;
+    }
+
+    .annette-imc-widget .imc-button-content {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .annette-imc-widget .imc-spinner {
+      display: none;
+
+      width: 19px;
+      height: 19px;
+
+      border: 2px solid rgba(254, 251, 249, 0.35);
+      border-top-color: var(--cream);
+      border-radius: 50%;
+
+      animation: annetteImcSpin 0.75s linear infinite;
+    }
+
+    .annette-imc-widget .imc-button.is-calculating .imc-spinner {
+      display: inline-block;
+    }
+
+    @keyframes annetteImcSpin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* =========================
+       ANIMATION DU CALCUL
+    ========================= */
+
+    .annette-imc-widget .imc-calculation-status {
+      display: none;
+
+      margin: 14px 0 0;
+      padding: 14px;
+
+      background: rgba(254, 251, 249, 0.72);
+      border: 1px solid rgba(15, 15, 14, 0.13);
+      border-radius: 14px;
+
+      opacity: 0;
+      transform: translateY(6px);
+    }
+
+    .annette-imc-widget .imc-calculation-status.is-visible {
+      display: block;
+
+      animation: annetteCalculationIn 0.25s ease forwards;
+    }
+
+    @keyframes annetteCalculationIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .annette-imc-widget .imc-calculation-row {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+
+      margin-bottom: 10px;
+    }
+
+    .annette-imc-widget .imc-calculation-icon {
+      position: relative;
+
+      flex: 0 0 auto;
+
+      width: 18px;
+      height: 18px;
+
+      border: 1.5px solid var(--ink);
+      border-radius: 50%;
+
+      animation: annetteCalculationPulse 1s ease-in-out infinite;
+    }
+
+    .annette-imc-widget .imc-calculation-icon::after {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+
+      width: 6px;
+      height: 6px;
+
+      content: "";
+
+      background: var(--ink);
+      border-radius: 50%;
+
+      transform: translate(-50%, -50%);
+    }
+
+    @keyframes annetteCalculationPulse {
+      0%,
+      100% {
+        opacity: 0.55;
+        transform: scale(0.9);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .annette-imc-widget .imc-calculation-text {
+      margin: 0;
+
+      color: var(--ink);
+
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .annette-imc-widget .imc-calculation-track {
+      width: 100%;
+      height: 7px;
+
+      overflow: hidden;
+
+      background: rgba(15, 15, 14, 0.12);
+      border-radius: 999px;
+    }
+
+    .annette-imc-widget .imc-calculation-progress {
+      width: 8%;
+      height: 100%;
+
+      background: var(--ink);
+      border-radius: 999px;
+
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .annette-imc-widget .imc-privacy {
@@ -755,7 +910,9 @@
       .annette-imc-widget .imc-bubble,
       .annette-imc-widget .imc-modal,
       .annette-imc-widget .imc-modal-dialog,
-      .annette-imc-widget .imc-button {
+      .annette-imc-widget .imc-button,
+      .annette-imc-widget .imc-spinner,
+      .annette-imc-widget .imc-calculation-icon {
         animation: none !important;
         transition-duration: 0.01ms !important;
       }
@@ -838,9 +995,47 @@
         role="alert"
       ></div>
 
-      <button class="imc-button" type="submit">
-        Calculer mon IMC →
+      <button
+        class="imc-button"
+        id="annette-imc-submit"
+        type="submit"
+      >
+        <span class="imc-button-content">
+          <span class="imc-spinner" aria-hidden="true"></span>
+
+          <span id="annette-imc-button-text">
+            Calculer mon IMC →
+          </span>
+        </span>
       </button>
+
+      <div
+        class="imc-calculation-status"
+        id="annette-imc-calculation-status"
+        aria-live="polite"
+        aria-hidden="true"
+      >
+        <div class="imc-calculation-row">
+          <span
+            class="imc-calculation-icon"
+            aria-hidden="true"
+          ></span>
+
+          <p
+            class="imc-calculation-text"
+            id="annette-imc-calculation-text"
+          >
+            Vérification de vos informations…
+          </p>
+        </div>
+
+        <div class="imc-calculation-track" aria-hidden="true">
+          <div
+            class="imc-calculation-progress"
+            id="annette-imc-calculation-progress"
+          ></div>
+        </div>
+      </div>
     </form>
 
     <p class="imc-privacy">
@@ -890,11 +1085,43 @@
     (function () {
       var card = document.getElementById("annette-imc-card");
       var form = document.getElementById("annette-imc-form");
-      var heightInput = document.getElementById("annette-imc-height");
-      var weightInput = document.getElementById("annette-imc-weight");
-      var errorBox = document.getElementById("annette-imc-error");
 
-      var modal = document.getElementById("annette-imc-modal");
+      var heightInput = document.getElementById(
+        "annette-imc-height"
+      );
+
+      var weightInput = document.getElementById(
+        "annette-imc-weight"
+      );
+
+      var errorBox = document.getElementById(
+        "annette-imc-error"
+      );
+
+      var submitButton = document.getElementById(
+        "annette-imc-submit"
+      );
+
+      var buttonText = document.getElementById(
+        "annette-imc-button-text"
+      );
+
+      var calculationStatus = document.getElementById(
+        "annette-imc-calculation-status"
+      );
+
+      var calculationText = document.getElementById(
+        "annette-imc-calculation-text"
+      );
+
+      var calculationProgress = document.getElementById(
+        "annette-imc-calculation-progress"
+      );
+
+      var modal = document.getElementById(
+        "annette-imc-modal"
+      );
+
       var modalContent = document.getElementById(
         "annette-imc-modal-content"
       );
@@ -904,6 +1131,7 @@
       );
 
       var lastFocusedElement = null;
+      var calculationTimers = [];
 
       function showCard() {
         card.classList.add("is-visible");
@@ -958,6 +1186,84 @@
       function clearError() {
         errorBox.textContent = "";
         errorBox.classList.remove("is-visible");
+      }
+
+      function clearCalculationTimers() {
+        calculationTimers.forEach(function (timer) {
+          window.clearTimeout(timer);
+        });
+
+        calculationTimers = [];
+      }
+
+      function setCalculationState(active) {
+        heightInput.disabled = active;
+        weightInput.disabled = active;
+        submitButton.disabled = active;
+
+        if (active) {
+          submitButton.classList.add("is-calculating");
+          buttonText.textContent = "Calcul de votre IMC…";
+
+          calculationStatus.classList.add("is-visible");
+          calculationStatus.setAttribute("aria-hidden", "false");
+        } else {
+          submitButton.classList.remove("is-calculating");
+          buttonText.textContent = "Calculer mon IMC →";
+
+          calculationStatus.classList.remove("is-visible");
+          calculationStatus.setAttribute("aria-hidden", "true");
+
+          calculationText.textContent =
+            "Vérification de vos informations…";
+
+          calculationProgress.style.width = "8%";
+
+          heightInput.disabled = false;
+          weightInput.disabled = false;
+          submitButton.disabled = false;
+        }
+      }
+
+      function startCalculation(imc) {
+        clearCalculationTimers();
+        setCalculationState(true);
+
+        calculationText.textContent =
+          "Vérification de vos informations…";
+
+        calculationProgress.style.width = "12%";
+
+        calculationTimers.push(
+          window.setTimeout(function () {
+            calculationText.textContent =
+              "Application de la formule de calcul…";
+
+            calculationProgress.style.width = "48%";
+          }, 420)
+        );
+
+        calculationTimers.push(
+          window.setTimeout(function () {
+            calculationText.textContent =
+              "Préparation de votre résultat…";
+
+            calculationProgress.style.width = "82%";
+          }, 880)
+        );
+
+        calculationTimers.push(
+          window.setTimeout(function () {
+            calculationProgress.style.width = "100%";
+          }, 1220)
+        );
+
+        calculationTimers.push(
+          window.setTimeout(function () {
+            setCalculationState(false);
+            renderResult(imc);
+          }, 1480)
+        );
       }
 
       function openModal() {
@@ -1216,7 +1522,7 @@
         var imc = calculateImc(weight, height);
         var roundedImc = Math.round(imc * 10) / 10;
 
-        renderResult(roundedImc);
+        startCalculation(roundedImc);
       });
 
       closeButton.addEventListener("click", closeModal);
