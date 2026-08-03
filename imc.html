@@ -1,0 +1,1240 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+  rel="stylesheet"
+>
+
+<div class="annette-imc-widget">
+  <style>
+    .annette-imc-widget {
+      --ink: #0f0f0e;
+      --muted: #4a4a4a;
+      --blue: #a9e1ff;
+      --cream: #fefbf9;
+      --yellow: #ffd973;
+      --pink: #ffd5fb;
+      --white: #ffffff;
+
+      display: flex;
+      justify-content: center;
+
+      width: 100%;
+      margin: 32px 0 !important;
+
+      color: var(--ink);
+      font-family: "Inter", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .annette-imc-widget *,
+    .annette-imc-widget *::before,
+    .annette-imc-widget *::after {
+      box-sizing: border-box;
+    }
+
+    /* =========================
+       CARTE DU CALCULATEUR
+    ========================= */
+
+    .annette-imc-widget .imc-card {
+      position: relative;
+
+      width: 100%;
+      max-width: 480px;
+      padding: 32px;
+
+      overflow: hidden;
+
+      background: var(--blue);
+      border-radius: 24px;
+      box-shadow: 0 12px 36px rgba(15, 15, 14, 0.08);
+
+      opacity: 0;
+      transform: translateY(24px) scale(0.985);
+
+      transition:
+        opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+        transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .annette-imc-widget .imc-card.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* =========================
+       BULLES
+    ========================= */
+
+    .annette-imc-widget .imc-bubbles {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      grid-template-rows: repeat(2, auto);
+      align-items: center;
+
+      width: 100%;
+      max-width: 390px;
+      min-height: 100px;
+      margin: 0 auto 14px;
+      gap: 10px 6px;
+    }
+
+    .annette-imc-widget .imc-bubble {
+      --rotation: 0deg;
+      --offset: -5px;
+      --delay: 0s;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      justify-self: center;
+
+      min-height: 36px;
+      padding: 8px 14px;
+
+      color: var(--ink);
+      background: var(--cream);
+      border: 1.5px solid var(--ink);
+      border-radius: 999px;
+      box-shadow: 0 4px 0 rgba(15, 15, 14, 0.08);
+
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1;
+      white-space: nowrap;
+
+      pointer-events: none;
+
+      animation: annetteImcFloat 4.8s ease-in-out infinite;
+      animation-delay: var(--delay);
+    }
+
+    .annette-imc-widget .imc-bubble::before {
+      width: 7px;
+      height: 7px;
+      margin-right: 7px;
+
+      content: "";
+
+      background: var(--ink);
+      border-radius: 50%;
+      opacity: 0.8;
+    }
+
+    .annette-imc-widget .bubble-height {
+      grid-column: 1 / 3;
+      grid-row: 1;
+
+      --rotation: -3deg;
+      --offset: -4px;
+      --delay: -0.5s;
+    }
+
+    .annette-imc-widget .bubble-weight {
+      grid-column: 3 / 5;
+      grid-row: 1;
+
+      --rotation: 2deg;
+      --offset: -6px;
+      --delay: -1.8s;
+
+      background: var(--yellow);
+    }
+
+    .annette-imc-widget .bubble-imc {
+      grid-column: 5 / 7;
+      grid-row: 1;
+
+      --rotation: -2deg;
+      --offset: -4px;
+      --delay: -2.7s;
+
+      background: var(--pink);
+    }
+
+    .annette-imc-widget .bubble-marker {
+      grid-column: 2 / 4;
+      grid-row: 2;
+
+      --rotation: 2deg;
+      --offset: -5px;
+      --delay: -1.2s;
+
+      background: var(--white);
+    }
+
+    .annette-imc-widget .bubble-support {
+      grid-column: 4 / 6;
+      grid-row: 2;
+
+      --rotation: -2deg;
+      --offset: -5px;
+      --delay: -3.2s;
+    }
+
+    @keyframes annetteImcFloat {
+      0%,
+      100% {
+        transform: translateY(0) rotate(var(--rotation));
+      }
+
+      50% {
+        transform: translateY(var(--offset)) rotate(var(--rotation));
+      }
+    }
+
+    /* =========================
+       TITRES
+    ========================= */
+
+    .annette-imc-widget .imc-title {
+      max-width: 400px;
+      margin: 0 auto 12px;
+
+      color: var(--ink);
+
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+      text-align: center;
+    }
+
+    .annette-imc-widget .imc-intro {
+      max-width: 390px;
+      margin: 0 auto 28px;
+
+      color: var(--muted);
+
+      font-size: 16px;
+      line-height: 1.55;
+      text-align: center;
+    }
+
+    /* =========================
+       FORMULAIRE
+    ========================= */
+
+    .annette-imc-widget .imc-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+
+      margin-bottom: 16px;
+    }
+
+    .annette-imc-widget .imc-label {
+      display: block;
+
+      margin-bottom: 8px;
+
+      color: var(--ink);
+
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .annette-imc-widget .imc-input-wrap {
+      position: relative;
+    }
+
+    .annette-imc-widget .imc-input {
+      width: 100%;
+      height: 58px;
+      padding: 0 52px 0 16px;
+
+      color: var(--ink);
+      background: var(--cream);
+      border: 2px solid transparent;
+      border-radius: 15px;
+      outline: none;
+      box-shadow: 0 2px 8px rgba(15, 15, 14, 0.04);
+
+      font-family: inherit;
+      font-size: 18px;
+      font-weight: 600;
+
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .annette-imc-widget .imc-input::placeholder {
+      color: #8a8a8a;
+      font-weight: 500;
+    }
+
+    .annette-imc-widget .imc-input:focus {
+      border-color: var(--ink);
+      box-shadow: 0 0 0 3px rgba(15, 15, 14, 0.1);
+    }
+
+    .annette-imc-widget .imc-unit {
+      position: absolute;
+      top: 50%;
+      right: 16px;
+
+      color: var(--muted);
+
+      font-size: 14px;
+      font-weight: 600;
+
+      pointer-events: none;
+
+      transform: translateY(-50%);
+    }
+
+    .annette-imc-widget .imc-error {
+      display: none;
+
+      margin: 0 0 16px;
+      padding: 12px 14px;
+
+      color: var(--ink);
+      background: var(--pink);
+      border: 1.5px solid var(--ink);
+      border-radius: 12px;
+
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .annette-imc-widget .imc-error.is-visible {
+      display: block;
+    }
+
+    /* =========================
+       BOUTONS
+    ========================= */
+
+    .annette-imc-widget .imc-button {
+      width: 100%;
+      padding: 18px;
+
+      color: var(--cream);
+      background: var(--ink);
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(15, 15, 14, 0.15);
+
+      font-family: inherit;
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 1.2;
+
+      cursor: pointer;
+
+      transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+    }
+
+    .annette-imc-widget .imc-button:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
+
+    .annette-imc-widget .imc-button:active {
+      transform: scale(0.985);
+    }
+
+    .annette-imc-widget .imc-button:focus-visible {
+      outline: 3px solid rgba(15, 15, 14, 0.25);
+      outline-offset: 3px;
+    }
+
+    .annette-imc-widget .imc-privacy {
+      margin: 14px 0 0;
+
+      color: var(--muted);
+
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1.45;
+      text-align: center;
+    }
+
+    /* =========================
+       FOND DE LA POP-UP
+    ========================= */
+
+    .annette-imc-widget .imc-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 999999;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 20px;
+
+      visibility: hidden;
+      background: rgba(15, 15, 14, 0.55);
+      opacity: 0;
+
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+
+      transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
+    }
+
+    .annette-imc-widget .imc-modal.is-open {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* =========================
+       CONTENU DE LA POP-UP
+    ========================= */
+
+    .annette-imc-widget .imc-modal-dialog {
+      position: relative;
+
+      width: 100%;
+      max-width: 500px;
+      max-height: calc(100vh - 40px);
+      padding: 30px;
+
+      overflow-y: auto;
+
+      background: var(--blue);
+      border: 1.5px solid rgba(15, 15, 14, 0.18);
+      border-radius: 24px;
+      box-shadow: 0 24px 70px rgba(15, 15, 14, 0.24);
+
+      opacity: 0;
+      transform: translateY(22px) scale(0.97);
+
+      transition:
+        opacity 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+        transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .annette-imc-widget .imc-modal.is-open .imc-modal-dialog {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .annette-imc-widget .imc-modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 38px;
+      height: 38px;
+      padding: 0;
+
+      color: var(--ink);
+      background: rgba(254, 251, 249, 0.78);
+      border: 1px solid rgba(15, 15, 14, 0.16);
+      border-radius: 50%;
+
+      cursor: pointer;
+
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+    }
+
+    .annette-imc-widget .imc-modal-close:hover {
+      background: var(--cream);
+      transform: rotate(4deg);
+    }
+
+    /* =========================
+       RÉSULTAT IMC
+    ========================= */
+
+    .annette-imc-widget .imc-result-header {
+      margin-bottom: 24px;
+      padding-top: 8px;
+
+      text-align: center;
+    }
+
+    .annette-imc-widget .imc-result-circle {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      width: 126px;
+      height: 126px;
+      margin: 0 auto 20px;
+
+      color: var(--ink);
+      background: var(--yellow);
+      border: 1.5px solid var(--ink);
+      border-radius: 38px;
+      box-shadow: 0 7px 0 rgba(15, 15, 14, 0.08);
+
+      transform: rotate(-3deg);
+    }
+
+    .annette-imc-widget .imc-result-circle-content {
+      transform: rotate(3deg);
+    }
+
+    .annette-imc-widget .imc-result-label {
+      display: block;
+
+      margin-bottom: 3px;
+
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .annette-imc-widget .imc-result-value {
+      display: block;
+
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .annette-imc-widget .imc-result-unit {
+      display: block;
+
+      margin-top: 4px;
+
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .annette-imc-widget .imc-result-title {
+      max-width: 410px;
+      margin: 0 auto 12px;
+
+      color: var(--ink);
+
+      font-size: 23px;
+      font-weight: 700;
+      line-height: 1.3;
+      letter-spacing: -0.025em;
+    }
+
+    .annette-imc-widget .imc-result-text {
+      max-width: 410px;
+      margin: 0 auto;
+
+      color: var(--muted);
+
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    /* =========================
+       BÉNÉFICES ANNETTE
+    ========================= */
+
+    .annette-imc-widget .imc-benefits {
+      display: grid;
+      gap: 12px;
+
+      margin: 0 0 22px;
+    }
+
+    .annette-imc-widget .imc-benefit {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+
+      padding: 13px 14px;
+
+      background: rgba(254, 251, 249, 0.76);
+      border: 1px solid rgba(15, 15, 14, 0.12);
+      border-radius: 14px;
+    }
+
+    .annette-imc-widget .imc-benefit-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+
+      width: 34px;
+      height: 34px;
+
+      color: var(--ink);
+      background: var(--white);
+      border: 1px solid rgba(15, 15, 14, 0.14);
+      border-radius: 10px;
+    }
+
+    .annette-imc-widget .imc-benefit p {
+      margin: 2px 0 0;
+
+      color: var(--ink);
+
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    /* =========================
+       BAS DE LA POP-UP
+    ========================= */
+
+    .annette-imc-widget .imc-modal-reassure {
+      margin: 12px 0 0;
+
+      color: var(--muted);
+
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.45;
+      text-align: center;
+    }
+
+    .annette-imc-widget .imc-disclaimer {
+      margin: 14px 0 0;
+
+      color: var(--muted);
+
+      font-size: 11px;
+      line-height: 1.45;
+      text-align: center;
+    }
+
+    .annette-imc-widget .imc-edit-button {
+      display: block;
+
+      margin: 8px auto 0;
+      padding: 10px 12px;
+
+      color: var(--ink);
+      background: transparent;
+      border: none;
+
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+
+      cursor: pointer;
+    }
+
+    .annette-imc-widget .imc-edit-button:hover {
+      text-decoration: underline;
+    }
+
+    /* =========================
+       MESSAGE SOUS LE SEUIL
+    ========================= */
+
+    .annette-imc-widget .imc-info-box {
+      margin: 0 0 22px;
+      padding: 16px;
+
+      color: var(--ink);
+      background: rgba(254, 251, 249, 0.76);
+      border: 1px solid rgba(15, 15, 14, 0.13);
+      border-radius: 15px;
+
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 479px) {
+      .annette-imc-widget {
+        margin: 24px 0 !important;
+      }
+
+      .annette-imc-widget .imc-card {
+        padding: 24px;
+        border-radius: 20px;
+      }
+
+      .annette-imc-widget .imc-title {
+        font-size: 25px;
+      }
+
+      .annette-imc-widget .imc-intro {
+        font-size: 15px;
+      }
+
+      .annette-imc-widget .imc-bubbles {
+        min-height: 96px;
+        gap: 9px 3px;
+      }
+
+      .annette-imc-widget .imc-bubble {
+        min-height: 33px;
+        padding: 7px 9px;
+
+        font-size: 10.5px;
+      }
+
+      .annette-imc-widget .imc-bubble::before {
+        width: 6px;
+        height: 6px;
+        margin-right: 5px;
+      }
+
+      .annette-imc-widget .imc-form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .annette-imc-widget .imc-modal {
+        align-items: flex-end;
+        padding: 12px;
+      }
+
+      .annette-imc-widget .imc-modal-dialog {
+        max-height: calc(100vh - 24px);
+        padding: 25px 20px 22px;
+
+        border-radius: 22px;
+      }
+
+      .annette-imc-widget .imc-result-circle {
+        width: 108px;
+        height: 108px;
+        margin-bottom: 18px;
+
+        border-radius: 32px;
+      }
+
+      .annette-imc-widget .imc-result-value {
+        font-size: 31px;
+      }
+
+      .annette-imc-widget .imc-result-title {
+        font-size: 21px;
+      }
+
+      .annette-imc-widget .imc-result-text {
+        font-size: 14px;
+      }
+
+      .annette-imc-widget .imc-result-header {
+        margin-bottom: 20px;
+      }
+
+      .annette-imc-widget .imc-benefits {
+        gap: 9px;
+        margin-bottom: 19px;
+      }
+
+      .annette-imc-widget .imc-benefit {
+        padding: 11px 12px;
+      }
+
+      .annette-imc-widget .imc-benefit p {
+        font-size: 13px;
+      }
+
+      .annette-imc-widget .imc-benefit-icon {
+        width: 31px;
+        height: 31px;
+      }
+    }
+
+    /* =========================
+       ACCESSIBILITÉ
+    ========================= */
+
+    @media (prefers-reduced-motion: reduce) {
+      .annette-imc-widget .imc-card,
+      .annette-imc-widget .imc-bubble,
+      .annette-imc-widget .imc-modal,
+      .annette-imc-widget .imc-modal-dialog,
+      .annette-imc-widget .imc-button {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      .annette-imc-widget .imc-card {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+
+  <!-- CALCULATEUR -->
+
+  <div class="imc-card" id="annette-imc-card">
+    <div class="imc-bubbles" aria-hidden="true">
+      <div class="imc-bubble bubble-height">Taille</div>
+      <div class="imc-bubble bubble-weight">Poids</div>
+      <div class="imc-bubble bubble-imc">IMC</div>
+      <div class="imc-bubble bubble-marker">Repère</div>
+      <div class="imc-bubble bubble-support">Accompagnement</div>
+    </div>
+
+    <h2 class="imc-title">
+      Calculez votre IMC en quelques secondes
+    </h2>
+
+    <p class="imc-intro">
+      Indiquez votre taille et votre poids pour obtenir une estimation
+      de votre indice de masse corporelle.
+    </p>
+
+    <form id="annette-imc-form" novalidate>
+      <div class="imc-form-grid">
+        <div>
+          <label class="imc-label" for="annette-imc-height">
+            Votre taille
+          </label>
+
+          <div class="imc-input-wrap">
+            <input
+              class="imc-input"
+              id="annette-imc-height"
+              name="height"
+              type="text"
+              inputmode="decimal"
+              autocomplete="off"
+              placeholder="Ex. 168"
+              aria-describedby="annette-imc-error"
+            >
+
+            <span class="imc-unit">cm</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="imc-label" for="annette-imc-weight">
+            Votre poids
+          </label>
+
+          <div class="imc-input-wrap">
+            <input
+              class="imc-input"
+              id="annette-imc-weight"
+              name="weight"
+              type="text"
+              inputmode="decimal"
+              autocomplete="off"
+              placeholder="Ex. 85"
+              aria-describedby="annette-imc-error"
+            >
+
+            <span class="imc-unit">kg</span>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="imc-error"
+        id="annette-imc-error"
+        role="alert"
+      ></div>
+
+      <button class="imc-button" type="submit">
+        Calculer mon IMC →
+      </button>
+    </form>
+
+    <p class="imc-privacy">
+      Calcul indicatif réservé aux adultes. Les valeurs saisies restent
+      dans votre navigateur et ne sont pas enregistrées.
+    </p>
+  </div>
+
+  <!-- POP-UP DU RÉSULTAT -->
+
+  <div
+    class="imc-modal"
+    id="annette-imc-modal"
+    aria-hidden="true"
+  >
+    <div
+      class="imc-modal-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="annette-imc-result-title"
+    >
+      <button
+        class="imc-modal-close"
+        id="annette-imc-modal-close"
+        type="button"
+        aria-label="Fermer la fenêtre"
+      >
+        <svg
+          width="19"
+          height="19"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        >
+          <path d="M18 6 6 18"></path>
+          <path d="m6 6 12 12"></path>
+        </svg>
+      </button>
+
+      <div id="annette-imc-modal-content"></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var card = document.getElementById("annette-imc-card");
+      var form = document.getElementById("annette-imc-form");
+      var heightInput = document.getElementById("annette-imc-height");
+      var weightInput = document.getElementById("annette-imc-weight");
+      var errorBox = document.getElementById("annette-imc-error");
+
+      var modal = document.getElementById("annette-imc-modal");
+      var modalContent = document.getElementById(
+        "annette-imc-modal-content"
+      );
+
+      var closeButton = document.getElementById(
+        "annette-imc-modal-close"
+      );
+
+      var lastFocusedElement = null;
+
+      function showCard() {
+        card.classList.add("is-visible");
+      }
+
+      if ("IntersectionObserver" in window) {
+        var observer = new IntersectionObserver(
+          function (entries) {
+            if (entries[0].isIntersecting) {
+              showCard();
+              observer.disconnect();
+            }
+          },
+          {
+            threshold: 0.2
+          }
+        );
+
+        observer.observe(card);
+      } else {
+        showCard();
+      }
+
+      function normalizeNumber(value) {
+        return parseFloat(
+          String(value)
+            .trim()
+            .replace(",", ".")
+            .replace(/\s/g, "")
+        );
+      }
+
+      function calculateImc(weight, heightCm) {
+        var heightMeters = heightCm / 100;
+
+        return weight / (heightMeters * heightMeters);
+      }
+
+      function formatImc(value) {
+        return value.toFixed(1).replace(".", ",");
+      }
+
+      function showError(message, input) {
+        errorBox.textContent = message;
+        errorBox.classList.add("is-visible");
+
+        if (input) {
+          input.focus();
+        }
+      }
+
+      function clearError() {
+        errorBox.textContent = "";
+        errorBox.classList.remove("is-visible");
+      }
+
+      function openModal() {
+        lastFocusedElement = document.activeElement;
+
+        modal.classList.add("is-open");
+        modal.setAttribute("aria-hidden", "false");
+
+        document.documentElement.style.overflow = "hidden";
+        document.body.style.overflow = "hidden";
+
+        window.setTimeout(function () {
+          closeButton.focus();
+        }, 50);
+      }
+
+      function closeModal() {
+        modal.classList.remove("is-open");
+        modal.setAttribute("aria-hidden", "true");
+
+        document.documentElement.style.overflow = "";
+        document.body.style.overflow = "";
+
+        if (lastFocusedElement) {
+          lastFocusedElement.focus();
+        }
+      }
+
+      function renderResult(imc) {
+        var reachesThreshold = imc >= 30;
+        var displayedImc = formatImc(imc);
+
+        if (reachesThreshold) {
+          modalContent.innerHTML =
+            '<div class="imc-result-header">' +
+
+              '<div class="imc-result-circle" aria-label="IMC estimé : ' +
+                displayedImc +
+              '">' +
+
+                '<div class="imc-result-circle-content">' +
+                  '<span class="imc-result-label">IMC estimé</span>' +
+                  '<strong class="imc-result-value">' +
+                    displayedImc +
+                  "</strong>" +
+                  '<span class="imc-result-unit">kg/m²</span>' +
+                "</div>" +
+
+              "</div>" +
+
+              '<h2 class="imc-result-title" id="annette-imc-result-title">' +
+                "Un accompagnement peut être pertinent pour vous." +
+              "</h2>" +
+
+              '<p class="imc-result-text">' +
+                "Votre IMC indique qu’un accompagnement peut être pertinent dans votre situation. Répondez à quelques questions pour découvrir si Annette peut vous accompagner." +
+              "</p>" +
+
+            "</div>" +
+
+            '<div class="imc-benefits">' +
+
+              '<div class="imc-benefit">' +
+                '<span class="imc-benefit-icon" aria-hidden="true">' +
+                  '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+                    '<circle cx="12" cy="12" r="9"></circle>' +
+                    '<line x1="12" y1="8" x2="12" y2="16"></line>' +
+                    '<line x1="8" y1="12" x2="16" y2="12"></line>' +
+                  "</svg>" +
+                "</span>" +
+
+                "<p>" +
+                  "Des <strong>médecins partenaires spécialisés dans l’obésité et la perte de poids</strong>." +
+                "</p>" +
+              "</div>" +
+
+              '<div class="imc-benefit">' +
+                '<span class="imc-benefit-icon" aria-hidden="true">' +
+                  '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+                    '<path d="M12 20.5C6.8 16.6 4 13.7 4 9.9A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 8 1.9c0 3.8-2.8 6.7-8 10.6z"></path>' +
+                  "</svg>" +
+                "</span>" +
+
+                "<p>" +
+                  "Une <strong>diététicienne dédiée</strong> pour vous accompagner au quotidien." +
+                "</p>" +
+              "</div>" +
+
+              '<div class="imc-benefit">' +
+                '<span class="imc-benefit-icon" aria-hidden="true">' +
+                  '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+                    '<rect x="6" y="3" width="12" height="18" rx="2.5"></rect>' +
+                    '<line x1="10" y1="18" x2="14" y2="18"></line>' +
+                  "</svg>" +
+                "</span>" +
+
+                "<p>" +
+                  "Une <strong>application de suivi</strong> pour vos repas, vos habitudes et vos progrès." +
+                "</p>" +
+              "</div>" +
+
+              '<div class="imc-benefit">' +
+                '<span class="imc-benefit-icon" aria-hidden="true">' +
+                  '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+                    '<circle cx="9" cy="8" r="3.2"></circle>' +
+                    '<path d="M3.5 20c0-3 2.6-5 5.5-5s5.5 2 5.5 5"></path>' +
+                    '<path d="M16 5.2a3.2 3.2 0 0 1 0 6"></path>' +
+                    '<path d="M15.5 15c3 .2 5 2.2 5 5"></path>' +
+                  "</svg>" +
+                "</span>" +
+
+                "<p>" +
+                  "Une <strong>communauté</strong> qui partage les mêmes défis." +
+                "</p>" +
+              "</div>" +
+
+            "</div>" +
+
+            '<button class="imc-button" id="annette-imc-cta" type="button">' +
+              "Commencer ma démarche →" +
+            "</button>" +
+
+            '<p class="imc-modal-reassure">' +
+              "2 minutes · Gratuit · Sans engagement" +
+            "</p>" +
+
+            '<button class="imc-edit-button" id="annette-imc-edit" type="button">' +
+              "Modifier mes informations" +
+            "</button>" +
+
+            '<p class="imc-disclaimer">' +
+              "Ce calcul est indicatif. Il ne confirme pas votre éligibilité et ne constitue pas un diagnostic médical." +
+            "</p>";
+
+          document
+            .getElementById("annette-imc-cta")
+            .addEventListener("click", function () {
+              var pathParts = window.location.pathname
+                .split("/")
+                .filter(Boolean);
+
+              var articleSlug =
+                pathParts.length > 0
+                  ? pathParts[pathParts.length - 1]
+                  : "page-accueil";
+
+              if (window.dataLayer) {
+                window.dataLayer.push({
+                  event: "encart_cta_click",
+                  encart: "calculateur_imc",
+                  imc_threshold_reached: true,
+                  article_slug: articleSlug
+                });
+              }
+
+              window.location.href =
+                "https://app.annette.care/signup" +
+                "?utm_source=article" +
+                "&utm_medium=encart" +
+                "&utm_campaign=calculateur_imc" +
+                "&utm_content=" +
+                encodeURIComponent(articleSlug);
+            });
+        } else {
+          modalContent.innerHTML =
+            '<div class="imc-result-header">' +
+
+              '<div class="imc-result-circle" aria-label="IMC estimé : ' +
+                displayedImc +
+              '">' +
+
+                '<div class="imc-result-circle-content">' +
+                  '<span class="imc-result-label">IMC estimé</span>' +
+                  '<strong class="imc-result-value">' +
+                    displayedImc +
+                  "</strong>" +
+                  '<span class="imc-result-unit">kg/m²</span>' +
+                "</div>" +
+
+              "</div>" +
+
+              '<h2 class="imc-result-title" id="annette-imc-result-title">' +
+                "Merci d’avoir effectué le calcul." +
+              "</h2>" +
+
+              '<p class="imc-result-text">' +
+                "L’accompagnement Annette est actuellement destiné aux adultes ayant un IMC égal ou supérieur à 30." +
+              "</p>" +
+
+            "</div>" +
+
+            '<div class="imc-info-box">' +
+              "L’IMC est un indicateur général. Il ne résume pas votre santé, votre parcours ou vos besoins personnels." +
+            "</div>" +
+
+            '<button class="imc-button" id="annette-imc-close-result" type="button">' +
+              "Fermer" +
+            "</button>" +
+
+            '<button class="imc-edit-button" id="annette-imc-edit" type="button">' +
+              "Modifier mes informations" +
+            "</button>" +
+
+            '<p class="imc-disclaimer">' +
+              "Ce calcul est indicatif et ne constitue pas un diagnostic médical." +
+            "</p>";
+
+          document
+            .getElementById("annette-imc-close-result")
+            .addEventListener("click", closeModal);
+        }
+
+        document
+          .getElementById("annette-imc-edit")
+          .addEventListener("click", function () {
+            closeModal();
+
+            window.setTimeout(function () {
+              heightInput.focus();
+            }, 250);
+          });
+
+        openModal();
+      }
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        clearError();
+
+        var height = normalizeNumber(heightInput.value);
+        var weight = normalizeNumber(weightInput.value);
+
+        if (!height || !weight) {
+          showError(
+            "Renseignez votre taille et votre poids pour effectuer le calcul."
+          );
+          return;
+        }
+
+        if (height < 100 || height > 250) {
+          showError(
+            "Vérifiez votre taille. Elle doit être renseignée en centimètres.",
+            heightInput
+          );
+          return;
+        }
+
+        if (weight < 30 || weight > 350) {
+          showError(
+            "Vérifiez votre poids. Il doit être renseigné en kilogrammes.",
+            weightInput
+          );
+          return;
+        }
+
+        var imc = calculateImc(weight, height);
+        var roundedImc = Math.round(imc * 10) / 10;
+
+        renderResult(roundedImc);
+      });
+
+      closeButton.addEventListener("click", closeModal);
+
+      modal.addEventListener("click", function (event) {
+        if (event.target === modal) {
+          closeModal();
+        }
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (
+          event.key === "Escape" &&
+          modal.classList.contains("is-open")
+        ) {
+          closeModal();
+        }
+      });
+    })();
+  </script>
+</div>
