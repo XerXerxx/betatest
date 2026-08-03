@@ -1,10 +1,25 @@
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
 
-<link
-  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-  rel="stylesheet"
->
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Calculateur IMC Annette</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+</head>
+
+<body style="margin:0; background:#ffffff;">
 
 <div class="annette-imc-widget">
   <style>
@@ -12,16 +27,19 @@
       --ink: #0f0f0e;
       --muted: #4a4a4a;
       --blue: #a9e1ff;
+      --light-blue: #dff2ff;
       --cream: #fefbf9;
       --yellow: #ffd973;
       --pink: #ffd5fb;
+      --peach: #ffc89a;
       --white: #ffffff;
+      --stars: #ef9f27;
 
       display: flex;
       justify-content: center;
 
       width: 100%;
-      margin: 32px 0 !important;
+      padding: 24px 16px;
 
       color: var(--ink);
       font-family: "Inter", sans-serif;
@@ -35,7 +53,7 @@
     }
 
     /* =========================
-       CARTE DU CALCULATEUR
+       CALCULATEUR
     ========================= */
 
     .annette-imc-widget .imc-card {
@@ -390,7 +408,7 @@
     }
 
     /* =========================
-       ANIMATION DU CALCUL
+       ANIMATION DE CALCUL
     ========================= */
 
     .annette-imc-widget .imc-calculation-status {
@@ -513,7 +531,7 @@
     }
 
     /* =========================
-       FOND DE LA POP-UP
+       POP-UP
     ========================= */
 
     .annette-imc-widget .imc-modal {
@@ -544,17 +562,13 @@
       opacity: 1;
     }
 
-    /* =========================
-       CONTENU DE LA POP-UP
-    ========================= */
-
     .annette-imc-widget .imc-modal-dialog {
       position: relative;
 
       width: 100%;
       max-width: 500px;
       max-height: calc(100vh - 40px);
-      padding: 30px;
+      padding: 24px;
 
       overflow-y: auto;
 
@@ -578,8 +592,9 @@
 
     .annette-imc-widget .imc-modal-close {
       position: absolute;
-      top: 14px;
-      right: 14px;
+      top: 12px;
+      right: 12px;
+      z-index: 10;
 
       display: flex;
       align-items: center;
@@ -590,54 +605,82 @@
       padding: 0;
 
       color: var(--ink);
-      background: rgba(254, 251, 249, 0.78);
+      background: rgba(254, 251, 249, 0.9);
       border: 1px solid rgba(15, 15, 14, 0.16);
       border-radius: 50%;
 
       cursor: pointer;
-
-      transition:
-        transform 0.2s ease,
-        background 0.2s ease;
-    }
-
-    .annette-imc-widget .imc-modal-close:hover {
-      background: var(--cream);
-      transform: rotate(4deg);
     }
 
     /* =========================
-       RÉSULTAT IMC
+       OPTION 4 : CERCLE COMPACT
     ========================= */
 
-    .annette-imc-widget .imc-result-header {
-      margin-bottom: 24px;
-      padding-top: 8px;
+    .annette-imc-widget .imc-result-summary {
+      display: grid;
+      grid-template-columns: 128px minmax(0, 1fr);
+      align-items: center;
+      gap: 18px;
 
-      text-align: center;
+      margin-bottom: 16px;
+      padding-right: 34px;
     }
 
-    .annette-imc-widget .imc-result-circle {
+    .annette-imc-widget .imc-circle-indicator {
+      position: relative;
+
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
 
-      width: 126px;
-      height: 126px;
-      margin: 0 auto 20px;
-
-      color: var(--ink);
-      background: var(--yellow);
-      border: 1.5px solid var(--ink);
-      border-radius: 38px;
-      box-shadow: 0 7px 0 rgba(15, 15, 14, 0.08);
-
-      transform: rotate(-3deg);
+      width: 128px;
+      height: 128px;
     }
 
-    .annette-imc-widget .imc-result-circle-content {
-      transform: rotate(3deg);
+    .annette-imc-widget .imc-circle-indicator svg {
+      position: absolute;
+      inset: 0;
+
+      display: block;
+
+      width: 100%;
+      height: 100%;
+
+      transform: rotate(-90deg);
+    }
+
+    .annette-imc-widget .imc-circle-track {
+      fill: none;
+      stroke: rgba(15, 15, 14, 0.12);
+      stroke-width: 9;
+    }
+
+    .annette-imc-widget .imc-circle-segment {
+      fill: none;
+      stroke: rgba(15, 15, 14, 0.14);
+      stroke-width: 9;
+      stroke-linecap: round;
+
+      transition: stroke 0.3s ease;
+    }
+
+    .annette-imc-widget .imc-circle-segment.active.class-1 {
+      stroke: var(--yellow);
+    }
+
+    .annette-imc-widget .imc-circle-segment.active.class-2 {
+      stroke: var(--peach);
+    }
+
+    .annette-imc-widget .imc-circle-segment.active.class-3 {
+      stroke: var(--pink);
+    }
+
+    .annette-imc-widget .imc-circle-center {
+      position: relative;
+      z-index: 2;
+
+      text-align: center;
     }
 
     .annette-imc-widget .imc-result-label {
@@ -645,16 +688,21 @@
 
       margin-bottom: 3px;
 
-      font-size: 11px;
+      color: var(--ink);
+
+      font-size: 9px;
       font-weight: 700;
+      line-height: 1.2;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.05em;
     }
 
     .annette-imc-widget .imc-result-value {
       display: block;
 
-      font-size: 36px;
+      color: var(--ink);
+
+      font-size: 31px;
       font-weight: 700;
       line-height: 1;
       letter-spacing: -0.04em;
@@ -665,53 +713,84 @@
 
       margin-top: 4px;
 
-      font-size: 11px;
+      color: var(--ink);
+
+      font-size: 10px;
       font-weight: 600;
     }
 
+    .annette-imc-widget .imc-class-badge {
+      display: inline-flex;
+      align-items: center;
+
+      margin-bottom: 10px;
+      padding: 7px 11px;
+
+      color: var(--ink);
+      border: 1.5px solid var(--ink);
+      border-radius: 999px;
+      box-shadow: 0 3px 0 rgba(15, 15, 14, 0.07);
+
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .annette-imc-widget .imc-class-badge.class-1 {
+      background: var(--yellow);
+    }
+
+    .annette-imc-widget .imc-class-badge.class-2 {
+      background: var(--peach);
+    }
+
+    .annette-imc-widget .imc-class-badge.class-3 {
+      background: var(--pink);
+    }
+
     .annette-imc-widget .imc-result-title {
-      max-width: 410px;
-      margin: 0 auto 12px;
+      margin: 0 0 6px;
 
       color: var(--ink);
 
-      font-size: 23px;
+      font-size: 17px;
       font-weight: 700;
       line-height: 1.3;
-      letter-spacing: -0.025em;
+      letter-spacing: -0.02em;
     }
 
     .annette-imc-widget .imc-result-text {
-      max-width: 410px;
-      margin: 0 auto;
+      margin: 0;
 
       color: var(--muted);
 
-      font-size: 15px;
-      line-height: 1.55;
+      font-size: 13px;
+      line-height: 1.45;
     }
 
     /* =========================
-       BÉNÉFICES ANNETTE
+       FONCTIONNALITÉS
     ========================= */
 
-    .annette-imc-widget .imc-benefits {
-      display: grid;
-      gap: 12px;
+    .annette-imc-widget .imc-benefits-box {
+      margin-bottom: 12px;
+      padding: 4px 15px;
 
-      margin: 0 0 22px;
+      background: var(--light-blue);
+      border: 1px solid rgba(15, 15, 14, 0.12);
+      border-radius: 16px;
     }
 
     .annette-imc-widget .imc-benefit {
       display: flex;
-      align-items: flex-start;
-      gap: 12px;
+      align-items: center;
+      gap: 11px;
 
-      padding: 13px 14px;
+      padding: 11px 0;
+    }
 
-      background: rgba(254, 251, 249, 0.76);
-      border: 1px solid rgba(15, 15, 14, 0.12);
-      border-radius: 14px;
+    .annette-imc-widget .imc-benefit + .imc-benefit {
+      border-top: 1px solid rgba(15, 15, 14, 0.1);
     }
 
     .annette-imc-widget .imc-benefit-icon {
@@ -720,61 +799,86 @@
       justify-content: center;
       flex: 0 0 auto;
 
-      width: 34px;
-      height: 34px;
+      width: 30px;
+      height: 30px;
 
       color: var(--ink);
-      background: var(--white);
+      background: rgba(255, 255, 255, 0.8);
       border: 1px solid rgba(15, 15, 14, 0.14);
-      border-radius: 10px;
+      border-radius: 9px;
     }
 
     .annette-imc-widget .imc-benefit p {
-      margin: 2px 0 0;
+      margin: 0;
 
       color: var(--ink);
 
-      font-size: 14px;
-      line-height: 1.45;
+      font-size: 13px;
+      line-height: 1.4;
     }
 
     /* =========================
-       BAS DE LA POP-UP
+       AVIS GOOGLE
+    ========================= */
+
+    .annette-imc-widget .imc-google {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 7px;
+
+      margin-bottom: 14px;
+      padding: 11px 12px;
+
+      background: var(--cream);
+      border: 1px solid rgba(15, 15, 14, 0.1);
+      border-radius: 13px;
+    }
+
+    .annette-imc-widget .imc-google-stars {
+      color: var(--stars);
+
+      font-size: 16px;
+      line-height: 1;
+      letter-spacing: 1px;
+    }
+
+    .annette-imc-widget .imc-google-text {
+      color: var(--muted);
+
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    /* =========================
+       BAS DU RÉSULTAT
     ========================= */
 
     .annette-imc-widget .imc-modal-reassure {
-      margin: 12px 0 0;
+      margin: 10px 0 0;
 
       color: var(--muted);
 
       font-size: 12px;
       font-weight: 600;
-      line-height: 1.45;
-      text-align: center;
-    }
-
-    .annette-imc-widget .imc-disclaimer {
-      margin: 14px 0 0;
-
-      color: var(--muted);
-
-      font-size: 11px;
-      line-height: 1.45;
+      line-height: 1.4;
       text-align: center;
     }
 
     .annette-imc-widget .imc-edit-button {
       display: block;
 
-      margin: 8px auto 0;
-      padding: 10px 12px;
+      margin: 5px auto 0;
+      padding: 9px 12px;
 
       color: var(--ink);
       background: transparent;
       border: none;
 
       font-family: inherit;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
 
       cursor: pointer;
@@ -784,21 +888,27 @@
       text-decoration: underline;
     }
 
-    /* =========================
-       MESSAGE SOUS LE SEUIL
-    ========================= */
+    .annette-imc-widget .imc-disclaimer {
+      margin: 7px 0 0;
+
+      color: var(--muted);
+
+      font-size: 10px;
+      line-height: 1.4;
+      text-align: center;
+    }
 
     .annette-imc-widget .imc-info-box {
-      margin: 0 0 22px;
-      padding: 16px;
+      margin: 0 0 14px;
+      padding: 14px;
 
       color: var(--ink);
-      background: rgba(254, 251, 249, 0.76);
-      border: 1px solid rgba(15, 15, 14, 0.13);
-      border-radius: 15px;
+      background: var(--light-blue);
+      border: 1px solid rgba(15, 15, 14, 0.12);
+      border-radius: 14px;
 
-      font-size: 14px;
-      line-height: 1.5;
+      font-size: 13px;
+      line-height: 1.45;
       text-align: center;
     }
 
@@ -808,7 +918,7 @@
 
     @media (max-width: 479px) {
       .annette-imc-widget {
-        margin: 24px 0 !important;
+        padding: 18px 12px;
       }
 
       .annette-imc-widget .imc-card {
@@ -848,69 +958,111 @@
 
       .annette-imc-widget .imc-modal {
         align-items: flex-end;
-        padding: 12px;
+        padding: 10px;
       }
 
       .annette-imc-widget .imc-modal-dialog {
-        max-height: calc(100vh - 24px);
-        padding: 25px 20px 22px;
+        max-height: calc(100vh - 20px);
+        padding: 19px 17px 18px;
 
         border-radius: 22px;
       }
 
-      .annette-imc-widget .imc-result-circle {
-        width: 108px;
-        height: 108px;
-        margin-bottom: 18px;
+      .annette-imc-widget .imc-modal-close {
+        top: 10px;
+        right: 10px;
 
-        border-radius: 32px;
+        width: 34px;
+        height: 34px;
+      }
+
+      .annette-imc-widget .imc-result-summary {
+        grid-template-columns: 104px minmax(0, 1fr);
+        gap: 12px;
+
+        padding-right: 22px;
+      }
+
+      .annette-imc-widget .imc-circle-indicator {
+        width: 104px;
+        height: 104px;
       }
 
       .annette-imc-widget .imc-result-value {
-        font-size: 31px;
+        font-size: 27px;
+      }
+
+      .annette-imc-widget .imc-result-label {
+        font-size: 8px;
+      }
+
+      .annette-imc-widget .imc-result-unit {
+        font-size: 9px;
+      }
+
+      .annette-imc-widget .imc-class-badge {
+        margin-bottom: 6px;
+        padding: 6px 9px;
+
+        font-size: 10px;
       }
 
       .annette-imc-widget .imc-result-title {
-        font-size: 21px;
+        font-size: 15px;
       }
 
       .annette-imc-widget .imc-result-text {
-        font-size: 14px;
-      }
-
-      .annette-imc-widget .imc-result-header {
-        margin-bottom: 20px;
-      }
-
-      .annette-imc-widget .imc-benefits {
-        gap: 9px;
-        margin-bottom: 19px;
+        font-size: 12px;
       }
 
       .annette-imc-widget .imc-benefit {
-        padding: 11px 12px;
-      }
-
-      .annette-imc-widget .imc-benefit p {
-        font-size: 13px;
+        padding: 9px 0;
       }
 
       .annette-imc-widget .imc-benefit-icon {
-        width: 31px;
-        height: 31px;
+        width: 28px;
+        height: 28px;
+      }
+
+      .annette-imc-widget .imc-benefit p {
+        font-size: 12px;
+      }
+
+      .annette-imc-widget .imc-google {
+        gap: 5px;
+        padding: 10px;
+      }
+
+      .annette-imc-widget .imc-google-text {
+        font-size: 11px;
       }
     }
 
-    /* =========================
-       ACCESSIBILITÉ
-    ========================= */
+    @media (max-width: 360px) {
+      .annette-imc-widget .imc-result-summary {
+        grid-template-columns: 88px minmax(0, 1fr);
+        gap: 10px;
+      }
+
+      .annette-imc-widget .imc-circle-indicator {
+        width: 88px;
+        height: 88px;
+      }
+
+      .annette-imc-widget .imc-result-value {
+        font-size: 24px;
+      }
+
+      .annette-imc-widget .imc-result-title {
+        font-size: 14px;
+      }
+    }
 
     @media (prefers-reduced-motion: reduce) {
       .annette-imc-widget .imc-card,
       .annette-imc-widget .imc-bubble,
       .annette-imc-widget .imc-modal,
       .annette-imc-widget .imc-modal-dialog,
-      .annette-imc-widget .imc-button,
       .annette-imc-widget .imc-spinner,
       .annette-imc-widget .imc-calculation-icon {
         animation: none !important;
@@ -1064,8 +1216,8 @@
         aria-label="Fermer la fenêtre"
       >
         <svg
-          width="19"
-          height="19"
+          width="18"
+          height="18"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -1292,95 +1444,238 @@
         }
       }
 
+      function getImcClassData(imc) {
+        if (imc >= 40) {
+          return {
+            classKey: "class-3",
+            classIndex: 3,
+            badge: "Obésité de classe III",
+            title:
+              "Une perte de poids progressive peut apporter des bénéfices importants.",
+            description:
+              "Découvrez en quelques questions si Annette peut vous accompagner."
+          };
+        }
+
+        if (imc >= 35) {
+          return {
+            classKey: "class-2",
+            classIndex: 2,
+            badge: "Obésité de classe II",
+            title:
+              "Perdre du poids peut contribuer à réduire certains risques pour votre santé.",
+            description:
+              "Découvrez en quelques questions si Annette peut vous accompagner."
+          };
+        }
+
+        return {
+          classKey: "class-1",
+          classIndex: 1,
+          badge: "Obésité de classe I",
+          title:
+            "Perdre du poids peut contribuer à améliorer votre santé.",
+          description:
+            "Découvrez en quelques questions si Annette peut vous accompagner."
+        };
+      }
+
+      function renderCircleIndicator(
+        displayedImc,
+        classKey,
+        classIndex
+      ) {
+        return (
+          '<div class="imc-circle-indicator" aria-label="IMC estimé : ' +
+            displayedImc +
+          '">' +
+
+            '<svg viewBox="0 0 120 120" aria-hidden="true">' +
+
+              '<circle ' +
+                'class="imc-circle-track" ' +
+                'cx="60" ' +
+                'cy="60" ' +
+                'r="47">' +
+              "</circle>" +
+
+              '<circle ' +
+                'class="imc-circle-segment ' +
+                  (classIndex === 1
+                    ? "active " + classKey
+                    : "") +
+                '" ' +
+                'cx="60" ' +
+                'cy="60" ' +
+                'r="47" ' +
+                'stroke-dasharray="82 213" ' +
+                'stroke-dashoffset="0">' +
+              "</circle>" +
+
+              '<circle ' +
+                'class="imc-circle-segment ' +
+                  (classIndex === 2
+                    ? "active " + classKey
+                    : "") +
+                '" ' +
+                'cx="60" ' +
+                'cy="60" ' +
+                'r="47" ' +
+                'stroke-dasharray="82 213" ' +
+                'stroke-dashoffset="-98">' +
+              "</circle>" +
+
+              '<circle ' +
+                'class="imc-circle-segment ' +
+                  (classIndex === 3
+                    ? "active " + classKey
+                    : "") +
+                '" ' +
+                'cx="60" ' +
+                'cy="60" ' +
+                'r="47" ' +
+                'stroke-dasharray="82 213" ' +
+                'stroke-dashoffset="-196">' +
+              "</circle>" +
+
+            "</svg>" +
+
+            '<div class="imc-circle-center">' +
+              '<span class="imc-result-label">IMC estimé</span>' +
+              '<strong class="imc-result-value">' +
+                displayedImc +
+              "</strong>" +
+              '<span class="imc-result-unit">kg/m²</span>' +
+            "</div>" +
+
+          "</div>"
+        );
+      }
+
+      function renderGoogleReviews() {
+        return (
+          '<div class="imc-google">' +
+
+            '<svg width="19" height="19" viewBox="0 0 48 48" aria-hidden="true">' +
+              '<path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"></path>' +
+              '<path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"></path>' +
+              '<path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"></path>' +
+              '<path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"></path>' +
+            "</svg>" +
+
+            '<span class="imc-google-stars" aria-label="5 étoiles sur 5">' +
+              "★★★★★" +
+            "</span>" +
+
+            '<span class="imc-google-text">' +
+              "5/5 · Plus de 3 000 patients accompagnés" +
+            "</span>" +
+
+          "</div>"
+        );
+      }
+
+      function renderBenefits() {
+        return (
+          '<div class="imc-benefits-box">' +
+
+            '<div class="imc-benefit">' +
+              '<span class="imc-benefit-icon" aria-hidden="true">' +
+                '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">' +
+                  '<circle cx="12" cy="12" r="9"></circle>' +
+                  '<line x1="12" y1="8" x2="12" y2="16"></line>' +
+                  '<line x1="8" y1="12" x2="16" y2="12"></line>' +
+                "</svg>" +
+              "</span>" +
+
+              "<p>" +
+                "Des <strong>médecins partenaires spécialisés dans l’obésité et la perte de poids</strong>." +
+              "</p>" +
+            "</div>" +
+
+            '<div class="imc-benefit">' +
+              '<span class="imc-benefit-icon" aria-hidden="true">' +
+                '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">' +
+                  '<path d="M12 20.5C6.8 16.6 4 13.7 4 9.9A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 8 1.9c0 3.8-2.8 6.7-8 10.6z"></path>' +
+                "</svg>" +
+              "</span>" +
+
+              "<p>" +
+                "Une <strong>diététicienne dédiée</strong> pour vous accompagner au quotidien." +
+              "</p>" +
+            "</div>" +
+
+            '<div class="imc-benefit">' +
+              '<span class="imc-benefit-icon" aria-hidden="true">' +
+                '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">' +
+                  '<rect x="6" y="3" width="12" height="18" rx="2.5"></rect>' +
+                  '<line x1="10" y1="18" x2="14" y2="18"></line>' +
+                "</svg>" +
+              "</span>" +
+
+              "<p>" +
+                "Une <strong>application de suivi</strong> pour vos repas, vos habitudes et vos progrès." +
+              "</p>" +
+            "</div>" +
+
+            '<div class="imc-benefit">' +
+              '<span class="imc-benefit-icon" aria-hidden="true">' +
+                '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">' +
+                  '<circle cx="9" cy="8" r="3.2"></circle>' +
+                  '<path d="M3.5 20c0-3 2.6-5 5.5-5s5.5 2 5.5 5"></path>' +
+                  '<path d="M16 5.2a3.2 3.2 0 0 1 0 6"></path>' +
+                  '<path d="M15.5 15c3 .2 5 2.2 5 5"></path>' +
+                "</svg>" +
+              "</span>" +
+
+              "<p>" +
+                "Une <strong>communauté</strong> qui partage les mêmes défis." +
+              "</p>" +
+            "</div>" +
+
+          "</div>"
+        );
+      }
+
       function renderResult(imc) {
         var reachesThreshold = imc >= 30;
         var displayedImc = formatImc(imc);
 
         if (reachesThreshold) {
+          var imcData = getImcClassData(imc);
+
           modalContent.innerHTML =
-            '<div class="imc-result-header">' +
+            '<div class="imc-result-summary">' +
 
-              '<div class="imc-result-circle" aria-label="IMC estimé : ' +
-                displayedImc +
-              '">' +
+              renderCircleIndicator(
+                displayedImc,
+                imcData.classKey,
+                imcData.classIndex
+              ) +
 
-                '<div class="imc-result-circle-content">' +
-                  '<span class="imc-result-label">IMC estimé</span>' +
-                  '<strong class="imc-result-value">' +
-                    displayedImc +
-                  "</strong>" +
-                  '<span class="imc-result-unit">kg/m²</span>' +
-                "</div>" +
+              "<div>" +
+
+                '<span class="imc-class-badge ' +
+                  imcData.classKey +
+                '">' +
+                  imcData.badge +
+                "</span>" +
+
+                '<h2 class="imc-result-title" id="annette-imc-result-title">' +
+                  imcData.title +
+                "</h2>" +
+
+                '<p class="imc-result-text">' +
+                  imcData.description +
+                "</p>" +
 
               "</div>" +
-
-              '<h2 class="imc-result-title" id="annette-imc-result-title">' +
-                "Un accompagnement peut être pertinent pour vous." +
-              "</h2>" +
-
-              '<p class="imc-result-text">' +
-                "Votre IMC indique qu’un accompagnement peut être pertinent dans votre situation. Répondez à quelques questions pour découvrir si Annette peut vous accompagner." +
-              "</p>" +
 
             "</div>" +
 
-            '<div class="imc-benefits">' +
+            renderBenefits() +
 
-              '<div class="imc-benefit">' +
-                '<span class="imc-benefit-icon" aria-hidden="true">' +
-                  '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-                    '<circle cx="12" cy="12" r="9"></circle>' +
-                    '<line x1="12" y1="8" x2="12" y2="16"></line>' +
-                    '<line x1="8" y1="12" x2="16" y2="12"></line>' +
-                  "</svg>" +
-                "</span>" +
-
-                "<p>" +
-                  "Des <strong>médecins partenaires spécialisés dans l’obésité et la perte de poids</strong>." +
-                "</p>" +
-              "</div>" +
-
-              '<div class="imc-benefit">' +
-                '<span class="imc-benefit-icon" aria-hidden="true">' +
-                  '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-                    '<path d="M12 20.5C6.8 16.6 4 13.7 4 9.9A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 8 1.9c0 3.8-2.8 6.7-8 10.6z"></path>' +
-                  "</svg>" +
-                "</span>" +
-
-                "<p>" +
-                  "Une <strong>diététicienne dédiée</strong> pour vous accompagner au quotidien." +
-                "</p>" +
-              "</div>" +
-
-              '<div class="imc-benefit">' +
-                '<span class="imc-benefit-icon" aria-hidden="true">' +
-                  '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-                    '<rect x="6" y="3" width="12" height="18" rx="2.5"></rect>' +
-                    '<line x1="10" y1="18" x2="14" y2="18"></line>' +
-                  "</svg>" +
-                "</span>" +
-
-                "<p>" +
-                  "Une <strong>application de suivi</strong> pour vos repas, vos habitudes et vos progrès." +
-                "</p>" +
-              "</div>" +
-
-              '<div class="imc-benefit">' +
-                '<span class="imc-benefit-icon" aria-hidden="true">' +
-                  '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-                    '<circle cx="9" cy="8" r="3.2"></circle>' +
-                    '<path d="M3.5 20c0-3 2.6-5 5.5-5s5.5 2 5.5 5"></path>' +
-                    '<path d="M16 5.2a3.2 3.2 0 0 1 0 6"></path>' +
-                    '<path d="M15.5 15c3 .2 5 2.2 5 5"></path>' +
-                  "</svg>" +
-                "</span>" +
-
-                "<p>" +
-                  "Une <strong>communauté</strong> qui partage les mêmes défis." +
-                "</p>" +
-              "</div>" +
-
-            "</div>" +
+            renderGoogleReviews() +
 
             '<button class="imc-button" id="annette-imc-cta" type="button">' +
               "Commencer ma démarche →" +
@@ -1414,7 +1709,6 @@
                 window.dataLayer.push({
                   event: "encart_cta_click",
                   encart: "calculateur_imc",
-                  imc_threshold_reached: true,
                   article_slug: articleSlug
                 });
               }
@@ -1427,31 +1721,28 @@
                 "&utm_content=" +
                 encodeURIComponent(articleSlug);
             });
+
         } else {
           modalContent.innerHTML =
-            '<div class="imc-result-header">' +
+            '<div class="imc-result-summary">' +
 
-              '<div class="imc-result-circle" aria-label="IMC estimé : ' +
-                displayedImc +
-              '">' +
+              renderCircleIndicator(
+                displayedImc,
+                "",
+                0
+              ) +
 
-                '<div class="imc-result-circle-content">' +
-                  '<span class="imc-result-label">IMC estimé</span>' +
-                  '<strong class="imc-result-value">' +
-                    displayedImc +
-                  "</strong>" +
-                  '<span class="imc-result-unit">kg/m²</span>' +
-                "</div>" +
+              "<div>" +
+
+                '<h2 class="imc-result-title" id="annette-imc-result-title">' +
+                  "Merci d’avoir effectué le calcul." +
+                "</h2>" +
+
+                '<p class="imc-result-text">' +
+                  "L’accompagnement Annette est actuellement destiné aux adultes ayant un IMC égal ou supérieur à 30." +
+                "</p>" +
 
               "</div>" +
-
-              '<h2 class="imc-result-title" id="annette-imc-result-title">' +
-                "Merci d’avoir effectué le calcul." +
-              "</h2>" +
-
-              '<p class="imc-result-text">' +
-                "L’accompagnement Annette est actuellement destiné aux adultes ayant un IMC égal ou supérieur à 30." +
-              "</p>" +
 
             "</div>" +
 
@@ -1500,6 +1791,7 @@
           showError(
             "Renseignez votre taille et votre poids pour effectuer le calcul."
           );
+
           return;
         }
 
@@ -1508,6 +1800,7 @@
             "Vérifiez votre taille. Elle doit être renseignée en centimètres.",
             heightInput
           );
+
           return;
         }
 
@@ -1516,6 +1809,7 @@
             "Vérifiez votre poids. Il doit être renseigné en kilogrammes.",
             weightInput
           );
+
           return;
         }
 
@@ -1544,3 +1838,6 @@
     })();
   </script>
 </div>
+
+</body>
+</html>
