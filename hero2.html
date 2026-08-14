@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Annette — Version A (bullets d'abord)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* ---- Remplace cette ligne par ta vraie photo ---- */
+  --hero-photo: url("https://xerxerxx.github.io/betatest/image14.webp");
+
+  --ink:#0B0B0C;
+  --paper:#FBF8F3;
+  --sky:#DCEBFB;
+  --sun:#FBE3A8;
+  --blush:#F9E0EE;
+  --muted:#6B6B70;
+  --line:rgba(11,11,12,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:"Figtree",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--ink);
+  background:var(--paper);
+  -webkit-font-smoothing:antialiased;
+}
+img{display:block;max-width:100%}
+
+/* ============ HERO ============ */
+.hero{
+  position:relative;
+  /* 100dvh moins la bande de bullets qui doit dépasser */
+  min-height:calc(100dvh - 108px);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  background:
+    radial-gradient(120% 90% at 15% 10%, #CFE4F7 0%, transparent 55%),
+    radial-gradient(110% 80% at 85% 30%, #FBE3A8 0%, transparent 60%),
+    radial-gradient(120% 90% at 60% 95%, #F6D9C9 0%, transparent 60%),
+    #EAE6E0;
+}
+.hero__photo{
+  position:absolute; inset:0;
+  background-image:var(--hero-photo);
+  background-size:cover;
+  background-position:58% 22%;
+}
+/* Voile qui garantit la lisibilité du texte en overlay */
+.hero__scrim{
+  position:absolute; inset:0;
+  background:linear-gradient(
+    180deg,
+    rgba(8,10,14,.62) 0%,
+    rgba(8,10,14,.34) 34%,
+    rgba(8,10,14,.30) 60%,
+    rgba(8,10,14,.72) 100%);
+}
+.hero__inner{
+  position:relative;
+  display:flex; flex-direction:column;
+  flex:1;
+  padding:14px 20px calc(22px + env(safe-area-inset-bottom));
+  color:#fff;
+}
+
+/* --- nav --- */
+.nav{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{height:26px;width:auto;filter:brightness(0) invert(1)}
+.burger{
+  width:44px;height:44px;border:0;background:transparent;
+  display:grid;place-content:center;gap:5px;cursor:pointer;
+}
+.burger span{display:block;width:22px;height:2px;background:#fff;border-radius:2px}
+
+/* --- bloc central --- */
+.hero__body{margin-top:auto;padding-bottom:4px}
+
+/* La caution passe AU-DESSUS du titre */
+.proof{
+  display:inline-flex;align-items:center;gap:9px;
+  background:rgba(255,255,255,.16);
+  border:1px solid rgba(255,255,255,.28);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  padding:7px 13px 7px 9px;border-radius:999px;
+  font-size:13px;font-weight:600;letter-spacing:-.01em;
+  margin-bottom:18px;
+}
+.proof__g{
+  width:19px;height:19px;border-radius:50%;background:#fff;
+  display:grid;place-content:center;font-size:12px;font-weight:800;color:#4285F4;
+}
+.stars{color:#FFC83D;letter-spacing:1px;font-size:12px}
+.proof__sep{opacity:.5}
+
+h1{
+  font-size:clamp(38px,10.6vw,46px);
+  line-height:.97;
+  letter-spacing:-.038em;
+  font-weight:800;
+  text-wrap:balance;
+  margin-bottom:14px;
+}
+.hero__sub{
+  font-size:16.5px;line-height:1.42;font-weight:400;
+  color:rgba(255,255,255,.9);
+  max-width:30ch;
+  margin-bottom:26px;
+}
+.cta{
+  display:block;width:100%;
+  background:#fff;color:var(--ink);
+  text-align:center;text-decoration:none;
+  font-weight:600;font-size:17px;letter-spacing:-.01em;
+  padding:19px 20px;border-radius:999px;
+  box-shadow:0 8px 26px rgba(0,0,0,.22);
+}
+.cta:active{transform:translateY(1px)}
+.cta--dark{background:var(--ink);color:#fff}
+
+/* ============ BANDE QUI DÉPASSE DU PLI ============ */
+.proofband{
+  background:var(--ink);color:#fff;
+  padding:26px 20px 30px;
+}
+.proofband ul{list-style:none;display:grid;gap:15px}
+.proofband li{
+  display:flex;gap:11px;align-items:flex-start;
+  font-size:15.5px;line-height:1.35;letter-spacing:-.01em;
+}
+.tick{
+  flex:0 0 20px;height:20px;margin-top:1px;border-radius:50%;
+  background:#fff;color:var(--ink);
+  display:grid;place-content:center;font-size:11px;font-weight:800;
+}
+
+/* ============ SÉLECTEUR DE SITUATION ============ */
+.picker{padding:44px 20px 52px}
+.eyebrow{
+  font-size:11.5px;font-weight:700;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:12px;
+}
+.picker h2{
+  font-size:30px;line-height:1.06;letter-spacing:-.035em;
+  font-weight:800;margin-bottom:22px;text-wrap:balance;
+}
+.cards{display:grid;gap:12px}
+.card{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  border:1px solid var(--line);border-radius:20px;
+  padding:20px 18px;text-decoration:none;color:var(--ink);
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.card:active{transform:scale(.985)}
+.card__t{font-size:17px;font-weight:600;letter-spacing:-.02em;line-height:1.25}
+.card__n{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px}
+.card__arrow{
+  flex:0 0 34px;height:34px;border-radius:50%;
+  background:rgba(11,11,12,.06);
+  display:grid;place-content:center;font-size:15px;
+}
+.card--1{background:var(--sky)}
+.card--2{background:var(--blush)}
+.card--3{background:var(--sun)}
+
+/* ============ CTA STICKY BAS ============ */
+.sticky{
+  position:fixed;left:0;right:0;bottom:0;z-index:40;
+  padding:12px 20px calc(12px + env(safe-area-inset-bottom));
+  background:linear-gradient(180deg,rgba(251,248,243,0) 0%,var(--paper) 42%);
+  transform:translateY(120%);transition:transform .28s cubic-bezier(.22,1,.36,1);
+}
+.sticky.is-visible{transform:translateY(0)}
+.spacer{height:120px}
+
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+}
+@media (min-width:760px){
+  .hero__inner,.proofband,.picker{max-width:520px;margin-inline:auto;width:100%}
+  .hero{min-height:calc(100vh - 108px)}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero__photo"></div>
+  <div class="hero__scrim"></div>
+
+  <div class="hero__inner">
+    <nav class="nav">
+      <img class="logo" src="https://cdn.prod.website-files.com/697cb6a0aa04e7ac8c07831b/6985ad51e92fafc96242dd93_Logo_Annette.svg" alt="Annette">
+      <button class="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </nav>
+
+    <div class="hero__body">
+      <div class="proof">
+        <span class="proof__g">G</span>
+        <span class="stars">★★★★★</span>
+        <span class="proof__sep">·</span>
+        <span>3 000 patients accompagnés</span>
+      </div>
+
+      <h1>Perdez du poids durablement, sans avancer seul·e.</h1>
+
+      <p class="hero__sub">Avec ou sans traitement, une équipe de vrais soignants vous suit dans la durée.</p>
+
+      <a class="cta" href="#">Vérifier mon éligibilité · 2 min</a>
+    </div>
+  </div>
+</header>
+
+<!-- Cette bande dépasse volontairement du premier écran : c'est elle qui déclenche le scroll -->
+<section class="proofband">
+  <ul>
+    <li><span class="tick">✓</span><span>Une diététicienne attitrée, disponible 5 jours sur 7</span></li>
+    <li><span class="tick">✓</span><span>Des médecins partenaires spécialisés en obésité</span></li>
+    <li><span class="tick">✓</span><span>Une app pour suivre repas, poids et injections</span></li>
+    <li><span class="tick">✓</span><span>Une communauté de patients qui se comprennent</span></li>
+  </ul>
+</section>
+
+<section class="picker">
+  <p class="eyebrow">Avec ou sans traitement</p>
+  <h2>Vous en êtes où&nbsp;?</h2>
+  <div class="cards">
+    <a class="card card--1" href="#">
+      <span><span class="card__n">Situation 1</span><span class="card__t">Je n'envisage pas de traitement</span></span>
+      <span class="card__arrow" aria-hidden="true">→</span>
+    </a>
+    <a class="card card--2" href="#">
+      <span><span class="card__n">Situation 2</span><span class="card__t">J'envisage un traitement</span></span>
+      <span class="card__arrow" aria-hidden="true">→</span>
+    </a>
+    <a class="card card--3" href="#">
+      <span><span class="card__n">Situation 3</span><span class="card__t">Je suis déjà sous traitement</span></span>
+      <span class="card__arrow" aria-hidden="true">→</span>
+    </a>
+  </div>
+</section>
+
+<div class="spacer"></div>
+
+<div class="sticky" id="sticky">
+  <a class="cta cta--dark" href="#">Vérifier mon éligibilité · 2 min</a>
+</div>
+
+<script>
+// Le CTA sticky n'apparaît qu'une fois le hero passé : il ne concurrence pas le CTA principal.
+var hero = document.querySelector('.hero');
+var sticky = document.getElementById('sticky');
+new IntersectionObserver(function(e){
+  sticky.classList.toggle('is-visible', !e[0].isIntersecting);
+}, {threshold:0}).observe(hero);
+</script>
+
+</body>
+</html>
