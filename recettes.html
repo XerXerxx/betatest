@@ -1,0 +1,140 @@
+=== ENCART 10 RECETTES (bloc Embed, à placer après le tableau récapitulatif) ===
+
+<div class="annette-recettes" id="annette-recettes">
+<style>
+.annette-recettes{--ink:#0F0F0E;--muted:#3A5A6B;--card:#FEFBF9;--bleu:#A9E1FF;--rose:#FFD5FB;--rose-txt:#50023E;font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bleu);border-radius:16px;padding:20px;margin:32px 0;-webkit-font-smoothing:antialiased}
+.annette-recettes *{box-sizing:border-box}
+.annette-recettes .ar-tag{display:inline-block;background:var(--ink);color:var(--card);font-size:12px;font-weight:500;padding:6px 14px;border-radius:100px;margin:0 0 14px}
+.annette-recettes .ar-h{font-size:22px;font-weight:700;line-height:1.2;letter-spacing:-0.02em;margin:0 0 12px}
+.annette-recettes .ar-badge{display:inline-flex;align-items:center;gap:6px;background:var(--rose);color:var(--rose-txt);font-size:13px;font-weight:600;padding:7px 14px;border-radius:100px;margin:0 0 12px;line-height:1.3}
+.annette-recettes .ar-sub{font-size:15px;color:var(--muted);line-height:1.5;margin:0 0 20px}
+.annette-recettes .ar-grid{display:grid;grid-template-columns:1fr;gap:12px;margin:0 0 24px}
+.annette-recettes .ar-card{background:var(--card);border-radius:14px;overflow:hidden}
+.annette-recettes .ar-card img{width:100%;height:180px;object-fit:cover;display:block}
+.annette-recettes .ar-body{padding:16px}
+.annette-recettes .ar-name{font-size:15px;font-weight:600;line-height:1.35;margin:0 0 6px}
+.annette-recettes .ar-desc{font-size:13px;color:#4A4A4A;line-height:1.5;margin:0}
+.annette-recettes .ar-lbl{font-size:15px;font-weight:600;margin:0 0 12px}
+.annette-recettes .ar-pills{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 24px}
+.annette-recettes .ar-pill{background:var(--card);font-size:13px;padding:8px 14px;border-radius:100px;line-height:1.3}
+.annette-recettes .ar-form{display:flex;flex-direction:column;gap:10px;margin:0 0 12px}
+.annette-recettes .ar-input{width:100%;height:50px;border:none;border-radius:14px;padding:0 18px;font-size:16px;font-family:inherit;background:var(--card);color:var(--ink)}
+.annette-recettes .ar-input:focus{outline:2px solid var(--ink);outline-offset:2px}
+.annette-recettes .ar-btn{width:100%;height:50px;background:var(--ink);color:var(--card);border:none;border-radius:14px;padding:0 24px;font-size:16px;font-weight:600;font-family:inherit;cursor:pointer;transition:opacity .2s}
+.annette-recettes .ar-btn:hover{opacity:.88}
+.annette-recettes .ar-btn[disabled]{opacity:.6;cursor:default}
+.annette-recettes .ar-err{font-size:13px;color:#8C1D18;margin:0 0 10px;display:none}
+.annette-recettes .ar-consent{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:var(--muted);line-height:1.5;cursor:pointer;margin:0}
+.annette-recettes .ar-consent input{margin:2px 0 0;flex-shrink:0;width:16px;height:16px}
+.annette-recettes .ar-ok{display:none;background:var(--card);border-radius:14px;padding:20px;text-align:center}
+.annette-recettes .ar-ok-h{font-size:17px;font-weight:600;margin:0 0 6px}
+.annette-recettes .ar-ok-p{font-size:14px;color:#4A4A4A;line-height:1.5;margin:0 0 16px}
+.annette-recettes .ar-ok-a{display:inline-block;background:var(--ink);color:var(--card);text-decoration:none;font-size:15px;font-weight:600;padding:13px 24px;border-radius:14px}
+@media(min-width:700px){
+.annette-recettes{padding:32px;border-radius:20px}
+.annette-recettes .ar-h{font-size:26px}
+.annette-recettes .ar-sub{max-width:440px}
+.annette-recettes .ar-grid{grid-template-columns:repeat(3,1fr)}
+.annette-recettes .ar-card img{height:130px}
+.annette-recettes .ar-form{flex-direction:row;flex-wrap:wrap}
+.annette-recettes .ar-input{flex:1;min-width:220px;width:auto}
+.annette-recettes .ar-btn{width:auto}
+}
+</style>
+
+<span class="ar-tag">Guide gratuit</span>
+<p class="ar-h">10 recettes pour vos repas sous traitement</p>
+<span class="ar-badge">Conçues par les diététiciennes d'Annette</span>
+<p class="ar-sub">Petites portions, riches en protéines, faciles à digérer.</p>
+
+<div class="ar-grid">
+<div class="ar-card">
+<img src="https://xerxerxx.github.io/betatest/rer.webp" alt="Velouté de courge et lentilles corail" loading="lazy" width="400" height="260">
+<div class="ar-body"><p class="ar-name">Velouté de courge et lentilles corail</p><p class="ar-desc">Texture douce, bien tolérée les jours de nausées.</p></div>
+</div>
+<div class="ar-card">
+<img src="https://xerxerxx.github.io/betatest/zezer.webp" alt="Bol de quinoa, poulet et légumes rôtis" loading="lazy" width="400" height="260">
+<div class="ar-body"><p class="ar-name">Bol de quinoa, poulet et légumes rôtis</p><p class="ar-desc">Protéines et glucides complexes, portion modérée.</p></div>
+</div>
+<div class="ar-card">
+<img src="https://xerxerxx.github.io/betatest/reez.webp" alt="Omelette épinards et fromage frais" loading="lazy" width="400" height="260">
+<div class="ar-body"><p class="ar-name">Omelette épinards et fromage frais</p><p class="ar-desc">Un dîner léger quand l'appétit est réduit.</p></div>
+</div>
+</div>
+
+<p class="ar-lbl">Les 7 autres recettes du guide</p>
+<div class="ar-pills">
+<span class="ar-pill">Saumon vapeur et patate douce</span>
+<span class="ar-pill">Curry de pois chiches</span>
+<span class="ar-pill">Lentilles tièdes et œuf mollet</span>
+<span class="ar-pill">Poêlée de dinde et boulgour</span>
+<span class="ar-pill">Yaourt grec, baies et chia</span>
+<span class="ar-pill">Soupe de poulet au gingembre</span>
+<span class="ar-pill">Tofu mariné et brocolis</span>
+</div>
+
+<div id="ar-zone">
+<p class="ar-err" id="ar-err"></p>
+<div class="ar-form">
+<input type="email" class="ar-input" id="ar-email" placeholder="votre@email.com" autocomplete="email">
+<button type="button" class="ar-btn" id="ar-btn">Recevoir les 10 recettes</button>
+</div>
+<label class="ar-consent"><input type="checkbox" id="ar-consent"><span>J'accepte de recevoir le guide et les conseils d'accompagnement d'Annette. Désinscription à tout moment.</span></label>
+</div>
+
+<div class="ar-ok" id="ar-ok">
+<p class="ar-ok-h">C'est envoyé</p>
+<p class="ar-ok-p">Le guide arrive dans votre boîte mail. Pensez à vérifier vos spams.</p>
+<a class="ar-ok-a" href="https://app.annette.care/signup?utm_source=article&utm_medium=encart&utm_campaign=guide_recettes_mounjaro">Découvrir l'accompagnement</a>
+</div>
+
+</div>
+
+<script>
+(function(){
+  var ENDPOINT_A_BRANCHER = function(email){
+    if(window._cio && typeof window._cio.identify === 'function'){
+      window._cio.identify({
+        id: email,
+        email: email,
+        created_at: Math.floor(Date.now()/1000),
+        source: 'encart_recettes_mounjaro',
+        consent_marketing: true
+      });
+      return Promise.resolve();
+    }
+    return Promise.reject(new Error('customer.io absent'));
+  };
+
+  var btn = document.getElementById('ar-btn');
+  var mail = document.getElementById('ar-email');
+  var cons = document.getElementById('ar-consent');
+  var err = document.getElementById('ar-err');
+  var zone = document.getElementById('ar-zone');
+  var ok = document.getElementById('ar-ok');
+
+  function fail(m){ err.textContent = m; err.style.display = 'block'; }
+  mail.addEventListener('input', function(){ err.style.display = 'none'; });
+  cons.addEventListener('change', function(){ err.style.display = 'none'; });
+
+  btn.addEventListener('click', function(){
+    var v = mail.value.trim();
+    if(!v || v.indexOf('@') < 1 || v.indexOf('.', v.indexOf('@')) < 0){ fail('Renseignez une adresse email valide.'); mail.focus(); return; }
+    if(!cons.checked){ fail('Cochez la case pour recevoir le guide.'); return; }
+    err.style.display = 'none';
+    btn.disabled = true;
+    btn.textContent = 'Envoi en cours';
+    ENDPOINT_A_BRANCHER(v).then(function(){
+      if(window.dataLayer){ window.dataLayer.push({ event:'lead_magnet_submit', encart:'guide_recettes_mounjaro' }); }
+      zone.style.display = 'none';
+      ok.style.display = 'block';
+    }).catch(function(){
+      btn.disabled = false;
+      btn.textContent = 'Recevoir les 10 recettes';
+      fail("L'envoi n'a pas abouti. Réessayez dans un instant.");
+    });
+  });
+})();
+</script>
+
+=== FIN ENCART ===
