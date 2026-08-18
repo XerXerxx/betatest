@@ -18,8 +18,9 @@ body{margin:0;background:#fff;font-family:'Inter',system-ui,sans-serif;-webkit-f
 <!-- DEBUT ENCART -->
 <div class="annette-recettes" id="annette-recettes">
 <style>
-.annette-recettes{--ink:#0F0F0E;--muted:#3A5A6B;--card:#FEFBF9;--bleu:#A9E1FF;--rose:#FFD5FB;--rose-txt:#50023E;font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bleu);border-radius:16px;padding:20px;margin:32px 0;-webkit-font-smoothing:antialiased}
+.annette-recettes{--ink:#0F0F0E;--muted:#3A5A6B;--card:#FEFBF9;--bleu:#A9E1FF;--rose:#FFD5FB;--rose-txt:#50023E;font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bleu);border-radius:16px;padding:20px;margin:32px 0;overflow:hidden;-webkit-font-smoothing:antialiased}
 .annette-recettes *{box-sizing:border-box}
+
 .annette-recettes .ar-tag{display:inline-block;background:var(--ink);color:var(--card);font-size:12px;font-weight:500;padding:6px 14px;border-radius:100px;margin:0 0 14px}
 .annette-recettes .ar-h{font-size:22px;font-weight:700;line-height:1.2;letter-spacing:-0.02em;margin:0 0 8px}
 .annette-recettes .ar-sub{font-size:15px;color:var(--muted);line-height:1.5;margin:0 0 16px}
@@ -27,25 +28,26 @@ body{margin:0;background:#fff;font-family:'Inter',system-ui,sans-serif;-webkit-f
 .annette-recettes .ar-author img{width:46px;height:46px;border-radius:50%;object-fit:cover;display:block;flex-shrink:0}
 .annette-recettes .ar-author-n{font-size:14px;font-weight:600;color:var(--rose-txt);line-height:1.3;margin:0}
 .annette-recettes .ar-author-r{font-size:12px;color:var(--rose-txt);opacity:.78;line-height:1.35;margin:2px 0 0}
-.annette-recettes .ar-grid{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:0 -20px 12px;padding:0 20px 4px}
-.annette-recettes .ar-grid::-webkit-scrollbar{display:none}
-.annette-recettes .ar-card{background:var(--card);border-radius:14px;overflow:hidden;flex:0 0 76%;scroll-snap-align:start}
+
+.annette-recettes .ar-reveal{position:relative;margin:0 -20px 14px;padding:0 0 0 20px;overflow:hidden}
+.annette-recettes .ar-strip{display:flex;gap:12px}
+.annette-recettes .ar-card{background:var(--card);border-radius:14px;overflow:hidden;flex:0 0 66%}
 .annette-recettes .ar-card img{width:100%;height:170px;object-fit:cover;display:block}
-.annette-recettes .ar-dots{display:flex;justify-content:center;gap:7px;margin:0 0 22px}
-.annette-recettes .ar-dot{width:7px;height:7px;border-radius:50%;background:var(--ink);opacity:.22;transition:opacity .25s,width .25s}
-.annette-recettes .ar-dot.on{opacity:.85;width:20px;border-radius:100px}
 .annette-recettes .ar-body{padding:16px}
 .annette-recettes .ar-name{font-size:15px;font-weight:600;line-height:1.35;margin:0 0 6px}
 .annette-recettes .ar-desc{font-size:13px;color:#4A4A4A;line-height:1.5;margin:0}
-.annette-recettes .ar-lbl{font-size:15px;font-weight:600;margin:0 0 12px}
-.annette-recettes .ar-pills{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 24px}
-.annette-recettes .ar-pill{background:var(--card);font-size:13px;padding:8px 14px;border-radius:100px;line-height:1.3}
+.annette-recettes .ar-b1{filter:blur(3px);transform:scale(.985)}
+.annette-recettes .ar-b2{filter:blur(7px);transform:scale(.985)}
+.annette-recettes .ar-veil{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(169,225,255,0) 44%,rgba(169,225,255,.82) 68%,#A9E1FF 88%)}
+
+.annette-recettes .ar-teaser{font-size:14px;font-weight:600;color:var(--ink);line-height:1.5;margin:0 0 16px}
 .annette-recettes .ar-stage{position:relative}
 .annette-recettes .ar-step{animation:arIn .35s cubic-bezier(.2,.8,.2,1) both}
 .annette-recettes .ar-step.ar-out{animation:arOut .25s cubic-bezier(.2,.8,.2,1) both}
 @keyframes arIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 @keyframes arOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-14px)}}
 @media(prefers-reduced-motion:reduce){.annette-recettes .ar-step,.annette-recettes .ar-step.ar-out{animation:none}}
+
 .annette-recettes .ar-count{font-size:12px;font-weight:600;color:var(--muted);margin:0 0 10px;height:16px}
 .annette-recettes .ar-fields{display:flex;flex-direction:column;gap:10px;margin:0 0 12px}
 .annette-recettes .ar-input{width:100%;height:52px;border:none;border-radius:14px;padding:0 18px;font-size:16px;font-family:inherit;background:var(--card);color:var(--ink)}
@@ -59,26 +61,64 @@ body{margin:0;background:#fff;font-family:'Inter',system-ui,sans-serif;-webkit-f
 .annette-recettes .ar-btn:hover{opacity:.88}
 .annette-recettes .ar-btn[disabled]{opacity:.6;cursor:default}
 .annette-recettes .ar-err{font-size:13px;color:#8C1D18;background:#FDECEA;border-radius:10px;padding:10px 14px;margin:0 0 10px;display:none}
-.annette-recettes .ar-ok{background:var(--card);border-radius:14px;padding:26px 20px;text-align:center}
-.annette-recettes .ar-check{width:46px;height:46px;border-radius:50%;background:var(--bleu);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:22px;font-weight:700}
-.annette-recettes .ar-ok-h{font-size:19px;font-weight:700;line-height:1.3;margin:0 0 8px}
-.annette-recettes .ar-ok-p{font-size:14px;color:#4A4A4A;line-height:1.6;margin:0 0 8px}
-.annette-recettes .ar-ok-s{font-size:13px;color:#6A6A66;line-height:1.5;margin:0 0 20px}
-.annette-recettes .ar-ok-a{display:inline-block;background:var(--ink);color:var(--card);text-decoration:none;font-size:15px;font-weight:600;padding:14px 24px;border-radius:14px}
+
+.annette-recettes .ar-final{padding:4px 0}
+.annette-recettes .ar-conf{background:var(--card);border-radius:16px;padding:20px;margin:0 0 22px;box-shadow:0 6px 20px rgba(15,15,14,.08)}
+.annette-recettes .ar-conf-top{display:flex;gap:13px;align-items:center;margin:0 0 12px}
+.annette-recettes .ar-check{width:44px;height:44px;border-radius:50%;background:#EEF4FF;color:#151D56;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.annette-recettes .ar-fh{font-size:21px;font-weight:700;line-height:1.2;letter-spacing:-0.02em;margin:0}
+.annette-recettes .ar-fp{font-size:15px;line-height:1.6;margin:0 0 8px}
+.annette-recettes .ar-fp strong{font-weight:600}
+.annette-recettes .ar-fs{font-size:13px;color:#6A6A66;line-height:1.55;margin:0}
+.annette-recettes .ar-kick{display:inline-block;background:var(--rose);color:var(--rose-txt);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border-radius:100px;margin:0 0 12px}
+.annette-recettes .ar-fh2{font-size:20px;font-weight:700;line-height:1.25;letter-spacing:-0.02em;margin:0 0 10px}
+.annette-recettes .ar-fp2{font-size:14px;color:var(--muted);line-height:1.6;margin:0}
+
+.annette-recettes .ar-cols{display:grid;grid-template-columns:1fr;gap:18px;margin:0 0 18px;align-items:start}
+.annette-recettes .ar-signed{display:flex;align-items:center;gap:11px;margin:18px 0 0}
+.annette-recettes .ar-signed img{width:38px;height:38px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.annette-recettes .ar-signed p{font-size:13px;color:var(--muted);line-height:1.4;margin:0}
+
+.annette-recettes .ar-feats{background:var(--card);border-radius:16px;padding:4px 18px;box-shadow:0 6px 20px rgba(15,15,14,.08)}
+.annette-recettes .ar-feat{display:flex;gap:14px;align-items:flex-start;padding:16px 0;border-bottom:1px solid #EBEBEB}
+.annette-recettes .ar-feat:last-child{border-bottom:none}
+.annette-recettes .ar-ico{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.annette-recettes .ar-i1{background:#FFF4FE;color:#50023E}
+.annette-recettes .ar-i2{background:#FFF8E4;color:#A37100}
+.annette-recettes .ar-i3{background:#EEF4FF;color:#151D56}
+.annette-recettes .ar-ft{font-size:14px;font-weight:600;line-height:1.35;margin:0 0 3px}
+.annette-recettes .ar-fd{font-size:13px;color:#4A4A4A;line-height:1.5;margin:0}
+
+.annette-recettes .ar-trust{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;background:rgba(254,251,249,.55);border-radius:14px;padding:13px 16px;margin:0 0 14px}
+.annette-recettes .ar-trust svg{flex-shrink:0}
+.annette-recettes .ar-stars{color:#A37100;font-size:14px;letter-spacing:1.5px;line-height:1}
+.annette-recettes .ar-tt{font-size:13px;font-weight:600;line-height:1.4}
+.annette-recettes .ar-tsep{color:#8FA9B8;font-size:13px}
+.annette-recettes .ar-tn{font-size:13px;color:#4A4A4A;line-height:1.4}
+
+.annette-recettes .ar-fa{display:block;width:100%;background:var(--ink);color:var(--card);text-decoration:none;text-align:center;font-size:16px;font-weight:600;padding:17px 24px;border-radius:14px;box-shadow:0 6px 18px rgba(15,15,14,.18)}
+.annette-recettes .ar-fn{font-size:12px;color:var(--muted);text-align:center;line-height:1.5;margin:12px 0 0}
+
 @media(min-width:700px){
 .annette-recettes{padding:32px;border-radius:20px}
 .annette-recettes .ar-h{font-size:26px}
 .annette-recettes .ar-sub{max-width:460px}
-.annette-recettes .ar-grid{display:grid;grid-template-columns:repeat(3,1fr);overflow:visible;margin:0 0 24px;padding:0}
-.annette-recettes .ar-card{flex:none}
+.annette-recettes .ar-reveal{margin:0 -32px 14px;padding:0 0 0 32px}
+.annette-recettes .ar-card{flex:0 0 calc(33.333% - 8px)}
 .annette-recettes .ar-card img{height:130px}
-.annette-recettes .ar-dots{display:none}
+.annette-recettes .ar-veil{background:linear-gradient(90deg,rgba(169,225,255,0) 30%,rgba(169,225,255,.8) 56%,#A9E1FF 78%)}
 .annette-recettes .ar-fields{flex-direction:row}
 .annette-recettes .ar-input{flex:1;min-width:0}
 .annette-recettes .ar-mid{min-height:24px}
+.annette-recettes .ar-fh{font-size:24px}
+.annette-recettes .ar-fh2{font-size:24px}
+.annette-recettes .ar-fp2{font-size:15px}
+.annette-recettes .ar-conf{padding:24px 26px}
+.annette-recettes .ar-cols{grid-template-columns:0.92fr 1.08fr;gap:26px;margin:0 0 20px}
 }
 </style>
 
+<div id="ar-top">
 <span class="ar-tag">Guide gratuit</span>
 <p class="ar-h">10 recettes pour vos repas sous traitement</p>
 <p class="ar-sub">Petites portions, riches en protéines, faciles à digérer.</p>
@@ -91,32 +131,25 @@ body{margin:0;background:#fff;font-family:'Inter',system-ui,sans-serif;-webkit-f
 </div>
 </div>
 
-<div class="ar-grid" id="ar-grid">
+<div class="ar-reveal">
+<div class="ar-strip">
 <div class="ar-card">
 <img src="https://xerxerxx.github.io/betatest/rer.webp" alt="Velouté de courge et lentilles corail" loading="lazy" width="400" height="260">
 <div class="ar-body"><p class="ar-name">Velouté de courge et lentilles corail</p><p class="ar-desc">Texture douce, bien tolérée les jours de nausées.</p></div>
 </div>
-<div class="ar-card">
-<img src="https://xerxerxx.github.io/betatest/zezer.webp" alt="Bol de quinoa, poulet et légumes rôtis" loading="lazy" width="400" height="260">
+<div class="ar-card ar-b1" aria-hidden="true">
+<img src="https://xerxerxx.github.io/betatest/zezer.webp" alt="" loading="lazy" width="400" height="260">
 <div class="ar-body"><p class="ar-name">Bol de quinoa, poulet et légumes rôtis</p><p class="ar-desc">Protéines et glucides complexes, portion modérée.</p></div>
 </div>
-<div class="ar-card">
-<img src="https://xerxerxx.github.io/betatest/reez.webp" alt="Omelette épinards et fromage frais" loading="lazy" width="400" height="260">
+<div class="ar-card ar-b2" aria-hidden="true">
+<img src="https://xerxerxx.github.io/betatest/reez.webp" alt="" loading="lazy" width="400" height="260">
 <div class="ar-body"><p class="ar-name">Omelette épinards et fromage frais</p><p class="ar-desc">Un dîner léger quand l'appétit est réduit.</p></div>
 </div>
 </div>
+<div class="ar-veil"></div>
+</div>
 
-<div class="ar-dots" id="ar-dots"><span class="ar-dot on"></span><span class="ar-dot"></span><span class="ar-dot"></span></div>
-
-<p class="ar-lbl">Les 7 autres recettes du guide</p>
-<div class="ar-pills">
-<span class="ar-pill">Saumon vapeur</span>
-<span class="ar-pill">Curry de pois chiches</span>
-<span class="ar-pill">Lentilles et œuf mollet</span>
-<span class="ar-pill">Dinde et boulgour</span>
-<span class="ar-pill">Yaourt grec et baies</span>
-<span class="ar-pill">Soupe de poulet</span>
-<span class="ar-pill">Tofu et brocolis</span>
+<p class="ar-teaser">Les 9 autres recettes vous attendent dans le guide.</p>
 </div>
 
 <div class="ar-stage" id="ar-stage"></div>
@@ -132,30 +165,17 @@ body{margin:0;background:#fff;font-family:'Inter',system-ui,sans-serif;-webkit-f
   var WEBHOOK_URL = null;
 
   var SOURCE = 'encart_recettes_mounjaro';
+  var EXPEDITEUR = 'hello@annette.care';
+  var LIEN_APP = 'https://app.annette.care/signup?utm_source=article&utm_medium=encart&utm_campaign=guide_recettes_mounjaro';
 
+  var bloc = document.getElementById('annette-recettes');
+  var haut = document.getElementById('ar-top');
   var stage = document.getElementById('ar-stage');
   var data = { email:'', prenom:'', nom:'' };
 
-  var grid = document.getElementById('ar-grid');
-  var dots = document.getElementById('ar-dots');
-  if(grid && dots){
-    var puces = dots.querySelectorAll('.ar-dot');
-    var tick;
-    grid.addEventListener('scroll', function(){
-      clearTimeout(tick);
-      tick = setTimeout(function(){
-        var carte = grid.querySelector('.ar-card');
-        if(!carte) return;
-        var pas = carte.offsetWidth + 12;
-        var i = Math.round(grid.scrollLeft / pas);
-        for(var k = 0; k < puces.length; k++){
-          if(k === i){ puces[k].classList.add('on'); } else { puces[k].classList.remove('on'); }
-        }
-      }, 60);
-    });
-  }
-
   function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+
+  function cap(s){ return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
 
   function slug(){
     var p = window.location.pathname.split('/').filter(Boolean);
@@ -187,16 +207,24 @@ body{margin:0;background:#fff;font-family:'Inter',system-ui,sans-serif;-webkit-f
     if(window.dataLayer){ window.dataLayer.push({ event:ev, encart:SOURCE, article_slug:slug() }); }
   }
 
-  function swap(html, focusId){
+  function centrer(el, focusEl){
+    if(!el) return;
+    var r = el.getBoundingClientRect();
+    var cible = window.pageYOffset + r.top - (window.innerHeight / 2) + (r.height / 2);
+    if(cible < 0){ cible = 0; }
+    try { window.scrollTo({ top: cible, behavior: 'smooth' }); }
+    catch(e){ window.scrollTo(0, cible); }
+    if(focusEl){ setTimeout(function(){ try { focusEl.focus({ preventScroll: true }); } catch(e){ focusEl.focus(); } }, 420); }
+  }
+
+  function swap(html, apres){
     var cur = stage.querySelector('.ar-step');
     if(cur){
       cur.classList.add('ar-out');
-      setTimeout(function(){
-        stage.innerHTML = html;
-        if(focusId){ var f = document.getElementById(focusId); if(f) f.focus({preventScroll:true}); }
-      }, 250);
+      setTimeout(function(){ stage.innerHTML = html; if(apres) apres(); }, 250);
     } else {
       stage.innerHTML = html;
+      if(apres) apres();
     }
   }
 
@@ -205,7 +233,16 @@ body{margin:0;background:#fff;font-family:'Inter',system-ui,sans-serif;-webkit-f
     if(e){ e.textContent = msg; e.style.display = 'block'; }
   }
 
-  function stepEmail(){
+  function stepDepart(){
+    swap('<div class="ar-step"><button type="button" class="ar-btn" id="ar-go">Recevoir les 10 recettes</button></div>', function(){
+      document.getElementById('ar-go').addEventListener('click', function(){
+        track('lead_magnet_ouverture');
+        stepEmail(true);
+      });
+    });
+  }
+
+  function stepEmail(recentrer){
     swap(
       '<div class="ar-step">' +
       '<p class="ar-count">Étape 1 sur 2</p>' +
@@ -217,36 +254,35 @@ body{margin:0;background:#fff;font-family:'Inter',system-ui,sans-serif;-webkit-f
       '<label class="ar-consent"><input type="checkbox" id="ar-consent"><span>J\'accepte de recevoir le guide et les conseils d\'accompagnement d\'Annette. Désinscription à tout moment.</span></label>' +
       '</div>' +
       '<button type="button" class="ar-btn" id="ar-next">Continuer</button>' +
-      '</div>'
+      '</div>',
+      function(){
+        var mail = document.getElementById('ar-email');
+        var cons = document.getElementById('ar-consent');
+        var next = document.getElementById('ar-next');
+
+        function clear(){ var e = document.getElementById('ar-err1'); if(e) e.style.display = 'none'; }
+        mail.addEventListener('input', clear);
+        cons.addEventListener('change', clear);
+        mail.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ next.click(); } });
+
+        next.addEventListener('click', function(){
+          var v = mail.value.trim();
+          if(!v || v.indexOf('@') < 1 || v.indexOf('.', v.indexOf('@')) < 0){
+            showErr('ar-err1', 'Renseignez une adresse email valide.'); mail.focus(); return;
+          }
+          if(!cons.checked){
+            showErr('ar-err1', 'Cochez la case pour recevoir le guide.'); return;
+          }
+          data.email = v;
+          next.disabled = true;
+          track('lead_magnet_etape1');
+          send('email').catch(function(){});
+          stepNom();
+        });
+
+        if(recentrer){ centrer(stage, mail); }
+      }
     );
-    setTimeout(bindEmail, 260);
-  }
-
-  function bindEmail(){
-    var mail = document.getElementById('ar-email');
-    var cons = document.getElementById('ar-consent');
-    var next = document.getElementById('ar-next');
-    if(!mail || !next) return;
-
-    function clear(){ var e = document.getElementById('ar-err1'); if(e) e.style.display = 'none'; }
-    mail.addEventListener('input', clear);
-    cons.addEventListener('change', clear);
-    mail.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ next.click(); } });
-
-    next.addEventListener('click', function(){
-      var v = mail.value.trim();
-      if(!v || v.indexOf('@') < 1 || v.indexOf('.', v.indexOf('@')) < 0){
-        showErr('ar-err1', 'Renseignez une adresse email valide.'); mail.focus(); return;
-      }
-      if(!cons.checked){
-        showErr('ar-err1', 'Cochez la case pour recevoir le guide.'); return;
-      }
-      data.email = v;
-      next.disabled = true;
-      track('lead_magnet_etape1');
-      send('email').catch(function(){});
-      stepNom();
-    });
   }
 
   function stepNom(){
@@ -263,55 +299,90 @@ body{margin:0;background:#fff;font-family:'Inter',system-ui,sans-serif;-webkit-f
       '</div>' +
       '<button type="button" class="ar-btn" id="ar-send">Recevoir les 10 recettes</button>' +
       '</div>',
-      'ar-prenom'
+      function(){
+        var pre = document.getElementById('ar-prenom');
+        var nom = document.getElementById('ar-nom');
+        var go = document.getElementById('ar-send');
+        var back = document.getElementById('ar-back');
+
+        function clear(){ var e = document.getElementById('ar-err2'); if(e) e.style.display = 'none'; }
+        pre.addEventListener('input', clear);
+        pre.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ go.click(); } });
+        nom.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ go.click(); } });
+        back.addEventListener('click', function(){ stepEmail(false); });
+
+        go.addEventListener('click', function(){
+          var p = pre.value.trim();
+          if(p.length < 2){ showErr('ar-err2', 'Renseignez votre prénom.'); pre.focus(); return; }
+          data.prenom = p;
+          data.nom = nom.value.trim();
+          go.disabled = true;
+          go.textContent = 'Envoi en cours';
+          send('complet').then(function(){
+            track('lead_magnet_complet');
+            stepFinal();
+          }).catch(function(){
+            go.disabled = false;
+            go.textContent = 'Recevoir les 10 recettes';
+            showErr('ar-err2', "L'envoi n'a pas abouti. Réessayez dans un instant.");
+          });
+        });
+
+        try { pre.focus({ preventScroll: true }); } catch(e){}
+      }
     );
-    setTimeout(bindNom, 260);
   }
 
-  function bindNom(){
-    var pre = document.getElementById('ar-prenom');
-    var nom = document.getElementById('ar-nom');
-    var go = document.getElementById('ar-send');
-    var back = document.getElementById('ar-back');
-    if(!pre || !go) return;
+  var SVG_CHAT = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 0 1-11.3 7.3L4 20.5l1.2-4.4A8 8 0 1 1 20 12z"/><line x1="9" y1="11" x2="15" y2="11"/><line x1="9" y1="14.5" x2="13" y2="14.5"/></svg>';
+  var SVG_JOURNAL = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3.5h12a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1h-12a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2z"/><line x1="4.5" y1="8" x2="8" y2="8"/><line x1="11" y1="8.5" x2="16" y2="8.5"/><line x1="11" y1="12" x2="16" y2="12"/><line x1="11" y1="15.5" x2="14" y2="15.5"/></svg>';
+  var SVG_COMMU = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c0-3 2.6-5 5.5-5s5.5 2 5.5 5"/><path d="M16 5.2a3.2 3.2 0 0 1 0 6"/><path d="M15.5 15c3 .2 5 2.2 5 5"/></svg>';
+  var SVG_GOOGLE = '<svg width="17" height="17" viewBox="0 0 48 48" aria-hidden="true"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg>';
 
-    function clear(){ var e = document.getElementById('ar-err2'); if(e) e.style.display = 'none'; }
-    pre.addEventListener('input', clear);
-    pre.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ go.click(); } });
-    nom.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ go.click(); } });
-    back.addEventListener('click', function(){ stepEmail(); });
-
-    go.addEventListener('click', function(){
-      var p = pre.value.trim();
-      if(p.length < 2){ showErr('ar-err2', 'Renseignez votre prénom.'); pre.focus(); return; }
-      data.prenom = p;
-      data.nom = nom.value.trim();
-      go.disabled = true;
-      go.textContent = 'Envoi en cours';
-      send('complet').then(function(){
-        track('lead_magnet_complet');
-        stepMerci();
-      }).catch(function(){
-        go.disabled = false;
-        go.textContent = 'Recevoir les 10 recettes';
-        showErr('ar-err2', "L'envoi n'a pas abouti. Réessayez dans un instant.");
-      });
-    });
-  }
-
-  function stepMerci(){
+  function stepFinal(){
+    haut.style.display = 'none';
     swap(
-      '<div class="ar-step"><div class="ar-ok">' +
-      '<div class="ar-check">&#10003;</div>' +
-      '<p class="ar-ok-h">C\'est parti, ' + esc(data.prenom) + '</p>' +
-      '<p class="ar-ok-p">Vos 10 recettes arrivent à l\'instant sur ' + esc(data.email) + '.</p>' +
-      '<p class="ar-ok-s">Le mail vient de bonjour@annette.care. S\'il n\'apparaît pas d\'ici quelques minutes, regardez dans vos spams ou l\'onglet Promotions.</p>' +
-      '<a class="ar-ok-a" href="https://app.annette.care/signup?utm_source=article&utm_medium=encart&utm_campaign=guide_recettes_mounjaro">Découvrir l\'accompagnement</a>' +
-      '</div></div>'
+      '<div class="ar-step"><div class="ar-final">' +
+
+      '<div class="ar-conf">' +
+      '<div class="ar-conf-top"><div class="ar-check"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="4.5 12.5 9.5 17.5 19.5 7"/></svg></div>' +
+      '<p class="ar-fh">C\'est parti, ' + esc(cap(data.prenom)) + '</p></div>' +
+      '<p class="ar-fp">Vos 10 recettes partent à l\'instant vers <strong>' + esc(data.email) + '</strong>.</p>' +
+      '<p class="ar-fs">Le mail vient de ' + EXPEDITEUR + '. S\'il n\'apparaît pas d\'ici quelques minutes, regardez dans vos spams ou l\'onglet Promotions.</p>' +
+      '</div>' +
+
+      '<div class="ar-cols">' +
+
+      '<div>' +
+      '<span class="ar-kick">La suite</span>' +
+      '<p class="ar-fh2">Ces 10 recettes sont un début</p>' +
+      '<p class="ar-fp2">L\'accompagnement Annette, c\'est plus de 100 recettes, une diététicienne dédiée et un journal alimentaire pour suivre vos apports au quotidien. Un suivi pensé pour la durée, parce que les mois qui suivent comptent autant que les premiers.</p>' +
+      '<div class="ar-signed"><img src="https://xerxerxx.github.io/betatest/6993371cfe5057730b197540_Marilou.avif" alt="" loading="lazy" width="38" height="38"><p>Marilou et l\'équipe diététique d\'Annette</p></div>' +
+      '</div>' +
+
+      '<div class="ar-feats">' +
+      '<div class="ar-feat"><div class="ar-ico ar-i1">' + SVG_CHAT + '</div><div><p class="ar-ft">Une diététicienne dédiée</p><p class="ar-fd">Joignable par chat en illimité, 5j/7.</p></div></div>' +
+      '<div class="ar-feat"><div class="ar-ico ar-i2">' + SVG_JOURNAL + '</div><div><p class="ar-ft">Tout au même endroit</p><p class="ar-fd">Suivi des injections, journal alimentaire, recettes : réunis dans une seule application.</p></div></div>' +
+      '<div class="ar-feat"><div class="ar-ico ar-i3">' + SVG_COMMU + '</div><div><p class="ar-ft">Une communauté</p><p class="ar-fd">Des personnes qui partagent vos valeurs et vos défis, pour avancer ensemble.</p></div></div>' +
+      '</div>' +
+
+      '</div>' +
+
+      '<div class="ar-trust">' + SVG_GOOGLE +
+      '<span class="ar-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>' +
+      '<span class="ar-tt">5/5 sur Google</span>' +
+      '<span class="ar-tsep">&middot;</span>' +
+      '<span class="ar-tn">plus de 3 500 personnes accompagnées</span>' +
+      '</div>' +
+
+      '<a class="ar-fa" href="' + LIEN_APP + '">Découvrir l\'accompagnement</a>' +
+      '<p class="ar-fn">Avec ou sans traitement. Sans engagement à cette étape.</p>' +
+
+      '</div></div>',
+      function(){ centrer(bloc); }
     );
   }
 
-  stepEmail();
+  stepDepart();
 })();
 </script>
 </body>
