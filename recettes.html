@@ -1,13 +1,45 @@
-=== ENCART 10 RECETTES (bloc Embed, à placer après le tableau récapitulatif) ===
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Test encart recettes v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#fff;font-family:'Inter',system-ui,sans-serif;color:#0F0F0E;-webkit-font-smoothing:antialiased}
+.page{max-width:720px;margin:0 auto;padding:40px 20px 80px}
+.page h2{font-size:24px;font-weight:700;line-height:1.3;margin:40px 0 16px}
+.page p.txt{font-size:17px;line-height:1.7;color:#2A2A28;margin:0 0 18px}
+.note{background:#F4F4F2;border-radius:12px;padding:16px;font-size:13px;line-height:1.6;color:#4A4A4A;margin:0 0 32px}
+.note code{background:#fff;padding:2px 6px;border-radius:4px;font-size:12px}
+</style>
+</head>
+<body>
+<div class="page">
 
+<div class="note">
+Page de test locale. Ouvrez la console pour voir le contenu envoyé au webhook.
+Renseignez votre URL Zapier dans la constante <code>WEBHOOK_URL</code> en bas du fichier.
+Tant qu'elle vaut <code>null</code>, l'envoi est simulé.
+</div>
+
+<h2>Récapitulatif : à privilégier ou à limiter</h2>
+<p class="txt">Texte de contexte pour simuler l'article. L'encart se place juste après le tableau récapitulatif, au moment où le lecteur vient d'obtenir la liste des aliments et se demande à quoi ressemble un repas concret.</p>
+
+<!-- DEBUT ENCART -->
 <div class="annette-recettes" id="annette-recettes">
 <style>
 .annette-recettes{--ink:#0F0F0E;--muted:#3A5A6B;--card:#FEFBF9;--bleu:#A9E1FF;--rose:#FFD5FB;--rose-txt:#50023E;font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bleu);border-radius:16px;padding:20px;margin:32px 0;-webkit-font-smoothing:antialiased}
 .annette-recettes *{box-sizing:border-box}
 .annette-recettes .ar-tag{display:inline-block;background:var(--ink);color:var(--card);font-size:12px;font-weight:500;padding:6px 14px;border-radius:100px;margin:0 0 14px}
-.annette-recettes .ar-h{font-size:22px;font-weight:700;line-height:1.2;letter-spacing:-0.02em;margin:0 0 12px}
-.annette-recettes .ar-badge{display:inline-flex;align-items:center;gap:6px;background:var(--rose);color:var(--rose-txt);font-size:13px;font-weight:600;padding:7px 14px;border-radius:100px;margin:0 0 12px;line-height:1.3}
-.annette-recettes .ar-sub{font-size:15px;color:var(--muted);line-height:1.5;margin:0 0 20px}
+.annette-recettes .ar-h{font-size:22px;font-weight:700;line-height:1.2;letter-spacing:-0.02em;margin:0 0 8px}
+.annette-recettes .ar-sub{font-size:15px;color:var(--muted);line-height:1.5;margin:0 0 16px}
+.annette-recettes .ar-author{display:inline-flex;align-items:center;gap:12px;background:var(--rose);border-radius:100px;padding:8px 20px 8px 8px;margin:0 0 22px}
+.annette-recettes .ar-author img{width:46px;height:46px;border-radius:50%;object-fit:cover;display:block;flex-shrink:0}
+.annette-recettes .ar-author-n{font-size:14px;font-weight:600;color:var(--rose-txt);line-height:1.3;margin:0}
+.annette-recettes .ar-author-r{font-size:12px;color:var(--rose-txt);opacity:.78;line-height:1.35;margin:2px 0 0}
 .annette-recettes .ar-grid{display:grid;grid-template-columns:1fr;gap:12px;margin:0 0 24px}
 .annette-recettes .ar-card{background:var(--card);border-radius:14px;overflow:hidden}
 .annette-recettes .ar-card img{width:100%;height:180px;object-fit:cover;display:block}
@@ -17,35 +49,54 @@
 .annette-recettes .ar-lbl{font-size:15px;font-weight:600;margin:0 0 12px}
 .annette-recettes .ar-pills{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 24px}
 .annette-recettes .ar-pill{background:var(--card);font-size:13px;padding:8px 14px;border-radius:100px;line-height:1.3}
-.annette-recettes .ar-form{display:flex;flex-direction:column;gap:10px;margin:0 0 12px}
-.annette-recettes .ar-input{width:100%;height:50px;border:none;border-radius:14px;padding:0 18px;font-size:16px;font-family:inherit;background:var(--card);color:var(--ink)}
+.annette-recettes .ar-stage{position:relative}
+.annette-recettes .ar-step{animation:arIn .35s cubic-bezier(.2,.8,.2,1) both}
+.annette-recettes .ar-step.ar-out{animation:arOut .25s cubic-bezier(.2,.8,.2,1) both}
+@keyframes arIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes arOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-14px)}}
+@media(prefers-reduced-motion:reduce){.annette-recettes .ar-step,.annette-recettes .ar-step.ar-out{animation:none}}
+.annette-recettes .ar-count{font-size:12px;font-weight:600;color:var(--muted);margin:0 0 10px;height:16px}
+.annette-recettes .ar-fields{display:flex;flex-direction:column;gap:10px;margin:0 0 12px}
+.annette-recettes .ar-input{width:100%;height:52px;border:none;border-radius:14px;padding:0 18px;font-size:16px;font-family:inherit;background:var(--card);color:var(--ink)}
 .annette-recettes .ar-input:focus{outline:2px solid var(--ink);outline-offset:2px}
-.annette-recettes .ar-btn{width:100%;height:50px;background:var(--ink);color:var(--card);border:none;border-radius:14px;padding:0 24px;font-size:16px;font-weight:600;font-family:inherit;cursor:pointer;transition:opacity .2s}
-.annette-recettes .ar-btn:hover{opacity:.88}
-.annette-recettes .ar-btn[disabled]{opacity:.6;cursor:default}
-.annette-recettes .ar-err{font-size:13px;color:#8C1D18;margin:0 0 10px;display:none}
+.annette-recettes .ar-mid{min-height:38px;margin:0 0 14px}
 .annette-recettes .ar-consent{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:var(--muted);line-height:1.5;cursor:pointer;margin:0}
 .annette-recettes .ar-consent input{margin:2px 0 0;flex-shrink:0;width:16px;height:16px}
-.annette-recettes .ar-ok{display:none;background:var(--card);border-radius:14px;padding:20px;text-align:center}
-.annette-recettes .ar-ok-h{font-size:17px;font-weight:600;margin:0 0 6px}
-.annette-recettes .ar-ok-p{font-size:14px;color:#4A4A4A;line-height:1.5;margin:0 0 16px}
-.annette-recettes .ar-ok-a{display:inline-block;background:var(--ink);color:var(--card);text-decoration:none;font-size:15px;font-weight:600;padding:13px 24px;border-radius:14px}
+.annette-recettes .ar-recap{font-size:13px;color:var(--muted);line-height:1.5;margin:0}
+.annette-recettes .ar-edit{background:none;border:none;padding:0;font:inherit;color:var(--rose-txt);text-decoration:underline;cursor:pointer}
+.annette-recettes .ar-btn{width:100%;height:52px;background:var(--ink);color:var(--card);border:none;border-radius:14px;padding:0 24px;font-size:16px;font-weight:600;font-family:inherit;cursor:pointer;transition:opacity .2s}
+.annette-recettes .ar-btn:hover{opacity:.88}
+.annette-recettes .ar-btn[disabled]{opacity:.6;cursor:default}
+.annette-recettes .ar-err{font-size:13px;color:#8C1D18;background:#FDECEA;border-radius:10px;padding:10px 14px;margin:0 0 10px;display:none}
+.annette-recettes .ar-ok{background:var(--card);border-radius:14px;padding:26px 20px;text-align:center}
+.annette-recettes .ar-check{width:46px;height:46px;border-radius:50%;background:var(--bleu);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:22px;font-weight:700}
+.annette-recettes .ar-ok-h{font-size:19px;font-weight:700;line-height:1.3;margin:0 0 8px}
+.annette-recettes .ar-ok-p{font-size:14px;color:#4A4A4A;line-height:1.6;margin:0 0 8px}
+.annette-recettes .ar-ok-s{font-size:13px;color:#6A6A66;line-height:1.5;margin:0 0 20px}
+.annette-recettes .ar-ok-a{display:inline-block;background:var(--ink);color:var(--card);text-decoration:none;font-size:15px;font-weight:600;padding:14px 24px;border-radius:14px}
 @media(min-width:700px){
 .annette-recettes{padding:32px;border-radius:20px}
 .annette-recettes .ar-h{font-size:26px}
-.annette-recettes .ar-sub{max-width:440px}
+.annette-recettes .ar-sub{max-width:460px}
 .annette-recettes .ar-grid{grid-template-columns:repeat(3,1fr)}
 .annette-recettes .ar-card img{height:130px}
-.annette-recettes .ar-form{flex-direction:row;flex-wrap:wrap}
-.annette-recettes .ar-input{flex:1;min-width:220px;width:auto}
-.annette-recettes .ar-btn{width:auto}
+.annette-recettes .ar-fields{flex-direction:row}
+.annette-recettes .ar-input{flex:1;min-width:0}
+.annette-recettes .ar-mid{min-height:24px}
 }
 </style>
 
 <span class="ar-tag">Guide gratuit</span>
 <p class="ar-h">10 recettes pour vos repas sous traitement</p>
-<span class="ar-badge">Conçues par les diététiciennes d'Annette</span>
 <p class="ar-sub">Petites portions, riches en protéines, faciles à digérer.</p>
+
+<div class="ar-author">
+<img src="https://xerxerxx.github.io/betatest/6993371cfe5057730b197540_Marilou.avif" alt="Marilou, diététicienne chez Annette" loading="lazy" width="46" height="46">
+<div>
+<p class="ar-author-n">Recettes conçues par Marilou</p>
+<p class="ar-author-r">Diététicienne, spécialiste du surpoids et de l'obésité</p>
+</div>
+</div>
 
 <div class="ar-grid">
 <div class="ar-card">
@@ -73,68 +124,184 @@
 <span class="ar-pill">Tofu mariné et brocolis</span>
 </div>
 
-<div id="ar-zone">
-<p class="ar-err" id="ar-err"></p>
-<div class="ar-form">
-<input type="email" class="ar-input" id="ar-email" placeholder="votre@email.com" autocomplete="email">
-<button type="button" class="ar-btn" id="ar-btn">Recevoir les 10 recettes</button>
-</div>
-<label class="ar-consent"><input type="checkbox" id="ar-consent"><span>J'accepte de recevoir le guide et les conseils d'accompagnement d'Annette. Désinscription à tout moment.</span></label>
-</div>
+<div class="ar-stage" id="ar-stage"></div>
 
-<div class="ar-ok" id="ar-ok">
-<p class="ar-ok-h">C'est envoyé</p>
-<p class="ar-ok-p">Le guide arrive dans votre boîte mail. Pensez à vérifier vos spams.</p>
-<a class="ar-ok-a" href="https://app.annette.care/signup?utm_source=article&utm_medium=encart&utm_campaign=guide_recettes_mounjaro">Découvrir l'accompagnement</a>
 </div>
+<!-- FIN ENCART -->
+
+<h2>Combien de calories consommer</h2>
+<p class="txt">Suite de l'article pour vérifier que l'encart ne casse pas le flux de lecture et que les marges verticales sont cohérentes avec le reste du corps de texte.</p>
 
 </div>
 
 <script>
 (function(){
-  var ENDPOINT_A_BRANCHER = function(email){
-    if(window._cio && typeof window._cio.identify === 'function'){
-      window._cio.identify({
-        id: email,
-        email: email,
-        created_at: Math.floor(Date.now()/1000),
-        source: 'encart_recettes_mounjaro',
-        consent_marketing: true
-      });
-      return Promise.resolve();
+
+  var WEBHOOK_URL = null;
+
+  var SOURCE = 'encart_recettes_mounjaro';
+
+  var stage = document.getElementById('ar-stage');
+  var data = { email:'', prenom:'', nom:'' };
+
+  function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+
+  function slug(){
+    var p = window.location.pathname.split('/').filter(Boolean);
+    return p.length ? p[p.length-1] : 'test-local';
+  }
+
+  function send(etape){
+    var payload = {
+      etape: etape,
+      email: data.email,
+      prenom: data.prenom,
+      nom: data.nom,
+      consentement: true,
+      source: SOURCE,
+      article_slug: slug(),
+      page_url: window.location.href,
+      envoye_le: new Date().toISOString()
+    };
+    console.log('[encart] payload ' + etape, payload);
+    if(!WEBHOOK_URL){ return Promise.resolve(); }
+    return fetch(WEBHOOK_URL, {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function(r){ if(!r.ok){ throw new Error('http ' + r.status); } });
+  }
+
+  function track(ev){
+    if(window.dataLayer){ window.dataLayer.push({ event:ev, encart:SOURCE, article_slug:slug() }); }
+  }
+
+  function swap(html, focusId){
+    var cur = stage.querySelector('.ar-step');
+    if(cur){
+      cur.classList.add('ar-out');
+      setTimeout(function(){
+        stage.innerHTML = html;
+        if(focusId){ var f = document.getElementById(focusId); if(f) f.focus({preventScroll:true}); }
+      }, 250);
+    } else {
+      stage.innerHTML = html;
     }
-    return Promise.reject(new Error('customer.io absent'));
-  };
+  }
 
-  var btn = document.getElementById('ar-btn');
-  var mail = document.getElementById('ar-email');
-  var cons = document.getElementById('ar-consent');
-  var err = document.getElementById('ar-err');
-  var zone = document.getElementById('ar-zone');
-  var ok = document.getElementById('ar-ok');
+  function showErr(id, msg){
+    var e = document.getElementById(id);
+    if(e){ e.textContent = msg; e.style.display = 'block'; }
+  }
 
-  function fail(m){ err.textContent = m; err.style.display = 'block'; }
-  mail.addEventListener('input', function(){ err.style.display = 'none'; });
-  cons.addEventListener('change', function(){ err.style.display = 'none'; });
+  function stepEmail(){
+    swap(
+      '<div class="ar-step">' +
+      '<p class="ar-count">Étape 1 sur 2</p>' +
+      '<p class="ar-err" id="ar-err1"></p>' +
+      '<div class="ar-fields">' +
+      '<input type="email" class="ar-input" id="ar-email" placeholder="votre@email.com" autocomplete="email" value="' + esc(data.email) + '">' +
+      '</div>' +
+      '<div class="ar-mid">' +
+      '<label class="ar-consent"><input type="checkbox" id="ar-consent"><span>J\'accepte de recevoir le guide et les conseils d\'accompagnement d\'Annette. Désinscription à tout moment.</span></label>' +
+      '</div>' +
+      '<button type="button" class="ar-btn" id="ar-next">Continuer</button>' +
+      '</div>'
+    );
+    setTimeout(bindEmail, 260);
+  }
 
-  btn.addEventListener('click', function(){
-    var v = mail.value.trim();
-    if(!v || v.indexOf('@') < 1 || v.indexOf('.', v.indexOf('@')) < 0){ fail('Renseignez une adresse email valide.'); mail.focus(); return; }
-    if(!cons.checked){ fail('Cochez la case pour recevoir le guide.'); return; }
-    err.style.display = 'none';
-    btn.disabled = true;
-    btn.textContent = 'Envoi en cours';
-    ENDPOINT_A_BRANCHER(v).then(function(){
-      if(window.dataLayer){ window.dataLayer.push({ event:'lead_magnet_submit', encart:'guide_recettes_mounjaro' }); }
-      zone.style.display = 'none';
-      ok.style.display = 'block';
-    }).catch(function(){
-      btn.disabled = false;
-      btn.textContent = 'Recevoir les 10 recettes';
-      fail("L'envoi n'a pas abouti. Réessayez dans un instant.");
+  function bindEmail(){
+    var mail = document.getElementById('ar-email');
+    var cons = document.getElementById('ar-consent');
+    var next = document.getElementById('ar-next');
+    if(!mail || !next) return;
+
+    function clear(){ var e = document.getElementById('ar-err1'); if(e) e.style.display = 'none'; }
+    mail.addEventListener('input', clear);
+    cons.addEventListener('change', clear);
+    mail.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ next.click(); } });
+
+    next.addEventListener('click', function(){
+      var v = mail.value.trim();
+      if(!v || v.indexOf('@') < 1 || v.indexOf('.', v.indexOf('@')) < 0){
+        showErr('ar-err1', 'Renseignez une adresse email valide.'); mail.focus(); return;
+      }
+      if(!cons.checked){
+        showErr('ar-err1', 'Cochez la case pour recevoir le guide.'); return;
+      }
+      data.email = v;
+      next.disabled = true;
+      track('lead_magnet_etape1');
+      send('email').catch(function(){});
+      stepNom();
     });
-  });
+  }
+
+  function stepNom(){
+    swap(
+      '<div class="ar-step">' +
+      '<p class="ar-count">Étape 2 sur 2</p>' +
+      '<p class="ar-err" id="ar-err2"></p>' +
+      '<div class="ar-fields">' +
+      '<input type="text" class="ar-input" id="ar-prenom" placeholder="Votre prénom" autocomplete="given-name" value="' + esc(data.prenom) + '">' +
+      '<input type="text" class="ar-input" id="ar-nom" placeholder="Nom (facultatif)" autocomplete="family-name" value="' + esc(data.nom) + '">' +
+      '</div>' +
+      '<div class="ar-mid">' +
+      '<p class="ar-recap">Envoi prévu à ' + esc(data.email) + '. <button type="button" class="ar-edit" id="ar-back">Modifier</button></p>' +
+      '</div>' +
+      '<button type="button" class="ar-btn" id="ar-send">Recevoir les 10 recettes</button>' +
+      '</div>',
+      'ar-prenom'
+    );
+    setTimeout(bindNom, 260);
+  }
+
+  function bindNom(){
+    var pre = document.getElementById('ar-prenom');
+    var nom = document.getElementById('ar-nom');
+    var go = document.getElementById('ar-send');
+    var back = document.getElementById('ar-back');
+    if(!pre || !go) return;
+
+    function clear(){ var e = document.getElementById('ar-err2'); if(e) e.style.display = 'none'; }
+    pre.addEventListener('input', clear);
+    pre.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ go.click(); } });
+    nom.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ go.click(); } });
+    back.addEventListener('click', function(){ stepEmail(); });
+
+    go.addEventListener('click', function(){
+      var p = pre.value.trim();
+      if(p.length < 2){ showErr('ar-err2', 'Renseignez votre prénom.'); pre.focus(); return; }
+      data.prenom = p;
+      data.nom = nom.value.trim();
+      go.disabled = true;
+      go.textContent = 'Envoi en cours';
+      send('complet').then(function(){
+        track('lead_magnet_complet');
+        stepMerci();
+      }).catch(function(){
+        go.disabled = false;
+        go.textContent = 'Recevoir les 10 recettes';
+        showErr('ar-err2', "L'envoi n'a pas abouti. Réessayez dans un instant.");
+      });
+    });
+  }
+
+  function stepMerci(){
+    swap(
+      '<div class="ar-step"><div class="ar-ok">' +
+      '<div class="ar-check">&#10003;</div>' +
+      '<p class="ar-ok-h">C\'est parti, ' + esc(data.prenom) + '</p>' +
+      '<p class="ar-ok-p">Vos 10 recettes arrivent à l\'instant sur ' + esc(data.email) + '.</p>' +
+      '<p class="ar-ok-s">Le mail vient de bonjour@annette.care. S\'il n\'apparaît pas d\'ici quelques minutes, regardez dans vos spams ou l\'onglet Promotions.</p>' +
+      '<a class="ar-ok-a" href="https://app.annette.care/signup?utm_source=article&utm_medium=encart&utm_campaign=guide_recettes_mounjaro">Découvrir l\'accompagnement</a>' +
+      '</div></div>'
+    );
+  }
+
+  stepEmail();
 })();
 </script>
-
-=== FIN ENCART ===
+</body>
+</html>
