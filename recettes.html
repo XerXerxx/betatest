@@ -188,7 +188,42 @@ body{margin:0;background:#fff;font-family:'Inter',system-ui,sans-serif;-webkit-f
     return p.length ? p[p.length-1] : 'test-local';
   }
 
+  var CLES_UTM = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','gclid','fbclid','msclkid'];
+
+  function attribution(){
+    var res = {};
+    var i;
+    for(i = 0; i < CLES_UTM.length; i++){ res[CLES_UTM[i]] = ''; }
+
+    var params;
+    try { params = new URLSearchParams(window.location.search); } catch(e){ params = null; }
+
+    var trouve = false;
+    if(params){
+      for(i = 0; i < CLES_UTM.length; i++){
+        var v = params.get(CLES_UTM[i]);
+        if(v){ res[CLES_UTM[i]] = v; trouve = true; }
+      }
+    }
+
+    try {
+      if(trouve){
+        if(!sessionStorage.getItem('annette_attrib')){
+          res.referrer = document.referrer || '';
+          sessionStorage.setItem('annette_attrib', JSON.stringify(res));
+        }
+      } else {
+        var garde = sessionStorage.getItem('annette_attrib');
+        if(garde){ res = JSON.parse(garde); }
+      }
+    } catch(e){}
+
+    if(!res.referrer){ res.referrer = document.referrer || ''; }
+    return res;
+  }
+
   function send(etape){
+    var att = attribution();
     var payload = {
       etape: etape,
       email: data.email,
@@ -199,7 +234,16 @@ body{margin:0;background:#fff;font-family:'Inter',system-ui,sans-serif;-webkit-f
       source: SOURCE,
       article_slug: slug(),
       page_url: window.location.href,
-      envoye_le: new Date().toISOString()
+      envoye_le: new Date().toISOString(),
+      utm_source: att.utm_source || '',
+      utm_medium: att.utm_medium || '',
+      utm_campaign: att.utm_campaign || '',
+      utm_content: att.utm_content || '',
+      utm_term: att.utm_term || '',
+      gclid: att.gclid || '',
+      fbclid: att.fbclid || '',
+      msclkid: att.msclkid || '',
+      referrer: att.referrer || ''
     };
     if(suspect){ console.log('[encart] envoi bloque', payload); return Promise.resolve(); }
     console.log('[encart] payload ' + etape, payload);
