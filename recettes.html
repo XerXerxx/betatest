@@ -1,19 +1,6 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Encart recettes Annette</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-body{margin:0;background:#fff;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-.page{max-width:720px;margin:0 auto;padding:24px 20px}
-</style>
-</head>
-<body>
-<div class="page">
 
 <!-- DEBUT ENCART -->
 <div class="annette-recettes" id="annette-recettes">
@@ -62,6 +49,7 @@ body{margin:0;background:#fff;font-family:'Inter',system-ui,sans-serif;-webkit-f
 .annette-recettes .ar-btn[disabled]{opacity:.6;cursor:default}
 .annette-recettes .ar-err{font-size:13px;color:#8C1D18;background:#FDECEA;border-radius:10px;padding:10px 14px;margin:0 0 10px;display:none}
 
+.annette-recettes .ar-hp{position:absolute!important;left:-9999px!important;top:auto!important;width:1px!important;height:1px!important;overflow:hidden!important;opacity:0!important;pointer-events:none!important}
 .annette-recettes .ar-final{padding:4px 0}
 .annette-recettes .ar-conf{background:var(--card);border-radius:16px;padding:20px;margin:0 0 22px;box-shadow:0 6px 20px rgba(15,15,14,.08)}
 .annette-recettes .ar-conf-top{display:flex;gap:13px;align-items:center;margin:0 0 12px}
@@ -158,12 +146,12 @@ body{margin:0;background:#fff;font-family:'Inter',system-ui,sans-serif;-webkit-f
 </div>
 <!-- FIN ENCART -->
 
-</div>
-
 <script>
 (function(){
 
-  var WEBHOOK_URL = null;
+  var WEBHOOK_URL = 'https://hooks.zapier.com/hooks/catch/19480975/4tripoo/';
+
+  var DELAI_MINI = 2500;
 
   var SOURCE = 'encart_recettes_mounjaro';
   var EXPEDITEUR = 'hello@annette.care';
@@ -172,7 +160,9 @@ body{margin:0;background:#fff;font-family:'Inter',system-ui,sans-serif;-webkit-f
   var bloc = document.getElementById('annette-recettes');
   var haut = document.getElementById('ar-top');
   var stage = document.getElementById('ar-stage');
-  var data = { email:'', prenom:'', nom:'' };
+  var data = { email:'', prenom:'', nom:'', adresse_web:'' };
+  var ouvertureLe = 0;
+  var suspect = false;
 
   function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
 
@@ -189,12 +179,14 @@ body{margin:0;background:#fff;font-family:'Inter',system-ui,sans-serif;-webkit-f
       email: data.email,
       prenom: data.prenom,
       nom: data.nom,
+      adresse_web: data.adresse_web,
       consentement: true,
       source: SOURCE,
       article_slug: slug(),
       page_url: window.location.href,
       envoye_le: new Date().toISOString()
     };
+    if(suspect){ console.log('[encart] envoi bloque', payload); return Promise.resolve(); }
     console.log('[encart] payload ' + etape, payload);
     if(!WEBHOOK_URL){ return Promise.resolve(); }
     return fetch(WEBHOOK_URL, {
@@ -251,6 +243,7 @@ body{margin:0;background:#fff;font-family:'Inter',system-ui,sans-serif;-webkit-f
       '<div class="ar-fields">' +
       '<input type="email" class="ar-input" id="ar-email" placeholder="votre@email.com" autocomplete="email" value="' + esc(data.email) + '">' +
       '</div>' +
+      '<div class="ar-hp" aria-hidden="true"><label for="ar-adresse-web">Adresse web</label><input type="text" id="ar-adresse-web" name="adresse_web" tabindex="-1" autocomplete="off"></div>' +
       '<div class="ar-mid">' +
       '<label class="ar-consent"><input type="checkbox" id="ar-consent"><span>J\'accepte de recevoir le guide et les conseils d\'accompagnement d\'Annette. Désinscription à tout moment.</span></label>' +
       '</div>' +
@@ -267,6 +260,10 @@ body{margin:0;background:#fff;font-family:'Inter',system-ui,sans-serif;-webkit-f
         mail.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ next.click(); } });
 
         next.addEventListener('click', function(){
+          var piege = document.getElementById('ar-adresse-web');
+          if(piege && piege.value.trim() !== ''){ suspect = true; data.adresse_web = piege.value.trim(); }
+          if(ouvertureLe && (Date.now() - ouvertureLe) < DELAI_MINI){ suspect = true; }
+
           var v = mail.value.trim();
           if(!v || v.indexOf('@') < 1 || v.indexOf('.', v.indexOf('@')) < 0){
             showErr('ar-err1', 'Renseignez une adresse email valide.'); mail.focus(); return;
@@ -276,10 +273,12 @@ body{margin:0;background:#fff;font-family:'Inter',system-ui,sans-serif;-webkit-f
           }
           data.email = v;
           next.disabled = true;
-          track('lead_magnet_etape1');
+          if(!suspect){ track('lead_magnet_etape1'); }
           send('email').catch(function(){});
           stepNom();
         });
+
+        if(!ouvertureLe){ ouvertureLe = Date.now(); }
 
         if(recentrer){ centrer(stage, mail); }
       }
@@ -320,7 +319,7 @@ body{margin:0;background:#fff;font-family:'Inter',system-ui,sans-serif;-webkit-f
           go.disabled = true;
           go.textContent = 'Envoi en cours';
           send('complet').then(function(){
-            track('lead_magnet_complet');
+            if(!suspect){ track('lead_magnet_complet'); }
             stepFinal();
           }).catch(function(){
             go.disabled = false;
@@ -421,5 +420,3 @@ body{margin:0;background:#fff;font-family:'Inter',system-ui,sans-serif;-webkit-f
   stepDepart();
 })();
 </script>
-</body>
-</html>
