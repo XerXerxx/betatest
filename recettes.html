@@ -1,6 +1,19 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Encart recettes Annette</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#fff;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.page{max-width:720px;margin:0 auto;padding:24px 20px}
+</style>
+</head>
+<body>
+<div class="page">
 
 <!-- DEBUT ENCART -->
 <div class="annette-recettes" id="annette-recettes">
@@ -146,6 +159,8 @@
 </div>
 <!-- FIN ENCART -->
 
+</div>
+
 <script>
 (function(){
 
@@ -189,11 +204,30 @@
     if(suspect){ console.log('[encart] envoi bloque', payload); return Promise.resolve(); }
     console.log('[encart] payload ' + etape, payload);
     if(!WEBHOOK_URL){ return Promise.resolve(); }
+
+    var corps = [];
+    for(var k in payload){
+      if(Object.prototype.hasOwnProperty.call(payload, k)){
+        corps.push(encodeURIComponent(k) + '=' + encodeURIComponent(payload[k]));
+      }
+    }
+    corps = corps.join('&');
+
     return fetch(WEBHOOK_URL, {
-      method:'POST',
-      headers:{ 'Content-Type':'application/json' },
-      body: JSON.stringify(payload)
-    }).then(function(r){ if(!r.ok){ throw new Error('http ' + r.status); } });
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+      body: corps
+    }).then(function(r){
+      if(!r.ok){ throw new Error('http ' + r.status); }
+    }).catch(function(err){
+      console.warn('[encart] envoi direct impossible, repli no-cors', err);
+      return fetch(WEBHOOK_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        body: corps
+      }).then(function(){ return true; });
+    });
   }
 
   function track(ev){
@@ -420,3 +454,5 @@
   stepDepart();
 })();
 </script>
+</body>
+</html>
