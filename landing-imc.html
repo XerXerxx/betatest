@@ -28,6 +28,8 @@
     html {
       scroll-behavior:smooth;
       background:var(--annette-cream);
+      max-width: 100%;
+      overflow-x: hidden;
     }
     body {
       margin:0;
@@ -35,9 +37,11 @@
       color:var(--annette-black);
       font-family:Inter,Arial,sans-serif;
       overflow-x:hidden;
+      max-width: 100%;
     }
     *,*::before,*::after { box-sizing:border-box; }
     img { max-width:100%; }
+    .annette-imc-mobile-break { display: none; }
 
     .annette-site-header {
       position:fixed;
@@ -2876,10 +2880,19 @@
       .annette-imc-hero {
         min-height: auto;
         padding: 16px 18px 38px;
+        overflow: hidden;
       }
       .annette-imc-hero .annette-page-logo {
         width: 104px;
         margin-bottom: 26px;
+      }
+      .annette-imc-hero__inner,
+      .annette-imc-hero__grid,
+      .annette-imc-hero__story,
+      .annette-imc-card {
+        width: min(330px, calc(100vw - 52px));
+        min-width: 0;
+        max-width: min(330px, calc(100vw - 52px));
       }
       .annette-imc-hero__grid {
         display: flex;
@@ -2890,18 +2903,36 @@
       .annette-imc-hero__story { display: block; }
       .annette-imc-hero__eyebrow { margin-bottom: 13px; font-size: .66rem; }
       .annette-imc-hero__title {
-        font-size: clamp(2.45rem, 11.5vw, 4.25rem);
-        line-height: .98;
+        max-width: min(100%, 330px);
+        font-size: clamp(2.28rem, 9.3vw, 3.05rem);
+        line-height: 1;
+        overflow-wrap: break-word;
+        text-wrap: auto;
       }
-      .annette-imc-hero__copy { margin-top: 15px; font-size: .95rem; }
+      .annette-imc-mobile-break { display: block; }
+      .annette-imc-hero__copy {
+        width: 100%;
+        max-width: min(100%, 330px);
+        margin-top: 15px;
+        font-size: .9rem;
+        overflow-wrap: break-word;
+        text-wrap: auto;
+      }
       .annette-imc-hero__phone-wrap { display: none; }
       .annette-imc-card {
-        max-width: none;
+        width: min(330px, calc(100vw - 52px));
+        max-width: min(330px, calc(100vw - 52px));
         padding: 24px 18px 20px;
         border-radius: 24px;
       }
       .annette-imc-card__title { font-size: 2rem; }
-      .annette-imc-card__copy { font-size: .88rem; }
+      .annette-imc-card__copy {
+        width: 100%;
+        max-width: 300px;
+        font-size: .88rem;
+        overflow-wrap: break-word;
+        text-wrap: auto;
+      }
       .annette-imc-units { margin: 20px 0 21px; }
       .annette-imc-input { min-height: 58px; }
       .annette-imc-card__submit { min-height: 58px; margin-top: 21px; }
@@ -3057,7 +3088,7 @@
       <div class="annette-imc-hero__grid">
         <div class="annette-imc-hero__story">
           <span class="annette-imc-hero__eyebrow">Votre parcours Annette</span>
-          <h1 class="annette-imc-hero__title" id="annette-imc-title"><em>Comprendre votre IMC,</em><br>commencer à avancer</h1>
+          <h1 class="annette-imc-hero__title" id="annette-imc-title"><em>Comprendre<span class="annette-imc-mobile-break"></span> votre IMC,</em><br>commencer à<span class="annette-imc-mobile-break"></span> avancer</h1>
           <p class="annette-imc-hero__copy">Calculez votre IMC en quelques secondes, puis découvrez un accompagnement médical et nutritionnel adapté à votre situation.</p>
 
           <div class="annette-imc-hero__phone-wrap" aria-hidden="true">
@@ -3065,13 +3096,25 @@
               <span class="annette-phone__notch"></span>
               <div class="annette-phone__screen">
                 <div class="annette-phone__slide is-active">
-                  <img class="annette-phone__shot" src="annette-smartphone/images/01-prendre-rendez-vous.jpg" alt="">
+                  <img class="annette-phone__shot" src="https://cdn.prod.website-files.com/697cb6a0aa04e7ac8c07831b/6a67714701cebeef19d4f4ff_01-accueil-parcours.jpg" alt="" loading="lazy" decoding="async">
                 </div>
                 <div class="annette-phone__slide">
-                  <img class="annette-phone__shot" src="annette-smartphone/images/06-journal-alimentaire.jpg" alt="">
+                  <img class="annette-phone__shot" src="https://cdn.prod.website-files.com/697cb6a0aa04e7ac8c07831b/6a67714755cf84393469ad0b_02-avant-rendez-vous.jpg" alt="" loading="lazy" decoding="async">
                 </div>
                 <div class="annette-phone__slide">
-                  <img class="annette-phone__shot" src="annette-smartphone/images/08-ma-sante.jpg" alt="">
+                  <img class="annette-phone__shot" src="https://cdn.prod.website-files.com/697cb6a0aa04e7ac8c07831b/6a67714718b1cffc467d1c05_06-messages.jpg" alt="" loading="lazy" decoding="async">
+                </div>
+                <div class="annette-phone__slide">
+                  <img class="annette-phone__shot" src="https://cdn.prod.website-files.com/697cb6a0aa04e7ac8c07831b/6a677147b49070922e8b1a03_07-idees-recettes.jpg" alt="" loading="lazy" decoding="async">
+                </div>
+                <div class="annette-phone__slide">
+                  <img class="annette-phone__shot" src="https://cdn.prod.website-files.com/697cb6a0aa04e7ac8c07831b/6a677147651b8491d9779c93_08-journal-alimentaire.jpg" alt="" loading="lazy" decoding="async">
+                </div>
+                <div class="annette-phone__slide">
+                  <img class="annette-phone__shot" src="https://cdn.prod.website-files.com/697cb6a0aa04e7ac8c07831b/6a677147039c61156e08b42f_09-ajout-dejeuner.jpg" alt="" loading="lazy" decoding="async">
+                </div>
+                <div class="annette-phone__slide">
+                  <img class="annette-phone__shot" src="https://cdn.prod.website-files.com/697cb6a0aa04e7ac8c07831b/6a67714716fa4bd78cecbe50_10-sante.jpg" alt="" loading="lazy" decoding="async">
                 </div>
               </div>
             </div>
@@ -5142,6 +5185,22 @@
           cardCopy.textContent = defaultCopy;
           submit.textContent = 'Calculer mon IMC';
           heightInput.focus();
+        });
+      })();
+    </script>
+    <script>
+      (function () {
+        var currentParams = new URLSearchParams(window.location.search);
+        if (!currentParams.toString()) return;
+
+        document.querySelectorAll('[data-eligibility-link]').forEach(function (link) {
+          try {
+            var url = new URL(link.getAttribute('href'), window.location.href);
+            currentParams.forEach(function (value, key) {
+              if (!url.searchParams.has(key)) url.searchParams.set(key, value);
+            });
+            link.setAttribute('href', url.toString());
+          } catch (error) {}
         });
       })();
     </script>
