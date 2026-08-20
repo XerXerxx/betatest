@@ -903,42 +903,53 @@
 
 
     .annette-footer {
-      padding:24px 20px 32px;
+      padding:30px 20px 34px;
       border-top:1px solid rgba(15,15,14,.08);
-      background:var(--annette-cream);
-      color:rgba(15,15,14,.62);
+      background:#fffdfa;
+      color:rgba(15,15,14,.64);
       font-size:.82rem;
-      line-height:1.5;
+      line-height:1.45;
     }
-
     .annette-footer__inner {
-      width:min(100%,1180px);
+      width:min(100%,1060px);
       margin:0 auto;
       display:flex;
-      flex-wrap:wrap;
       align-items:center;
-      justify-content:center;
-      gap:10px 18px;
-      text-align:center;
+      justify-content:space-between;
+      gap:18px;
+      flex-wrap:wrap;
     }
-
     .annette-footer__brand {
-      color:rgba(15,15,14,.7);
-      font-weight:650;
-    }
-
-    .annette-footer__link {
-      color:rgba(15,15,14,.62);
-      text-decoration:none;
-    }
-
-    .annette-footer__link:hover,
-    .annette-footer__link:focus-visible {
       color:var(--annette-black);
+      font-weight:700;
+      white-space:nowrap;
+    }
+    .annette-footer__links {
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      gap:10px 16px;
+      flex-wrap:wrap;
+    }
+    .annette-footer__links a {
+      color:rgba(15,15,14,.66);
       text-decoration:underline;
+      text-underline-offset:3px;
+    }
+    .annette-footer__disclaimer {
+      flex-basis:100%;
+      max-width:920px;
+      margin:2px 0 0;
+      color:rgba(15,15,14,.52);
+      font-size:.72rem;
+      line-height:1.45;
+    }
+    .annette-footer__links a:hover,
+    .annette-footer__links a:focus-visible {
+      color:var(--annette-black);
     }
 
-    .annette-page-footer-spacer { height:28px; }
+    .annette-page-footer-spacer { height:0; }
 
     @media (max-width:900px) {
       .annette-site-header { top:10px; width:min(calc(100% - 20px),720px); }
@@ -962,8 +973,16 @@
       .annette-hero {
         padding:108px 14px 34px;
       }
-      .annette-footer { padding:22px 16px 28px; }
-      .annette-footer__inner { flex-direction:column; gap:8px; }
+      .annette-footer { padding:25px 16px 30px; }
+      .annette-footer__inner {
+        align-items:flex-start;
+        flex-direction:column;
+        gap:12px;
+      }
+      .annette-footer__links {
+        justify-content:flex-start;
+        gap:8px 14px;
+      }
       .annette-hero__intro { margin-bottom:20px; text-align:left; }
       .annette-hero__eyebrow { margin-bottom:9px; }
       .annette-hero__title {
@@ -3845,6 +3864,8 @@
     --anf-lblue-400: #73a3ff;
     --anf-sky-50: #f0f9ff;
     --anf-sky-200: #a9e1ff;
+    --anf-mint-50: #effcf5;
+    --anf-mint-200: #a8ebc6;
 
     width: 100%;
     max-width: 1240px;
@@ -4019,7 +4040,7 @@
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     padding: 2px 2px 16px;
-    touch-action: pan-x;
+    touch-action: pan-x pan-y;
     cursor: grab;
   }
 
@@ -4071,6 +4092,7 @@
   .anf-card[data-accent="sun"]    { background: var(--anf-sun-50); }
   .anf-card[data-accent="lblue"]  { background: var(--anf-lblue-50); }
   .anf-card[data-accent="sky"]    { background: var(--anf-sky-50); }
+  .anf-card[data-accent="mint"]   { background: var(--anf-mint-50); }
 
   .anf-icon {
     width: 60px;
@@ -4098,10 +4120,15 @@
   .anf-card[data-accent="sun"]    .anf-icon { background: var(--anf-sun-200); }
   .anf-card[data-accent="lblue"]  .anf-icon { background: var(--anf-lblue-400); }
   .anf-card[data-accent="sky"]    .anf-icon { background: var(--anf-sky-200); }
+  .anf-card[data-accent="mint"]   .anf-icon { background: var(--anf-mint-200); }
 
   .anf-card[data-accent="orange"] .anf-icon svg,
   .anf-card[data-accent="lblue"] .anf-icon svg {
     stroke: var(--anf-white);
+  }
+  .anf-card[data-accent="orange"] .anf-icon img,
+  .anf-card[data-accent="lblue"] .anf-icon img {
+    filter: brightness(0) invert(1);
   }
 
   .anf-eyebrow {
@@ -4126,6 +4153,13 @@
     line-height: 1.2;
     letter-spacing: -0.018em;
     text-wrap: balance;
+  }
+
+  .anf-card-copy {
+    margin: 0;
+    color: rgba(15, 15, 14, 0.72);
+    font-size: 0.88rem;
+    line-height: 1.45;
   }
 
   .anf-bullets {
@@ -4385,9 +4419,14 @@
   }
 
   .anf-plan-period {
-    margin-left: 5px;
+    margin-left: 7px;
     color: rgba(15, 15, 14, 0.65);
     font-size: 0.9rem;
+  }
+
+  .anf-price-currency {
+    display: inline-block;
+    margin-left: 0.08em;
   }
 
   .anf-plan-detail {
@@ -4544,7 +4583,7 @@
 
     .anf-card {
       flex-basis: min(86vw, 338px);
-      min-height: 476px;
+      min-height: 500px;
       padding: 26px 23px 24px;
     }
 
@@ -4607,7 +4646,7 @@
 
     .anf-card {
       flex-basis: calc(100vw - 64px);
-      min-height: 482px;
+      min-height: 506px;
       border-radius: 23px;
     }
 
@@ -4638,16 +4677,22 @@
       transition: none !important;
     }
   }
+
+  #cbOpenBtn,
+  .cb-tab {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
 </style>
 
   <div class="anf-intro">
     <span class="anf-intro-eyebrow">Notre accompagnement</span>
     <h2 class="anf-intro-title">Tout ce dont vous avez besoin, au même endroit.</h2>
-    <p class="anf-intro-copy">Un médecin partenaire, une diététicienne au quotidien, Cléo IA et des outils simples pour vous accompagner à chaque étape.</p>
-  </div>
+      </div>
 
   <div class="anf-carousel-head">
-    <p class="anf-carousel-hint">Faites défiler pour découvrir les 5 piliers de l’accompagnement</p>
+    <p class="anf-carousel-hint">Faites défiler pour découvrir les 6 piliers de l’accompagnement</p>
     <div class="anf-carousel-controls" aria-label="Navigation du carrousel">
       <button class="anf-carousel-button anf-carousel-prev" type="button" aria-label="Voir l'élément précédent">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
@@ -4663,51 +4708,68 @@
 
       <article class="anf-card" data-accent="sky">
         <span class="anf-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M6 3v5a6 6 0 0 0 12 0V3"/><path d="M8 3v5a4 4 0 0 0 8 0V3"/><path d="M12 14v2a4 4 0 0 0 8 0v-1"/><circle cx="20" cy="13" r="2"/></svg>
+          <img src="https://cdn.prod.website-files.com/697cb6a0aa04e7ac8c07831b/6a68a566d8cbfeb7ab5e356a_stethoscope.svg" alt="">
         </span>
-        <span class="anf-eyebrow">Médecin partenaire</span>
-        <h3 class="anf-title">Médecin partenaire spécialisé en obésité</h3>
+        <span class="anf-eyebrow">Médecins partenaires indépendants</span>
+        <h3 class="anf-title">L’expertise médicale, au bon moment</h3>
+        <p class="anf-card-copy">Les médecins partenaires indépendants interviennent lorsque votre situation le nécessite et travaillent en lien avec votre diététicienne, Cléo IA et votre suivi dans l’application.</p>
         <ul class="anf-bullets">
-          <li><span class="anf-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Consultation pour évaluer votre situation</span></li>
-          <li><span class="anf-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Un premier échange sous quelques jours</span></li>
-          <li><span class="anf-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Suivi et renouvellement dans la durée</span></li>
-          <li><span class="anf-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Coordination directe avec votre diététicienne</span></li>
+          <li><span class="anf-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Des médecins partenaires indépendants spécialisés en obésité</span></li>
+          <li><span class="anf-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Une prise en charge coordonnée</span></li>
+          <li><span class="anf-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Une vision partagée de votre progression</span></li>
+          <li><span class="anf-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Un accompagnement qui s’adapte à votre évolution</span></li>
         </ul>
       </article>
 
       <article class="anf-card" data-accent="pink">
         <span class="anf-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M19.5 14.5A8 8 0 0 1 9.5 4.5a8 8 0 1 0 10 10Z"/><path d="M15.5 5.5h.01"/></svg>
+          <img src="https://cdn.prod.website-files.com/697cb6a0aa04e7ac8c07831b/6a68a566b9e2a1c046415943_message-circle-more.svg" alt="">
         </span>
         <span class="anf-eyebrow">Diététicienne &amp; Cléo IA</span>
-        <h3 class="anf-title">Une réponse chaque jour, sans attendre un rendez-vous</h3>
+        <h3 class="anf-title">Toujours quelqu’un pour vous répondre</h3>
         <ul class="anf-bullets">
           <li><span class="anf-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Votre diététicienne vous accompagne au quotidien, sans prise de rendez-vous</span></li>
           <li><span class="anf-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Des échanges réguliers avec une professionnelle à vos côtés</span></li>
           <li><span class="anf-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>La nuit, Cléo IA répond à vos questions pratiques</span></li>
-          <li><span class="anf-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Recettes, alimentation et préoccupations du quotidien</span></li>
+          <li><span class="anf-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Recettes, articles et contenus pratiques pour agir au quotidien</span></li>
           <li><span class="anf-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Votre diététicienne reprend le relais dès qu'elle est disponible</span></li>
+        </ul>
+      </article>
+
+      <article class="anf-card" data-accent="mint">
+        <span class="anf-icon" aria-hidden="true">
+          <img src="https://cdn.prod.website-files.com/697cb6a0aa04e7ac8c07831b/6a68a566814285f163e5ac87_hand-fist.svg" alt="">
+        </span>
+        <span class="anf-eyebrow">ACCOMPAGNEMENT PERSONNALISÉ</span>
+        <h3 class="anf-title">Le bon conseil, au bon moment</h3>
+        <p class="anf-card-copy">Votre accompagnement évolue avec vous. Grâce à vos réponses, vos habitudes et votre progression, Annette vous guide avec des conseils toujours adaptés à votre situation.</p>
+        <ul class="anf-bullets">
+          <li><span class="anf-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Des bilans réguliers pour mesurer vos progrès</span></li>
+          <li><span class="anf-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Des recommandations personnalisées selon vos objectifs</span></li>
+          <li><span class="anf-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Des conseils en nutrition, activité physique et psychologie</span></li>
+          <li><span class="anf-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Des contenus adaptés à chaque étape de votre parcours</span></li>
+          <li><span class="anf-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Des plans d'action concrets pour continuer à progresser</span></li>
         </ul>
       </article>
 
       <article class="anf-card" data-accent="sun">
         <span class="anf-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="m8 6 1.2-2h5.6L16 6"/><circle cx="12" cy="13" r="3.5"/></svg>
+          <img src="https://cdn.prod.website-files.com/697cb6a0aa04e7ac8c07831b/6a68a5661e333acdbdd7eb51_utensils.svg" alt="">
         </span>
-        <span class="anf-eyebrow">Journal alimentaire &amp; IA</span>
-        <h3 class="anf-title">Vos repas analysés, votre suivi enfin clair</h3>
+        <span class="anf-eyebrow">Food logger &amp; IA</span>
+        <h3 class="anf-title">Comprendre votre alimentation pour mieux progresser.</h3>
         <ul class="anf-bullets">
-          <li><span class="anf-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Ajoutez chaque repas par photo, texte, vocal ou code-barres</span></li>
+          <li><span class="anf-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Loggez chaque repas par photo, texte, vocal ou code-barres</span></li>
           <li><span class="anf-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>L'IA reconnaît les aliments et estime les portions, ajustables</span></li>
           <li><span class="anf-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Petit-déjeuner, déjeuner, dîner et encas sont organisés</span></li>
           <li><span class="anf-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Calories, protéines, fibres et eau réunies dans un tableau de bord</span></li>
-          <li><span class="anf-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Votre diététicienne suit vos habitudes et vous conseille</span></li>
+          <li><span class="anf-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Des contenus pratiques vous aident à ajuster vos habitudes</span></li>
         </ul>
       </article>
 
       <article class="anf-card" data-accent="lblue">
         <span class="anf-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="m14 5 5 5"/><path d="m12 7 5 5"/><path d="M5 19 17.5 6.5"/><path d="m4 20 3.5-1"/><path d="m16.5 4.5 3 3"/></svg>
+          <img src="https://cdn.prod.website-files.com/697cb6a0aa04e7ac8c07831b/6a68a566a5dd562740a16e31_syringe.svg" alt="">
         </span>
         <span class="anf-eyebrow">Suivi injection</span>
         <h3 class="anf-title">Votre injection, transformée en suivi</h3>
@@ -4721,7 +4783,7 @@
 
       <article class="anf-card" data-accent="orange">
         <span class="anf-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M7 12.5 4.5 10a2.1 2.1 0 0 1 3-3L10 9.5"/><path d="m17 12.5 2.5-2.5a2.1 2.1 0 0 0-3-3L14 9.5"/><path d="m8.5 11 5 5a1.7 1.7 0 0 0 2.4-2.4l-4.2-4.2"/><path d="m6.5 13 3.8 3.8a1.7 1.7 0 0 0 2.4 0"/></svg>
+          <img src="https://cdn.prod.website-files.com/697cb6a0aa04e7ac8c07831b/6a68a566797c6cea8f12149b_user-star.svg" alt="">
         </span>
         <span class="anf-eyebrow">Communautés</span>
         <h3 class="anf-title">Des personnes qui partagent les mêmes défis que vous</h3>
@@ -4746,7 +4808,7 @@
       <div class="anf-offer-copy">
         <span class="anf-price-eyebrow">L'accompagnement complet</span>
         <h3 class="anf-offer-title">Tout Annette pour moins d'1 € par jour</h3>
-        <p class="anf-offer-description">Médecin partenaire, diététicienne au quotidien, Cléo IA, journal alimentaire, suivi des injections et communautés : tout est réuni dans une seule app.</p>
+        <p class="anf-offer-description">Diététicienne au quotidien, Cléo IA, food logger, contenus pratiques, suivi des injections, communautés et médecins partenaires indépendants si besoin : tout est réuni dans une seule app.</p>
 
         <ul class="anf-offer-points">
           <li><span class="anf-offer-dot"><svg viewBox="0 0 12 10"><path d="M1 5L4.5 8.5L11 1.5"/></svg></span><span>Un accompagnement continu, pas seulement un rendez-vous ponctuel</span></li>
@@ -4761,7 +4823,7 @@
             <span class="anf-plan-badge">Le plus avantageux</span>
             <span class="anf-plan-name">Abonnement annuel</span>
             <div class="anf-plan-price">
-              <span class="anf-plan-number">349 €</span>
+              <span class="anf-plan-number">349 <span class="anf-price-currency">€</span></span>
               <span class="anf-plan-period">/an</span>
             </div>
             <p class="anf-plan-detail">Soit environ 29 € par mois, facturés en une fois.</p>
@@ -4771,7 +4833,7 @@
           <article class="anf-plan">
             <span class="anf-plan-name">Abonnement mensuel</span>
             <div class="anf-plan-price">
-              <span class="anf-plan-number">49 €</span>
+              <span class="anf-plan-number">49 <span class="anf-price-currency">€</span></span>
               <span class="anf-plan-period">/mois</span>
             </div>
             <p class="anf-plan-detail">Engagement minimum de 3 mois.</p>
@@ -4779,7 +4841,7 @@
         </div>
 
         <div class="anf-price-actions">
-          <!-- Remplacer # par le lien réel vers le formulaire d'éligibilité -->
+          <!-- CTA principal vers l’inscription Annette. -->
           <a href="https://app.annette.care/signup" class="anf-price-cta" data-eligibility-link>
             <span>Vérifier mon éligibilité</span>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
@@ -5205,13 +5267,15 @@
       })();
     </script>
   </main>
-  <footer class="annette-footer" aria-label="Liens légaux">
+  <footer class="annette-footer" aria-label="Pied de page">
     <div class="annette-footer__inner">
-      <span class="annette-footer__brand">© 2026 Annette</span>
-      <a class="annette-footer__link" href="https://www.annette.care/termes/cgu">Conditions générales d’utilisation (CGU)</a>
-      <a class="annette-footer__link" href="https://www.annette.care/termes/politique-de-confidentialite">Charte de confidentialité</a>
-      <a class="annette-footer__link" href="https://www.annette.care/termes/politique-relative-aux-cookies">Politique relative aux cookies</a>
-      <a class="annette-footer__link" href="#">Gestion des cookies</a>
+      <div class="annette-footer__brand">© 2026 Annette</div>
+      <nav class="annette-footer__links" aria-label="Liens légaux">
+        <a href="https://www.annette.care/termes/cgu">Conditions générales d’utilisation (CGU)</a>
+        <a href="https://www.annette.care/termes/politique-de-confidentialite">Charte de confidentialité</a>
+        <a href="https://www.annette.care/termes/politique-relative-aux-cookies">Politique relative aux cookies</a>
+      </nav>
+      <p class="annette-footer__disclaimer">Les médecins partenaires indépendants sont des professionnels de santé indépendants. Annette facilite votre accompagnement et votre suivi, sans se substituer à une consultation médicale ni aux recommandations de votre médecin traitant.</p>
     </div>
   </footer>
   <div class="annette-page-footer-spacer" aria-hidden="true"></div>
