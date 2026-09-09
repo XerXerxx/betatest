@@ -1,0 +1,605 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Annette — Paywall intermédiaire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Annette — design tokens (brand guidelines 2026 / v1.0)
+   ============================================================ */
+:root{
+  --black:#0F0F0E;
+  --cream:#FEFBF9;
+  --blue-sky:#A9E1FF;
+
+  --black-700:#4A4A4A;
+  --black-600:#656565;
+  --black-200:#D0D0D0;
+  --black-100:#EBEBEB;
+
+  --blue-400:#32BEFE;
+  --blue-50:#F0F9FF;
+  --blue-700:#0069A6;
+  --blue-900:#094A71;
+
+  --taupe:#F9F2EC;
+  --pink:#FFD5FB;
+  --pink-50:#FFF4FE;
+  --sun:#FFD973;
+  --sun-50:#FFF8E4;
+  --sun-600:#A37100;
+
+  --line:#E8E2DA;
+  --r-card:20px;
+
+  --header:98px;
+
+  --display:"Neue Haas Grotesk Display Pro","Neue Haas Grotesk Display","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --text:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+
+*{box-sizing:border-box}
+html{
+  -webkit-text-size-adjust:100%;
+  scroll-behavior:smooth;
+  scroll-snap-type:y proximity;
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;scroll-snap-type:none}}
+body{
+  margin:0;background:var(--cream);color:var(--black);
+  font-family:var(--text);font-size:16px;line-height:1.45;
+  -webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;
+}
+img{max-width:100%;display:block}
+button{font:inherit;color:inherit}
+h1,h2,h3,p,ul,ol,li{margin:0}
+ul,ol{padding:0;list-style:none}
+h1,h2,h3{font-family:var(--display);font-weight:500;letter-spacing:-.022em;line-height:1.05}
+
+.wrap{width:min(100% - 40px,468px);margin-inline:auto}
+
+/* ============================================================
+   Header — reprend le repère visuel du questionnaire :
+   label de section + barre de progression bleue.
+   ============================================================ */
+.topbar{
+  position:sticky;top:0;z-index:40;
+  background:var(--cream);
+  border-bottom:1px solid var(--line);
+  padding-bottom:12px;
+}
+.top-row{display:flex;align-items:center;justify-content:space-between;height:56px}
+.logo{height:21px;width:auto}
+.secure{display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:500;color:var(--black-700)}
+.secure img{width:17px;height:17px;object-fit:contain}
+.prog-label{
+  display:block;font-size:12px;font-weight:600;letter-spacing:-.005em;margin-bottom:7px;
+}
+.prog{height:4px;border-radius:999px;background:#EFEAE3;overflow:hidden}
+.prog i{
+  display:block;height:100%;width:14%;border-radius:999px;background:var(--blue-400);
+  transition:width .32s cubic-bezier(.4,0,.2,1);
+}
+
+/* ============================================================
+   Panneaux — un écran, une idée
+   ============================================================ */
+.panel{
+  scroll-snap-align:start;
+  scroll-margin-top:var(--header);
+  min-height:calc(100svh - var(--header));
+  display:flex;flex-direction:column;
+  padding:30px 0 26px;
+}
+.panel > .wrap{display:flex;flex-direction:column;flex:1}
+.p-cream{background:var(--cream)}
+.p-sky{background:var(--blue-sky)}
+.p-taupe{background:var(--taupe)}
+.p-pink{background:var(--pink)}
+.p-sun{background:var(--sun)}
+.grow{flex:1;min-height:18px}
+
+/* ---------- typographie d'écran ---------- */
+.kicker{
+  font-size:10.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--black);opacity:.52;
+}
+.tag{
+  align-self:flex-start;display:inline-flex;align-items:center;gap:8px;
+  background:var(--blue-sky);border-radius:999px;padding:7px 14px 7px 8px;
+  font-size:12px;font-weight:600;
+}
+.tag svg{width:17px;height:17px;flex:none}
+h1{margin-top:20px;font-size:35px}
+h2{margin-top:13px;font-size:28px}
+.lead{margin-top:15px;font-size:15.5px;line-height:1.5;color:var(--black-700);max-width:35ch}
+.p-sky .lead{color:#1D2F3A}
+.p-pink .lead{color:#59444F}
+.p-sun .lead{color:#5B4A1E}
+.p-taupe .lead{color:var(--black-700)}
+
+/* ---------- CTA ---------- */
+.cta{
+  width:100%;border:0;border-radius:999px;background:var(--black);color:var(--cream);
+  min-height:54px;padding:15px 22px;font-size:16px;font-weight:500;letter-spacing:-.005em;
+  display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;
+  margin-top:24px;transition:transform .12s ease;
+}
+.cta:active{transform:scale(.99)}
+.cta:focus-visible{outline:3px solid var(--blue-700);outline-offset:3px}
+.cta svg{width:15px;height:15px;flex:none}
+.undercta{margin-top:12px;text-align:center;font-size:12px;color:var(--black-700)}
+.p-sky .undercta{color:#1D2F3A}
+.p-sun .undercta{color:#5B4A1E}
+
+/* ---------- écran 2 : les quatre étapes ---------- */
+.steps{margin-top:26px}
+.steps li{
+  display:grid;grid-template-columns:34px 1fr;gap:15px;align-items:start;
+  padding:16px 0;border-top:1px solid rgba(15,15,14,.15);
+}
+.steps li:last-child{border-bottom:1px solid rgba(15,15,14,.15)}
+.num{
+  font-family:var(--display);font-weight:500;font-size:22px;line-height:1.15;
+  letter-spacing:-.03em;opacity:.4;font-variant-numeric:tabular-nums;
+}
+.steps li.now .num{opacity:1}
+.what{
+  display:block;font-family:var(--display);font-weight:500;font-size:17px;line-height:1.2;
+  letter-spacing:-.018em;
+}
+.why{display:block;margin-top:5px;font-size:13px;line-height:1.45;color:#283A45;opacity:.85;padding-right:4px}
+
+/* ---------- écran 3 : le médecin ---------- */
+.figure b{
+  display:block;font-family:var(--display);font-weight:500;font-size:64px;line-height:.88;
+  letter-spacing:-.045em;
+}
+.figure span{
+  display:block;margin-top:8px;font-family:var(--display);font-weight:500;font-size:21px;
+  line-height:1.15;letter-spacing:-.022em;max-width:20ch;
+}
+.checks{margin-top:24px;display:grid;gap:13px}
+.checks li{
+  display:grid;grid-template-columns:21px 1fr;gap:12px;align-items:start;
+  font-size:14.5px;font-weight:500;line-height:1.4;
+}
+.tick{
+  width:21px;height:21px;border-radius:50%;background:var(--black);
+  display:flex;align-items:center;justify-content:center;margin-top:1px;
+}
+.tick svg{width:11px;height:11px}
+.slot{
+  display:flex;align-items:center;gap:14px;margin-top:24px;
+  background:var(--cream);border-radius:var(--r-card);padding:15px 16px;
+}
+.slot img{width:38px;height:38px;object-fit:contain;flex:none}
+.slot strong{
+  display:block;font-family:var(--display);font-weight:500;font-size:18px;line-height:1.1;
+  letter-spacing:-.02em;
+}
+.slot span{display:block;margin-top:5px;font-size:12px;line-height:1.4;color:var(--black-700)}
+
+/* ---------- photos d'équipe, conservées telles quelles ---------- */
+.doc-photo{width:100%;height:auto;max-height:132px;object-fit:contain;margin:18px auto 0}
+.diet-photo{width:100%;height:auto;max-height:158px;object-fit:contain;margin:20px auto 0}
+
+/* ---------- écran 5 : remboursements ---------- */
+.refunds{margin-top:24px}
+.refunds li{
+  display:grid;grid-template-columns:50px 1fr;gap:16px;align-items:start;
+  padding:18px 0;border-top:1px solid var(--line);
+}
+.refunds li:last-child{border-bottom:1px solid var(--line)}
+.refunds img{width:50px;height:50px;object-fit:contain}
+.refunds strong{
+  display:block;font-family:var(--display);font-weight:500;font-size:18px;line-height:1.15;
+  letter-spacing:-.02em;
+}
+.refunds span{display:block;margin-top:6px;font-size:13px;line-height:1.45;color:var(--black-700)}
+.tele{
+  margin-top:18px;background:var(--blue-50);border-radius:16px;padding:14px 16px;
+  font-size:13px;line-height:1.45;color:var(--black-700);
+}
+.tele b{color:var(--black);font-weight:600}
+
+/* ---------- écran 6 : avis ---------- */
+.rating{display:flex;align-items:center;gap:9px;margin-top:16px;font-size:13px;color:var(--black-700)}
+.stars{color:var(--sun-600);letter-spacing:2px;font-size:13px}
+.quotes{
+  display:flex;gap:12px;margin-top:22px;padding-bottom:8px;
+  overflow-x:auto;scroll-snap-type:x mandatory;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;
+}
+.quotes::-webkit-scrollbar{display:none}
+.quote{
+  flex:0 0 84%;max-width:310px;scroll-snap-align:start;
+  background:var(--cream);border:1px solid var(--line);border-radius:var(--r-card);padding:17px;
+}
+.quote p{margin-top:11px;font-size:13.5px;line-height:1.5}
+.quote footer{margin-top:12px;font-size:11.5px;color:var(--black-600)}
+
+/* ---------- écran 7 : formules ---------- */
+.plans{margin-top:22px;display:grid;gap:12px}
+.plan{display:block;position:relative;cursor:pointer}
+.plan input{position:absolute;opacity:0;width:1px;height:1px}
+.pbox{
+  display:block;background:#fff;border:2px solid transparent;border-radius:var(--r-card);
+  padding:18px;transition:border-color .16s ease;
+}
+.plan input:focus-visible + .pbox{outline:3px solid var(--blue-700);outline-offset:2px}
+.plan.on .pbox{border-color:var(--black)}
+.ptop{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.pname-row{display:flex;align-items:center;flex-wrap:wrap;gap:9px}
+.pname{
+  font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--black-700);
+}
+.plan.on .pname{color:var(--black)}
+.reco{
+  background:var(--black);color:var(--cream);border-radius:999px;padding:4px 10px;
+  font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap;
+}
+.pprice{
+  display:flex;align-items:baseline;gap:7px;margin-top:11px;
+  font-family:var(--display);font-weight:500;font-size:36px;line-height:1;letter-spacing:-.035em;
+}
+.pprice small{
+  font-family:var(--text);font-size:14px;font-weight:400;color:var(--black-600);letter-spacing:0;
+}
+/* ancrage : ce que coûte le mensuel, barré, à côté du prix annuel */
+.pold{
+  font-family:var(--display);font-weight:500;font-size:23px;letter-spacing:-.03em;
+  color:var(--black-600);text-decoration:line-through;text-decoration-thickness:2px;
+}
+.pbilling{display:block;margin-top:10px;font-size:13px;color:var(--black-700)}
+.psave{
+  display:flex;align-items:center;gap:9px;
+  margin-top:14px;padding-top:13px;border-top:1px solid var(--black-100);
+  font-size:13.5px;font-weight:600;
+}
+.psave svg{width:18px;height:18px;flex:none}
+.radio{
+  flex:none;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--black-200);
+  background:#fff;display:flex;align-items:center;justify-content:center;margin-top:2px;
+}
+.plan.on .radio{border-color:var(--black);background:var(--black)}
+.radio svg{width:12px;height:12px;opacity:0}
+.plan.on .radio svg{opacity:1}
+.save{
+  flex:none;background:var(--sun-50);border-radius:999px;padding:6px 11px;
+  font-size:11.5px;font-weight:600;color:var(--black);white-space:nowrap;
+}
+.reassure{
+  display:grid;gap:9px;margin-top:20px;
+}
+.reassure li{
+  display:grid;grid-template-columns:17px 1fr;gap:10px;align-items:start;
+  font-size:12.5px;line-height:1.4;color:#5B4A1E;
+}
+.reassure svg{width:17px;height:17px;margin-top:1px}
+.legal{margin-top:18px;font-size:11px;line-height:1.55;color:#6B5A2C}
+
+@media (min-width:520px){
+  h1{font-size:42px}
+  h2{font-size:32px}
+  .figure b{font-size:76px}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap top-row">
+    <img class="logo" src="https://userimg-assets-eu.customeriomail.com/images/client-env-199553/01KZBEZ9MWFCV9J8P7XW1R27B8.png" alt="Annette">
+    <span class="secure">
+      <img src="https://userimg-assets-eu.customeriomail.com/images/client-env-199553/01M144J2VREGQWGV39SGGWMARY.png" alt="">
+      Paiement sécurisé
+    </span>
+  </div>
+  <div class="wrap">
+    <span class="prog-label">Activation</span>
+    <div class="prog" id="prog" role="progressbar" aria-label="Progression" aria-valuemin="0" aria-valuemax="100" aria-valuenow="14"><i></i></div>
+  </div>
+</header>
+
+<main>
+  <!-- ===== 1 ===== -->
+  <section class="panel p-cream" id="s1" aria-labelledby="t1">
+    <div class="wrap">
+      <span class="tag">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="#0F0F0E"/><path d="M5.8 10.3l2.6 2.6 5-5.2" stroke="#FEFBF9" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Questionnaire terminé
+      </span>
+      <h1 id="t1">Il ne vous reste qu’une étape.</h1>
+      <p class="lead">Votre programme de perte de poids sous traitement GLP-1 est prêt. Voici, écran par écran, ce qui se passe maintenant.</p>
+      <div class="grow"></div>
+      <button class="cta" type="button" data-next="s2">Voir la suite</button>
+      <p class="undercta">Formules à partir de 29 € / mois</p>
+    </div>
+  </section>
+
+  <!-- ===== 2 ===== -->
+  <section class="panel p-sky" id="s2" aria-labelledby="t2">
+    <div class="wrap">
+      <p class="kicker">Votre parcours</p>
+      <h2 id="t2">Trois étapes, dans cet ordre.</h2>
+      <ol class="steps">
+        <li class="now">
+          <span class="num">01</span>
+          <div>
+            <span class="what">Vous activez votre accompagnement</span>
+            <span class="why">Vous choisissez une formule.</span>
+          </div>
+        </li>
+        <li>
+          <span class="num">02</span>
+          <div>
+            <span class="what">Téléconsultation avec un médecin partenaire</span>
+            <span class="why">Il évalue si le traitement est adapté à votre situation et peut vous le prescrire si nécessaire.</span>
+          </div>
+        </li>
+        <li>
+          <span class="num">03</span>
+          <div>
+            <span class="what">Votre suivi diététique démarre</span>
+            <span class="why">Diététicienne en illimité et application de suivi complète.</span>
+          </div>
+        </li>
+        <li>
+          <span class="num">04</span>
+          <div>
+            <span class="what">Vous perdez du poids et améliorez votre santé</span>
+            <span class="why">Bougez plus facilement et réduisez les risques pour votre santé.</span>
+          </div>
+        </li>
+      </ol>
+      <div class="grow"></div>
+      <button class="cta" type="button" data-next="s3">Qui sont les médecins ?</button>
+    </div>
+  </section>
+
+  <!-- ===== 3 ===== -->
+  <section class="panel p-taupe" id="s3" aria-labelledby="t3">
+    <div class="wrap">
+      <p class="kicker">Le médecin</p>
+      <div class="figure" style="margin-top:22px">
+        <b>20</b>
+        <span id="t3">médecins partenaires spécialisés dans la prise en charge de l’obésité et du surpoids.</span>
+      </div>
+      <img class="doc-photo" src="https://userimg-assets-eu.customeriomail.com/images/client-env-199553/01M22K9YDFFM7AE9DFG4H0TAGY.png" alt="Des médecins partenaires d’Annette">
+      <ul class="checks">
+        <li><span class="tick" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.3l2.6 2.6L10 3.3" stroke="#FEFBF9" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          Il évalue votre éligibilité au traitement.</li>
+        <li><span class="tick" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.3l2.6 2.6L10 3.3" stroke="#FEFBF9" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          Il prescrit un traitement uniquement lorsqu’il est indiqué.</li>
+      </ul>
+      <div class="slot">
+        <img src="https://userimg-assets-eu.customeriomail.com/images/client-env-199553/01M1BDFV6WKENAXTVNBQG15KJE.png" alt="">
+        <div>
+          <strong>Rendez-vous dans la semaine</strong>
+          <span>Téléconsultation remboursable selon l’Assurance Maladie et votre mutuelle.</span>
+        </div>
+      </div>
+      <div class="grow"></div>
+      <button class="cta" type="button" data-next="s4">Et après le rendez-vous ?</button>
+    </div>
+  </section>
+
+  <!-- ===== 4 ===== -->
+  <section class="panel p-pink" id="s4" aria-labelledby="t4">
+    <div class="wrap">
+      <p class="kicker">La diététicienne</p>
+      <h2 id="t4">Votre diététicienne dédiée, tout au long de votre parcours.</h2>
+      <p class="lead">Posez-lui toutes vos questions et recevez des conseils adaptés.</p>
+      <img class="diet-photo" src="https://userimg-assets-eu.customeriomail.com/images/client-env-199553/01M13X9K4ANHVZ8897DQ43Q5FM.png" alt="Des diététiciennes de l’équipe Annette">
+      <ul class="checks">
+        <li><span class="tick" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.3l2.6 2.6L10 3.3" stroke="#FEFBF9" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          Un plan alimentaire personnalisé selon vos habitudes et votre traitement.</li>
+        <li><span class="tick" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.3l2.6 2.6L10 3.3" stroke="#FEFBF9" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          Un suivi régulier de vos repas, de vos progrès et de vos effets secondaires.</li>
+        <li><span class="tick" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.3l2.6 2.6L10 3.3" stroke="#FEFBF9" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          Des conseils pour manger suffisamment, préserver votre masse musculaire et limiter les carences.</li>
+      </ul>
+      <div class="grow"></div>
+      <button class="cta" type="button" data-next="s5">Voir mes remboursements</button>
+    </div>
+  </section>
+
+  <!-- ===== 5 ===== -->
+  <section class="panel p-cream" id="s5" aria-labelledby="t5">
+    <div class="wrap">
+      <p class="kicker">Vos garanties</p>
+      <h2 id="t5">Remboursé, dans les deux cas.</h2>
+      <ul class="refunds">
+        <li>
+          <img src="https://userimg-assets-eu.customeriomail.com/images/client-env-199553/01M13VBD1PXRF3ZG68WQNFAMQT.png" alt="">
+          <div>
+            <strong>Remboursement intégral sous 14 jours</strong>
+            <span>Si vous changez d’avis : vous vous rétractez librement.</span>
+          </div>
+        </li>
+        <li>
+          <img src="https://userimg-assets-eu.customeriomail.com/images/client-env-199553/01M13VT11D33TDGP54YBQG54WY.png" alt="">
+          <div>
+            <strong>Remboursement intégral si non-éligibilité</strong>
+            <span>Si le médecin confirme que le traitement n’est pas indiqué.</span>
+          </div>
+        </li>
+      </ul>
+      <p class="tele">Et la <b>téléconsultation</b> est elle aussi remboursable, selon l’Assurance Maladie et votre mutuelle.</p>
+      <div class="grow"></div>
+      <button class="cta" type="button" data-next="s6">Ce qu’elles en disent</button>
+    </div>
+  </section>
+
+  <!-- ===== 6 ===== -->
+  <section class="panel p-taupe" id="s6" aria-labelledby="t6">
+    <div class="wrap">
+      <p class="kicker">Avant vous</p>
+      <h2 id="t6">3 500 personnes ont perdu du poids avec Annette.</h2>
+      <p class="rating"><span class="stars" aria-hidden="true">★★★★★</span> 5/5 sur les avis Google</p>
+
+      <div class="quotes" role="list" aria-label="Avis Google">
+        <article class="quote" role="listitem">
+          <span class="stars" aria-hidden="true">★★★★★</span>
+          <p>« 4 mois de programme et 13 kg perdus. Je suis ravie d’avoir enfin un cadre et une sécurité avec Annette. »</p>
+          <footer>Emilie G. · Avis Google</footer>
+        </article>
+        <article class="quote" role="listitem">
+          <span class="stars" aria-hidden="true">★★★★★</span>
+          <p>« La qualité de l’écoute et la réactivité de l’équipe m’ont aidée à rester motivée. Ma perte de poids est au rendez-vous. »</p>
+          <footer>Yola J. · Avis Google</footer>
+        </article>
+        <article class="quote" role="listitem">
+          <span class="stars" aria-hidden="true">★★★★★</span>
+          <p>« De bons conseils et beaucoup de réactivité : je me sens bien encadrée. Merci à toute l’équipe. »</p>
+          <footer>Marie-Noelle G. · Avis Google</footer>
+        </article>
+        <article class="quote" role="listitem">
+          <span class="stars" aria-hidden="true">★★★★★</span>
+          <p>« 33 kilos perdus, une reprise du sport et je continue pour la stabilisation. Très bon suivi. »</p>
+          <footer>Arielle B. · Avis Google</footer>
+        </article>
+      </div>
+
+      <div class="grow"></div>
+      <button class="cta" type="button" data-next="s7">Voir les formules</button>
+    </div>
+  </section>
+
+  <!-- ===== 7 ===== -->
+  <section class="panel p-sun" id="s7" aria-labelledby="t7">
+    <div class="wrap">
+      <p class="kicker">Activation</p>
+      <h2 id="t7">Choisissez votre formule.</h2>
+
+      <div class="plans" role="radiogroup" aria-label="Formules Annette">
+        <label class="plan on" for="p-an">
+          <input type="radio" name="formule" id="p-an" value="annuel" checked>
+          <span class="pbox">
+            <span class="ptop">
+              <span>
+                <span class="pname-row">
+                  <span class="pname">Annuel</span>
+                  <span class="reco">Recommandé</span>
+                </span>
+                <span class="pprice">
+                  <span class="pold" aria-hidden="true">49 €</span>
+                  29 € <small>/ mois</small>
+                </span>
+                <span class="pbilling">349 € facturés à l’année</span>
+              </span>
+              <span class="radio" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.3l2.6 2.6L10 3.3" stroke="#FEFBF9" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </span>
+            <span class="psave">
+              <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="9" fill="#FFD973"/><path d="M5.3 9.2l2.4 2.4 5-5.1" stroke="#0F0F0E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Vous économisez 239 € par an
+            </span>
+          </span>
+        </label>
+
+        <label class="plan" for="p-men">
+          <input type="radio" name="formule" id="p-men" value="mensuel">
+          <span class="pbox">
+            <span class="ptop">
+              <span>
+                <span class="pname-row">
+                  <span class="pname">Mensuel</span>
+                </span>
+                <span class="pprice">49 € <small>/ mois</small></span>
+                <span class="pbilling">Sans engagement</span>
+              </span>
+              <span class="radio" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.3l2.6 2.6L10 3.3" stroke="#FEFBF9" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </span>
+          </span>
+        </label>
+      </div>
+
+      <ul class="reassure">
+        <li>
+          <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.1" stroke="#0F0F0E" stroke-width="1.3"/><path d="M5.4 9.2l2.4 2.4 4.8-4.9" stroke="#0F0F0E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Remboursement intégral sous 14 jours.
+        </li>
+        <li>
+          <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.1" stroke="#0F0F0E" stroke-width="1.3"/><path d="M5.4 9.2l2.4 2.4 4.8-4.9" stroke="#0F0F0E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Remboursement intégral si le médecin conclut à une non-éligibilité.
+        </li>
+      </ul>
+
+      <div class="grow"></div>
+      <button class="cta" type="button" id="cta">Continuer — 349 € pour 12 mois</button>
+      <p class="legal">Un traitement n’est prescrit que s’il est indiqué dans votre situation : la décision appartient au médecin.</p>
+    </div>
+  </section>
+</main>
+
+<script>
+(function(){
+  var ARROW = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3v10M3.6 8.6L8 13l4.4-4.4" stroke="#FEFBF9" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  /* navigation d'écran en écran */
+  document.querySelectorAll('[data-next]').forEach(function(btn){
+    btn.innerHTML = btn.textContent.trim() + ' ' + ARROW;
+    btn.addEventListener('click', function(){
+      document.getElementById(btn.dataset.next)
+        .scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+  });
+
+  /* sélection de formule */
+  var CTA = {
+    annuel:  'Continuer — 349 € pour 12 mois',
+    mensuel: 'Continuer — 49 € par mois'
+  };
+  var cta = document.getElementById('cta');
+  document.querySelectorAll('input[name="formule"]').forEach(function(input){
+    input.addEventListener('change', function(){
+      document.querySelectorAll('.plan').forEach(function(p){
+        p.classList.toggle('on', p.querySelector('input').checked);
+      });
+      cta.textContent = CTA[document.querySelector('input[name="formule"]:checked').value];
+    });
+  });
+
+  /* point de sortie unique : QR aujourd'hui, Stripe demain */
+  cta.addEventListener('click', function(){
+    startCheckout(document.querySelector('input[name="formule"]:checked').value);
+  });
+  function startCheckout(plan){
+    console.log('checkout', plan);
+  }
+
+  /* barre de progression */
+  var panels = [].slice.call(document.querySelectorAll('.panel'));
+  var prog = document.getElementById('prog');
+  var fill = prog.querySelector('i');
+  var queued = false;
+  function sync(){
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(function(){
+      queued = false;
+      var line = 140, active = 0;
+      panels.forEach(function(p, i){
+        if (p.getBoundingClientRect().top <= line) active = i;
+      });
+      if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 8){
+        active = panels.length - 1;
+      }
+      var pct = Math.round((active + 1) / panels.length * 100);
+      fill.style.width = pct + '%';
+      prog.setAttribute('aria-valuenow', pct);
+    });
+  }
+  window.addEventListener('scroll', sync, {passive:true});
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
+</body>
+</html>
